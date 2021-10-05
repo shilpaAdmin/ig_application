@@ -11,21 +11,6 @@
         @slot('li_2') Add @endslot
     @endcomponent
 
-<style>
-    .imgdisplay-blog {
-    height: 200px;
-    width: 200px;
-    }
-
-    @media (min-width: 993px) and (max-width: 1286px) 
-    {
-        .imgdisplay-blog {
-            height: 150px;
-            width: 150px;
-        }
-    }
-</style>
-
     <div class="row">
         <div class="col-12">
             <div class="card mb-2">
@@ -43,8 +28,6 @@
                     <form class="needs-validation" method="post" enctype="multipart/form-data"
                         action="{{ route('blog.update', $row['id']) }}" novalidate>
                         @csrf
-                        <div class="row">
-                        <div class="col-lg-4">
                         <div class="form-group">
                             <label for="formrow-firstname-input">Name</label>
                             <input type="text" class="form-control" name="name" id="name" required placeholder="Name"
@@ -53,9 +36,7 @@
                                 Please provide a Question.
                             </div>
                         </div>
-                        </div>
 
-                        <div class="col-lg-4">
                         <div class="form-group">
                             <label for="formrow-firstname-input">Description</label>
                             <input type="text" class="form-control" name="description" id="description" required
@@ -64,10 +45,7 @@
                                 Please provide a Description.
                             </div>
                         </div>
-                        </div>
-                        
 
-                        <div class="col-lg-4">
                         <div class="form-group">
                             <label for="formrow-firstname-input">User</label>
                             <select class="form-select form-control" name="user_id" id="user_id" required>
@@ -82,10 +60,7 @@
                                 Please provide a User.
                             </div>
                         </div>
-                        </div>
-                       
 
-                        </div>
                         <div class="row">
                             <label for="example-text-input" class="col-md-12 col-form-label">
                                 <h4 class="card-title">Media Detail : </h4>
@@ -105,12 +80,6 @@
                                 @if (count($attachmentArray) > 0)
                                     @for ($k = 0; $k < count($attachmentArray); $k++)
                                         <div data-repeater-item class="row">
-                                            <div class="col-lg-3">
-                                            <div class="small-pic">
-                                                    <img class="imagePreview2 imgdisplay-blog" alt=""
-                                                        src="{{ URL::asset('images/blogs/'.$attachmentArray[$k]) }}" />
-                                                </div><br>
-                                            </div>
                                             <div class="col-lg-4 ">
                                                 <input type="file" class="custom-file-input media_file form-control"
                                                     name="group-a[0][media_file_json]" id="media_file" accept="image/*" >
@@ -120,11 +89,15 @@
                                                 <div class="invalid-feedback invalid-feedback-pic">
                                                     Media File is required !
                                                 </div><br><br>
+                                                <div class="small-pic">
+                                                    <img class="imagePreview2" alt="" width="200" height="200"
+                                                        src="{{ URL::asset('images/blogs/'.$attachmentArray[$k]) }}" />
+                                                </div><br>
                                             </div>
 
                                             <div class="col-lg-1">
                                                 <button type="button" data-repeater-delete data-toggle="tooltip"
-                                                    data-placement="top" title="Delete" class="btn btn-sm btn-danger mt-2 mb-2">
+                                                    data-placement="top" title="Delete" class="btn btn-sm btn-danger mt-2">
                                                     <i class="bx bx-trash d-block font-size-16"></i>
                                                 </button>
                                             </div>
@@ -139,8 +112,6 @@
                         </div><br>
 
 
-                        <div class="row">
-                        <div class="col-lg-4">
                         <div class="form-group">
                             <label for="formrow-firstname-input">Tagged</label>
                             <input type="text" class="form-control" name="tagged" id="tagged" required
@@ -149,18 +120,14 @@
                                 Please provide a Tagged.
                             </div>
                         </div>
-                        </div>
 
-                       <div class="col-lg-4">
-                       <div class="form-group">
+                        <div class="form-group">
                             <label for="formrow-firstname-input">URL</label>
                             <input type="text" class="form-control" name="url" id="url" required placeholder="URL"
                                 value="{{ $row['url'] }}">
                             <div class="invalid-feedback">
                                 Please provide a URL.
                             </div>
-                        </div>
-                       </div>
                         </div>
 
 

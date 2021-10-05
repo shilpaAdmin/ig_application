@@ -80,7 +80,7 @@
 
                     <div class="row">
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">About</label>
                                 <input type="text" class="form-control" id="about	" name="about" placeholder="Enter about" maxlength="100" value="{{$row['about']}}" required>
@@ -90,7 +90,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Height</label>
                                 <input type="text" class="form-control" id="height" name="height" placeholder="Enter Height" maxlength="100"  value="{{$row['height']}}" required>
@@ -99,7 +99,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Birth Date</label>
@@ -109,7 +111,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Age</label>
@@ -129,7 +130,10 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
+
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Subcaste</label>
@@ -139,13 +143,6 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-
-                
-
-                    <div class="row">
-                        
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Designation</label>
@@ -164,7 +161,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Other</label>
@@ -174,7 +173,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Annual Income</label>
@@ -184,6 +182,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -195,6 +194,10 @@
                             </div>
                         </div>
 
+
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Desired Age</label>
@@ -204,7 +207,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Desired Height</label>
@@ -214,7 +216,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Desired Annual Income</label>
@@ -224,8 +225,11 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-4">
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <?php
                                 $desiredCountryId = $row['desired_country_id'];
@@ -234,9 +238,7 @@
                                 <select class="form-control" name="desired_country">
                                     <option value=''>--Select Desired Country-- </option>
                                     @foreach ($countryData as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
-
-                                        {{-- <option @if ($value->id,'=',$desiredCountryId) selected="selected" @endif value="{{ $value->id }}">{{ $value->name }}</option> --}}
+                                        <option @if ($value->id==$desiredCountryId) selected="selected" @endif value="{{ $value->id }}">{{ $value->name }}</option>
 
                                     @endforeach
                                 </select>
@@ -247,10 +249,7 @@
 
                         </div>
 
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <?php
                                 $countryId = $row['country_id'];
@@ -259,9 +258,9 @@
                                 <select class="form-control" name="country">
                                     <option value=''>--Select Country-- </option>
                                     @foreach ($countryData as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        {{-- <option value="{{ $value->id }}">{{ $value->name }}</option> --}}
 
-                                        {{-- <option @if ($value->id,'=',$countryId) selected="selected" @endif value="{{ $value->id }}">{{ $value->name }}</option> --}}
+                                        <option @if ($value->id==$countryId) selected="selected" @endif value="{{ $value->id }}">{{ $value->name }}</option>
 
                                     @endforeach
                                 </select>
@@ -276,7 +275,6 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Married</label>
-                                <div class="d-flex">
                                 <div class="form-check mr-2">
                                     <input class="form-check-input" type="radio"  id="married_yes" name="Married" value="Yes" {{ $row['married'] == 'Yes' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="married_yes">
@@ -289,7 +287,6 @@
                                        No
                                     </label>
                                 </div>
-                                </div>
                                 <div class="invalid-feedback">
                                     Please provide a Married.
                                 </div>
@@ -299,7 +296,6 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Private</label>
-                                <div class="d-flex">
                                 <div class="form-check mr-2">
                                     <input class="form-check-input" type="radio"  id="private_yes" name="private" value="Yes" {{ $row['private'] == 'Yes' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="private_yes">
@@ -312,7 +308,6 @@
                                         No
                                     </label>
                                 </div>
-                                </div>
                                 <div class="invalid-feedback">
                                     Please provide a Private.
                                 </div>
@@ -322,7 +317,6 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Desired Marital Status</label>
-                                <div class="d-flex">
                                 <div class="form-check mr-2">
                                     <input class="form-check-input" type="radio"  id="unmarried" name="desired_marital_status" value="Unmarried" {{ $row['desired_marital_status'] == 'Unmarried' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="unmarried">
@@ -335,7 +329,6 @@
                                         Married
                                     </label>
                                 </div>
-                                </div>
                                 <div class="invalid-feedback">
                                     Please provide a Desired Marital Status.
                                 </div>
@@ -344,12 +337,14 @@
                     </div>
 
                     <div class="card mb-2">
+
+
                         <div class="row">
                             <label for="example-text-input" class="col-md-12 col-form-label">
                                 <h4 class="card-title">Media Detail : </h4>
                             </label>
                         </div>
-                        <div class="repeater main-repeter repeater-btn">
+                        <div class="repeater main-repeter">
                             <div data-repeater-list="group-a">
                                 @php
                                     if (isset($row['media_json']) && !empty($row['media_json'])) {
@@ -376,6 +371,9 @@
                                                     <img class="imagePreview2" alt="" width="200" height="200"
                                                         src="{{ URL::asset('images/matrimonial_image/'.$attachmentArray[$k]) }}" />
                                                 </div><br>
+                                                {{-- <div class="small-pic">
+                                                    <img class="imagePreview2" alt="" width="100" height="100" src="{{URL::asset('images/image-placeholder.jpg')}}" />
+                                                </div> --}}
                                             </div>
 
                                             <div class="col-lg-1">
@@ -387,22 +385,24 @@
                                         </div>
                                         @endfor
                                 @endif
+
+
                             </div>
                             <button type="button" data-repeater-create
-                                class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light"><i
+                                class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn"><i
                                     class="bx bx-plus label-icon"></i>
                                 Add New</button>
-                        </div>
-                        <br>
+                        </div><br>
 
 
                             <div class="col-md-6">
                                 <div class="row">
 
-                                    <label for="example-text-input" class="col-md-12 col-form-label pl-0">
+                                    <label for="example-text-input" class="col-md-12 col-form-label">
                                         <h4 class="card-title">Education : </h4>
                                     </label>
-                                    <div class="repeater form-group">
+                                </div>
+                                <div class="repeater form-group">
                                     <div data-repeater-list="group-c">
                                         @php
                                         if (isset($row['education_json']) && !empty($row['education_json'])) {
@@ -447,8 +447,6 @@
                                     </div>
                                     <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light"><i class="bx bx-plus label-icon"></i>Add New</button>
                                 </div>
-                                </div>
-                               
                             </div>
                     </div>
                     <div class="form-group">

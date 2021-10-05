@@ -57,226 +57,30 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">User</label>
+                        <select class="form-select form-control" name="user_id" id="user_id">
+                            <option value="">Select User</option>
+                            @foreach($users as $userid=>$username)
+                            <option @if($row['user_id']==$userid) selected @endif value="{{$userid}}">{{ucwords($username)}}</option>
+                            @endforeach
+                        </select>
 
-                    <div class="row">
-
-                        <div class="col-md-4">
-                            <div>
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">User</label>
-                                    <select class="form-select form-control" name="user_id" id="user_id">
-                                        <option value="">Select User</option>
-                                        @foreach($users as $userid=>$username)
-                                        <option @if($row['user_id']==$userid) selected @endif value="{{$userid}}">{{ucwords($username)}}</option>
-                                        @endforeach
-                                    </select>
-
-                                    <div class="invalid-feedback">
-                                        Please provide a User.
-                                    </div>
-                                </div>
-
-                            </div>
+                        <div class="invalid-feedback">
+                            Please provide a User.
                         </div>
-
-                        <div class="col-md-4">
-
-                            <div>
-
-                                <div class="form-group ">
-                                    <label class="formrow-firstname-input">Tags *</label>
-                                    <!-- multiple="multiple"-->
-                                    <select class="form-select form-control form-control-lg" data-search="on" required name="txtSearchTag" id="txtSearchTag">
-                                    </select>
-
-                                    <div class="invalid-feedback">
-                                        Tag is required !
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-4">
-                            <div>
-
-                                <div class="form-group" id="categoryDiv">
-                                    <label for="formrow-firstname-input">Category</label>
-                                    <select class="form-select form-control txtSearchKeyword-box" data-search="on" name="txtSearchCategory" id="txtSearchCategory" required>
-                                    </select>
-
-                                    <div class="invalid-feedback">
-                                        Please provide a Category.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <div>
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Business Name</label>
-
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Business Name" value="{{$row['name']}}" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Business Name.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div>
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Business About</label>
-
-                                    <input type="text" class="form-control" name="about" value="{{$row['about']}}" id="about" placeholder="Business About" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Business About.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div>
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Business Address</label>
-
-                                    <input type="text" class="form-control" name="address" value="{{$row['address']}}" id="address" placeholder="Business Address" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Business Address.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div>
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Business Description</label>
-
-                                    <input type="text" class="form-control" name="description" value="{{$row['description']}}" id="description" placeholder="Business Description" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Business Description.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <div>
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Business Sub-Description</label>
-
-                                    <input type="text" class="form-control" name="sub_description" value="{{$row['sub_descrition']}}" id="sub_description" placeholder="Business Sub Description" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Business Sub-Description.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <div>
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Business Sub-Description 1</label>
-
-                                    <input type="text" class="form-control" name="sub_description1" value="{{$row['sub_description_1']}}" id="sub_description1" placeholder="Business Sub Description 1" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Business Sub-Description 1.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div>
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Actual Price</label>
-
-                                    <input type="number" class="form-control" name="actual_price" value="{{$row['actual_price']}}" min="0" id="actual_price" placeholder="Actual Price" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Actual Price.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <div>
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Actual Price Unit</label>
-
-                                    <input type="text" class="form-control" name="actual_price_unit" value="{{$row['actual_price_unit']}}" id="actual_price_unit" placeholder="Actual Price Unit" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Actual Price Unit.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <div>
-
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Selling Price</label>
-
-                                    <input type="number" class="form-control" name="selling_price" value="{{$row['selling_price']}}" min="0" id="selling_price" placeholder="Selling Price" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Selling Price.
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <div>
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Selling Price Unit</label>
-
-                                    <input type="text" class="form-control" name="selling_price_unit" value="{{$row['selling_price_unit']}}" id="selling_price_unit" placeholder="Selling Price Unit" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Selling Price Unit.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-
                     </div>
 
+                    <div class="form-group ">
+                        <label class="formrow-firstname-input">Tags *</label>
+                        <!-- multiple="multiple"-->
+                        <select class="form-select form-control form-control-lg" data-search="on" required name="txtSearchTag" id="txtSearchTag">
+                        </select>
 
-
-
+                        <div class="invalid-feedback">
+                            Tag is required !
+                        </div>
+                    </div>
 
                     <!--<div class="form-group">
                             <label for="formrow-firstname-input">Tags</label>
@@ -288,24 +92,102 @@
                             </div>
                         </div>-->
 
+                    <div class="form-group" id="categoryDiv">
+                        <label for="formrow-firstname-input">Category</label>
+                        <select class="form-select form-control txtSearchKeyword-box" data-search="on" name="txtSearchCategory" id="txtSearchCategory" required>
+                        </select>
 
+                        <div class="invalid-feedback">
+                            Please provide a Category.
+                        </div>
+                    </div>
 
-                    <!-- <div id="category_result" class="form-group">
-                    </div> -->
+                    <div id="category_result" class="form-group">
+                    </div>
 
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Business Name</label>
 
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Business Name" value="{{$row['name']}}" required>
+                        <div class="invalid-feedback">
+                            Please provide a Business Name.
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Business About</label>
 
+                        <input type="text" class="form-control" name="about" value="{{$row['about']}}" id="about" placeholder="Business About" required>
+                        <div class="invalid-feedback">
+                            Please provide a Business About.
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Business Address</label>
 
+                        <input type="text" class="form-control" name="address" value="{{$row['address']}}" id="address" placeholder="Business Address" required>
+                        <div class="invalid-feedback">
+                            Please provide a Business Address.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Business Description</label>
 
+                        <input type="text" class="form-control" name="description" value="{{$row['description']}}" id="description" placeholder="Business Description" required>
+                        <div class="invalid-feedback">
+                            Please provide a Business Description.
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Business Sub-Description</label>
 
+                        <input type="text" class="form-control" name="sub_description" value="{{$row['sub_descrition']}}" id="sub_description" placeholder="Business Sub Description" required>
+                        <div class="invalid-feedback">
+                            Please provide a Business Sub-Description.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Business Sub-Description 1</label>
 
+                        <input type="text" class="form-control" name="sub_description1" value="{{$row['sub_description_1']}}" id="sub_description1" placeholder="Business Sub Description 1" required>
+                        <div class="invalid-feedback">
+                            Please provide a Business Sub-Description 1.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Actual Price</label>
 
+                        <input type="number" class="form-control" name="actual_price" value="{{$row['actual_price']}}" min="0" id="actual_price" placeholder="Actual Price" required>
+                        <div class="invalid-feedback">
+                            Please provide a Actual Price.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Actual Price Unit</label>
 
+                        <input type="text" class="form-control" name="actual_price_unit" value="{{$row['actual_price_unit']}}" id="actual_price_unit" placeholder="Actual Price Unit" required>
+                        <div class="invalid-feedback">
+                            Please provide a Actual Price Unit.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Selling Price</label>
 
+                        <input type="number" class="form-control" name="selling_price" value="{{$row['selling_price']}}" min="0" id="selling_price" placeholder="Selling Price" required>
+                        <div class="invalid-feedback">
+                            Please provide a Selling Price.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="formrow-firstname-input">Selling Price Unit</label>
 
+                        <input type="text" class="form-control" name="selling_price_unit" value="{{$row['selling_price_unit']}}" id="selling_price_unit" placeholder="Selling Price Unit" required>
+                        <div class="invalid-feedback">
+                            Please provide a Selling Price Unit.
+                        </div>
+                    </div>
 
                     <div class="row">
                         <label for="example-text-input" class="col-md-12 col-form-label">
@@ -392,7 +274,7 @@
                             <i class="bx bx-plus label-icon"></i>Add New</button>
                     </div>
 
-                    <div class="row mt-3">
+                    <div class="row">
                         <label for="example-text-input" class="col-md-12 col-form-label">
                             <h4 class="card-title">Related Person Detail : </h4>
                         </label>
@@ -441,7 +323,7 @@
                         Add New</button>
             </div>
 
-            <div class="row mt-3">
+            <div class="row">
                 <label for="example-text-input" class="col-md-12 col-form-label">
                     <h4 class="card-title">Media Detail : </h4>
                 </label>
@@ -458,10 +340,11 @@
                     $q = 1;
                     @endphp
                     @if (count($attachmentArray) > 0)
-                    @for ($k = 0; $k < count($attachmentArray); $k++) <div class="row">
+                    @for ($k = 0; $k < count($attachmentArray); $k++)
+                    <div class="row">
                         <div class="col-lg-4">
 
-                            <input type="file" class="custom-file-input form-control" id="attachment_files_json" name="group-a[0][media_file_json]" />
+                            <input type="file" class="custom-file-input form-control" id="attachment_files_json"   name="group-a[0][media_file_json]"/>
                             <input type="hidden" name="media_file_json_db" value="{{ $attachmentArray[$k] }}">
                             <label class="custom-file-label" for="customFile">Image</label>
                         </div>
@@ -482,7 +365,7 @@
             <button type="button" onclick="addMediaFunction()" class="btn btn-primary waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
                 Add New</button>
         </div>
-        <div class="row mt-3">
+        <div class="row">
             <label for="example-text-input" class="col-md-12 col-form-label">
                 <h4 class="card-title">Job Detail : </h4>
             </label>
@@ -517,141 +400,70 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label for="formrow-firstname-input">Contact Person Name</label>
 
-        <div class="row">
-            <div class="col-md-4">
-                <div>
-
-                    <div class="form-group">
-                        <label for="formrow-firstname-input">Contact Person Name</label>
-
-                        <input type="text" class="form-control" name="contact_person_name" value="{{$row['contact_person_name']}}" id="contact_person_name" placeholder="Contact Person Name" required>
-                        <div class="invalid-feedback">
-                            Please provide a Contact Person Name.
-                        </div>
-                    </div>
-
-                </div>
+            <input type="text" class="form-control" name="contact_person_name" value="{{$row['contact_person_name']}}" id="contact_person_name" placeholder="Contact Person Name" required>
+            <div class="invalid-feedback">
+                Please provide a Contact Person Name.
             </div>
-
-            <div class="col-md-4">
-
-                <div>
-                    <div class="form-group">
-                        <label for="formrow-firstname-input">Mobile Number</label>
-
-                        <input type="text" class="form-control" name="mobile_number" value="{{$row['mobile_number']}}" id="mobile_number" placeholder="Mobile Number" required>
-                        <div class="invalid-feedback">
-                            Please provide a Mobile Number.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-4">
-
-                <div>
-                    <div class="form-group">
-                        <label for="formrow-firstname-input">Email Id</label>
-
-                        <input type="text" class="form-control" name="email_id" value="{{$row['email_id']}}" id="email_id" placeholder="Email Id" required>
-                        <div class="invalid-feedback">
-                            Please provide a Email Id.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-4">
-
-                <div>
-
-                    <div class="form-group">
-                        <label for="formrow-firstname-input">Unit Option</label>
-
-                        <input type="text" class="form-control" name="unit_option" value="{{$row['unit_option']}}" id="unit_option" placeholder="Unit Option" required>
-                        <div class="invalid-feedback">
-                            Please provide a Unit Option.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-4">
-
-                <div>
-
-                    <div class="form-group">
-                        <label for="formrow-firstname-input">Reference Url</label>
-
-                        <input type="text" class="form-control" name="reference_url" value="{{$row['reference_url']}}" id="reference_url" placeholder="Reference Url" required>
-                        <div class="invalid-feedback">
-                            Please provide a Reference Url.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-4">
-
-                <div>
-
-                    <div class="form-group">
-                        <label for="formrow-firstname-input">Syllabus</label>
-
-                        <input type="text" class="form-control" name="syllabus" value="{{$row['syllabus']}}" id="syllabus" placeholder="Syllabus" required>
-                        <div class="invalid-feedback">
-                            Please provide a Syllabus.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div>
-                    <div class="form-group">
-                        <label for="formrow-firstname-input">Website</label>
-
-                        <input type="text" class="form-control" name="website" value="{{$row['website']}}" id="website" placeholder="Website" required>
-                        <div class="invalid-feedback">
-                            Please provide a Website.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-
-                <div>
-
-                    <div class="form-group">
-                        <label for="formrow-firstname-input">Payment Mode</label>
-
-                        <input type="text" class="form-control" name="payment_mode" value="{{$row['payment_mode']}}" id="payment_mode" placeholder="Payment Mode" required>
-                        <div class="invalid-feedback">
-                            Please provide a Payment Mode.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
         </div>
+        <div class="form-group">
+            <label for="formrow-firstname-input">Mobile Number</label>
 
+            <input type="text" class="form-control" name="mobile_number" value="{{$row['mobile_number']}}" id="mobile_number" placeholder="Mobile Number" required>
+            <div class="invalid-feedback">
+                Please provide a Mobile Number.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="formrow-firstname-input">Email Id</label>
 
+            <input type="text" class="form-control" name="email_id" value="{{$row['email_id']}}" id="email_id" placeholder="Email Id" required>
+            <div class="invalid-feedback">
+                Please provide a Email Id.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="formrow-firstname-input">Unit Option</label>
 
+            <input type="text" class="form-control" name="unit_option" value="{{$row['unit_option']}}" id="unit_option" placeholder="Unit Option" required>
+            <div class="invalid-feedback">
+                Please provide a Unit Option.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="formrow-firstname-input">Reference Url</label>
 
+            <input type="text" class="form-control" name="reference_url" value="{{$row['reference_url']}}" id="reference_url" placeholder="Reference Url" required>
+            <div class="invalid-feedback">
+                Please provide a Reference Url.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="formrow-firstname-input">Syllabus</label>
 
+            <input type="text" class="form-control" name="syllabus" value="{{$row['syllabus']}}" id="syllabus" placeholder="Syllabus" required>
+            <div class="invalid-feedback">
+                Please provide a Syllabus.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="formrow-firstname-input">Website</label>
 
+            <input type="text" class="form-control" name="website" value="{{$row['website']}}" id="website" placeholder="Website" required>
+            <div class="invalid-feedback">
+                Please provide a Website.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="formrow-firstname-input">Payment Mode</label>
 
-
-
+            <input type="text" class="form-control" name="payment_mode" value="{{$row['payment_mode']}}" id="payment_mode" placeholder="Payment Mode" required>
+            <div class="invalid-feedback">
+                Please provide a Payment Mode.
+            </div>
+        </div>
         <div class="form-group">
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="invalidCheck" name="status" value="Active" @if($row['status']=='active' ) checked @endif>
@@ -662,7 +474,7 @@
             <div class="col-md-6">
                 <div class="form-group ">
                     <button class="btn btn-success" type="submit">Save</button>
-                    <a href="{{route('business')}}" class="btn btn-danger ml-2">Cancel</a>
+                    <a href="{{route('business')}}" class="btn btn-danger">Cancel</a>
                 </div>
             </div>
         </div>
@@ -699,7 +511,7 @@
         @if(isset($row['tag_id']) && !empty($row['tag_id']))
         var $option = $("<option selected></option>").val({
             {
-                $tag_data - > id
+                $tag_data -> id
             }
         }).text('{{$tag_data->name}}');
         $('#txtSearchTag').append($option).trigger('change');
@@ -708,7 +520,7 @@
         @if(isset($row['category_id']) && !empty($row['category_id']))
         var $option = $("<option selected></option>").val({
             {
-                $category_data - > id
+                $category_data -> id
             }
         }).text('{{$category_data->name}}');
         $('#txtSearchCategory').append($option).trigger('change');

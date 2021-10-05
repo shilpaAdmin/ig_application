@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Fourm @endsection
+@section('title') Job Apply @endsection
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}">
@@ -9,8 +9,8 @@
 @section('content')
 
 @component('common-components.breadcrumb')
-@slot('title') Forum List @endslot
-@slot('li_1') Forum @endslot
+@slot('title') Job Apply List @endslot
+@slot('li_1') Job Apply @endslot
 @slot('li_2') List @endslot
 
 @endcomponent
@@ -20,19 +20,18 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive custom_tabal_saction_part">
-                    <h4 class="card-title" style="text-align:right;"><a href="{{route('forum.create')}}"
+                    <h4 class="card-title" style="text-align:right;"><a href="{{route('jobapply.create')}}"
                             class="btn btn-primary waves-effect btn-label waves-light"><i
-                                class="bx bx-plus label-icon"></i>ADD
-                                Fourm </a></h4>
-                            <table id="ForumList" class="table">
+                                class="bx bx-plus label-icon"></i>ADD Job Apply  </a></h4>
+                            <table id="jobapplyList" class="table">
                         <thead class="thead-light">
                             <tr>
                                 <th>#</th>
                                 <th>Id</th>
-                                <th>Question</th>
-                                <th>Description</th>
-                                <th>URL</th>
-                                <th>User</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Skill</th>
+                                <th>Subject</th>
                                 <th>Status</th>
                                 <th>Action</th>
 
@@ -75,7 +74,7 @@ $(function() {
         }
     });
 
-    var dt = $('#ForumList').DataTable({
+    var dt = $('#jobapplyList').DataTable({
         destroy: true,
         processing: true,
         //serverSide: true,
@@ -85,7 +84,7 @@ $(function() {
         "aaSorting": [],
         rowReorder: true,
         ajax: {
-            url: "{{ url('/admin/forum/forumList') }}",
+            url: "{{ route('datatable.jobapplyList') }}",
         },
 
         columns: [
@@ -105,24 +104,24 @@ $(function() {
                 targets: 1
             },
             {
-                data: 'question',
-                name: 'question',
+                data: 'full_name',
+                name: 'full_name',
                 searchable: false,
             },
             {
-                data: 'description',
-                name: 'description',
+                data: 'email',
+                name: 'email',
                 orderable:false,
             },
             {
-                data: 'url',
-                name: 'url',
+                data: 'skill',
+                name: 'skill',
                 orderable:false,
                 searchable: false,
             },
             {
-                data: 'user_id',
-                name: 'user_id',
+                data: 'subject',
+                name: 'subject',
                 orderable:false,
                 searchable: false,
             },
@@ -171,11 +170,11 @@ $(function() {
 
 });
 
-function deleteFourm(id)
+function deleteJobApply(id)
 {
     swal({
         title: "Are you sure?",
-        text: "Delete Fourm",
+        text: "Delete Job Apply",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
@@ -188,7 +187,7 @@ function deleteFourm(id)
     {
         if (isConfirm)
         {
-            window.location.href = "/admin/forum/delete/" + id;
+            window.location.href = "/job-apply/delete/" + id;
 
         } else {
                 swal("Cancelled", "Don't worry your data is safe :)", "error");

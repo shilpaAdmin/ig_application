@@ -28,8 +28,6 @@
                     <form class="needs-validation" method="post" enctype="multipart/form-data"
                         action="{{route('forum.update',$row['id'])}}" novalidate>
                         @csrf
-                        <div class="row">
-                        <div class="col-lg-4">
                         <div class="form-group">
                             <label for="formrow-firstname-input">Question</label>
                             <input type="text" class="form-control" name="question" id="question"
@@ -38,9 +36,7 @@
                                 Please provide a Question.
                             </div>
                         </div>
-                        </div>
 
-                        <div class="col-lg-4">
                         <div class="form-group">
                             <label for="formrow-firstname-input">Description</label>
                             <input type="text" class="form-control" name="description" id="description"
@@ -49,10 +45,8 @@
                                 Please provide a Description.
                             </div>
                         </div>
-                        </div>
 
-                       <div class="col-lg-4">
-                       <div class="form-group">
+                        <div class="form-group">
                             <label for="formrow-firstname-input">URL</label>
                             <input type="text" class="form-control" name="url" id="url"
                             required  placeholder="URL" value="{{$row['url']}}">
@@ -60,10 +54,8 @@
                                 Please provide a URL.
                             </div>
                         </div>
-                       </div>
 
 
-                        <div class="col-lg-4">
                         <div class="form-group">
                             <label for="formrow-firstname-input">User</label>
                             <select class="form-select form-control" name="user_id" id="user_id" required>
@@ -77,9 +69,7 @@
                                 Please provide a User.
                             </div>
                         </div>
-                        </div>
 
-                        </div>
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="invalidCheck" name="status" value="active" @if($row['status'] == 'active') checked @endif>

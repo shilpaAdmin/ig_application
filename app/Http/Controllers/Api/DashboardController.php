@@ -461,6 +461,12 @@ class DashboardController extends Controller
             }
         }    
         $newsData=NewsModel::first();
+        $registerId=isset($input['RegisterId'])?$input['RegisterId']:'';
+
+        $matrimonial_id='';
+
+        if(!empty($registerId))
+        $matrimonialObj=User::where('id',$registerId)->select('matrimonial_id')->first();
 
         return response()->json(['Status'=>true,'StatusMessage'=>'get Dashboard data successfully!',
         'Result'=>
@@ -468,6 +474,7 @@ class DashboardController extends Controller
         'NotificationCount'=>$notifications_counts,
         'NewsFrom'=>$newsData->news_from,
         'NewsDescription'=>$newsData->news_description,
+        'MatrimonialId'=>!empty($matrimonialObj->matrimonial_id)?strval($matrimonialObj->matrimonial_id):'',
         'HappyUserCount'=>strval($happyUserCount),
         'Testimonial'=>$testimonialArray,
         'Advertisement'=>$advertisementArray,

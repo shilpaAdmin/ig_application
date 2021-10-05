@@ -85,7 +85,7 @@ $(function() {
         "aaSorting": [],
         rowReorder: true,
         ajax: {
-            url: "{{ route('datatable.matrimonialList') }}",
+            url: "{{ url('admin/matrimonial/matrimonialList') }}",
         },
 
         columns: [
