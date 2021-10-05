@@ -1307,8 +1307,7 @@ class BusinessController extends Controller
     public function getBusinessesCategoryWise(Request $request)
     {
         $input=$request->all();
-
-        if(!isset($input['CategoryId']) && empty($input['CategoryId']))
+        if(!isset($input['catagoryId']) && empty($input['catagoryId']))
         {
             $error[] = 'CategoryId Must be Required!';
         }
@@ -1318,8 +1317,7 @@ class BusinessController extends Controller
             return response()->json(['Status'=>false,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
 		}
         
-        $businessArr=BusinessModel::where('category_id',$input['CategoryId'])->select('id','name')->get()->toArray();
-        
+        $businessArr=BusinessModel::where('category_id',$input['catagoryId'])->select('id','name')->get()->toArray();
         if(count($businessArr) > 0)
         {
             return response()->json(['Status'=>true,'StatusMessage'=>'Get business categorywise successfully !','Result'=>$businessArr]);
