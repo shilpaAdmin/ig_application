@@ -214,14 +214,25 @@ Route::get('/terms/condition','HomeController@termscondition')->name('Termscondi
 Route::get('/disclaimer','HomeController@disclaimer')->name('Disclaimer');
 Route::get('/gdrp/notice','HomeController@gdrpnotice')->name('Gdrpnotice');
 
+// new developement
+Route::namespace('Frontend')->group(function () { 
+
+    // forum 
+    Route::get('/forumlist','ForumController@index')->name('ForumList');
+    Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');
+    Route::post('/save-comments','ForumController@saveForumComment')->name('save.comments');
+    Route::post('/like-dislike','ForumController@saveLikeDislike')->name('like-dislike');
+
+
+    // Matrimoney
+    Route::get('/matrimoney','MatrimoneyController@viewMatrimoney')->name('matrimoney');
+});
+
 
 //forum
 // Route::get('/forumlist','HomeController@forumList')->name('ForumList');
 // Route::get('/forumdetail','HomeController@forumdetail')->name('forumdetail');
-Route::get('/forumlist','Frontend\ForumController@index')->name('ForumList');
-Route::get('/forumdetail','Frontend\ForumController@forumDetails')->name('forumdetail');
-Route::post('/save-comments','Frontend\ForumController@saveForumComment')->name('save.comments');
-Route::post('/like-dislike','Frontend\ForumController@saveLikeDislike')->name('like-dislike');
+
 
 //Matrimoney List
 Route::get('/matrimoney/list','HomeController@matrimoneyList')->name('MatrimoneyList');

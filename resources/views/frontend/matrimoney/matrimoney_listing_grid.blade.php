@@ -255,11 +255,11 @@
                         <div class="filter_inner_content">
                             <div class="left">
                                 <div class="left_icon">
-                                    <a href="{{ route('matrimoney')}}" class="icon-grid active"></a>
-                                    <a href="{{ route('MatrimoneyList')}}" class="list-icon icon-list"></a>
+                                    <a href="#" class="icon-grid active data-view" data-view="1"></a>
+                                    <a href="#" class="list-icon icon-list data-view" data-view="0"></a>
                                 </div>
                                 <div class="left_text">
-                                    <h4>Showing 6 Results </h4>
+                                    <h4>Showing {{$totalMatrimonial ? $totalMatrimonial: 0 }} Results </h4>
                                 </div>
                             </div>
                             <div class="right">
@@ -290,6 +290,7 @@
 
         <section class="listings_three-page mt-5 mb-5">
             <div class="container">
+               
                 <div class="row" id="results">
                     <!-- results appear here -->
                     
@@ -528,7 +529,8 @@
                     </div> --}}
 
                 </div>
-                {{-- <div class="ajax-loading" style="text-align:center; hieght:20px;width:20px"><img src="{{ URL::asset('assets/frontend/images/loading.gif') }}" /></div> --}}
+                {{-- <div class="ajax-loading" style="text-align:center;"><img src="{{ URL::asset('assets/frontend/images/loading.gif') }}" /></div> --}}
+                <div class="ajax-loading" style="text-align:center;"><img src="https://c.tenor.com/tEBoZu1ISJ8AAAAC/spinning-loading.gif" /></div>
             </div>
         </section>
     </div><!-- /.page-wrapper -->
@@ -547,24 +549,25 @@
 
     <script>
         $(document).ready(function(){
+            
             var page = 1;
-            
-            // on load call
-            loadMore(page);
+            var viewData=1;
+            loadMore(page,viewData);
 
-            //detect page scroll
+            // scroll events
             $(window).scroll(function() { 
-            
-                //if user scrolled from top to bottom of the page
-                if($(window).scrollTop() + $(window).height() >= $(document).height()) { 
-                    page++; //page number increment
-                    loadMore(page); //load content   
+                if($(window).scrollTop() + $(window).height() >= ( $(document).height() - $('.site-footer').height() )) { 
+                    page++; 
+                    loadMore(page,viewData); 
                 }
             });  
 
-            function loadMore(page){
+            // load more data
+            function loadMore(page,viewData){
+                
                 var url="{{route('matrimoney')}}";
-                url+='?page='+page;
+                url+='?page='+page+'&viewData='+viewData;
+
                 $.ajax({
                         type: 'get',
                         url:url ,
@@ -576,13 +579,10 @@
                         success: function(data) {
                           
                             if(data.length == 0){
-                                console.log(data.length);
                                 $('.ajax-loading').html("No more records!");
                                 return;
                             }
-                            $('.ajax-loading').hide(); 
                             $("#results").append(data);          
-                            console.log('data.length');
                         },
                         error: function(XMLHttpRequest, errorStatus, errorThrown) {
                             console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
@@ -590,12 +590,21 @@
                             console.log("error :: " + errorThrown);
                         },
                         complete: function() {
+                            $('.ajax-loading').hide(); 
                         },
                     });
             }
 
-
-          
+            //  show grid or list view 
+            $(document).on('click','.data-view',function(e) {
+                e.preventDefault();
+                viewData = $(this).attr("data-view");
+                $('.data-view').removeClass('active');
+                $(this).addClass('active');
+                page = 1;
+                $("#results").html('');
+                loadMore(page,viewData);
+            });
         });
     </script>
 </body>

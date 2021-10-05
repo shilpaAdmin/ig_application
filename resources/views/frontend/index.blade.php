@@ -1473,7 +1473,7 @@
                             if(paramLink=='forum'){
                                 url="{{ route('ForumList') }}";    
                             } else if(paramLink=='matrimonial'){
-                                url="{{route('MatrimoneyListgrid')}}";    
+                                url="{{route('matrimoney')}}";    
                             } else if(paramLink=='entertainment'){
                                 url="{{route('EntertainmentListingGrid')}}";
                             } else if(paramLink=='faq'){
