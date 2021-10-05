@@ -24,6 +24,7 @@ class CategoryController extends Controller
         $categoryData = array();
         if(count($category) > 0)
         {
+            
             $j = $k = 0;
             foreach($category as $data)
             {
