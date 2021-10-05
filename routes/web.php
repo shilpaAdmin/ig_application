@@ -56,7 +56,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('business/detail', 'BusinessDetailController@businessdetail')->name('businessdetail');
 
 
-    Route::get('matrimonialData', 'MatrimonialDataController@index')->name('matrimonialdata');
+
 
 
 
@@ -90,6 +90,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('matrimonial/update/{id}', 'matrimonialcontroller@update')->name('matrimonial.update');
     Route::get('matrimonial/matrimonialList', 'matrimonialcontroller@matrimoniallist')->name('datatable.matrimoniallist');
     Route::get('matrimonial/delete/{id}', 'matrimonialcontroller@delete')->name('matrimonial.delete');
+    Route::get('matrimonial-detail/{id}', 'MatrimonialDetailController@matrimonialDetail')->name('matrimonialdetail');
 
     // Fourm routes
     Route::get('forum', 'ForumController@index')->name('forum');
@@ -175,8 +176,29 @@ Route::group(['prefix' => 'admin'], function () {
      Route::post('location/update/{id}', 'locationcontroller@update')->name('location.update');
 
 
+     Route::get('country', 'CountryController@index')->name('country');
+     Route::get('country/create', 'CountryController@create')->name('country.create');
+     Route::post('country/store', 'CountryController@store')->name('country.store');
+     Route::get('country/edit/{id}', 'CountryController@edit')->name('country.edit');
+    //  Route::get('country/delete/{id}', 'CountryController@delete')->name('country.delete');
+     Route::post('country/update/{id}', 'CountryController@update')->name('country.update');
+    Route::get('country/countryList', 'CountryController@countryList')->name('datatable.countryList');
+
+    Route::get('city', 'CityController@index')->name('city');
+    Route::get('city/create', 'CityController@create')->name('city.create');
+    Route::post('city/store', 'CityController@store')->name('city.store');
+    Route::get('city/edit/{id}', 'CityController@edit')->name('city.edit');
+    Route::get('city/delete/{id}', 'CityController@delete')->name('city.delete');
+    Route::post('city/update/{id}', 'CityController@update')->name('city.update');
+   Route::get('city/cityList', 'CityController@cityList')->name('datatable.countryList');
+//    Route::get('city/delete/{id}', 'CityController@delete')->name('city.delete');
+
+
      Route::get('user/edit/{id}', 'userupdatecontroller@edit')->name('userupdate.edit');
+
     //  Route::get('user/edit/{id}', 'userupdatecontroller@edit')->name('userupdate.edit');
+
+
 
 
 
@@ -224,7 +246,7 @@ Route::group(['prefix' => 'admin'], function () {
 //     Route::post('category/autoComplete','AdvertisementController@categoryAutoComplete')->name('categoryAutoComplete');
 //     Route::get('advertisement/advertisementList', 'AdvertisementController@advertisementlist')->name('datatable.advertisementlist');
 //     Route::get('advertisement/delete/{id}', 'AdvertisementController@delete')->name('advertisement.delete');
-	
+
 //     // Fourm routes
 //     Route::get('forum', 'ForumController@index')->name('forum');
 //     Route::get('forum/create', 'forumcontroller@create')->name('forum.create');
@@ -258,7 +280,7 @@ Route::group(['prefix' => 'admin'], function () {
 //     Route::post('matrimonial/update/{id}', 'MatrimonialController@update')->name('matrimonial.update');
 //     Route::get('matrimonial/matrimonialList', 'MatrimonialController@matrimoniallist')->name('datatable.matrimoniallist');
 //     Route::get('matrimonial/delete/{id}', 'MatrimonialController@delete')->name('matrimonial.delete');
-	
+
 // });
 
 //Frontend start here
