@@ -64,7 +64,28 @@ class ForumController extends Controller
 
     public function saveLikeDislike(Request $request) {
         $input=$request->all();
-        $likes=ForumCommentReplyLikesModel::where('forum_id','=',$input['forum_id'])->where('comment_or_reply_id','=',$input['id'])->first();
-
+        $userId = auth()->user() ? auth()->user()->id: 1;
+        $likes=ForumCommentReplyLikesModel::where('forum_id','=',$input['forum_id'])
+                                        ->where('comment_or_reply_id','=',$input['id'])
+                                        ->where('user_id','=',$userId)
+                                        ->first();
+        if(isset($likes) && $likes) {
+            ForumCommentReplyLikesModel::where('forum_id','=',$input['forum_id'])
+                                    ->where('comment_or_reply_id','=',$input['id'])
+                                    ->where('user_id','=',$userId)
+                                    ->update(['is_like'=>1]);
+        } else {
+            ForumCommentReplyLikesModel::create([
+                                                    'forum_id'=>$input['forum_id'],
+                                                    'comment_or_reply_id'=>$input['id'],
+                                                    'user_id'=>$userId,
+                                                    'is_like'=>1,
+                                                ]);
+        }
+        $totalLikes= ForumCommentReplyLikesModel::where('forum_id','=',$input['forum_id'])
+                                            ->where('comment_or_reply_id','=',$input['id'])
+                                            ->count();
+        
+        return response()->json(['totalLikes'=>$totalLikes]);
     }
 }

@@ -38,15 +38,15 @@
                         </div>
 
                         <div class="col-lg-11">
-                            <span> <a class="forum__profilee" href="#"> {{ $forum->name }}</a></span>
+                            <span> <a class="forum__profilee" href="#"> {{ ucwords($forum->name) }}</a></span>
                             <div class="for_hour"> <a class="" href=" #"> {{ $forum->created_at->diffForHumans() }}</a></div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12  forum_que">
-                            <p class="forum_que">{{ $forum->question }}</p>
-                            <span class="forum_ans"> {{ $forum->description}}</span>
+                            <p class="forum_que">{{  ucwords($forum->question) }}</p>
+                            <span class="forum_ans"> {{  ucwords($forum->description) }}</span>
                         </div>
                     </div>
 
@@ -83,15 +83,15 @@
                                     <img src="{{  URL::asset('images/user/'.$forumComment->user_image)}}" class="f__img_lef">
                                 </div>
         
-                                <div class="col-sm-11">
-                                    <span> <a class="forum__profilee" href="#"> {{$forumComment->name}}</a></span>
+                                <div class="col-sm-11 likes-box">
+                                    <span> <a class="forum__profilee" href="#"> {{  ucwords($forumComment->name) }}</a></span>
                                     <div class="for_hour"> <a class="pr-3" href="#"> {{ $forumComment->created_at->diffForHumans() }}</a> | <a
-                                            class="pl-3 " href="#"> {{$forumComment->likes->count() }} Likes</a> </div>
+                                            class="pl-3 totalLikes" href="#"> {{$forumComment->likes->count() }} Likes</a> </div>
                                 </div>
         
                                 <div class="row">
                                     <div class="col-sm-12 ml-3">
-                                        {{$forumComment->message}} <br>
+                                        {{ ucwords($forumComment->message) }} <br>
         
                                         <a href="#" class="forum__icon mr-3"> <i class="fas fa-reply"></i> Reply </a>
                                         <a href="#" class="forum__icon comment-likes" data-id="{{$forumComment->id}}" data-forumid="{{$forum->id}}"> <i class="far fa-heart"></i> Like </a>
@@ -111,10 +111,10 @@
                                                 <img src="{{  URL::asset('images/user/'.$reply->user_image)}}" class="f__img_lef">
                                             </div>
             
-                                            <div class="col-sm-11 ">
-                                                <span> <a class="forum__profilee" href="#"> {{$reply->name}}</a></span>
+                                            <div class="col-sm-11 likes-box">
+                                                <span> <a class="forum__profilee" href="#"> {{  ucwords($reply->name) }}</a></span>
                                                 <div class="for_hour"> <a class="pr-3" href="#"> {{ $reply->created_at->diffForHumans() }}</a> |
-                                                    <a class="pl-3" href="#"> {{$reply->likes->count() }} Likes</a> </div>
+                                                    <a class="pl-3 totalLikes" href="#" > {{$reply->likes->count() }} Likes</a> </div>
                                             </div>
             
                                             <div class="row">
@@ -400,7 +400,7 @@
                     e.preventDefault();
                     var id = $(this).attr("data-id");
                     var forum_id = $(this).attr("data-forumid");
-                    alert("hello "+id);
+                    var $this =$(this);
 
                     $.ajax({
                         type: 'post',
@@ -417,13 +417,14 @@
                             
                         },
                         success: function(data) {
-                            console.log(data);
+                            var totalLikes=data.totalLikes ? data.totalLikes : 0;
+                            $this.parent().parent().parent().find('.totalLikes').text(totalLikes+" Likes");
+
                         },
                         error: function(XMLHttpRequest, errorStatus, errorThrown) {
                             console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
                             console.log("Status :: " + errorStatus);
                             console.log("error :: " + errorThrown);
-                           
                         },
                         complete: function() {
                         },
