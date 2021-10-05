@@ -37,7 +37,7 @@ body {
     <div class="account-pages my-4">
         <div class="container">
             <div class="login_logo">
-                <img src="assets/images/IG-dark.png" style="width: 100px;
+                <img src="/assets/images/IG-dark.png" style="width: 100px;
     height: 70px;">
             </div>
             <div class="row justify-content-center">
@@ -63,13 +63,14 @@ body {
                                 <a href="{{url('index')}}">
                                     <div class="avatar-md profile-user-wid mb-4">
                                         <span class="avatar-title bg-light">
-                                            <img src="assets/images/img_347562.png" alt="" class="" height="34">
+                                            <img src="/assets/images/img_347562.png" alt="" class="" height="34">
                                         </span>
                                     </div>
                                 </a>
                             </div>
                             <div class="p-2">
-                                <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                                <form class="form-horizontal" method="POST" action="{{ route('admin.authenticate') }}">
+                                {{-- <form class="form-horizontal" method="POST" action="#"> --}}
                                     @csrf
                                     <div class="form-group">
                                         <label for="username">Username</label>
