@@ -1,0 +1,37 @@
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('../fonts/MADETOMMY-Medium.eot');
+    src: url('../fonts/MADETOMMY-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/MADETOMMY-Medium.woff2') format('woff2'),
+        url('../fonts/MADETOMMY-Medium.woff') format('woff'),
+        url('../fonts/MADETOMMY-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('../fonts/MADETOMMY-Bold.eot');
+    src: url('../fonts/MADETOMMY-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/MADETOMMY-Bold.woff2') format('woff2'),
+        url('../fonts/MADETOMMY-Bold.woff') format('woff'),
+        url('../fonts/MADETOMMY-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'MADE TOMMY';
+    src: url('../fonts/MADETOMMY.eot');
+    src: url('../fonts/MADETOMMY.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/MADETOMMY.woff2') format('woff2'),
+        url('../fonts/MADETOMMY.woff') format('woff'),
+        url('../fonts/MADETOMMY.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

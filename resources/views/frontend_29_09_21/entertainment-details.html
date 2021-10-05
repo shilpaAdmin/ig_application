@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Entertainment - Details</title>
+    <!--     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png"> -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/logo32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/logo16.png">
+    <!--  <link rel="manifest" href="assets/images/favicons/site.webmanifest"> -->
+
+    <!-- Fonts-->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+
+    <!-- Css-->
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/swiper.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-select.min.css">
+
+    <link rel="stylesheet" href="assets/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="assets/css/vegas.min.css">
+    <link rel="stylesheet" href="assets/css/nouislider.min.css">
+    <link rel="stylesheet" href="assets/css/nouislider.pips.css">
+    <link rel="stylesheet" href="assets/css/ziston-icon.css">
+    <link rel="stylesheet" href="assets/css/ziston-new-icons.css">
+    <!-- Template styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+</head>
+
+<body>
+
+<!-- Modal location-->
+<div class="modal fade" id="exampleModallocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div class="row">
+             <div class="col-md-12">
+                 <div class="select_location">
+                   <div>Berlin <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                   <div> Hamburg <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                   <div> Munich <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                   <div> Cologne <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                   <div>Stuttgart <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                   <div> Dortmund <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                   <div> Essen <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                   <div>Leipzig <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                   <div> Bremen <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                   <div> Dresden <a href="#" class="float-right d-inline-block location_a">  Select Location</a></div>
+                 </div>
+                 
+             </div>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary background_green" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+ <!-- Modal location-->
+
+ <!-- Modal listing-->
+<div class="modal fade" id="exampleModallisting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select Listing type</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div class="row">
+             <div class="col-md-12">
+                 <div>
+                    <a href="add-service.html">  Add Service</a>
+                 </div>
+                 <div>
+                     <a href="add-business.html">  Add Business</a>
+                 </div>
+                 <div>
+                    <a href="add-advertisement.html"> Add Advertisement</a>
+                 </div>
+             </div>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary background_green" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ <!-- Modal housing-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Housing Categories</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-50 float-left"> <a class=" a_cat_color" href="housing-listing-grid.html"><i class="fas fa-angle-right"></i> House For Rent</a> </div>
+                    <div class="w-50 float-left"> <a class=" a_cat_color" href="#"> <i class="fas fa-angle-right"></i> AC Service & Repair</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Washing Machine Repairs</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Air Cooler Dealers</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Audio Visual Equipment Dealers</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Industrial Voltage Stabilizers Dealers</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Solar Water Heaters</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Fire Fighting Equipment</a> </div>
+
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Washing machine dealers</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Microwave Oven Dealers</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Firefighting Equipment Dealers</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Water Dispenser Dealers</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Modular Kitchen Dealers</a> </div>
+
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Generators Dealers</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Gas Water Heater Dealers</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Sign Board Agencies</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Mixer Grinder Dealers</a> </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Modal taxation-->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Taxation Categories</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-50 float-left"> <a class=" a_cat_color" href="taxation-listing-grid.html"><i class="fas fa-angle-right"></i> Taxation</a> </div>
+                    <div class="w-50 float-left"> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> CA Services</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Accounting Bookkeeping</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Auditors</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> GST Consultants</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Company Registration</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Tax Consultants</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Tax Return Filing</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> FSSAI License</a> </div>
+                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> ESI & PF</a> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Modal Education-->
+        <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Education Categories</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="w-50 float-left"> <a class=" a_cat_color" href="education-listing-grid.html"><i class="fas fa-angle-right"></i> Education</a> </div>
+                        <div class="w-50 float-left"> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Entrance Exam Coaching</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Job Training</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Overseas Education</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Corporate Training</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Computer Training</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Design Training</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Financial Training</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Language Classes</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Entrance Coaching</a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ <!-- Modal Jobs-->
+        <div class="modal fade" id="exampleModal7" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Job Categories</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="w-50 float-left"> <a class=" a_cat_color" href="job-listing-grid.html"><i class="fas fa-angle-right"></i> Jobs</a> </div>
+                        <div class="w-50 float-left"> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Marketing</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Design</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Project Management</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Automotive Jobs</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Human Resource</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> IT / Computer</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Customer Service</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Health & Care</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Accounting</a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- Modal travel-->
+        <div class="modal fade" id="exampleModal8" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Travel & Transport Categories
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="w-50 float-left"> <a class=" a_cat_color" href="tourtravel-listing-grid.html"><i class="fas fa-angle-right"></i> Travel & Transport</a> </div>
+                        <div class="w-50 float-left"> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Bus Travel Agents</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Train Travel Agents</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Tour Operators</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Hotels</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Vehicle Rentals</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Transport Services</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Travel Consultants</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Cargo & Shipping</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Travel Consultants</a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ <!-- Modal event-->
+        <div class="modal fade" id="exampleModal10" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Event Categories</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="w-50 float-left"> <a class=" a_cat_color" href="event-listing-grid.html"> <i class="fas fa-angle-right"></i> Event</a> </div>
+                        <div class="w-50 float-left"> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Seminars</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Conferences</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Trade shows</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Themed parties</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Webinars</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Interactive performances</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Music festivals</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Food festivals</a> </div>
+                        <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Street parties</a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    <div class="preloader">
+        <img src="assets/images/loader.png" class="preloader__image" alt="">
+    </div><!-- /.preloader -->
+
+                              
+
+
+    <div class="page-wrapper">
+
+          <div class="site-header__header-one-wrap clearfix">
+            <div class="header_top_one">
+                <div class="header_top_one_container">
+                    <div class="header_top_one_inner clearfix">
+
+                        <div class="header_top_one_inner_left float-left">
+                            <div class="header_social_1">
+                                <ul class="list-unstyled">
+                                    <li><a target="blank" href="https://www.facebook.com/indiingermany"><i class="fab fa-facebook-square"></i></a></li>
+                                    <li> <a target="blank"  href="https://www.instagram.com/indingermany/"><i class="fab fa-instagram"></i></a></li>
+                                    <li> <a target="blank"  href="https://www.pinterest.com/indianingermany/"><i class="fab fa-pinterest-p"></i></a></li>
+                                    <li><a target="blank"  href="https://www.linkedin.com/company/indiansingermany/"><i class="fab fa-linkedin"></i></a></li>
+                                   <li> <a target="blank"  href="https://twitter.com/indingermany/"><i class="fab fa-twitter"></i></a></li>
+                                  <li><a target="blank"  href="#"> <i class="fab fa-youtube"></i> </a></li>
+                                </ul>
+                            </div>
+                        </div>
+<div class="header_top_one_inner_right float-right">
+                            <div class="header_topmenu_1">
+                                <ul class="list-unstyled">
+
+                                    <li><a href="login.html"><i class="fas fa-user"></i>Log in </a></li>
+
+                                    <li><a href="#" data-toggle="modal" data-target="#exampleModallisting">Add <i class="fas fa-plus"></i></a></li>
+
+                                    <li>
+                                        <a href="#" data-toggle="modal" data-target="#exampleModallocation">Select Location <i class="fas fa-caret-down"></i> </a>
+                                    </li>
+
+
+                                    <li><a href="#">Call Embassy 000 000 000 </i> </a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <header class="main-nav__header-one">
+                <nav class="header-navigation one stricky">
+                    <div class="container-box clearfix">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="main-nav__left main-nav__left_one float-left">
+                            <div class="logo_one">
+                                <a href="index.html" class="main-nav__logo">
+                                    <img src="assets/images/resources/logo-black2.png" class="main-logo" alt="Awesome Image">
+                                </a>
+                            </div>
+                            <a href="#" class="side-menu__toggler">
+                                <i class="fa fa-bars"></i>
+                            </a>
+                        </div>
+
+                        <div class="main-nav__main-navigation one float-left">
+                            <ul class="main-nav__navigation-box">
+                                <li> <a class="" href="index.html">Home</a></li>
+                                  <li> <a href="faq.html">FAQs</a></li>
+                                  <li> <a href="forum-listing.html">Forum</a></li>
+                                  <li> <a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+
+                        <div class="main-nav__right main-nav__right_one float-right">
+
+
+                            <div class="dw_btnss float-right px-1 d-inline-block">
+                                <a href="#" class=""> <img src="assets/images/resources/appstore.png"> </a>
+                            </div>
+
+                            <div class="dw_btnss float-right  px-1 d-inline-block">
+                                <a href="#" class=""> <img src="assets/images/resources/playstore.png"> </a>
+                            </div>
+
+                            <div class="header_btn_1">
+                                <a href="#" data-toggle="modal" data-target="#exampleModallisting" class="hvr-sweep-to-right"><span style="padding: 0 10px 0 0;"><i class="fas fa-plus"></i></span>Add listings</a>
+
+                               
+
+
+
+                            </div>
+
+                            <div class="icon-search-box">
+                                <a href="#" class="main-nav__search search-popup__toggler">
+                                    <i class="icon-magnifying-glass"></i>
+                                </a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </nav>
+            </header>
+        </div>
+
+
+        <!-- Listings Details Main Image Box Start-->
+        <section class="listings_details_main_image_box">
+            <div class="container-full-width">
+                <div class="thm__owl-carousel owl-carousel owl-theme" data-options='{"margin":3, "loop": true, "smartSpeed": 700, "autoplay": true, "autoplayHoverPause": true, "autoplayTimeout": 5000, "items": 3,"responsive": {
+                    "0": {
+                        "items": 1
+                    },
+                    "480": {
+                        "items": 2
+                    },
+                    "992": {
+                        "items": 3
+                    }
+                }}'>
+                    <div class="item">
+                        <!--Listings Details Main Image Box Single-->
+                        <div class="listings_details_main_image_box_single">
+                            <div class="listings_details_main_image_box__img height_fixed_ent_detail">
+                                <img src="assets/images/listings/endD1.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <!--Listings Details Main Image Box Single-->
+                        <div class="listings_details_main_image_box_single">
+                            <div class="listings_details_main_image_box__img height_fixed_ent_detail">
+                                <img src="assets/images/listings/endD2.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <!--Listings Details Main Image Box Single-->
+                        <div class="listings_details_main_image_box_single">
+                            <div class="listings_details_main_image_box__img height_fixed_ent_detail">
+                                <img src="assets/images/listings/endD3.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--Main Bottom Start-->
+        <section class="main_bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="main_bottom_left">
+                            <div class="main_bottom_content">
+                               
+                                <div class="icon">
+                                    <span> <i class="fas fa-user-tie"></i> </span>
+                                </div>
+                            </div>
+                            <div class="main_bottom_left_title">
+                                <h4>Inception<i class="fa fa-check"></i></h4>
+                            </div>
+                            <small >  <i class="fas fa-map-marker-alt"></i>  Friedrischat-palast Cinema </small> <br>
+                             <small class="d-inline-block">   Action , Thriller  </small> &nbsp; |  &nbsp;<small class="d-inline-block">  1hr 54min  </small>
+
+                            <div class="main_bottom_rating_time">
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                   <!--  <div class="col-xl-4 col-lg-4 seconboxlisd">
+                        <div class="main_bottom_left_titlet">
+                            <h4>Unit options</h4>
+                        </div>
+                        <button type="button" class="btn btnunit">2 BHK Appartment</button>
+                        <button type="button" class="btn btnunit">3 BHK Appartment</button>
+                        <button type="button" class="btn btnunit">4 BHK Appartment</button>
+                        <button type="button" class="btn btnunit">5 BHK Appartment</button>
+                    </div> -->
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="main_bottom_right">
+                          
+                            <div class="main_bottom_right_Buttons">
+                                <div class="badge-pill badge-success d-inline-block mb-3 mr-3"> 2D </div>
+                                    <div class="badge-pill badge-success d-inline-block mb-3 mr-3"> 3D </div> 
+                            </div>
+
+                            <ul class="list-unstyled">
+                                <li>In Cinemas <span> May 3, 2021</span></li>
+                                <li><a href="#">Add to Wishlist<i class="far fa-heart"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    
+                                
+
+
+
+
+
+                   
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--Listings Details Start-->
+        <section class="listings_details">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="listings_details_left">
+                            
+
+                            <div class="listings_details_text">
+                                <h3 class="mb-3">About</h3>
+
+
+                                    <div class="badge-pill badge-cast d-inline-block mb-3 mr-3"> English </div>
+                                    <div class="badge-pill badge-cast d-inline-block mb-3 mr-3"> Hindi </div>
+                                    <div class="badge-pill badge-cast d-inline-block mb-3 mr-3"> Telugu </div>
+                                    <div class="badge-pill badge-cast d-inline-block mb-3 mr-3"> Tamil </div>
+
+
+                                <p class="first_text mb-0">Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
+                                    Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Etiam ultricies
+                                    nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.
+                                    Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
+                                    adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
+                                    hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien
+                                    ut libero venenatis faucibus. </p>
+
+                                     <p class="first_text mb-0">Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
+                                    Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Etiam ultricies
+                                    nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.
+                                    Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
+                                    adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
+                                    hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien
+                                    ut libero venenatis faucibus. </p>
+
+                                    
+                                
+                            </div>
+
+                            <div class="listings_details_text">
+                                    <h3 class="mb-3">Cast</h3>
+                                    <div class="house_detaill_main clearfix">
+                                        <div class="house_detaill text-center mb-5">
+                                            <div> <img src="assets/images/listings/cast1.jpg" class="cast_imgs" alt=""> </div>
+                                            <div class="house_desc">Turner donnell</div>
+                                            <p>as Ed Warren</p>
+                                        </div>
+                                        <div class="house_detaill text-center mb-5">
+                                            <div><img src="assets/images/listings/cast2.jpg" class="cast_imgs" alt=""> </div>
+                                            <div class="house_desc">Turner donnell</div>
+                                            <p>as Ed Warren</p>
+                                        </div>
+
+                                        <div class="house_detaill text-center mb-5">
+                                            <div> <img src="assets/images/listings/cast3.jpg" class="cast_imgs" alt=""></div>
+                                            <div class="house_desc">Turner donnell</div>
+                                            <p>as Ed Warren</p>
+                                        </div>
+
+                                         <div class="house_detaill text-center mb-5">
+                                            <div> <img src="assets/images/listings/cast4.jpg" class="cast_imgs" alt=""> </div>
+                                            <div class="house_desc">Turner donnell</div>
+                                            <p>as Ed Warren</p>
+                                        </div>
+                                    </div>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="listings_details_sidebar">
+                            
+                            <div class="listings_details_sidebar__single additional_info">
+                                <h3 class="listings_details_sidebar__title">More Details</h3>
+                                <div class="additional_info_details">
+                                    <!--Single_item-->
+                                    <div class="additional_info_single">
+                                        <div class="left">
+                                            <p><i class="fas fa-dot-circle"></i>Lorem, ipsum dolor.</p>
+                                        </div>
+                                    </div>
+                                    <!--Single_item-->
+                                    <div class="additional_info_single">
+                                        <div class="left">
+                                            <p><i class="fas fa-dot-circle"></i>Lorem ipsum dolor sit, amet.</p>
+                                        </div>
+                                    </div>
+                                    <!--Single_item-->
+                                    <div class="additional_info_single">
+                                        <div class="left">
+                                            <p><i class="fas fa-dot-circle"></i>Lorem, ipsum dolor sit.</p>
+                                        </div> 
+                                    </div>
+                                    <!--Single_item-->
+                                    <div class="additional_info_single">
+                                        <div class="left">
+                                            <p><i class="fas fa-dot-circle"></i>Lorem, ipsum, dolor. </p>
+                                        </div>
+                                    </div>
+                                     <!--Single_item-->
+                                    <div class="additional_info_single">
+                                        <div class="left">
+                                            <p><i class="fas fa-dot-circle"></i>Lorem ipsum dolor sit, amet.</p>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+<section class="mt-5 mb-5">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-6"> <h4>Similar&nbsp;Movies</h4> </div>
+                    <div class="col-6 text-right"> <a href="#" class="link-simple"> View All </a> </div>
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-xl-6 col-md-12 col-sm-12">
+                        <div class="listings_two_page_content joblist_shadow">
+                            <!--listings Two Page Single-->
+                            <div class="listings_two_page_single overflow-y__hidden">
+                                <div class="listings_two_page_img">
+                                    <img src="assets/images/listings/ent3.jpg" alt="">
+
+                                    <div class="heart_icon">
+                                        <i class="icon-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="listings_three-page_content pt-3">
+                                    <div class="title">
+                                        <h3><a href="entertainment-details.html">Monster Hunter</a>  </h3>
+                                        
+                                        <p class="mb-0">  <i class="fas fa-tags"></i>  Romance , Comedy </p>
+                                        <p class="mb-0">  <i class="far fa-thumbs-up"></i>  3.57k Likes </p>
+                                    </div>
+                                    <ul class="list-unstyled listings_three-page_contact_info">
+                                         <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
+                                    </ul>
+                                    <div class="listings_three-page_content_bottom">
+                                        <div class="left">
+                                           
+                                        </div>
+                                        <div>
+                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-md-12 col-sm-12">
+                        <div class="listings_two_page_content joblist_shadow">
+                            <!--listings Two Page Single-->
+                            <div class="listings_two_page_single overflow-y__hidden">
+                                <div class="listings_two_page_img">
+                                    <img src="assets/images/listings/ent3.jpg" alt="">
+
+                                    <div class="heart_icon">
+                                        <i class="icon-heart"></i>
+                                    </div>
+                                </div>
+                                <div class="listings_three-page_content pt-3">
+                                    <div class="title">
+                                        <h3><a href="entertainment-details.html">Monster Hunter</a>  </h3>
+                                        
+                                        <p class="mb-0">  <i class="fas fa-tags"></i>  Romance , Comedy </p>
+                                        <p class="mb-0">  <i class="far fa-thumbs-up"></i>  3.57k Likes </p>
+                                    </div>
+                                    <ul class="list-unstyled listings_three-page_contact_info">
+                                         <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
+                                    </ul>
+                                    <div class="listings_three-page_content_bottom">
+                                        <div class="left">
+                                           
+                                        </div>
+                                        <div>
+                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                  
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--Site Footer Start-->
+        <footer class="site-footer">
+            <div class="site_footer_shape-1" style="background-image: url(assets/images/resources/footer-shape-1.png)">
+            </div>
+            <div class="site_footer_map" style="background-image: url(assets/images/resources/footer-map.png)"></div>
+            <div class="container">
+
+                <div class="row mb-3">
+
+                    <div class="col-lg-12 border_bottom">
+                        <a href="index.html" class="footernavbart"><img src="assets/images/img/footer-logo.png"></a>
+                        <a href="about.html" class="footernavbart float-md-right">About us</a>
+                        <a href="career.html" class="footernavbart  float-md-right ">Careers</a>
+                        <a href="contact.html" class="footernavbart  float-md-right ">Contact us</a>
+                        
+
+
+
+
+
+
+
+                    </div>
+
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <div class="POPULARll"> POPULAR LINKS </div>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                        <a href="#" class="sunlilist">Lorem ipsum dolor</a>
+                    </div>
+                </div>
+
+
+                 <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <div class="POPULARll"> CATEGORIES </div>
+                        <a data-toggle="modal" data-target="#exampleModal" href="#" class="sunlilist">Housing</a>
+                        <a href="#" data-toggle="modal" data-target="#exampleModal2" class="sunlilist">Taxation</a>
+                        <a href="forum-listing.html"  class="sunlilist">Forum</a>
+                        <a href="#" data-toggle="modal" data-target="#exampleModal4" class="sunlilist">Education</a>
+                        <a href="matrimoney-listing-grid.html" class="sunlilist">Matrimonial</a>
+                        <a href="#" data-toggle="modal" data-target="#exampleModal7" class="sunlilist">Jobs</a>
+                        <a href="#" data-toggle="modal" data-target="#exampleModal8" class="sunlilist">Travel & Transport</a>
+                        <a href="faq.html" class="sunlilist">FAQ</a>
+                        <a href="#" data-toggle="modal" data-target="#exampleModal10" class="sunlilist">Event</a>
+                        <a href="entertainment-listing-grid.html"  class="sunlilist">Entertainment</a>
+                    </div>
+                </div>
+
+
+                 <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <div class="POPULARll">  QUICK LINKS  </div>
+                        <a href="privacy-policy.html" class="sunlilist">Privacy Policy</a>
+                        <a href="terms-services.html" class="sunlilist">Terms & Condition</a>
+                        <a href="disclaimer.html" class="sunlilist">Disclaimer</a>
+                        <a href="faq.html" class="sunlilist">FAQ</a>
+                        <a href="forum-listing.html" class="sunlilist">Forum</a>
+                        <a href="gdpr-notice.html" class="sunlilist">GDPR Notice</a>
+                        <a href="contact.html" class="sunlilist">Contact IG</a>
+                    </div>
+                </div>
+
+
+                <div class="row  mb-3">
+                    <div class="col-lg-12">
+                        <div class="POPULARll">
+                             TOP CITIES 
+                        </div>
+                        <div>
+                            <a href="#" class="sunlilist">Berlin</a>
+                            <a href="#" class="sunlilist">Hamburg</a>
+                            <a href="#" class="sunlilist"> Munich</a>
+                            <a href="#" class="sunlilist"> Cologne</a>
+                            <a href="#" class="sunlilist">Stuttgart</a>
+                            <a href="#" class="sunlilist">Dortmund</a>
+                             
+                            <a href="#" class="sunlilist">Essen</a>
+                            <a href="#" class="sunlilist">Leipzig</a>
+                            <a href="#" class="sunlilist">Bremen</a>
+                            <a href="#" class="sunlilist">Dresden</a>
+                            <a href="#" class="sunlilist">Berlin</a>
+                            <a href="#" class="sunlilist">Hamburg</a>
+                            <a href="#" class="sunlilist"> Munich</a>
+                            <a href="#" class="sunlilist"> Cologne</a>
+                            <a href="#" class="sunlilist">Stuttgart</a>
+                            <a href="#" class="sunlilist">Dortmund</a>
+                             
+                            <a href="#" class="sunlilist">Essen</a>
+                            <a href="#" class="sunlilist">Leipzig</a>
+                            <a href="#" class="sunlilist">Bremen</a>
+                            <a href="#" class="sunlilist">Dresden</a>
+                            <a href="#" class="sunlilist">Berlin</a>
+                            <a href="#" class="sunlilist">Hamburg</a>
+                            <a href="#" class="sunlilist"> Munich</a>
+                            <a href="#" class="sunlilist"> Cologne</a>
+                            <a href="#" class="sunlilist">Stuttgart</a>
+                            <a href="#" class="sunlilist">Dortmund</a>
+                             
+                            <a href="#" class="sunlilist">Essen</a>
+                            <a href="#" class="sunlilist">Leipzig</a>
+                            <a href="#" class="sunlilist">Bremen</a>
+                            <a href="#" class="sunlilist">Dresden</a>
+                       </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </footer>
+
+        <div class="site-footer_bottom">
+            <div class="container">
+                <div class="site-footer_bottom_copyright">
+
+                    <p><a href="#" class="footernavbart"><img src="assets/images/img/logo-only.png"></a>© Copyright
+                        2021 by <a href="#">indiansingermany.de</a></p>
+                </div>
+                <div class="site-footer__social">
+                    <a target="blank" href="https://www.facebook.com/indiingermany"><i class="fab fa-facebook-square"></i></a>
+                    <a  target="blank" href="https://www.instagram.com/indingermany/"><i class="fab fa-instagram"></i></a>
+                    <a  target="blank" href="https://www.pinterest.com/indianingermany/"><i class="fab fa-pinterest-p"></i></a>
+                    <a  target="blank" href="https://www.linkedin.com/company/indiansingermany/"><i class="fab fa-linkedin"></i></a>
+                    <a  target="blank" href="https://twitter.com/indingermany/"><i class="fab fa-twitter"></i></a>
+                    <a  target="blank" href="#"> <i class="fab fa-youtube"></i> </a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div><!-- /.page-wrapper -->
+
+    <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
+
+    <div class="side-menu__block">
+        <div class="side-menu__block-overlay custom-cursor__overlay">
+            <div class="cursor"></div>
+            <div class="cursor-follower"></div>
+        </div><!-- /.side-menu__block-overlay -->
+        <div class="side-menu__block-inner ">
+            <div class="side-menu__top justify-content-end">
+                <a href="#" class="side-menu__toggler side-menu__close-btn"><img
+                        src="assets/images/shapes/close-1-1.png" alt=""></a>
+            </div><!-- /.side-menu__top -->
+
+            <nav class="mobile-nav__container">
+                <!-- content is loading via js -->
+            </nav>
+
+            <div class="side-menu__sep"></div><!-- /.side-menu__sep -->
+
+            <div class="side-menu__content">
+                <p>
+                    <a href="signup.html">Signup</a><br> 
+                    <a href="login.html">Login</a> <br> 
+                    <a href="mailto:needhelp@ig.com">needhelp@ig.com</a> <br> 
+                    <a href="tel:000-000-0000">000 000 0000</a>
+                    
+
+                </p>
+                <div class="side-menu__social">
+                    <a target="blank" href="https://www.facebook.com/indiingermany"><i class="fab fa-facebook-square"></i></a>
+                    <a target="blank" href="https://www.instagram.com/indingermany/"><i class="fab fa-instagram"></i></a>
+                    <a target="blank" href="https://www.pinterest.com/indianingermany/"><i class="fab fa-pinterest-p"></i></a>
+                    <a target="blank" href="https://www.linkedin.com/company/indiansingermany/"><i class="fab fa-linkedin"></i></a>
+                    <a target="blank" href="https://twitter.com/indingermany/"><i class="fab fa-twitter"></i></a>
+                    <a target="blank" href="#"> <i class="fab fa-youtube"></i> </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-popup">
+        <div class="search-popup__overlay custom-cursor__overlay">
+            <div class="cursor"></div>
+            <div class="cursor-follower"></div>
+        </div><!-- /.search-popup__overlay -->
+        <div class="search-popup__inner">
+            <form action="#" class="search-popup__form">
+                <input type="text" name="search" placeholder="Type here to Search....">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+
+
+       
+
+
+
+
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/waypoints.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <script src="assets/js/TweenMax.min.js"></script>
+    <script src="assets/js/wow.js"></script>
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/jquery.ajaxchimp.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/typed-2.0.11.js"></script>
+    <script src="assets/js/vegas.min.js"></script>
+    <script src="assets/js/jquery.validate.min.js"></script>
+    <script src="assets/js/bootstrap-select.min.js"></script>
+    <script src="assets/js/countdown.min.js"></script>
+    <script src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="assets/js/bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/nouislider.min.js"></script>
+    <script src="assets/js/isotope.js"></script>
+    <script src="assets/js/appear.js"></script>
+    <script src="http://maps.google.com/maps/api/js?key=AIzaSyATY4Rxc8jNvDpsK8ZetC7JyN4PFVYGCGM"></script>
+
+
+    <!-- template scripts -->
+    <script src="assets/js/theme.js"></script>
+
+
+</body>
+
+</html>
