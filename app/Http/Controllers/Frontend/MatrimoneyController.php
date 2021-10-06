@@ -13,10 +13,10 @@ class MatrimoneyController extends Controller
         $html='';
         $totalMatrimonial=MatrimonialModel::get()->count();
         if ($request->ajax()) {
-          
+
             $matrimonials  = MatrimonialModel::paginate(6);
             foreach ($matrimonials as $key => $matrimonial) {
-             
+
                 $imageUrl=URL::asset('assets/frontend/images/listings/mat2.jpg');
 
                 $fullName=$matrimonial->full_name ? ucwords($matrimonial->full_name):'-';
@@ -28,7 +28,7 @@ class MatrimoneyController extends Controller
                 $hieghtAge=$age.' year old, '.$height.'" height';
                 if( $request->viewData !=0){
 
-               
+
                     $html.='<div class="col-xl-4 col-md-6 col-sm-12">'.
                         '<div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms" data-wow-duration="1200ms" style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">'.
                             '<div class="listings_three-page_image">'.

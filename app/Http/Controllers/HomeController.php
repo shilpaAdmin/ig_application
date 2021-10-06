@@ -126,7 +126,7 @@ class HomeController extends Controller
     {
         return view('frontend.matrimoney_details');
     }
-
+////////
     public function housingdetails(Request $request)
     {
         return view('frontend.housing_details');
@@ -139,7 +139,7 @@ class HomeController extends Controller
     {
         return view('frontend.housing_listing_grid');
     }
-
+/////////////
     public function taxationdetails(Request $request)
     {
         return view('frontend.taxation_details');

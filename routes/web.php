@@ -34,7 +34,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get("/",'Admin\LoginController@viewlogin')->name('admin.login');
         Route::post('/login', 'Admin\LoginController@authenticate')->name('admin.authenticate');
     });
-    
+
     // Login Protected Routes
     Route::middleware(['auth'])->group(function () {
         // Place all your admin protected routes here ...
@@ -315,9 +315,9 @@ Route::get('/disclaimer','HomeController@disclaimer')->name('Disclaimer');
 Route::get('/gdrp/notice','HomeController@gdrpnotice')->name('Gdrpnotice');
 
 // new developement
-Route::namespace('Frontend')->group(function () { 
+Route::namespace('Frontend')->group(function () {
 
-    // forum 
+    // forum
     Route::get('/forumlist','ForumController@index')->name('ForumList');
     Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');
     Route::post('/save-comments','ForumController@saveForumComment')->name('save.comments');
@@ -326,6 +326,12 @@ Route::namespace('Frontend')->group(function () {
 
     // Matrimoney
     Route::get('/matrimoney','MatrimoneyController@viewMatrimoney')->name('matrimoney');
+
+    //housing
+    Route::get('housing/details/{id}','HousingController@housingDetails')->name('Housingdetails');
+    Route::get('housing/listing/list','HousingController@housingListinglList')->name('HousingListingList');
+    Route::get('housing/listing/grid','HousingController@housingListingGrid')->name('HousingListingGrid');
+
 });
 
 
@@ -344,10 +350,10 @@ Route::get('/login','HomeController@login')->name('Login');
 Route::get('/forgot/password','HomeController@forgotpassword')->name('Forgotpassword');
 Route::get('signup','HomeController@signup')->name('Signup');
 
-//housing
-Route::get('housing/details','HomeController@housingdetails')->name('Housingdetails');
-Route::get('housing/listing/list','HomeController@housinglistinglist')->name('HousingListingList');
-Route::get('housing/listing/grid','HomeController@housinglistinggrid')->name('HousingListingGrid');
+// //housing
+// Route::get('housing/details','HomeController@housingdetails')->name('Housingdetails');
+// Route::get('housing/listing/list','HomeController@housinglistinglist')->name('HousingListingList');
+// Route::get('housing/listing/grid','HomeController@housinglistinggrid')->name('HousingListingGrid');
 
 //taxation
 Route::get('taxation/details','HomeController@taxationdetails')->name('Taxationdetails');
