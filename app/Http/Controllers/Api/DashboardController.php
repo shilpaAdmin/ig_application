@@ -69,11 +69,12 @@ class DashboardController extends Controller
         $advertisements_counts=count($advertisementsData);
         //print_r($advertisements);
         
-        $categoryArray=['Housing Immobilion','Taxation','Travel & Transport','Jobs','Education & Training'
-        ,'Movie Corner','Events'];
+        // $categoryArray=['Housing Immobilion','Taxation','Travel & Transport','Jobs','Education & Training'
+        // ,'Movie Corner','Events'];
 
         $categoryData=CategoryModel::where('parent_category_id',0)
-        ->whereIn('name',$categoryArray)->get()->toArray();
+        //->whereIn('name',$categoryArray)->get()->toArray();
+        ->where('redirect_status',0)->get()->toArray();
 
         $totalCategoryData=count($categoryData);
         
@@ -966,32 +967,35 @@ class DashboardController extends Controller
         {
             return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
 		}
-        $testimonialData=TestimonialModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+
+        $testimonialData=TestimonialModel::where('user_id',$input['RegisterId'])->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         $testimonial_counts=count($testimonialData);
         //print_r($testimonials);
 
         $tagmasterData=TagMasterModel::orderBy('id','DESC')->get()->toArray();
        // print_r($tagmasters);
 
-        $faqsData=FAQModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $faqsData=FAQModel::where('user_id',$input['RegisterId'])->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         //print_r($faqs);
         $tagFAQData=TagFAQMasterModel::orderBy('id','DESC')->get()->toArray();
 
-        $blogsData=BlogsModel::with(['user'])->skip(0)->take(10)->orderBy('id','DESC')->get();
+        $blogsData=BlogsModel::with(['user'])->where('user_id',$input['RegisterId'])
+        ->skip(0)->take(10)->orderBy('id','DESC')->get();
         //print_r($blogs);
 
-        $forumsData=ForumModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $forumsData=ForumModel::where('user_id',$input['RegisterId'])
+        ->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         //print_r($forums);
 
-        $advertisementsData=AdvertisementModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $advertisementsData=AdvertisementModel::where('user_id',$input['RegisterId'])
+        ->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+
         $advertisements_counts=count($advertisementsData);
         //print_r($advertisements);
-        
-        $categoryArray=['Housing Immobilion','Taxation','Travel & Transport','Jobs','Education & Training'
-        ,'Movie Corner','Events'];
 
         $categoryData=CategoryModel::where('parent_category_id',0)
-        ->whereIn('name',$categoryArray)->get()->toArray();
+        ->where('id',$input['CategoriesId'])->where('redirect_status',0)
+        ->get()->toArray();
 
         $totalCategoryData=count($categoryData);
         
@@ -1261,8 +1265,9 @@ class DashboardController extends Controller
                 ->leftJoin('category', function ($join) {
                     $join->on('category.id', '=', 'business.category_id');
                 })->select('business.*','category.name as category_name')
+                ->where('business.user_id',$input['RegisterId'])
                 ->where('business.category_id',$categoryId)
-                ->skip(0)->take(3)
+                ->skip(0)->take(10)
                 ->orderBy('business.id','DESC')
                 ->get()->toArray();
 
@@ -1375,9 +1380,13 @@ class DashboardController extends Controller
                         $j++;
                     }
                 }
-            
+                else
+                {
+                    $dataArray['List']=array();
+                }
             }
-        }    
+        }
+
         $newsData=NewsModel::first();
         $registerId=isset($input['RegisterId'])?$input['RegisterId']:'';
 
