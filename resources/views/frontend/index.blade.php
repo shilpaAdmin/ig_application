@@ -1405,7 +1405,7 @@
                 // category list (when page load)
                 $.ajax({
                     type:'GET',
-                    url:'{{route("CategoryData")}}',
+                    url:'{{ route("CategoryData") }}',
                     dataType:'json',
                     async:true,
                     beforeSend : function()
@@ -1421,44 +1421,11 @@
                             var id=data.Result[i]['Id'];
                             var name=data.Result[i]['Name'];
                             var icon=data.Result[i]['Icon'];
-                            var paramLink=data.Result[i]['paramLink'];
+                            var redirectStatus=data.Result[i]['redirect_status'];
 
                             let model='';
                             let modelid='';
                             resultId=parseInt(data.Result[i]['Id']);
-                            switch(resultId)
-                            {
-
-                                case 10:
-                                // console.log('in case 10 '+data.Result[i]['Id']);
-                                modelid='#exampleModal10';
-                                model='<div class="modal fade" id="exampleModal10" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
-                                        '<div class="modal-dialog modal-lg modal-dialog-centered">'+
-                                            '<div class="modal-content">'+
-                                                '<div class="modal-header">'+
-                                                    '<h5 class="modal-title" id="exampleModalLabel">Event Categories</h5>'+
-                                                    '<button type="button" class="close" data-dismiss="modal" aria-label="Close">'+
-                                                        '<span aria-hidden="true">×</span>'+
-                                                        '</button>'+
-                                                        '</div>'+
-                                                '<div class="modal-body">'+
-                                                    '<div class="w-50 float-left"> <a class=" a_cat_color" href="event-listing-grid.html"> <i class="fas fa-angle-right"></i> Event</a> </div>'+
-                                                    '<div class="w-50 float-left"> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Seminars</a> </div>'+
-                                                    '<div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Conferences</a> </div>'+
-                                                    '<div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Trade shows</a> </div>'+
-                                                    '<div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Themed parties</a> </div>'+
-                                                    '<div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Webinars</a> </div>'+
-                                                    '<div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Interactive performances</a> </div>'+
-                                                    '<div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Music festivals</a> </div>'+
-                                                    '<div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Food festivals</a> </div>'+
-                                                    '<div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Street parties</a> </div>'+
-                                                    '</div>'+
-                                                    '</div>'+
-                                                    '</div>'+
-                                                    '</div>';
-                                break;
-
-                            }
 
                             html+='<div class="col-xl-2 col-lg-4 col-md-6">'
                                     +'<div class="explore_categories_single wow fadeInUp animated" data-wow-delay="0ms"data-wow-duration="1200ms"style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">'
@@ -1470,18 +1437,18 @@
                                   
                             // link generate
                             var url='#';
-                            if(paramLink=='forum'){
+                            if(redirectStatus==2){ // forum list
                                 url="{{ route('ForumList') }}";    
-                            } else if(paramLink=='matrimonial'){
+                            } else if(redirectStatus==3){ //matrimonial 
                                 url="{{route('matrimoney')}}";    
-                            } else if(paramLink=='entertainment'){
+                            } else if(redirectStatus=='5'){ // entertainment
                                 url="{{route('EntertainmentListingGrid')}}";
-                            } else if(paramLink=='faq'){
+                            } else if(redirectStatus=='1'){ //faq
                                 url="{{ route('Faqs') }}";
                             }
 
                             var btnLink='';
-                            if(paramLink=='forum' || paramLink=='faq' || paramLink=='matrimonial' ||paramLink=='entertainment') {
+                            if(redirectStatus=='1' || redirectStatus=='2' || redirectStatus=='3' ||redirectStatus=='4' || redirectStatus=='5') {
                                 
                                 btnLink='<button class="explore_categories_arrow">\
                                             <a href="'+url+'"><span class="icon-right-arrow"></span></a>\

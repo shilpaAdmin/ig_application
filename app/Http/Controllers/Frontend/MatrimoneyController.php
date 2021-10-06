@@ -17,7 +17,12 @@ class MatrimoneyController extends Controller
             $matrimonials  = MatrimonialModel::paginate(6);
             foreach ($matrimonials as $key => $matrimonial) {
              
-                $imageUrl=URL::asset('assets/frontend/images/listings/mat2.jpg');
+                $imageName=json_decode($matrimonial->media_json, true)[0]['Media1'];
+                if(isset($imageName)){
+                    $imageUrl= URL::to('/images/matrimonial/media').'/'.$imageName ;
+                } else {
+                    $imageUrl=URL::asset('assets/frontend/images/listings/mat2.jpg');
+                }
 
                 $fullName=$matrimonial->full_name ? ucwords($matrimonial->full_name):'-';
                 $city=$matrimonial->city ? ucwords($matrimonial->city):'-';
@@ -64,7 +69,8 @@ class MatrimoneyController extends Controller
                         '</div>'.
                     '</div>';
                 } else {
-                    $imageUrl=URL::asset('assets/frontend/images/listings/mat1.jpg');
+
+                    // $imageUrl=URL::asset('assets/frontend/images/listings/mat1.jpg');
                     $html.='<div class="col-xl-6 col-md-12 col-sm-12">'.
                         '<div class="listings_two_page_content joblist_shadow">'.
 

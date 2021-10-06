@@ -607,6 +607,7 @@
             });
         });
     </script>
+    @endsection
 </body>
 
 </html>

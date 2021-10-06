@@ -1,64 +1,9 @@
 @extends('frontend.layouts.master')
-@section('title') Matrimoney List Grid @endsection
+@section('title') Housing Grid @endsection
 @section('content')
 <!DOCTYPE html>
 <html lang="en">
 <body>
-
-
-    <!-- Modal housing-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Housing Categories</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="w-50 float-left"> <a class=" a_cat_color" href="housing-listing-grid.html"><i
-                                class="fas fa-angle-right"></i> House For Rent</a> </div>
-                    <div class="w-50 float-left"> <a class=" a_cat_color" href="#"> <i class="fas fa-angle-right"></i>
-                            AC Service & Repair</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Washing Machine Repairs</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Air Cooler Dealers</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Audio Visual Equipment Dealers</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Industrial Voltage Stabilizers Dealers</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Solar Water Heaters</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Fire Fighting Equipment</a> </div>
-
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Washing machine dealers</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Microwave Oven Dealers</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Firefighting Equipment Dealers</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Water Dispenser Dealers</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Modular Kitchen Dealers</a> </div>
-
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Generators Dealers</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Gas Water Heater Dealers</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Sign Board Agencies</a> </div>
-                    <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i>
-                            Mixer Grinder Dealers</a> </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
     </div><!-- /.preloader -->
@@ -67,6 +12,8 @@
 
         <section class="listings_three_content">
             <div class="container">
+
+
                 <div class="filter_by_tags">
 
                     <div class="row">
@@ -236,7 +183,7 @@
 
                         <div class="row">
                             <div class="col-xl-12">
-                                <div class="listings_btn">
+                                <div class="listings_btn pb-2">
                                     <a href="#" class="thm-btn px-3"><span
                                             class="icon-magnifying-glass"></span>Search</a>
                                 </div>
@@ -248,6 +195,10 @@
             </div>
         </section>
 
+
+
+
+
         <section class="filter">
             <div class="container">
                 <div class="row">
@@ -255,11 +206,13 @@
                         <div class="filter_inner_content">
                             <div class="left">
                                 <div class="left_icon">
-                                    <a href="{{ route('matrimoney')}}" class="icon-grid active"></a>
-                                    <a href="{{ route('MatrimoneyList')}}" class="list-icon icon-list"></a>
+                                    {{-- <a href="listings1.html" class="icon-grid active"></a>
+                                    <a href="{{ route('HousingListingList') }}" class="list-icon icon-list"></a> --}}
+                                    <a href="#" class="icon-grid active data-view" data-view="1"></a>
+                                    <a href="#" class="list-icon icon-list data-view" data-view="0"></a>
                                 </div>
                                 <div class="left_text">
-                                    <h4>Showing 6 Results </h4>
+                                    <h4>Showing {{$total ? $total: 0 }} Results </h4>
                                 </div>
                             </div>
                             <div class="right">
@@ -291,249 +244,247 @@
         <section class="listings_three-page mt-5 mb-5">
             <div class="container">
                 <div class="row" id="results">
-                    <!-- results appear here -->
-                    
+
                     {{-- <div class="col-xl-4 col-md-6 col-sm-12">
                         <!--Latest Listings Single-->
                         <div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms"
                             data-wow-duration="1200ms"
                             style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
                             <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/mat2.jpg')}}" alt="">
+                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
 
                                 <div class="heart_icon">
                                     <i class="icon-heart"></i>
                                 </div>
 
                                 <div class="shopping_circle">
-                                    <i class="fas fa-heartbeat"></i>
+                                    <i class="fas fa-home"></i>
                                 </div>
                             </div>
                             <div class="listings_three-page_content">
                                 <div class="title">
-                                    <h3><a href="matrimoney-details.html">Kim Williams</a> <small
-                                            class="text_green">Online Now</small> </h3>
-                                    <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> New York</p>
+                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
+                                                class="fa fa-check"></span></a></h3>
+                                    <p>Halvorson , Adrienview 73379</p>
                                 </div>
                                 <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-circle font_small10"></i> 26 year old, 5'7" height </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Hindu Patel </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Software Engineer </li>
+                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
+                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
+                                    </li>
                                 </ul>
                                 <div class="listings_three-page_content_bottom">
                                     <div class="left">
-
+                                        <h6>2 months ago</h6>
                                     </div>
                                     <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Connect Now</a>
+                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
+                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-xl-4 col-md-6 col-sm-12">
                         <!--Latest Listings Single-->
                         <div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms"
                             data-wow-duration="1200ms"
                             style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
                             <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/mat2.jpg')}}" alt="">
+                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
 
                                 <div class="heart_icon">
                                     <i class="icon-heart"></i>
                                 </div>
 
                                 <div class="shopping_circle">
-                                    <i class="fas fa-heartbeat"></i>
+                                    <i class="fas fa-home"></i>
                                 </div>
                             </div>
                             <div class="listings_three-page_content">
                                 <div class="title">
-                                    <h3><a href="matrimoney-details.html">Kim Williams</a> <small>1 Day ago</small>
-                                    </h3>
-                                    <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> New York</p>
+                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
+                                                class="fa fa-check"></span></a></h3>
+                                    <p>Halvorson , Adrienview 73379</p>
                                 </div>
                                 <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-circle font_small10"></i> 26 year old, 5'7" height </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Hindu Patel </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Software Engineer </li>
+                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
+                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
+                                    </li>
                                 </ul>
                                 <div class="listings_three-page_content_bottom">
                                     <div class="left">
-
+                                        <h6>2 months ago</h6>
                                     </div>
                                     <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Connect Now</a>
+                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
+                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-xl-4 col-md-6 col-sm-12">
                         <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms"
+                        <div class="listings_three-page_single wow fadeInUp" data-wow-delay="0ms"
                             data-wow-duration="1200ms"
-                            style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
+                            style="visibility: hidden; animation-duration: 1200ms; animation-delay: 0ms; animation-name: none;">
                             <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/mat2.jpg')}}" alt="">
+                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
 
                                 <div class="heart_icon">
                                     <i class="icon-heart"></i>
                                 </div>
 
                                 <div class="shopping_circle">
-                                    <i class="fas fa-heartbeat"></i>
+                                    <i class="fas fa-home"></i>
                                 </div>
                             </div>
                             <div class="listings_three-page_content">
                                 <div class="title">
-                                    <h3><a href="matrimoney-details.html">Kim Williams</a> <small
-                                            class="text_green">Online Now</small> </h3>
-                                    <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> New York</p>
+                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
+                                                class="fa fa-check"></span></a></h3>
+                                    <p>Halvorson , Adrienview 73379</p>
                                 </div>
                                 <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-circle font_small10"></i> 26 year old, 5'7" height </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Hindu Patel </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Software Engineer </li>
+                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
+                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
+                                    </li>
                                 </ul>
                                 <div class="listings_three-page_content_bottom">
                                     <div class="left">
-
+                                        <h6>2 months ago</h6>
                                     </div>
                                     <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Connect Now</a>
+                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
+                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-xl-4 col-md-6 col-sm-12">
                         <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms"
+                        <div class="listings_three-page_single wow fadeInUp" data-wow-delay="0ms"
                             data-wow-duration="1200ms"
-                            style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
+                            style="visibility: hidden; animation-duration: 1200ms; animation-delay: 0ms; animation-name: none;">
                             <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/mat2.jpg')}}" alt="">
+                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
 
                                 <div class="heart_icon">
                                     <i class="icon-heart"></i>
                                 </div>
 
                                 <div class="shopping_circle">
-                                    <i class="fas fa-heartbeat"></i>
+                                    <i class="fas fa-home"></i>
                                 </div>
                             </div>
                             <div class="listings_three-page_content">
                                 <div class="title">
-                                    <h3><a href="matrimoney-details.html">Kim Williams</a> <small
-                                            class="text_green">Online Now</small> </h3>
-                                    <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> New York</p>
+                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
+                                                class="fa fa-check"></span></a></h3>
+                                    <p>Halvorson , Adrienview 73379</p>
                                 </div>
                                 <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-circle font_small10"></i> 26 year old, 5'7" height </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Hindu Patel </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Software Engineer </li>
+                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
+                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
+                                    </li>
                                 </ul>
                                 <div class="listings_three-page_content_bottom">
                                     <div class="left">
-
+                                        <h6>2 months ago</h6>
                                     </div>
                                     <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Connect Now</a>
+                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
+                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-xl-4 col-md-6 col-sm-12">
                         <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms"
+                        <div class="listings_three-page_single wow fadeInUp" data-wow-delay="0ms"
                             data-wow-duration="1200ms"
-                            style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
+                            style="visibility: hidden; animation-duration: 1200ms; animation-delay: 0ms; animation-name: none;">
                             <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/mat2.jpg')}}" alt="">
+                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
 
                                 <div class="heart_icon">
                                     <i class="icon-heart"></i>
                                 </div>
 
                                 <div class="shopping_circle">
-                                    <i class="fas fa-heartbeat"></i>
+                                    <i class="fas fa-home"></i>
                                 </div>
                             </div>
                             <div class="listings_three-page_content">
                                 <div class="title">
-                                    <h3><a href="matrimoney-details.html">Kim Williams</a> <small>1 Day ago</small>
-                                    </h3>
-                                    <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> New York</p>
+                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
+                                                class="fa fa-check"></span></a></h3>
+                                    <p>Halvorson , Adrienview 73379</p>
                                 </div>
                                 <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-circle font_small10"></i> 26 year old, 5'7" height </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Hindu Patel </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Software Engineer </li>
+                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
+                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
+                                    </li>
                                 </ul>
                                 <div class="listings_three-page_content_bottom">
                                     <div class="left">
-
+                                        <h6>2 months ago</h6>
                                     </div>
                                     <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Connect Now</a>
+                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
+                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-xl-4 col-md-6 col-sm-12">
                         <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms"
+                        <div class="listings_three-page_single wow fadeInUp" data-wow-delay="0ms"
                             data-wow-duration="1200ms"
-                            style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
+                            style="visibility: hidden; animation-duration: 1200ms; animation-delay: 0ms; animation-name: none;">
                             <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/mat2.jpg')}}" alt="">
+                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
 
                                 <div class="heart_icon">
                                     <i class="icon-heart"></i>
                                 </div>
 
                                 <div class="shopping_circle">
-                                    <i class="fas fa-heartbeat"></i>
+                                    <i class="fas fa-home"></i>
                                 </div>
                             </div>
                             <div class="listings_three-page_content">
                                 <div class="title">
-                                    <h3><a href="matrimoney-details.html">Kim Williams</a> <small
-                                            class="text_green">Online Now</small> </h3>
-                                    <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> New York</p>
+                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
+                                                class="fa fa-check"></span></a></h3>
+                                    <p>Halvorson , Adrienview 73379</p>
                                 </div>
                                 <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-circle font_small10"></i> 26 year old, 5'7" height </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Hindu Patel </li>
-                                    <li><i class="fas fa-circle font_small10"></i> Software Engineer </li>
+                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
+                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
+                                    </li>
                                 </ul>
                                 <div class="listings_three-page_content_bottom">
                                     <div class="left">
-
+                                        <h6>2 months ago</h6>
                                     </div>
                                     <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Connect Now</a>
+                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
+                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div> --}}
-
                 </div>
-                {{-- <div class="ajax-loading" style="text-align:center; hieght:20px;width:20px"><img src="{{ URL::asset('assets/frontend/images/loading.gif') }}" /></div> --}}
+                <div class="ajax-loading" style="text-align:center;"><img src="https://c.tenor.com/tEBoZu1ISJ8AAAAC/spinning-loading.gif" /></div>
             </div>
         </section>
     </div><!-- /.page-wrapper -->
 
-    
     {{-- <script>
         $(document).ready(function() {
             $(".filter_by_tagstitile").click(function() {
@@ -542,29 +493,29 @@
         });
     </script> --}}
 
-
     @section('script')
 
     <script>
         $(document).ready(function(){
+            
             var page = 1;
-            
-            // on load call
-            loadMore(page);
+            var viewData=1;
+            loadMore(page,viewData);
 
-            //detect page scroll
+            // scroll events
             $(window).scroll(function() { 
-            
-                //if user scrolled from top to bottom of the page
-                if($(window).scrollTop() + $(window).height() >= $(document).height()) { 
-                    page++; //page number increment
-                    loadMore(page); //load content   
+                if($(window).scrollTop() + $(window).height() >= ( $(document).height() - $('.site-footer').height() )) { 
+                    page++; 
+                    loadMore(page,viewData); 
                 }
             });  
 
-            function loadMore(page){
-                var url="{{route('matrimoney')}}";
-                url+='?page='+page;
+            // load more data
+            function loadMore(page,viewData){
+                
+                var url="{{route('category.business-list',['id'=>$id])}}";
+                url+='?page='+page+'&viewData='+viewData;
+
                 $.ajax({
                         type: 'get',
                         url:url ,
@@ -576,13 +527,10 @@
                         success: function(data) {
                           
                             if(data.length == 0){
-                                console.log(data.length);
                                 $('.ajax-loading').html("No more records!");
                                 return;
                             }
-                            $('.ajax-loading').hide(); 
                             $("#results").append(data);          
-                            console.log('data.length');
                         },
                         error: function(XMLHttpRequest, errorStatus, errorThrown) {
                             console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
@@ -590,12 +538,25 @@
                             console.log("error :: " + errorThrown);
                         },
                         complete: function() {
+                            $('.ajax-loading').hide(); 
                         },
                     });
             }
+
+            //  show grid or list view 
+            $(document).on('click','.data-view',function(e) {
+                e.preventDefault();
+                viewData = $(this).attr("data-view");
+                $('.data-view').removeClass('active');
+                $(this).addClass('active');
+                page = 1;
+                $("#results").html('');
+                loadMore(page,viewData);
+            });
         });
     </script>
-</body>
+    @endsection
 
+</body>
 </html>
 @endsection

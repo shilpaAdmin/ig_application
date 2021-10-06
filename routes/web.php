@@ -326,6 +326,10 @@ Route::namespace('Frontend')->group(function () {
 
     // Matrimoney
     Route::get('/matrimoney','MatrimoneyController@viewMatrimoney')->name('matrimoney');
+
+    //category wise business listinng
+    Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
+
 });
 
 
