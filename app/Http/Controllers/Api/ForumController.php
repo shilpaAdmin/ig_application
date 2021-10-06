@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Model\ForumModel;
 use App\Http\Model\ForumCommentReplyModel;
 use App\Http\Model\ForumCommentReplyLikesModel;
+use App\Http\Model\BlogsCommentReplyModel;
+use App\Http\Model\BlogsCommentReplyLikesModel;
+
 use App\User;
 
 use URL;
@@ -408,5 +411,112 @@ class ForumController extends Controller
         
         return response()->json(["Status"=>true,"StatusMessage"=>"Get Forum detail successfully!"
         ,"Result"=>$dataArray]);
+    }
+
+    public function deleteForumBlogCommentReply(Request $request)
+    {
+        $input=$request->all();
+
+        if(empty($input['CommentId']) && empty($input['ReplyId']))
+        {
+            $error[] = 'CommentId Or ReplyId Must be Required!';
+		}
+        
+        if(!isset($input['Type']) || empty($input['Type']))
+        {
+            $error[] = 'Type Must be Required!';
+		}
+
+        if(!isset($input['Id']) || empty($input['Id']))
+        {
+            $error[] = 'Id Must be Required!';
+		}
+        
+        if(!isset($input['RegisterId']) || empty($input['RegisterId']))
+        {
+            $error[] = 'RegisterId Must be Required!';
+		}
+
+        if(!empty($error))
+        {
+            return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+		}
+
+        $preQuery='';
+
+        if($input['Type']=='blog')
+        {
+            if(isset($input['CommentId']))
+            {
+                $preQuery=BlogsCommentReplyModel::where('id',$input['CommentId'])->where('blog_id',$input['Id']);
+            }
+            else
+            {
+                $preQuery=BlogsCommentReplyModel::where('id',$input['ReplyId'])->where('blog_id',$input['Id']);
+            }
+        }
+        elseif($input['Type']=='forum')
+        {
+            if(isset($input['CommentId']))
+            {
+                $preQuery=ForumCommentReplyModel::where('id',$input['CommentId'])->where('forum_id',$input['Id']);
+            }
+            else
+            {
+                $preQuery=ForumCommentReplyModel::where('id',$input['ReplyId'])->where('forum_id',$input['Id']);
+            }
+        }
+
+        $result=$preQuery->update(['is_deleted'=>1]);
+
+        if($result)
+        {
+
+            if($input['Type']=='blog')
+            {
+
+                if(isset($input['CommentId']))
+                {
+                    BlogsCommentReplyModel::where('comment_id',$input['CommentId'])->update(['is_deleted'=>1]);
+
+                    BlogsCommentReplyLikesModel::where('comment_or_reply_id',$input['CommentId'])
+                    ->where('user_id',$input['RegisterId'])
+                    ->where('blog_id',$input['Id'])
+                    ->update(['is_deleted'=>1]);
+                }
+                else
+                {
+                    BlogsCommentReplyLikesModel::where('comment_or_reply_id',$input['ReplyId'])
+                    ->where('user_id',$input['RegisterId'])
+                    ->where('blog_id',$input['Id'])
+                    ->update(['is_deleted'=>1]);
+                }
+            }
+            elseif($input['Type']=='forum')
+            {
+                if(isset($input['CommentId']))
+                {
+                    ForumCommentReplyModel::where('comment_id',$input['CommentId'])->update(['is_deleted'=>1]);
+
+                    ForumCommentReplyLikesModel::where('comment_or_reply_id',$input['CommentId'])
+                    ->where('user_id',$input['RegisterId'])
+                    ->where('forum_id',$input['Id'])
+                    ->update(['is_deleted'=>1]);
+                }
+                else
+                {
+                    ForumCommentReplyLikesModel::where('comment_or_reply_id',$input['ReplyId'])
+                    ->where('user_id',$input['RegisterId'])
+                    ->where('forum_id',$input['Id'])
+                    ->update(['is_deleted'=>1]);
+                }
+            }
+            
+            return response()->json(['Status'=>true,'StatusMessage'=>'Record deleted successfully !','Result'=>array()]);
+        }
+        else
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>'Record not exist !','Result'=>array()]);
+        }
     }
 }

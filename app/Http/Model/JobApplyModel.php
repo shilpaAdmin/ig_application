@@ -17,6 +17,7 @@ class JobApplyModel extends Model
         'message',
         'cover_letter',
         'resume',
+        'career_id',
         'status'
     ];
 

@@ -35,12 +35,16 @@ class APIAuthController extends Controller
         {
             $error[] = 'Email Must be Required!';
         }
-        
+
         if(!isset($input['Number']) || empty($input['Number']))
         {
             $error[] = 'Number Must be Required!';
         }
-        
+        if(!isset($input['Gender']) || empty($input['Gender']))
+        {
+            $error[] = 'Gender Must be Required!';
+        }
+
         if(!isset($input['DeviceType']) || empty($input['DeviceType']))
         {
             $error[] = 'DeviceType Must be Required!';
@@ -65,7 +69,7 @@ class APIAuthController extends Controller
                 {
                     $error[] = 'SocialId Must be Required!';
                 }
-                
+
                 if(isset($input['SocialId']) && !empty($input['SocialId']))
                 {
                     $userRequested = User::where('social_id', $input['SocialId'])->get()->toArray();
@@ -81,7 +85,7 @@ class APIAuthController extends Controller
                 if(!isset($input['Password']) || empty($input['Password']))
                 {
                     $error[] = 'Password Must be Required!';
-                }       
+                }
             }
         }
         if(isset($input['Email']) && !empty($input['Email']))
@@ -103,16 +107,20 @@ class APIAuthController extends Controller
             'name' => $input['Name'],
             'email' => $input['Email'],
             'mobile_number' => $input['Number'],
-            'password' => isset($input['Password']) ? bcrypt($input['Password']) : bcrypt('123456'), 
+            'password' => isset($input['Password']) ? bcrypt($input['Password']) : bcrypt('123456'),
             'social_id' => isset($input['SocialId']) ? $input['SocialId'] : '',
             'social_type' => isset($input['SocialType']) ? $input['SocialType'] : '',
             'login_type' => $input['Type'],
             'device_id' => $input['DeviceType'],
             'device_token' => $input['DeviceToken'],
+            'gender' => $input['Gender'],
             'created_by' => 1,
             'last_updated_by' => 1,
             'status' => 'active',
         ]);
+// echo "<pre>";
+// print_r($user);
+// exit;
         if ($user)
         {
             $tokenResult = $user->createToken('Personal Access Token');
@@ -129,7 +137,7 @@ class APIAuthController extends Controller
     {
         //echo "inisde if";
         $input = $request->all();
-        
+
         if(!isset($input['Type']) || empty($input['Type']))
         {
             $error[] = 'Type Must be Required!';
@@ -158,7 +166,7 @@ class APIAuthController extends Controller
                     $error[] = 'Password Must be Required!';
                 }
             }
-            
+
             if(!isset($input['DeviceToken']) || empty($input['DeviceToken']))
             {
                 $error[] = 'DeviceToken Must be Required!';
@@ -172,7 +180,7 @@ class APIAuthController extends Controller
         if($input['Type'] == 'Social')
         {
             $userData = User::where('social_id', $input['SocialId'])->first();
-            if (!empty($userData)) 
+            if (!empty($userData))
             {
                 $emailFromDB = $userData['email'];
                 $passwordFromDB = $userData['password'];
@@ -219,9 +227,9 @@ class APIAuthController extends Controller
     }
 
     public function logout(Request $request)
-    { 
+    {
         $input=$request->all();
-        
+
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';
@@ -239,7 +247,7 @@ class APIAuthController extends Controller
 
         $userdel = User::where('id',$input['RegisterId'])
         ->where('device_token',$input['DeviceToken'])->first();
-        
+
         if($userdel!==null) {
 
             $userObj=User::find($input['RegisterId']);
@@ -247,14 +255,14 @@ class APIAuthController extends Controller
 
             if($userObj->save())
             {
-                if (Auth::guard('api')->user()) 
+                if (Auth::guard('api')->user())
                 {
                     $token = Auth::guard('api')->user()->token();
                     $token->revoke();
                     return response()->json(['Status'=>True,'StatusMessage'=>'User is Logout']);
-                } 
+                }
                 else
-                { 
+                {
                     return response()->json(['Status'=>False,'StatusMessage'=>'Unauthorised']);
                 }
             }
@@ -263,7 +271,7 @@ class APIAuthController extends Controller
         {
             return response()->json(['Status'=>False,'StatusMessage'=>'User not exist with this token !']);
         }
-         
+
     }
 
     public function socialLogin(Request $request)
@@ -297,6 +305,7 @@ class APIAuthController extends Controller
         $userArray['user']['Name'] = $user->name;
         // $userArray['user']['Password'] = $user->password;
         $userArray['user']['Email'] = $user->email;
+        $userArray['user']['Gender'] = $user->gender;
         $userArray['user']['Address'] = !empty($user->address)?$user->address:'';
         $userArray['user']['UserImage'] = !empty($user->user_image)?URL::to('/images/user').'/'.$user->user_image:'';
         $userArray['user']['MatrimonialId']=!empty($user->matrimonial_id)?strval($user->matrimonial_id):'';
@@ -330,7 +339,7 @@ class APIAuthController extends Controller
                 $userArray['user']['SelectedContactNumber']='';
             }
             else
-            {            
+            {
                 $userArray['user']['SelectedLocationID'] = strval($user->location_id);
                 $userArray['user']['SelectedLocationType'] = isset($user->location_type)?$user->location_type:'';
                 if($user->location_type=='country')
@@ -341,9 +350,9 @@ class APIAuthController extends Controller
                 {
                     $userArray['user']['SelectedLocationName'] = isset($locationData->city_name)?$locationData->city_name:'';
                 }
-                
+
                 $userArray['user']['SelectedContactNumber'] = isset($locationData->contact_number)?$locationData->contact_number:'';
-                
+
             }
         }
         else
@@ -372,7 +381,7 @@ class APIAuthController extends Controller
             ]);
         }
     }
-    
+
     public function Profile(Request $request)
     {
         $input = $request->all();
@@ -387,13 +396,13 @@ class APIAuthController extends Controller
         }
         $userData=User::where('id',$input['RegisterId'])->first();
 
-        if (!$userData) 
+        if (!$userData)
          {
             return response()->json([
                 'Status' => false,
                 'StatusMessage' => 'Profile not exist !',
                 'Result' => [],
-            ]); 
+            ]);
          }
          else
          {
@@ -440,31 +449,31 @@ class APIAuthController extends Controller
 
         $userData=User::where('id',$input['RegisterId'])->first();
 
-        if (!$userData) 
+        if (!$userData)
          {
             return response()->json([
                 'Status' => false,
                 'StatusMessage' => 'Profile not exist !',
                 'Result' => [],
-            ]); 
+            ]);
          }
          else
          {
             $updateArray=array();
-            
+
             if(isset($input['Name']))
             $updateArray['name']=$input['Name'];
-                
+
             if(isset($input['Email']))
             $updateArray['email']=$input['Email'];
-                
+
             if(isset($input['Address']))
             $updateArray['address']=$input['Address'];
 
             if(isset($input['Image']))
             {
                 $document_file=$input['Image'];
-                $user_image_path=public_path().'/images/user/'.$userData->user_image;        
+                $user_image_path=public_path().'/images/user/'.$userData->user_image;
                 if(file_exists($user_image_path))
                 {
                     if(!empty($userData->user_image))
@@ -485,14 +494,14 @@ class APIAuthController extends Controller
             //print_r($updateArray);
             //exit;
             $user=User::where('id',$input['RegisterId'])->update($updateArray);
-            
+
             if($user)
             {
                 return response()->json([
                 'Status' => true,
                 'StatusMessage' => 'Profile updated successfully !',
                 'Result' => [],
-                ]); 
+                ]);
             }
             else
             {
@@ -500,7 +509,7 @@ class APIAuthController extends Controller
                 'Status' => false,
                 'StatusMessage' => 'Profile not updated !',
                 'Result' => [],
-                ]); 
+                ]);
             }
         }
     }
@@ -508,7 +517,7 @@ class APIAuthController extends Controller
     public function SendEmailWithOTP(Request $request)
     {
         $input=$request->all();
-        
+
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';
@@ -540,11 +549,11 @@ class APIAuthController extends Controller
                     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
                     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
                     <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
-                    
+
                     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
                     <link rel="stylesheet" type="text/css" href="css/responsive.css">
-                
+
                     <!--css styles ends-->
                     <!--common jquery starts-->
                     <script src="js/jquery-3.3.1.min.js"></script>
@@ -573,9 +582,9 @@ class APIAuthController extends Controller
                     }
                     /* table, thead, tbody, th, td, tr {display: block;} */
                     }
-                    
+
                     </style>
-                    
+
                 </head>
 
                 <body>
@@ -626,7 +635,7 @@ class APIAuthController extends Controller
                                         padding-bottom: 10px;">Hello...</h1>
                                         </td>
                                     </tr>
-                    
+
                                     <tr>
                                         <td align="center">
                                         <h2 style="color: #000; font-size: 18px; font-family: sans-serif; margin: 0;
@@ -656,33 +665,33 @@ class APIAuthController extends Controller
                                 <table border="0" cellpadding="15" cellspacing="0" align="center" width="100%" style="background-color: #434c64;">
                                     <tbody>
                                     <tr>
-                                    
+
                                     <td style="">
-                                        <div class="top_call" style="float: left;">                                        
+                                        <div class="top_call" style="float: left;">
                                             <p style="margin: 0;">
                                             <a style="color: #fff; text-decoration: none;width: 35px; height: 35px;display: inline-block;                            text-align: center;
-                                            background-color: transparent; border: solid 1px #fff; line-height: 35px; 
+                                            background-color: transparent; border: solid 1px #fff; line-height: 35px;
                                             border-radius: 50px;margin-right: 10px;
                                             font-size: 20px;" href="#">
                                                 <img src="https://foodalios.testingbeta.in/images/email/FB.png" width="35" height="35"/>
                                                 <!--<i class="fa fa-facebook" aria-hidden="true"></i>-->
                                             </a>
                                             <a style="color: #fff; text-decoration: none;width: 35px; height: 35px;display: inline-block;                            text-align: center;
-                                            background-color: transparent; border: solid 1px #fff; line-height: 35px; 
+                                            background-color: transparent; border: solid 1px #fff; line-height: 35px;
                                             border-radius: 50px;margin-right: 10px;
                                             font-size: 20px;" href="#">
                                                 <img src="https://foodalios.testingbeta.in/images/email/Linkedin.png" width="35" height="35"/>
                                                 <!--<i class="fa fa-linkedin" aria-hidden="true"></i>-->
                                             </a>
                                             <a style="color: #fff; text-decoration: none;width: 35px; height: 35px;display: inline-block;                            text-align: center;
-                                            background-color: transparent; border: solid 1px #fff; line-height: 35px; 
+                                            background-color: transparent; border: solid 1px #fff; line-height: 35px;
                                             border-radius: 50px;
                                             font-size: 20px;" href="#">
                                                 <img src="https://foodalios.testingbeta.in/images/email/Twitter.png" width="35" height="35"/>
                                                 <!--<i class="fa fa-twitter" aria-hidden="true"></i>-->
                                             </a>
                                             </p>
-                                        
+
                                         </div>
                                         <div class="top_call" style="float: right;">
                                             <p style="margin: 0; color: #fff; font-family: Montserrat; padding-top: 10px;">© 2021 IG.</p>
@@ -705,26 +714,26 @@ class APIAuthController extends Controller
 
         </html>';
 
-        $subject = "OTP - IG App";                
-        $headers = "MIME-Version: 1.0" . "\r\n"; 
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
+        $subject = "OTP - IG App";
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
         $headers .= "From: no-reply@testingbeta.in";
-        
-        try   
+
+        try
         {
             $to = $user->email;
-            
+
             $otp=rand(1000,9999);
-            
+
             $message_body = str_replace(array('[OTP]'),array($otp), $emailBody);
-            
-            if (mail($to, $subject, $message_body, $headers) !== false) 
-            { 
+
+            if (mail($to, $subject, $message_body, $headers) !== false)
+            {
                 return response()->json(['Status'=>true,'StatusMessage'=>'OTP sent on email successfully!'
                 ,'OTP'=>strval($otp)]);
-            } 
-            else 
-            { 
+            }
+            else
+            {
                 return response()->json(['Status'=>true,'StatusMessage'=>'Something went wrong.OTP not sent on email, try again!'
                 ,'OTP'=>""]);
             }
@@ -732,13 +741,13 @@ class APIAuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['Status'=>true,'StatusMessage'=>'Something went wrong.OTP not sent on email, try again! Error:'.$e->getMessage()
             ,'OTP'=>""]);
-        }        
+        }
     }
 
     public function userContactMessages(Request $request)
     {
         $input=$request->all();
-        
+
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';
@@ -781,7 +790,7 @@ class APIAuthController extends Controller
         $contact->preferred=$preferred;
         $contact->message=$input['Message'];
         $contact->user_id=$input['RegisterId'];
-        
+
         if(isset($input['Name']) && !empty($input['Name']))
         $contact->name=$input['Name'];
 
@@ -790,7 +799,7 @@ class APIAuthController extends Controller
 
         if(isset($input['Number']) && !empty($input['Number']))
         $contact->number=$input['Number'];
-        
+
         if($contact->save())
         {
             return response()->json(['Status'=>true,'StatusMessage'=>'Contact information stored successfully !','Result'=>array()]);
@@ -804,7 +813,7 @@ class APIAuthController extends Controller
     public function sendMailForForgetPassword(Request $request)
     {
         $input=$request->all();
-        
+
         if(!isset($input['Email']) || empty($input['Email']))
         {
             $error[] = 'Email Must be Required!';
@@ -830,18 +839,18 @@ class APIAuthController extends Controller
 
         $to=$user->email;
         $subject='Forget Password - IG App';
-        
-        try   
+
+        try
         {
             $to = $user->email;
-            
-            if (mail($to, $subject, $message_body, $headers) !== false) 
-            { 
+
+            if (mail($to, $subject, $message_body, $headers) !== false)
+            {
                 return response()->json(['Status'=>true,'StatusMessage'=>'OTP sent for Forget Password on email successfully!'
                 ,'OTP'=>strval($otp),'RegisterId'=>strval($user->id)]);
-            } 
-            else 
-            { 
+            }
+            else
+            {
                 return response()->json(['Status'=>true,'StatusMessage'=>'Something went wrong.Email not sent for forget password, try again!'
                 ,'OTP'=>""]);
             }
@@ -849,13 +858,13 @@ class APIAuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['Status'=>true,'StatusMessage'=>'Something went wrong.Email not sent for forget password, try again! Error:'.$e->getMessage()
             ,'OTP'=>""]);
-        }   
+        }
     }
 
     public function userChangePassword(Request $request)
     {
         $input=$request->all();
-        
+
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';
@@ -874,7 +883,7 @@ class APIAuthController extends Controller
         if(isset($input['RegisterId']) || !empty($input['RegisterId']))
         {
             $user=User::where('id',$input['RegisterId'])->first();
-        
+
             if($user===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!','Result'=>array()]);
@@ -892,12 +901,12 @@ class APIAuthController extends Controller
 
         if($result)
         {
-            
-            if (Auth::guard('api')->user()) 
+
+            if (Auth::guard('api')->user())
             {
                 $token = Auth::guard('api')->user()->token();
                 $token->revoke();
-            } 
+            }
 
             return response()->json(['Status'=>true,'StatusMessage'=>'User password changed successfully !','Result'=>array()]);
         }
@@ -910,7 +919,7 @@ class APIAuthController extends Controller
     public function storeComplainReport(Request $request)
     {
         $input=$request->all();
-        
+
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';
@@ -930,11 +939,11 @@ class APIAuthController extends Controller
         {
             return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
 		}
-        
+
         if(isset($input['RegisterId']) && !empty($input['RegisterId']))
-        {   
+        {
             $user=User::where('id',$input['RegisterId'])->first();
-            
+
             if($user===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!','Result'=>array()]);
@@ -947,34 +956,34 @@ class APIAuthController extends Controller
         {
             case 'blog':
                 $blogs=BlogsModel::where('id',$input['Id'])->first();
-                
+
                 if($blogs===null)
                 {
                     return response()->json(['Status'=>false,'StatusMessage'=>'Blog not exist!','Result'=>array()]);
                 }
             break;
-            
+
             case 'forum':
                 $forum=ForumModel::where('id',$input['Id'])->first();
-                
+
                 if($forum===null)
                 {
                     return response()->json(['Status'=>false,'StatusMessage'=>'Forum not exist!','Result'=>array()]);
                 }
             break;
-            
+
             case 'faq':
                 $faq=FAQModel::where('id',$input['Id'])->first();
-                
+
                 if($faq===null)
                 {
                     return response()->json(['Status'=>false,'StatusMessage'=>'FAQ not exist!','Result'=>array()]);
                 }
             break;
-            
+
             case 'business':
                 $business=BusinessModel::where('id',$input['Id'])->first();
-                
+
                 if($business===null)
                 {
                     return response()->json(['Status'=>false,'StatusMessage'=>'Business not exist!','Result'=>array()]);
@@ -990,9 +999,9 @@ class APIAuthController extends Controller
         $complainreportObj->user_id=$input['RegisterId'];
         $complainreportObj->type=$input['Type'];
         $complainreportObj->faqid_or_blogid_or_forumid_or_businessid=$input['Id'];
-        
+
         if($complainreportObj->save())
-        {   
+        {
             return response()->json(['Status'=>true,'StatusMessage'=>'Complain Report data saved successfully !','Result'=>array()]);
         }
         else
@@ -1031,11 +1040,11 @@ class APIAuthController extends Controller
                     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
                     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
                     <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
-                    
+
                     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
                     <link rel="stylesheet" type="text/css" href="css/responsive.css">
-                
+
                     <!--css styles ends-->
                     <!--common jquery starts-->
                     <script src="js/jquery-3.3.1.min.js"></script>
@@ -1064,9 +1073,9 @@ class APIAuthController extends Controller
                     }
                     /* table, thead, tbody, th, td, tr {display: block;} */
                     }
-                    
+
                     </style>
-                    
+
                 </head>
 
                 <body>
@@ -1117,7 +1126,7 @@ class APIAuthController extends Controller
                                         padding-bottom: 10px;">Hello...</h1>
                                         </td>
                                     </tr>
-                    
+
                                     <tr>
                                         <td align="center">
                                         <h2 style="color: #000; font-size: 18px; font-family: sans-serif; margin: 0;
@@ -1147,33 +1156,33 @@ class APIAuthController extends Controller
                                 <table border="0" cellpadding="15" cellspacing="0" align="center" width="100%" style="background-color: #434c64;">
                                     <tbody>
                                     <tr>
-                                    
+
                                     <td style="">
-                                        <div class="top_call" style="float: left;">                                        
+                                        <div class="top_call" style="float: left;">
                                             <p style="margin: 0;">
                                             <a style="color: #fff; text-decoration: none;width: 35px; height: 35px;display: inline-block;                            text-align: center;
-                                            background-color: transparent; border: solid 1px #fff; line-height: 35px; 
+                                            background-color: transparent; border: solid 1px #fff; line-height: 35px;
                                             border-radius: 50px;margin-right: 10px;
                                             font-size: 20px;" href="#">
                                                 <img src="https://foodalios.testingbeta.in/images/email/FB.png" width="35" height="35"/>
                                                 <!--<i class="fa fa-facebook" aria-hidden="true"></i>-->
                                             </a>
                                             <a style="color: #fff; text-decoration: none;width: 35px; height: 35px;display: inline-block;                            text-align: center;
-                                            background-color: transparent; border: solid 1px #fff; line-height: 35px; 
+                                            background-color: transparent; border: solid 1px #fff; line-height: 35px;
                                             border-radius: 50px;margin-right: 10px;
                                             font-size: 20px;" href="#">
                                                 <img src="https://foodalios.testingbeta.in/images/email/Linkedin.png" width="35" height="35"/>
                                                 <!--<i class="fa fa-linkedin" aria-hidden="true"></i>-->
                                             </a>
                                             <a style="color: #fff; text-decoration: none;width: 35px; height: 35px;display: inline-block;                            text-align: center;
-                                            background-color: transparent; border: solid 1px #fff; line-height: 35px; 
+                                            background-color: transparent; border: solid 1px #fff; line-height: 35px;
                                             border-radius: 50px;
                                             font-size: 20px;" href="#">
                                                 <img src="https://foodalios.testingbeta.in/images/email/Twitter.png" width="35" height="35"/>
                                                 <!--<i class="fa fa-twitter" aria-hidden="true"></i>-->
                                             </a>
                                             </p>
-                                        
+
                                         </div>
                                         <div class="top_call" style="float: right;">
                                             <p style="margin: 0; color: #fff; font-family: Montserrat; padding-top: 10px;">© 2021 IG.</p>
@@ -1195,13 +1204,13 @@ class APIAuthController extends Controller
         </body>
 
         </html>';
-        
-        $headers = "MIME-Version: 1.0" . "\r\n"; 
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n"; 
+
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
         $headers .= "From: no-reply@testingbeta.in";
-                    
+
         $otp=rand(1000,9999);
-            
+
         $message_body = str_replace(array('[OTP]','[CONTENT_TEXT]','[HEADLINE_TEXT]'),array($otp,$contentText,$headlineText), $emailBody);
 
         return array($message_body,$headers,$otp);

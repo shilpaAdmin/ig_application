@@ -34,7 +34,6 @@ Route::get('CategoryData', 'Api\CategoryController@getAllCategoryData')->name('C
 Route::post('BusinessData', 'Api\BusinessController@storeAllBusinessData')->middleware('CheckHashToken');
 
 Route::post('BusinessDataList', 'Api\BusinessController@listBusinessData')->middleware('CheckHashToken');
-Route::post('categoryWiseBusinessData', 'Api\BusinessController@getBusinessesCategoryWise')->name('category.business');
 
 Route::post('BusinessDetail', 'Api\BusinessController@businessDetailData')->middleware('CheckHashToken');
 
@@ -105,3 +104,13 @@ Route::post('ChangePassword', 'Api\APIAuthController@userChangePassword');
 Route::post('ForumDataList', 'Api\ForumController@listForumData')->middleware('CheckHashToken');	
 
 Route::post('MatrimonialDetail', 'Api\MatrimonialController@getMatrimonialDetail')->middleware('CheckHashToken');	
+
+Route::post('ApplyForJob', 'Api\ApplyForJobController@storeAllJobData')->name('ApplyForJob')->middleware('CheckHashToken');
+
+Route::get('CarrierList', 'Api\CarrierController@CarrierList')->name('CarrierList');
+
+Route::post('DeleteCommentOrReply', 'Api\ForumController@deleteForumBlogCommentReply')->middleware('CheckHashToken');
+
+Route::post('ApplyForCareer', 'Api\CarrierController@applyForCareer')->middleware('CheckHashToken');
+
+Route::post('ApplyForCareer', 'Api\CarrierController@myFavouriteList')->middleware('CheckHashToken');
