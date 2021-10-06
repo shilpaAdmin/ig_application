@@ -74,7 +74,7 @@
                             <div class="main_bottom_rating_time">
 
                                 <div class="main_bottom_time">
-                                    <p><span class="far fa-clock"></span>Posted {{ $businessData['created_at']->diffForHumans() }}</p>
+                                    <p><span class="far fa-clock"></span>Posted {{ isset($businessData['created_at'])? $businessData['created_at']->diffForHumans() :'-'  }}</p>
                                 </div>
                             </div>
                         </div>
@@ -182,10 +182,17 @@
                                                 $attachmentArray = [];
                                             }
                                             $q = 1;
+                                          
+                                            
+                                            if(count($attachmentArray)){
+                                                $imageUrl= URL::to('/images/business').'/'.$attachmentArray[0]['Media1'] ;
+                                            } else {
+                                                $imageUrl=URL::asset('assets/frontend/images/img/gridimglisthouse.png');
+                                            }
                                         @endphp
 
                                         <div class="listings_two_page_img">
-                                            <img src="{{ URL::asset('images/business/'.$attachmentArray[0]['Media1']) }}" alt="">
+                                            <img src="{{$imageUrl}}" alt="">
                                             <div class="heart_icon">
                                                 <i class="icon-heart"></i>
                                             </div>
@@ -205,7 +212,7 @@
                                             </ul>
                                             <div class="listings_three-page_content_bottom">
                                                 <div class="left">
-                                                    <h6>{{ $similarDatas['created_at']->diffForHumans() }}</h6>
+                                                    <h6>{{ isset($similarDatas['created_at'])? $similarDatas['created_at']->diffForHumans() :'-' }}</h6>
                                                 </div>
                                                 <div>
                                                     <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>

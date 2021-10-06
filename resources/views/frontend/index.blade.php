@@ -1548,6 +1548,9 @@
                     var name = data.Result[i]['Name'];
                     var icon = data.Result[i]['Icon'];
                     var redirectStatus = data.Result[i]['redirect_status'];
+                    var categoryPageRedirect = data.Result[i]['CategoryPageRedirect'];
+                    
+
                     if(data.Result[i].Subcategories != undefined)
                     {
                         catSubcatHtml += '<section class="weekly background__grey" style="position:relative;">';
