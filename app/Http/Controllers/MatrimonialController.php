@@ -106,7 +106,7 @@ class MatrimonialController extends Controller
         {
             $multipleImageJson = '{}';
         }
-      
+
         if(isset($input['status']))
         {
             if($input['status'] == 'on')
@@ -220,6 +220,8 @@ class MatrimonialController extends Controller
             <div class="dropdown-menu">
                 <a class="dropdown-item" href=" '.route('matrimonial.edit',$result_obj['id']).' ">Edit Record</a>
                 <a class="dropdown-item" href="javascript:;" onclick="deleteMatrimonial('.$result_obj['id'].')" >Delete Record</a>
+                <a class="dropdown-item" href="'.url('admin/matrimonial-detail/'.$result_obj['id']).'">Matrimonial Detail</a>
+
 
             </div>';
             return $command;
@@ -309,7 +311,7 @@ class MatrimonialController extends Controller
             $multipleImageJson = '{}';
         }
         //  dd($multipleImageJson);
-       
+
         if(isset($input['status']))
         {
             if($input['status'] == 'on')

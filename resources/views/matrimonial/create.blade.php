@@ -262,7 +262,7 @@
                                     <label class="form-check-label" for="married_no">
                                         No
                                     </label>
-                                    
+
                                 </div>
                                 </div>
                                 <div class="invalid-feedback">
@@ -303,14 +303,14 @@
                                     <label class="form-check-label" for="unmarried">
                                         Unmarried
                                     </label>
-                                    
+
                                 </div>
                                 <div class="form-check mr-2">
                                     <input class="form-check-input" type="radio" id="married" name="desired_marital_status" value="Married" />
                                     <label class="form-check-label" for="married">
                                         Married
                                     </label>
-                                   
+
                                 </div>
                                 </div>
                                 <div class="invalid-feedback">
@@ -390,7 +390,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>

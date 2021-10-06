@@ -142,10 +142,10 @@
 
                     </div>
 
-                
+
 
                     <div class="row">
-                        
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Designation</label>
@@ -259,10 +259,7 @@
                                 <select class="form-control" name="country">
                                     <option value=''>--Select Country-- </option>
                                     @foreach ($countryData as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
-
-                                        {{-- <option @if ($value->id,'=',$countryId) selected="selected" @endif value="{{ $value->id }}">{{ $value->name }}</option> --}}
-
+                                        <option @if ($value->id==$countryId) selected="selected" @endif value="{{ $value->id }}">{{ $value->name }}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">
@@ -448,7 +445,7 @@
                                     <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light"><i class="bx bx-plus label-icon"></i>Add New</button>
                                 </div>
                                 </div>
-                               
+
                             </div>
                     </div>
                     <div class="form-group">
