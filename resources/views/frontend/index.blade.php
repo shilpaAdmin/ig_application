@@ -1485,6 +1485,13 @@
                     var categoryId = $(this).attr("data-id");
                     var categoryName = $(this).attr("data-name");
                     $('#businessTitle').text(categoryName);
+                   
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': "{{csrf_token()}}"
+                        }
+                    });
+
                     $.ajax({
                         type: 'post',
                         data:"category_id=" + categoryId,

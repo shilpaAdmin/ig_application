@@ -329,8 +329,8 @@ Route::namespace('Frontend')->group(function () {
 
     //category wise business listinng
     Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
-
 });
+Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
 
 
 //forum
