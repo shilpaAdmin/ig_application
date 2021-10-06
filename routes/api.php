@@ -33,7 +33,7 @@ Route::get('CategoryData', 'Api\CategoryController@getAllCategoryData')->name('C
 
 Route::post('BusinessData', 'Api\BusinessController@storeAllBusinessData')->middleware('CheckHashToken');
 
-Route::post('categoryWiseBusinessData', 'api\businesscontroller@getbusinessescategorywise')->name('category.business');
+Route::post('categoryWiseBusinessData', 'Api\BusinessController@getBusinessesCategoryWise')->name('category.business');
 
 Route::post('BusinessDataList', 'Api\BusinessController@listBusinessData')->middleware('CheckHashToken');
 
@@ -115,4 +115,6 @@ Route::post('DeleteCommentOrReply', 'Api\ForumController@deleteForumBlogCommentR
 
 Route::post('ApplyForCareer', 'Api\CarrierController@applyForCareer')->middleware('CheckHashToken');
 
-Route::post('ApplyForCareer', 'Api\CarrierController@myFavouriteList')->middleware('CheckHashToken');
+Route::post('MyFavouriteList', 'Api\DashboardController@myFavouriteList')->middleware('CheckHashToken');
+
+Route::post('getCategoryWiseBusinessData', 'Api\BusinessController@getCategoryWiseBusinessData')->name('getCategoryWiseBusinessData');

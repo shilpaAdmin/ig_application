@@ -15,3 +15,5 @@ ALTER TABLE `apply_for_job` ADD `career_id` INT NULL DEFAULT NULL AFTER `job_id`
 ALTER TABLE `testimonial` ADD `is_deleted` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '1=deleted,0=not deleted' AFTER `user_id`;
 
 ALTER TABLE `city` ADD `status` ENUM('active','inactive','deleted') NOT NULL AFTER `contact_number`;
+
+ALTER TABLE `category` CHANGE `redirect_status` `redirect_status` INT(11) NULL DEFAULT '0' COMMENT '0-business , 1-faq, 2- forum, 3- matrimonial, 4- blog';

@@ -1327,6 +1327,31 @@ class BusinessController extends Controller
             return response()->json(['Status'=>false,'StatusMessage'=>'No Data available !','Result'=>array()]);
         }
     }
+    public function getCategoryWiseBusinessData(Request $request)
+    {
+        $categoryData=CategoryModel::where('parent_category_id',0)->where('redirect_status',0)->get()->toArray();
+        $finalBusinessData = array();
+        if(count($categoryData) > 0)
+        {
+            foreach($categoryData as $catData)
+            {
+                $categoryId = $catData['id'];
+                $categoryName = $catData['name'];
+                $categoryParamLink = $catData['param_link'];
+                
+                $listBusiness = BusinessModel::where('business.status','active')->select('business.*')
+                ->where('business.category_id',$categoryId)
+                ->skip(0)->take(10)
+                ->orderBy('business.id','DESC')
+                ->get()->toArray();
+                
+                $finalBusinessData += [$categoryName => $listBusiness]; 
+            }
+        }
+        //echo "<pre>"; print_r($finalBusinessData);
+        //s exit;
+        return view('frontend.listing_structure.categoryWiseBusinessListStructure',compact('finalBusinessData'));
+    }
 }
 
 
