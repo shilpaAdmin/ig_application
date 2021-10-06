@@ -33,6 +33,8 @@ Route::get('CategoryData', 'Api\CategoryController@getAllCategoryData')->name('C
 
 Route::post('BusinessData', 'Api\BusinessController@storeAllBusinessData')->middleware('CheckHashToken');
 
+Route::post('categoryWiseBusinessData', 'api\businesscontroller@getbusinessescategorywise')->name('category.business');
+
 Route::post('BusinessDataList', 'Api\BusinessController@listBusinessData')->middleware('CheckHashToken');
 
 Route::post('BusinessDetail', 'Api\BusinessController@businessDetailData')->middleware('CheckHashToken');

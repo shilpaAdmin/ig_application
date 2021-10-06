@@ -164,6 +164,7 @@ class ForumController extends Controller
                 $forum_id=$fetchAllForumData[$i]['id'];
 
                 $forumComment=ForumCommentReplyModel::latest()->where('forum_id',$forum_id)
+                ->where('is_deleted',0)
                 ->where('comment_id',0)->get()->toArray();
 
                 $dataArray['List'][$i]['TotalComments']=strval(count($forumComment));
@@ -264,7 +265,7 @@ class ForumController extends Controller
         $forum=ForumCommentReplyModel::with(['user','forum'])->where([
             ['forum_id',$input['ForumId']],
            // ['user_id',$input['RegisterId']]
-            ])->where('comment_id',0)->get()->toArray();
+            ])->where('comment_id',0)->where('is_deleted',0)->get()->toArray();
         
         $total_count=count($forumModel);
         $total_forum=count($forum);
@@ -342,7 +343,7 @@ class ForumController extends Controller
                     $dataArray['Comment'][$i]['IsLike']=$is_like;
 
                     $replyData=ForumCommentReplyModel::with(['user'])->where('comment_id',$forum[$i]['id'])
-                    ->where('comment_id','!=',0)->get()->toArray();
+                    ->where('comment_id','!=',0)->where('is_deleted',0)->get()->toArray();
                     
                     $totalReplyData=count($replyData);
                     

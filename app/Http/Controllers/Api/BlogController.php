@@ -163,7 +163,7 @@ class BlogController extends Controller
             }
         }
         $blog_comments=BlogsCommentReplyModel::with(['user','blog'])
-        ->where('blog_id',$input['BlogId'])
+        ->where('blog_id',$input['BlogId'])->where('is_deleted',0)
         ->where('comment_id',0)->skip($skip)->take(30)->get()->toArray();;
         
         $dataArray['Id']=strval($blogs->id);
@@ -263,7 +263,7 @@ class BlogController extends Controller
                     //$dataArray['Comment'][$i]['IsLike']=!empty($blog_comments[$i]['media'])?$blog_comments[$i]['media']:'';
                     
                     $replyData=BlogsCommentReplyModel::with(['user'])->where('comment_id',$blog_comments[$i]['id'])
-                    ->where('comment_id','!=',0)->get()->toArray();
+                    ->where('comment_id','!=',0)->where('is_deleted',0)->get()->toArray();
                     
                     $totalReplyData=count($replyData);
                     
@@ -310,7 +310,7 @@ class BlogController extends Controller
                                 $userReplyId=$input['RegisterId'];
                             }
 
-                            $user_like_obj=BlogsCommentReplyLikesModel::where('blog_id',$input['BlogId'])
+                            $user_like_obj=BlogsCommentReplyLikesModel::where('blog_id',$input['BlogId'])->where('is_deleted',0)
                             ->where('comment_or_reply_id',$replyData[$j]['id'])->where('user_id',$userReplyId)->select('is_like')->first();
                             
                             $is_like='';
