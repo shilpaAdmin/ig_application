@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Model\ForumModel;
 
 class HomeController extends Controller
 {
@@ -41,7 +42,13 @@ class HomeController extends Controller
     }
     public function home(Request $request)
     {
-        return view('frontend.index');
+        $forums=ForumModel::select('forum.*','user.name','user.user_image')
+        ->with(['forumComments'])
+        ->join('user','user.id','=','forum.user_id')
+        ->get();
+        // dd($forums);
+
+        return view('frontend.index',compact('forums'));
     }
 
     public function faqs(Request $request)

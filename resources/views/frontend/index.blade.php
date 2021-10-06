@@ -812,136 +812,32 @@
             <div class="container wow slideInRight animated animated">
 
                 <!-- forum box -->
+                @foreach ($forums as $forum)
                 <div class="row forum__box">
                     <div class="col-lg-1  for_profile">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg') }}" class="f__img_left">
+                    
+                        <img src="{{ URL::asset('images/user/'.$forum->user_image)}}" class="f__img_left')}}">
                     </div>
 
                     <div class="col-lg-9 ">
-                        <a href="{{ route('ForumList') }}" class="for__title">Sed sollicitudin tortor diam, in
-                            lobortis arcu porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est.
-                            Nulla rutrum tempus tristique?</a>
+                            <a href="{{route('forumdetail')}}?id={{$forum->id}}" class="for__title">{{$forum->question}}</a>
 
                         <p class="for_desc">
-                            <span> <a href="#"> Stokes Mollie</a></span>
-                            <span> <a href="#"> 3 hours ago</a></span>
-                            <span> <a href="#"> 26 replies </a></span>
+                            <span> <a href="#"> {{$forum->name}}</a></span>
+                            <span> <a href="#">  {{$forum->created_at->diffForHumans()}}</a></span>
+                            <span> <a href="#">  {{$forum->forumComments->count()}} replies </a></span>
                         </p>
                     </div>
 
                     <div class="col-lg-2 for__user">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg') }}" class="f__img_left">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg') }}"
-                            class="f__img_left margin_minus">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg') }}"
-                            class="f__img_left margin_minus">
+                        <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg')}}" class="f__img_left">
+
+                            <img src="{{ URL::asset('assets/frontend/images /img/d3.jpg')}}" class="f__img_left margin_minus">
+
+                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
                     </div>
                 </div>
-
-
-                <!-- forum box -->
-                <div class="row forum__box">
-                    <div class="col-lg-1  for_profile">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg') }}" class="f__img_left">
-                    </div>
-
-                    <div class="col-lg-9 ">
-                        <a href="{{ route('forumdetail') }}" class="for__title">Sed sollicitudin tortor diam, in
-                            lobortis arcu porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est.
-                            Nulla rutrum tempus tristique?</a>
-
-                        <p class="for_desc">
-                            <span> <a href="#"> Stokes Mollie</a></span>
-                            <span> <a href="#"> 3 hours ago</a></span>
-                            <span> <a href="#"> 26 replies </a></span>
-                        </p>
-                    </div>
-
-                    <div class="col-lg-2 for__user">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg') }}" class="f__img_left">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg') }}"
-                            class="f__img_left margin_minus">
-                    </div>
-                </div>
-
-                <!-- forum box -->
-                <div class="row forum__box">
-                    <div class="col-lg-1  for_profile">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg') }}" class="f__img_left">
-                    </div>
-
-                    <div class="col-lg-9 ">
-                        <a href="forum-detail.html" class="for__title">Sed sollicitudin tortor diam, in lobortis arcu
-                            porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est. Nulla rutrum
-                            tempus tristique?</a>
-
-                        <p class="for_desc">
-                            <span> <a href="#"> Stokes Mollie</a></span>
-                            <span> <a href="#"> 3 hours ago</a></span>
-                            <span> <a href="#"> 26 replies </a></span>
-                        </p>
-                    </div>
-
-                    <div class="col-lg-2 for__user">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg') }}" class="f__img_left">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg') }}"
-                            class="f__img_left margin_minus">
-                    </div>
-                </div>
-
-                <!-- forum box -->
-                <div class="row forum__box ">
-                    <div class="col-lg-1  for_profile">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg') }}" class="f__img_left">
-                    </div>
-
-                    <div class="col-lg-9 ">
-                        <a href="forum-detail.html" class="for__title">Sed sollicitudin tortor diam, in lobortis arcu
-                            porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est. Nulla rutrum
-                            tempus tristique?</a>
-
-                        <p class="for_desc">
-                            <span> <a href="#"> Stokes Mollie</a></span>
-                            <span> <a href="#"> 3 hours ago</a></span>
-                            <span> <a href="#"> 26 replies </a></span>
-                        </p>
-                    </div>
-
-                    <div class="col-lg-2 for__user">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg') }}" class="f__img_left">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg') }}"
-                            class="f__img_left margin_minus">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg') }}"
-                            class="f__img_left margin_minus">
-                    </div>
-                </div>
-
-                <!-- forum box -->
-                <div class="row forum__box ">
-                    <div class="col-lg-1  for_profile">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg') }}" class="f__img_left">
-                    </div>
-
-                    <div class="col-lg-9 ">
-                        <a href="forum-detail.html" class="for__title">Sed sollicitudin tortor diam, in lobortis arcu
-                            porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est. Nulla rutrum
-                            tempus tristique?</a>
-
-                        <p class="for_desc">
-                            <span> <a href="#"> Stokes Mollie</a></span>
-                            <span> <a href="#"> 3 hours ago</a></span>
-                            <span> <a href="#"> 26 replies </a></span>
-                        </p>
-                    </div>
-
-                    <div class="col-lg-2 for__user">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg') }}" class="f__img_left">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg') }}"
-                            class="f__img_left margin_minus">
-                        <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg') }}"
-                            class="f__img_left margin_minus">
-                    </div>
-                </div>
+                @endforeach
             </div>
         </section>
 
@@ -1467,13 +1363,13 @@
                                         </div>\
                                         <div class="explore_categories_content">\
                                             <h3>'+name+'</h3>';
-                                  
+
                             // link generate
                             var url='#';
                             if(paramLink=='forum'){
-                                url="{{ route('ForumList') }}";    
+                                url="{{ route('ForumList') }}";
                             } else if(paramLink=='matrimonial'){
-                                url="{{route('matrimoney')}}";    
+                                url="{{route('matrimoney')}}";
                             } else if(paramLink=='entertainment'){
                                 url="{{route('EntertainmentListingGrid')}}";
                             } else if(paramLink=='faq'){
@@ -1482,19 +1378,19 @@
 
                             var btnLink='';
                             if(paramLink=='forum' || paramLink=='faq' || paramLink=='matrimonial' ||paramLink=='entertainment') {
-                                
+
                                 btnLink='<button class="explore_categories_arrow">\
                                             <a href="'+url+'"><span class="icon-right-arrow"></span></a>\
                                         </button>';
                             } else {
-                                
+
                                 btnLink='<button class="explore_categories_arrow">\
                                                 <span type="button" data-toggle="modal" class="icon-right-arrow business-category" data-target="'+modelid+'" data-id="'+id+'" data-name="'+name+'"></span>\
                                         </button>';
                             }
 
                             html+=btnLink+'</div></div></div>';
-                                  
+
                         });
 
                         $('.catagorimain').html(html);
@@ -1537,7 +1433,7 @@
                                 htmlStr='<div class="w-50 float-left"> <p>Data Not Found...!!!</p></div>';
                             }
                             $("#businessLists").html(htmlStr);
-                           
+
                         },
                         error: function(XMLHttpRequest, errorStatus, errorThrown) {
                             console.log("XHR :: " + JSON.stringify(XMLHttpRequest));

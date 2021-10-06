@@ -19,7 +19,7 @@ class ForumController extends Controller
     public function storeForumData(Request $request)
     {
         $input=$request->all();
-        
+
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';
@@ -29,7 +29,7 @@ class ForumController extends Controller
         {
             $error[] = 'Question Must be Required!';
 		}
-        
+
         if(!isset($input['Description']) || empty($input['Description']))
         {
             $error[] = 'Description Must be Required!';
@@ -41,9 +41,9 @@ class ForumController extends Controller
 		}
 
         if(isset($input['RegisterId']) && !empty($input['RegisterId']))
-        {   
+        {
             $user=User::where('id',$input['RegisterId'])->first();
-            
+
             if($user===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!']);
@@ -52,9 +52,9 @@ class ForumController extends Controller
 
         if(isset($input['Id']) && !empty($input['Id']))
         {
-            
+
             $forum=ForumModel::where('id',$input['Id'])->first();
-            
+
             if($forum===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'Forum record not exist!']);
@@ -69,7 +69,7 @@ class ForumController extends Controller
             $forumObject->user_id=$input['RegisterId'];
             $forumObject->url=!empty($input['URL'])?$input['URL']:'';
 
-            
+
             if($forumObject->save())
             {
                 return response()->json(['Status'=>true,'StatusMessage'=>'Forum updated successfully!']);
@@ -86,7 +86,7 @@ class ForumController extends Controller
             $forumObject->description=$input['Description'];
             $forumObject->user_id=$input['RegisterId'];
             $forumObject->url=!empty($input['URL'])?$input['URL']:'';
-            
+
             if($forumObject->save())
             {
                 return response()->json(['Status'=>true,'StatusMessage'=>'Forum added successfully!']);
@@ -97,21 +97,21 @@ class ForumController extends Controller
             }
         }
     }
-    
+
     public function listForumData(Request $request)
     {
         $input=$request->all();
-		
+
         if(!isset($input['Pagination']) )
         {
             $error[] = 'Pagination Must be Required!';
 		}
-		
+
         if(!empty($error))
         {
             return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error)]);
 		}
-		
+
         $userId=!empty($input['RegisterId'])?$input['RegisterId']:'';
 
         $Pagination = isset($input['Pagination']) ? $input['Pagination'] : 1;
@@ -121,7 +121,7 @@ class ForumController extends Controller
         $formModelPrequery=ForumModel::with('user');
         else
         $formModelPrequery=ForumModel::with('user')->where('user_id',$userId);
-        
+
         if($input['Pagination']!=0)
         {
             $fetchAllForumData=$formModelPrequery->orderBy('forum.id','DESC')
@@ -131,7 +131,7 @@ class ForumController extends Controller
         {
             $fetchAllForumData=$formModelPrequery->orderBy('forum.id','DESC')->get()->toArray();
         }
-        
+
         $dataArray=array();
         $totalCount=count($fetchAllForumData);
 
@@ -180,7 +180,7 @@ class ForumController extends Controller
                     }
 
                     $userCommentImages=User::whereIn('id',$userIdArray)->select('user_image')->get()->toArray();
-                    
+
                     for($m=0;$m<2;$m++)
                     {
                         if(isset($userCommentImages[$m]['user_image']))
@@ -205,13 +205,13 @@ class ForumController extends Controller
             }
         }
         else
-        {                    
+        {
             $dataArray['TotalCount']="0";
             $dataArray['List'] = array();
-            
+
         }
 
-        
+
         if(!empty($dataArray['List']))
         {
             return response()->json(['Status'=>True,'StatusMessage'=>'Forum Data Listed Successfully','Result'=>$dataArray]);
@@ -221,7 +221,7 @@ class ForumController extends Controller
             return response()->json(['Status'=>False,'StatusMessage'=>'No Data Available','Result'=>$dataArray]);
         }
     }
-    
+
     public function forumDetailData(Request $request)
     {
         $input=$request->all();
@@ -238,9 +238,9 @@ class ForumController extends Controller
 
         if(isset($input['ForumId']) && !empty($input['ForumId']))
         {
-            
+
             $forum=ForumModel::where('id',$input['ForumId'])->first();
-            
+
             if($forum===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'Forum record not exist!'
@@ -250,28 +250,28 @@ class ForumController extends Controller
 
         if(isset($input['RegisterId']) && !empty($input['RegisterId']))
         {
-            
+
             $user=User::where('id',$input['RegisterId'])->first();
-            
+
             if($user===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!'
                 ,'Result'=>array()]);
             }
         }
-        
+
         $forumModel=ForumModel::with(['user'])->where('id',$input['ForumId'])->get()->toArray();
 
         $forum=ForumCommentReplyModel::with(['user','forum'])->where([
             ['forum_id',$input['ForumId']],
            // ['user_id',$input['RegisterId']]
             ])->where('comment_id',0)->where('is_deleted',0)->get()->toArray();
-        
+
         $total_count=count($forumModel);
         $total_forum=count($forum);
-        
+
         $dataArray=array();
-        
+
         if($total_count > 0)
         {
             $dataArray['RegisterId']=strval($forumModel[0]['user_id']);
@@ -288,7 +288,7 @@ class ForumController extends Controller
         {
             $dataArray['TotalCommentCount']=strval($total_forum);
 
-            // adding all comment through loop 
+            // adding all comment through loop
             for($i=0;$i<$total_forum;$i++)
             {
                 if($forum[$i]['comment_id']==0)
@@ -314,7 +314,7 @@ class ForumController extends Controller
 
                    // $user_like_obj=ForumCommentReplyLikesModel::where('forum_id',$input['ForumId'])
                   // ->where('comment_or_reply_id',$forum[$i]['id'])->where('user_id',$forum[$i]['user']['id'])->select('is_like')->first();
-                  
+
                     $userCommentId=0;
                     if(isset($input['RegisterId']) && !empty($input['RegisterId']))
                     {
@@ -324,9 +324,9 @@ class ForumController extends Controller
                     $user_like_obj=ForumCommentReplyLikesModel::where('forum_id',$input['ForumId'])
                     ->where('comment_or_reply_id',$forum[$i]['id'])->where('user_id',$userCommentId)
                     ->select('is_like')->first();
-                            
+
                     $is_like='';
-                    
+
                     if(isset($user_like_obj))
                     {
                         $flag=intval($user_like_obj->is_like);
@@ -344,9 +344,9 @@ class ForumController extends Controller
 
                     $replyData=ForumCommentReplyModel::with(['user'])->where('comment_id',$forum[$i]['id'])
                     ->where('comment_id','!=',0)->where('is_deleted',0)->get()->toArray();
-                    
+
                     $totalReplyData=count($replyData);
-                    
+
                     if($totalReplyData > 0)
                     {
                         for($j=0;$j<$totalReplyData;$j++)
@@ -358,7 +358,7 @@ class ForumController extends Controller
                             $dataArray['Comment'][$i]['Reply'][$j]['Date']=date('d-m-Y',strtotime($replyData[$j]['created_at']));
                             $dataArray['Comment'][$i]['Reply'][$j]['Time']=date('H:i:s',strtotime($replyData[$j]['created_at']));
                             $dataArray['Comment'][$i]['Reply'][$j]['Media']=!empty($replyData[$j]['media'])?URL::to('/images/reply_media').'/'.$replyData[$j]['media']:'';
-                            
+
                             $total_likes_reply=ForumCommentReplyLikesModel::where('is_like',1)->where('forum_id',$input['ForumId'])
                             ->where('comment_or_reply_id',$replyData[$j]['id'])->count();
 
@@ -374,10 +374,10 @@ class ForumController extends Controller
                             {
                                 $userReplyId=$input['RegisterId'];
                             }
-                            
+
                             $user_like_obj=ForumCommentReplyLikesModel::where('forum_id',$input['ForumId'])
                             ->where('comment_or_reply_id',$replyData[$j]['id'])->where('user_id',$userReplyId)->select('is_like')->first();
-                            
+
                             $is_like='';
 
                             if(isset($user_like_obj))
@@ -402,14 +402,14 @@ class ForumController extends Controller
                     }
                 }
             }
-            
+
         }
         else
         {
             $dataArray['TotalCommentCount']=strval(0);
             $dataArray['Comment']=array();
         }
-        
+
         return response()->json(["Status"=>true,"StatusMessage"=>"Get Forum detail successfully!"
         ,"Result"=>$dataArray]);
     }
@@ -422,7 +422,7 @@ class ForumController extends Controller
         {
             $error[] = 'CommentId Or ReplyId Must be Required!';
 		}
-        
+
         if(!isset($input['Type']) || empty($input['Type']))
         {
             $error[] = 'Type Must be Required!';
@@ -432,7 +432,7 @@ class ForumController extends Controller
         {
             $error[] = 'Id Must be Required!';
 		}
-        
+
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';
@@ -512,7 +512,7 @@ class ForumController extends Controller
                     ->update(['is_deleted'=>1]);
                 }
             }
-            
+
             return response()->json(['Status'=>true,'StatusMessage'=>'Record deleted successfully !','Result'=>array()]);
         }
         else
