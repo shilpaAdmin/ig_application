@@ -24,7 +24,6 @@ class CategoryController extends Controller
         $categoryData = array();
         if(count($category) > 0)
         {
-            
             $j = $k = 0;
             foreach($category as $data)
             {
@@ -35,6 +34,7 @@ class CategoryController extends Controller
                     // echo "<pre>";print_r($categoryData[$j]['id']);exit;
                     $categoryData[$j]['Name']= trim($data['name']);
                     $categoryData[$j]['paramLink']= trim($data['param_link']);
+                    $categoryData[$j]['redirect_status']= trim($data['redirect_status']);
                     $categoryData[$j]['Icon']= URL::to('images/categories').'/'.$data['media_file'];
 
                     // $categoryData[$j]['parent_category_id'] = (string)$data['parent_category_id'];
@@ -61,7 +61,6 @@ class CategoryController extends Controller
                 }
             }
         }
-
         //echo "<pre>"; print_r($categoryData);
        // exit;
 
@@ -73,6 +72,38 @@ class CategoryController extends Controller
         else
         {
             return response()->json(['Status'=>False,'StatusMessage'=>'No Data Available','Result'=>array()]);
+        }
+    }
+    
+    public function getAllSubcategoryData(Request $request)
+    {
+        $input = $request->all();
+        if(isset($input['category_id']) && !empty($input['category_id']))
+        {
+            $category = CategoryModel::where('parent_category_id','=', $input['category_id'])->OrderBy('name', 'ASC')->get()->toArray();
+            $tempCategoryId = '';
+            $categoryData = array();
+            if(count($category) > 0)
+            {
+                $j = 0;
+                foreach($category as $data)
+                {
+                    $categoryData[$j]['Id']= (string)$data['id'];
+                    // echo "<pre>";print_r($categoryData[$j]['id']);exit;
+                    $categoryData[$j]['Name']= trim($data['name']);
+                    $categoryData[$j]['paramLink']= trim($data['param_link']);
+                    $categoryData[$j]['Icon']= URL::to('images/categories').'/'.$data['media_file'];
+                    $j++;
+                }
+            }
+            if(count($categoryData) > 0)
+            {
+                return response()->json(['Status'=>True,'StatusMessage'=>'Success Message','Result'=>$categoryData]);
+            }
+            else
+            {
+                return response()->json(['Status'=>False,'StatusMessage'=>'No Data Available','Result'=>array()]);
+            }   
         }
     }
  }
