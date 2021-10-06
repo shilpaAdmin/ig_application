@@ -439,7 +439,7 @@ li {
   -webkit-box-align: center;
   align-items: center;
   text-align: center;
-  
+
 }
 
 .preloader__image {
@@ -452,7 +452,7 @@ li {
   -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
 
-   
+
 }
 
 .scroll-to-top {
@@ -806,7 +806,7 @@ li {
   transition: all 500ms ease;
   z-index: 1;
 }
-.main-nav__main-navigation .main-nav__navigation-box > li > a:before , 
+.main-nav__main-navigation .main-nav__navigation-box > li > a:before ,
 .main-nav__main-navigation .main-nav__navigation-box > li.active > a:before {
   position: absolute;
   top: -33px;
@@ -7234,7 +7234,7 @@ h2.h2_oth_pgs {
 .listings_two_page_single {
   position: relative;
   display: block;
-  padding-left: 240px;
+  padding-left: 204px;
   margin-bottom: 30px;
   box-shadow: 0px 10px 60px 0px rgb(0 0 0 / 5%);
 }
@@ -7248,6 +7248,7 @@ h2.h2_oth_pgs {
 }
 .listings_two_page_img img {
    width: 100%;
+   height: 304px;
 }
 .listings_two_page_img .open {
   position: absolute;
@@ -7424,7 +7425,7 @@ h2.h2_oth_pgs {
 
 .listings_btn {
   padding-top: 30px;
-  
+
 }
 .listings_btn .thm-btn
 {
@@ -7636,7 +7637,7 @@ h2.h2_oth_pgs {
   transition: all 500ms ease;
 }
 .main_bottom_right_Buttons a:hover {
- 
+
   background: #f0f3f6;
   color: var(--thm-primary);
   border: 1px solid var(--thm-primary);
@@ -8624,7 +8625,7 @@ HIREN CSS STRAT
   position: relative;
   display: block;
   margin-bottom: 30px;
- 
+
   overflow: hidden;
 }
 .explore_categories_image {
@@ -8663,7 +8664,7 @@ HIREN CSS STRAT
 }
 .explore_categories_single:hover .explore_categories_content::after {
   background-color: #fff;
-  
+
 }
 
 .explore_categories_content:before {
@@ -8685,7 +8686,7 @@ HIREN CSS STRAT
   background: #fff;
   box-shadow: 0px 10px 60px 0px rgba(0, 0, 0, 0.05);
   opacity: 0.8;
-  
+
 }
 .explore_categories_single:hover .explore_categories_content:before {
   width: 100%;
@@ -8839,7 +8840,7 @@ HIREN CSS STRAT
 
 .color__white {  color:#fff;  }
 
-.pop__tags { background-color: #000; color: #fff; border-radius: 5px; padding: 5px 8px; transition: 0.5s all; 
+.pop__tags { background-color: #000; color: #fff; border-radius: 5px; padding: 5px 8px; transition: 0.5s all;
             font-size:14px; font-weight:400;  }
 
 
@@ -9209,9 +9210,9 @@ a.pop__tags:hover {  background-color:#fff; color: #000; }
   margin-left: 10px;
 }
 .site-footer__social a:hover {
-   background: var(--thm-primary); 
+   background: var(--thm-primary);
   color: var(--thm-base);
-  
+
 }
 
 .footernavbart
@@ -9239,7 +9240,7 @@ a.pop__tags:hover {  background-color:#fff; color: #000; }
   text-decoration: none;
   font-size: 14px;
   opacity: 0.8;
-  
+
 }
 .footersubtitle
 {
@@ -9303,9 +9304,9 @@ a.pop__tags:hover {  background-color:#fff; color: #000; }
 .video_one_imagee:before {
   position: absolute;
   bottom: -1px;
-  
+
   height: 185px;
-  content: "";    
+  content: "";
   background: var(--thm-base);
   z-index: -1;
 }
@@ -9436,26 +9437,26 @@ a.pop__tags:hover {  background-color:#fff; color: #000; }
 
 .backgroundimgforum
 {
-  background-image: url(../images/img/forum-bg.jpg); 
+  background-image: url(../images/img/forum-bg.jpg);
 }
 
 .backgroundimglogin
 {
-  background-image: url(../images/img/login.jpg); 
+  background-image: url(../images/img/login.jpg);
   background-position-y: 12%;
   background-attachment: fixed;
 }
 
 .backgroundimgaddadv
 {
-  background-image: url(../images/img/add-adv.jpg); 
+  background-image: url(../images/img/add-adv.jpg);
   background-position-y: 52%;
   background-attachment: fixed;
 }
 
 .backgroundimgaddcareer
 {
-  background-image: url(../images/resources/career.jpg); 
+  background-image: url(../images/resources/career.jpg);
   background-position-y: 5%;
   background-attachment: fixed;
 }
@@ -9472,7 +9473,7 @@ a.pop__tags:hover {  background-color:#fff; color: #000; }
   bottom: 0;
   opacity: 0.5;
 }
- 
+
 
 .imghover:hover
 {
@@ -9554,7 +9555,7 @@ transition: ease-in-out 1s;
     border-radius: 5px;
     text-decoration: none;
     transition: ease-in-out 0.5s;
-    
+
 }
 
 .callbtnbox
@@ -9608,8 +9609,8 @@ transition: ease-in-out 1s;
     }
  }
 
- @media (min-width: 768px) and (max-width: 990px) 
- { 
+ @media (min-width: 768px) and (max-width: 990px)
+ {
     .forspace
     {
         margin-top: 20px;
@@ -9648,8 +9649,8 @@ transition: ease-in-out 1s;
 {
     display: flex;
     justify-content: space-between;
-    
-   
+
+
 }
 .bhkbtn
 {
@@ -9671,13 +9672,13 @@ transition: ease-in-out 1s;
 }
 .enquirsp
 {
-    
+
     padding: 6px 44px;
     background-color: #E48329 ;
     color: white;
     border-radius: 5px;
     border: 1px solid #E48329;
-    
+
 }
 .hours
 {
@@ -9705,7 +9706,7 @@ transition: ease-in-out 1s;
 .smallsubbox
 {
     display: flex;
-    
+
 }
 .descrip
 {
@@ -9731,7 +9732,7 @@ transition: ease-in-out 1s;
     display: block;
     color:#52833B ;
     margin-right: 30px;
-    
+
 }
 
 .facilityy1{
@@ -9760,10 +9761,10 @@ padding: 10px;
 }
 .subshiledempireee
 {
-    
+
     background-color: white;
-    
-    
+
+
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 5%);
 }
@@ -9789,7 +9790,7 @@ padding: 10px;
 }
 
 
-@media (min-width: 320px) and (max-width: 767px) 
+@media (min-width: 320px) and (max-width: 767px)
 {
     .enquirsp {
         padding: 7px 9px;
@@ -9821,7 +9822,7 @@ padding: 10px;
         display: block;
         color: #52833B;
         margin-bottom: 20px;
-        
+
     }
     .aligndd
     {
@@ -9831,11 +9832,11 @@ padding: 10px;
     .smallsubbox
 {
     display:flow-root;
-    
+
 }
 
 
-  
+
 .forummaintopic {  width: 350px;  }
 
 .user_trow { width: 150px;  }
@@ -9852,7 +9853,7 @@ padding: 10px;
 
 
 
-@media (min-width: 768px) and (max-width: 990px) 
+@media (min-width: 768px) and (max-width: 990px)
 {
     .facilityy {
         border-radius: 200px;
@@ -9867,7 +9868,7 @@ padding: 10px;
         display: block;
         color: #52833B;
         margin-bottom: 20px;
-        
+
     }
     .user_trow { width: 100px;  }
 }
@@ -9887,7 +9888,7 @@ padding: 10px;
     width: 70px;
     text-align: center;
     color: #52833B ;
-    
+
 }
 .mainfaceiccc
 {
@@ -9896,7 +9897,7 @@ padding: 10px;
     height: 70px;
     width: 70px;
     text-align: center;
-    
+
 }
 .icommn
 {
@@ -9937,7 +9938,7 @@ padding: 10px;
 {
   display: flex;
   align-items: center;
-  
+
 }
 .topicheading
 {
@@ -9946,18 +9947,18 @@ padding: 10px;
 .username
 {
   text-decoration: none;
-  color:black;  
+  color:black;
   line-height: 10px;
 
-  
-  
+
+
 }
 .username:hover
   {
     text-decoration: none;
     color:black;
 
-  
+
   }
   .fourammaintitale
   {
@@ -9971,7 +9972,7 @@ padding: 10px;
     display: flex;
     align-items: center;
     text-align: left;
-  
+
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -10057,7 +10058,7 @@ padding: 10px;
   padding: 5px 40px;
   width: 100%;
   margin-top: -28px;
-  
+
 }
 
 
@@ -10169,7 +10170,7 @@ a.for__title:hover { color: var(--thm-primary); }
 /*---------Hiren 24/08/2021 css start here --------*/
 .faqd
 {
- 
+
   box-shadow: 0 0 7px -1.5px #b4b4b4;
   padding: 50px 30px 50px 50px;
 }
@@ -10184,12 +10185,12 @@ a.for__title:hover { color: var(--thm-primary); }
 .faqbox a:hover
 {
     text-decoration:underline;
-  
+
 }
 .faqbox h4 a:hover
 {
     text-decoration:none;
-  
+
 }
 .faqbox h4 a
 {
@@ -10205,7 +10206,7 @@ a.for__title:hover { color: var(--thm-primary); }
 .faqbox p
 {
   line-height: 10px;
-  
+
 }
 .faqboxline
 {
@@ -10235,7 +10236,7 @@ a.for__title:hover { color: var(--thm-primary); }
   padding: 5px 25px 5px 50px;
   border-radius: 50px;
   outline: none;
-  
+
 }
 
 button, input, select, textarea {
@@ -10273,7 +10274,7 @@ button, input, select, textarea {
   margin-bottom: 10px;
 }
 
-@media (min-width: 320px) and (max-width: 767px) 
+@media (min-width: 320px) and (max-width: 767px)
 {
   .faqd
   {
@@ -10356,7 +10357,7 @@ transform: translate(0, -50%) rotate(180deg);
 .faqdetails
 {
   width: 100%;
-  
+
   padding: 80px 0;
 }
 
@@ -10455,7 +10456,7 @@ transform: translate(0, -50%) rotate(180deg);
   z-index: 1;
 }
 
-  
+
 .media-icon.orange-color .popup-videos {
   color:#e28128;
   background: #ffffff;
@@ -10511,7 +10512,7 @@ transform: translate(0, -50%) rotate(180deg);
   padding-bottom: 100px; padding-top: 70px;
 }
 
-@media (min-width: 320px) and (max-width: 767px) 
+@media (min-width: 320px) and (max-width: 767px)
 {
   .vidiocontant
   {
@@ -10533,7 +10534,7 @@ transform: translate(0, -50%) rotate(180deg);
 .backgroundimgconblog{
   background-image: url(../images/img/aerial-view-man-using-computer-laptop-wooden-table.jpg);
 
-  
+
 
 }
 
@@ -10621,13 +10622,13 @@ transform: translate(0, -50%) rotate(180deg);
   background-color: #fff9e1;
   padding: 35px 20px;
   margin-top: -26px !important;
- 
+
 }
 .filtertagicon
 {
   font-size: 18px;
   float: right;
-  margin-top: 8px; 
+  margin-top: 8px;
 }
 
 
@@ -10826,10 +10827,10 @@ a.forum__profilee {  color: var(--thm-black) !important; font-size:20px;  }
 .faq_leftt  { border:1px solid #eee; padding:0px; }
 .faq_full_bg {    }
 
-.tab_hhead.active{ background-color:#fff; border-radius:none; border-bottom: 1px solid var(--thm-primary); 
+.tab_hhead.active{ background-color:#fff; border-radius:none; border-bottom: 1px solid var(--thm-primary);
               padding:10px 10px; color:var(--thm-primary) !important; font-size:16px;  }
 
-.tab_hhead { background-color:#fff; border-radius:none; border-bottom: 1px solid #eee; 
+.tab_hhead { background-color:#fff; border-radius:none; border-bottom: 1px solid #eee;
               padding:10px 10px; color:var(--thm-gray); font-size:16px;  }
 
 
@@ -10888,20 +10889,20 @@ a.forum__profilee {  color: var(--thm-black) !important; font-size:20px;  }
 
 .faq__bg {  background:url(../images/shapes/bg-section-05.png) no-repeat #f0f3f6; background-size:cover; }
 
-.bg_pattern_honeybee {  position:absolute; background: url(../images/backgrounds/bg_pattern.png) no-repeat; 
+.bg_pattern_honeybee {  position:absolute; background: url(../images/backgrounds/bg_pattern.png) no-repeat;
       left: 50%;
     top: -50px;
     height: 250px;
     width: 100%; }
 
 
-.bg_pattern_honeybee2 {  position:absolute; background: url(../images/backgrounds/bg_pattern12.png) no-repeat; 
+.bg_pattern_honeybee2 {  position:absolute; background: url(../images/backgrounds/bg_pattern12.png) no-repeat;
       right:0;
     bottom: 0px;
     height: 250px;
     width: 100%; }
 
-.bg_pattern_network {position:absolute; background: url(../images/backgrounds/bg_pattern22.png) no-repeat; 
+.bg_pattern_network {position:absolute; background: url(../images/backgrounds/bg_pattern22.png) no-repeat;
       right:0;
     bottom: 0px;
     height: 250px;
@@ -10934,7 +10935,7 @@ a.forum__profilee {  color: var(--thm-black) !important; font-size:20px;  }
     background: #71a57efc;
     animation: animate 12s linear infinite;
     bottom: -150px;
-    
+
 }
 
 .circles li:nth-child(1){
@@ -11046,7 +11047,7 @@ a.job_list_pill {  display:inline-block; background: #def3e3; border: 1px solid 
 
 .overflow-y__hidden {  overflow-y:hidden;  }
 
-.job_li_icon { background: url(../images/listings/job_list_img.png) no-repeat ; top:10px; 
+.job_li_icon { background: url(../images/listings/job_list_img.png) no-repeat ; top:10px;
                    background-position-x: 0px;
     background-position-y: 12px;  padding-left:20px !important;  }
 
@@ -11067,8 +11068,8 @@ a.job_list_pill {  display:inline-block; background: #def3e3; border: 1px solid 
 
 .color_black {  color: var(--thm-black);  }
 
-.tag__promoted  {  position: absolute;  top: 0; left: 0; background-color:var(--thm-primary); color:#fff; padding: 0 7px; 
-                  border-bottom-right-radius: 5px; font-size:14px; } 
+.tag__promoted  {  position: absolute;  top: 0; left: 0; background-color:var(--thm-primary); color:#fff; padding: 0 7px;
+                  border-bottom-right-radius: 5px; font-size:14px; }
 
 .text_green {  color:green;  }
 
@@ -11093,7 +11094,7 @@ a.job_list_pill {  display:inline-block; background: #def3e3; border: 1px solid 
 
 .badge-cast {  background-color:#EBFDF0; color: var(--thm-primary); border: 1px solid var(--thm-primary);  }
 
-.mat_eduDetails:before  {  position:absolute; content: '';   background: var(--thm-gray); 
+.mat_eduDetails:before  {  position:absolute; content: '';   background: var(--thm-gray);
                            width: 2px; top: 60px; left:20px;  bottom: 65px; }
 
 
@@ -11140,7 +11141,7 @@ a.job_list_pill {  display:inline-block; background: #def3e3; border: 1px solid 
 .file-upload-input {  appearance:none; }
 
 .uploadfile_label {  padding: 40px 30px; width: 100%;
-    background: #ecfff1; 
+    background: #ecfff1;
     display: table; text-align: center;
     color: var(--thm-primary);
     border : 1px dashed var(--thm-primary); border-radius:10px; cursor:pointer;  }
@@ -11162,7 +11163,7 @@ input[type="file"] {
 .verify_img_box img {  width:30%; }
 
 
-.add_service_h4 {  color:var(--thm-primary);  line-height:30px; font-size:20px; text-transform:uppercase; 
+.add_service_h4 {  color:var(--thm-primary);  line-height:30px; font-size:20px; text-transform:uppercase;
                   margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px dashed var(--thm-primary);  }
 
 

@@ -10,14 +10,15 @@ use Illuminate\Http\Request;
 
 class ForumController extends Controller
 {
-   
+
     public function index(Request $request){
 
         $forums=ForumModel::select('forum.*','user.name','user.user_image')
                             ->with(['forumComments'])
                             ->join('user','user.id','=','forum.user_id')
                             ->get();
-     
+
+
 
         return view('frontend.forum_listing',compact('forums'));
     }
@@ -25,7 +26,7 @@ class ForumController extends Controller
     public function forumDetails(Request $request){
         $input= $request->all();
         $id=$input['id'];
-       
+
         $forum=ForumModel::select('forum.*','user.name','user.user_image')
                         ->with(['forumComments'=>function($q){
                             $q->select('forum_comment_reply.*','user.name','user.user_image')
@@ -44,14 +45,14 @@ class ForumController extends Controller
     }
 
     public function saveForumComment(Request $request) {
-        
+
          // Form validation
         $this->validate($request, [
             'forum_id' => 'required',
             'type' => 'required',
             'comment_id' => 'required',
             'message'=>'required',
-           
+
         ]);
 
         $input=$request->all();
@@ -85,7 +86,7 @@ class ForumController extends Controller
         $totalLikes= ForumCommentReplyLikesModel::where('forum_id','=',$input['forum_id'])
                                             ->where('comment_or_reply_id','=',$input['id'])
                                             ->count();
-        
+
         return response()->json(['totalLikes'=>$totalLikes]);
     }
 }

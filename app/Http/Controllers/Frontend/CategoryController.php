@@ -32,6 +32,7 @@ class CategoryController extends Controller
                     $imageUrl=URL::asset('assets/frontend/images/img/gridimglisthouse.png');
                 }
 
+                $detailsPageUrl= route('housing.details',['id'=>$id,'bid'=>$business->id]);
                 if( $request->viewData !=0){
                     $html.='<div class="col-xl-4 col-md-6 col-sm-12">'.
                         '<div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms" data-wow-duration="1200ms" style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">'.
@@ -48,7 +49,7 @@ class CategoryController extends Controller
                             '</div>'.
                             '<div class="listings_three-page_content">'.
                                 '<div class="title">'.
-                                    '<h3><a href="#">'.$name.'<span class="fa fa-check"></span></a></h3>'.
+                                    '<h3><a href="'.$detailsPageUrl.'">'.$name.'<span class="fa fa-check"></span></a></h3>'.
                                     '<p>'.$address.', '.$description.'</p>'.
                                 '</div>'.
                                 '<ul class="list-unstyled listings_three-page_contact_info">'.
@@ -83,7 +84,7 @@ class CategoryController extends Controller
                                 '</div>'.
                                 '<div class="listings_three-page_contentt">'.
                                     '<div class="title">'.
-                                        '<h3><a href="#">'.$name.'<span class="fa fa-check"></span></a></h3>'.
+                                        '<h3><a href="'.$detailsPageUrl.'">'.$name.'<span class="fa fa-check"></span></a></h3>'.
                                         '<p>'.$address.', '.$description.'</p>'.
                                     '</div>'.
                                     '<ul class="list-unstyled listings_three-page_contact_info">'.

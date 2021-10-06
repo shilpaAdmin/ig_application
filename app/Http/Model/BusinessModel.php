@@ -43,7 +43,7 @@ class BusinessModel extends Model
         'last_updated_by',
         'status'
     ];
-    
+
     public function categories()
     {
         return $this->belongsTo('App\Http\Model\CategoryModel','category_id');
