@@ -3,6 +3,26 @@
 @section('content')
 <!DOCTYPE html>
 <html lang="en">
+    @section('css')
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/select2/select2.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}">
+
+<link rel="stylesheet" type="text/css"
+    href="{{ URL::asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
+<link rel="stylesheet" type="text/css"
+    href="{{ URL::asset('assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css')}}">
+<link href="{{ URL::asset('assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet"
+    type="text/css">
+<link rel="stylesheet" type="text/css"
+    href="{{ URL::asset('assets/libs/bootstrap-touchspin/bootstrap-touchspin.min.css')}}">
+<link rel="stylesheet" href="{{ URL::asset('assets/libs/datepicker/datepicker.min.css')}}" type="text/css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/style.css')}}" type="text/css" />
+
+
+@endsection
 <body>
 
 <!-- Modal location-->
@@ -344,42 +364,56 @@
                         </div>
                     </div>
                     <div class="col-xl-8">
+                        {{-- <form class="needs-validation" method="post" id="ContactForm" action="{{route('userContactMessages')}}" enctype="multipart/form-data" novalidate>
+                            @csrf --}}
                         <div class="contact-one__form__wrap">
-                            <form action="inc/sendemail.php" class="contact-one__form">
+                            <form action="{{route('userContactMessages')}}" method="post"  id="ContactForm"  class="contact-one__form">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input type="text" name="name" placeholder="Your name">
+                                            <input type="text" name="Name" id="name" placeholder="Your name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input type="email" name="name" placeholder="Email address">
+                                            <input type="email" name="Email" id= "email" placeholder="Email address">
+
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input type="text" name="phone" placeholder="Phone number">
+                                            <input type="text" name="Number" id="phone" placeholder="Phone number">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input type="text" name="Subject" placeholder="Subject">
+                                            <input type="text" name="Subject" id="subject" placeholder="Subject">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="input-group">
-                                            <textarea name="message" placeholder="Write Message"></textarea>
+                                            <textarea name="Message" id="message" placeholder="Write Message"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
+                                        <label class="lable-thro1" for="">Contact Through</label>
+                                        <input type="radio" id="phone" name="Preferred" value="Phone">
+                                        <label for="Phone">Phone</label>
+                                        <input type="radio" id="email" name="Preferred" value="Email">
+                                        <label for="Email">Email</label><br>
+                                    </div>
+                                    <div class="col-md-12">
+
                                         <div class="input-group contact__btn">
-                                            <button type="submit" class="thm-btn contact-one__btn px-3">Submit</button>
+                                            <button type="submit"  class="thm-btn contact-one__btn px-3">Submit</button>
                                         </div>
                                     </div>
                                 </div>
+                                <input type="hidden" name="RegisterId" id="hdnUserId" value="0">
                             </form>
                         </div>
+                    {{-- </form> --}}
                     </div>
                 </div>
             </div>
@@ -387,5 +421,108 @@
 
 </body>
 </html>
+
+@section('script')
+
+
+<!-- Init js-->
+<script src="{{ URL::asset('assets/libs/datatables/datatables.min.js')}}"></script>
+
+<script src="{{ URL::asset('assets/libs/jszip/jszip.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/pdfmake/pdfmake.min.js')}}"></script>
+
+<!-- Init js-->
+<script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
+
+
+<script src="{{ URL::asset('assets/libs/select2/select2.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-touchspin/bootstrap-touchspin.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/datepicker/datepicker.min.js')}}"></script>
+
+<script src="{{ URL::asset('assets/js/pages/form-advanced.init.js')}}"></script>
+
+<script src="{{ URL::asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
+
+<!-- Plugins js -->
+<script src="{{ URL::asset('assets/js/pages/form-validation.init.js')}}"></script>
+
+<!-- form mask -->
+<script src="{{ URL::asset('assets/libs/jquery-repeater/jquery-repeater.min.js')}}"></script>
+
+<!-- form mask init -->
+<script src="{{ URL::asset('assets/js/pages/form-repeater.int.js')}}"></script>
+
+<!-- form mask -->
+<script src="{{ URL::asset('assets/libs/inputmask/inputmask.min.js')}}"></script>
+
+<!-- form mask init -->
+<script src="{{ URL::asset('assets/js/pages/form-mask.init.js')}}"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script>
+
+$(document).ready(function () {
+
+        $('#ContactForm').on('submit',function(e){
+            e.preventDefault();
+            var Name = $('#name').val();
+            var Email = $('#email').val();
+            var Phone = $('#phone').val();
+            var Message = $('#message').val();
+            var RegisterId = $('#hdnUserId').val();
+            var Preferred = $("input[name=Preferred]").val();
+            // alert(Preferred);
+
+
+
+            $.ajax({
+            url: "{{ route('userContactMessages') }}",
+            type:"POST",
+            data:{
+                "_token": "{{ csrf_token() }}",
+                Name:Name,
+                Email:Email,
+                Number:Phone,
+                Message:Message,
+                RegisterId :RegisterId,
+                Preferred :Preferred,
+
+            },
+            success:function(response){
+
+                if(response.Status){
+                    // alert('abc');
+                      swal("Done!","It was succesfully inserted!","success");
+
+                }else{
+                    // alert('bbb');
+                    swal("Warning", "There is something wrong please try after some time", "error");
+                }
+                $("#ContactForm")[0].reset();
+
+                console.log(response);
+            },
+            error: function(response) {
+                $('#nameErrorMsg').text(response.responseJSON.errors.name);
+                $('#emailErrorMsg').text(response.responseJSON.errors.email);
+                $('#mobileErrorMsg').text(response.responseJSON.errors.mobile);
+                $('#messageErrorMsg').text(response.responseJSON.errors.message);
+            },
+
+            });
+            });
+
+        });
+
+
+</script>
 @endsection
+
+@endsection
+
 

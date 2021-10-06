@@ -65,7 +65,7 @@ Route::post('UpdateProfile', 'Api\APIAuthController@updateProfile')->middleware(
 
 Route::post('BusinessEnquiryList', 'Api\BusinessController@getBusinessUserEnquiryList')->middleware('CheckHashToken');
 
-Route::post('ContactIG', 'Api\APIAuthController@userContactMessages')->middleware('CheckHashToken');
+Route::post('ContactIG', 'Api\APIAuthController@userContactMessages')->name('userContactMessages')->middleware('CheckHashToken');
 
 Route::post('UserFavouriteBusiness', 'Api\BusinessController@addUserFavouriteBusiness')->middleware('CheckHashToken');
 
@@ -103,9 +103,9 @@ Route::post('ForgetPassword', 'Api\APIAuthController@sendMailForForgetPassword')
 
 Route::post('ChangePassword', 'Api\APIAuthController@userChangePassword');
 
-Route::post('ForumDataList', 'Api\ForumController@listForumData')->middleware('CheckHashToken');	
+Route::post('ForumDataList', 'Api\ForumController@listForumData')->middleware('CheckHashToken');
 
-Route::post('MatrimonialDetail', 'Api\MatrimonialController@getMatrimonialDetail')->middleware('CheckHashToken');	
+Route::post('MatrimonialDetail', 'Api\MatrimonialController@getMatrimonialDetail')->middleware('CheckHashToken');
 
 Route::post('ApplyForJob', 'Api\ApplyForJobController@storeAllJobData')->name('ApplyForJob')->middleware('CheckHashToken');
 

@@ -747,11 +747,12 @@ class APIAuthController extends Controller
     public function userContactMessages(Request $request)
     {
         $input=$request->all();
+        // dd($input);
 
-        if(!isset($input['RegisterId']) || empty($input['RegisterId']))
-        {
-            $error[] = 'RegisterId Must be Required!';
-		}
+        // if(!isset($input['RegisterId']) || empty($input['RegisterId']))
+        // {
+        //     $error[] = 'RegisterId Must be Required!';
+        // }
 
         if(!isset($input['Preferred']) || empty($input['Preferred']))
         {
@@ -768,12 +769,13 @@ class APIAuthController extends Controller
             return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
 		}
 
-        $user=User::where('id',$input['RegisterId'])->first();
+        // $user=User::where('id',$input['RegisterId'])->first();
+        // // dd($user);
 
-        if($user===null)
-        {
-            return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!','Result'=>array()]);
-        }
+        // if($user===null)
+        // {
+        //     return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!','Result'=>array()]);
+        // }
 
         $preferred='';
 
