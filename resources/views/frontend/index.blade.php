@@ -19,7 +19,7 @@
             <div class="container">
                 <!-- <div class="content-box">
                                <div class="top-title">
-                                  <div class="sub-title">Let’s Explore</div>
+                                  <div class="sub-title">Let�s Explore</div>
                                   <h1>your amazing city</h1>
                                   <p>Find great places to stay, eat, shop, or visit from local experts.</p>
                               </div> -->
@@ -315,16 +315,16 @@
         </section>
 
 
-
+        <div id="categoryWiseBusinessListingDivId"></div>
         <!--Weekly Start-->
-        <section class="weekly background__grey" style="position:relative;">
+<!--        <section class="weekly background__grey" style="position:relative;">
             <div class="bg_pattern_honeybee"></div>
             <div class="container-full-width px-5">
                 <div class="row">
                     <div class="col-xl-12">
                         <h2 class="carousel__h2 pt-0">Housing</h2>
-                        <div class="weekly_carousel owl-theme owl-carousel wow slideInLeft animated animated">
-                            <!--Weekly Single-->
+                        <div class="weekly_carousel owl-theme owl-carousel wow slideInLeft animated animated" id="housingDataDivId">
+                            Weekly Single
                             <div class="weekly_single">
                                 <div class="weekly_image">
                                     <div class="image_inner">
@@ -366,7 +366,7 @@
                                 </div>
                             </div>
 
-                            <!--Weekly Single-->
+                            Weekly Single
                             <div class="weekly_single">
                                 <div class="weekly_image">
                                     <div class="image_inner">
@@ -413,14 +413,14 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section>-->
 
 
 
 
 
         <!--Weekly2 Start 2-->
-        <section class="weekly  background__grey mt__minus70">
+<!--        <section class="weekly  background__grey mt__minus70">
 
             <div class="container-full-width px-5">
                 <div class="row">
@@ -430,8 +430,8 @@
                         <h2 class="carousel__h2">Jobs</h2>
 
 
-                        <div class="weekly_carousel2 owl-theme owl-carousel wow slideInRight animated animated">
-                            <!--Weekly Single-->
+                        <div class="weekly_carousel2 owl-theme owl-carousel wow slideInRight animated animated" id="jobsDataDivId">
+                            Weekly Single
                             <div class="weekly_single2">
                                 <div class="weekly_image2">
                                     <div class="image_inner2">
@@ -472,7 +472,7 @@
                                 </div>
                             </div>
 
-                            <!--Weekly Single-->
+                            Weekly Single
                             <div class="weekly_single2">
                                 <div class="weekly_image2">
                                     <div class="image_inner2">
@@ -515,12 +515,12 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section>-->
 
 
 
         <!--Weekly3 Start 3-->
-        <section class="weekly  background__grey mt__minus70">
+<!--        <section class="weekly  background__grey mt__minus70">
 
             <div class="container-full-width px-5">
                 <div class="row">
@@ -530,8 +530,8 @@
                         <h2 class="carousel__h2">Education</h2>
 
 
-                        <div class="weekly_carousel3 owl-theme owl-carousel wow slideInLeft animated animated">
-                            <!--Weekly Single-->
+                        <div class="weekly_carousel3 owl-theme owl-carousel wow slideInLeft animated animated" id="educationDataDivId">
+                            Weekly Single
                             <div class="weekly_single3">
                                 <div class="weekly_image3">
                                     <div class="image_inner3">
@@ -574,7 +574,7 @@
                                 </div>
                             </div>
 
-                            <!--Weekly Single-->
+                            Weekly Single
                             <div class="weekly_single3">
                                 <div class="weekly_image3">
                                     <div class="image_inner3">
@@ -624,7 +624,7 @@
 
             <div class="bg_pattern_honeybee2"></div>
 
-        </section>
+        </section>-->
 
 
         <!--Two Boxes Start-->
@@ -653,7 +653,7 @@
                                     alt="">
                                 <div class="box_two_text">
                                     <!-- <p>Inside Europe</p>
-                                              <h2>Let’s have<br>dinner</h2> -->
+                                              <h2>Let�s have<br>dinner</h2> -->
                                 </div>
                                 <div class="box_two_btn">
                                     <a href="#">20 Listings</a>
@@ -685,7 +685,7 @@
                                     alt="">
                                 <div class="box_two_text">
                                     <!-- <p>Inside Europe</p>
-                                              <h2>Let’s have<br>dinner</h2> -->
+                                              <h2>Let�s have<br>dinner</h2> -->
                                 </div>
                                 <div class="box_two_btn">
                                     <a href="#">20 Listings</a>
@@ -717,7 +717,7 @@
                                     alt="">
                                 <div class="box_two_text">
                                     <!-- <p>Inside Europe</p>
-                                              <h2>Let’s have<br>dinner</h2> -->
+                                              <h2>Let�s have<br>dinner</h2> -->
                                 </div>
                                 <div class="box_two_btn">
                                     <a href="#">20 Listings</a>
@@ -1271,7 +1271,7 @@
                     </div>
 
                     <div class="block-title text-center color__white" style="position:relative;">
-                        <h4>Let’s Find out</h4>
+                        <h4>Let�s Find out</h4>
                         <h2>How It Works</h2>
                         <p>Lorem ipsum dolor sit amet, cibo mundi ea duo, vim exerci phaedrum</p>
                     </div>
@@ -1350,12 +1350,11 @@
                     </div>
                 </div>
                 <div class="four_boxes_bottom">
-                    <p>Don’t hesitate, contact us for better business. <a href="#" data-toggle="modal"
+                    <p>Don�t hesitate, contact us for better business. <a href="#" data-toggle="modal"
                             data-target="#exampleModallisting">Start a New Lisiting</a></p>
                 </div>
             </div>
         </section>
-
 
         <section class="download"
             style="background-image: url({{ URL::asset('assets/frontend/images/backgrounds/download-bg.jpg') }})">
@@ -1414,6 +1413,7 @@
                     },
                     success:function(data)
                     {
+                        setCategoryHtml(data);
                         $("#fullImageDivLoader img").hide();	// Show loader
                         var html='';
                         $.each(data.Result, function (i) {
@@ -1448,13 +1448,14 @@
                             }
 
                             var btnLink='';
-                            if(redirectStatus=='1' || redirectStatus=='2' || redirectStatus=='3' ||redirectStatus=='4' || redirectStatus=='5') {
-                                
+                            if(redirectStatus=='1' || redirectStatus=='2' || redirectStatus=='3' ||redirectStatus=='4' || redirectStatus=='5') 
+                            {
                                 btnLink='<button class="explore_categories_arrow">\
                                             <a href="'+url+'"><span class="icon-right-arrow"></span></a>\
                                         </button>';
-                            } else {
-                                
+                            }
+                            else 
+                            {
                                 btnLink='<button class="explore_categories_arrow">\
                                                 <span type="button" data-toggle="modal" class="icon-right-arrow business-category" data-target="'+modelid+'" data-id="'+id+'" data-name="'+name+'"></span>\
                                         </button>';
@@ -1478,29 +1479,35 @@
                 });
 
                 // category wise business data
-                $(document).on('click','.business-category',function(e){
+                $(document).on('click','.business-category',function(e)
+                {
                     $('#loader').show();
-                   var categoryId = $(this).attr("data-id");
-                   var categoryName = $(this).attr("data-name");
-                   $('#businessTitle').text(categoryName);
+                    var categoryId = $(this).attr("data-id");
+                    var categoryName = $(this).attr("data-name");
+                    $('#businessTitle').text(categoryName);
                     $.ajax({
                         type: 'post',
-                        data:"catagoryId=" + categoryId,
-                        url: "{{ route('category.business') }}",
+                        data:"category_id=" + categoryId,
+                        url: "{{ route('getAllSubcategoryData') }}",
                         dataType: 'json',
                         async: true,
                         beforeSend: function() {
                             $('#loader').show(); // Show loader
                         },
-                        success: function(data) {
+                        success: function(data) 
+                        {
                             $('#categoryBusinessModel').modal('show');
                             var htmlStr='';
-                            if(data.Result.length) {
-                                $.each(data.Result, function(i) {
-                                    var name = data.Result[i]['name'];
-                                    htmlStr+='<div class="w-50 float-left"> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> '+name+'</a> </div>';
+                            if(data.Result.length) 
+                            {
+                                $.each(data.Result, function(i) 
+                                {
+                                    var name = data.Result[i]['Name'];
+                                    htmlStr+='<div class="w-50 float-left"> <a class=" a_cat_color" href="javascript:;"><i class="fas fa-angle-right"></i> '+name+'</a> </div>';
                                 });
-                            } else {
+                            } 
+                            else 
+                            {
                                 htmlStr='<div class="w-50 float-left"> <p>Data Not Found...!!!</p></div>';
                             }
                             $("#businessLists").html(htmlStr);
@@ -1522,7 +1529,100 @@
                     });
                 });
             });
+            
+            function setCategoryHtml(data)
+            {
+                var catSubcatHtml = '';
+                var k = 0;
+                var currentAnimationStatus = 'slideInRight';
+                $.each(data.Result, function (i) 
+                {
+                    var id = data.Result[i]['Id'];
+                    var name = data.Result[i]['Name'];
+                    var icon = data.Result[i]['Icon'];
+                    var redirectStatus = data.Result[i]['redirect_status'];
+                    if(data.Result[i].Subcategories != undefined)
+                    {
+                        catSubcatHtml += '<section class="weekly background__grey" style="position:relative;">';
+                        if(k == 0)
+                        {
+                            catSubcatHtml += '<div class="bg_pattern_honeybee"></div>';
+                        }
+                        if(currentAnimationStatus == 'slideInRight')
+                            currentAnimationStatus = 'slideInLeft';
+                        else
+                            currentAnimationStatus = 'slideInRight';
+                        catSubcatHtml += '<div class="container-full-width px-5">';
+                        catSubcatHtml += '<div class="row">';
+                        catSubcatHtml += '<div class="col-xl-12">';
+                        catSubcatHtml += '<h2 class="carousel__h2 pt-0">'+name+'</h2>';
+                        catSubcatHtml += '<div class="weekly_carousel owl-theme owl-carousel wow '+currentAnimationStatus+' animated animated">';
 
+                            $.each(data.Result[i].Subcategories, function (j)
+                            {
+                                var subcatId = data.Result[i].Subcategories[j]['Id'];
+                                var subcatName = data.Result[i].Subcategories[j]['Name'];
+                                var subcatIcon = data.Result[i].Subcategories[j]['Icon'];
+                                var Description = data.Result[i].Subcategories[j]['Description'];
+                               // console.log('sub cat name ::: '+subcatName+'sub cat id ::: '+subcatId);
+
+                                catSubcatHtml += '<div class="weekly_single">';
+                                    catSubcatHtml += '<div class="weekly_image">';
+                                        catSubcatHtml += '<div class="image_inner">';
+
+                                        catSubcatHtml += '<img src="'+icon+'" alt="">';
+                                        catSubcatHtml += '</div>';
+                                        catSubcatHtml += '<div class="weekly_content">';
+                                            catSubcatHtml += '<h3><a href="/category/'+subcatId+'">'+Description+'</a></h3>';
+                                           // catSubcatHtml += '<p>'+Description+'</p>';
+                                            catSubcatHtml += '<div class="shopping_rating">';
+                                                catSubcatHtml += '<div class="weekly_content_shopping">';
+                                                    catSubcatHtml += '<div class="weekly_content_shopping_icon">';
+                                                    catSubcatHtml += '<span><i class="fas fa-home"></i></span>';
+                                                    catSubcatHtml += '</div>';
+                                                    catSubcatHtml += '<div class="weekly_content_shopping_text">';
+                                                    catSubcatHtml += '<h5>'+subcatName+'</h5>';
+                                                   catSubcatHtml += '</div>';
+                                                catSubcatHtml += '</div>';
+                                            catSubcatHtml += '</div>';
+                                        catSubcatHtml += '</div>';
+                                        catSubcatHtml += '<div class="weekly_hover_content">';
+                                            catSubcatHtml += '<h3><a href="/category/'+subcatId+'">'+Description+'</a></h3>';
+                                            //catSubcatHtml += '<p>'+Description+'</p>';
+                                            catSubcatHtml += '<div class="weekly_hover_content_restuarant_rating">';
+                                                catSubcatHtml += '<div class="weekly_hover_content_restuarant">';
+                                                    catSubcatHtml += '<div class="weekly_hover_content_restuarant_icon">';
+                                                    catSubcatHtml += '<span><i class="fas fa-home"></i></span>';
+                                                    catSubcatHtml += '</div>';
+                                                    catSubcatHtml += '<div class="weekly_hover_content_restuarant_text">';
+                                                    catSubcatHtml += '<h5>'+subcatName+'</h5>';
+                                                    catSubcatHtml += '</div>';
+                                                catSubcatHtml += '</div>';
+                                            catSubcatHtml += '</div>';
+                                        catSubcatHtml += '</div>';
+                                    catSubcatHtml += '</div>';
+                                catSubcatHtml += '</div>';
+                            });
+                        catSubcatHtml += '</div>';
+                        catSubcatHtml += '</div>';
+                        catSubcatHtml += '</div>';
+                        catSubcatHtml += '</div>';
+                        catSubcatHtml += '<div id="honeyBeeIdForCategoryList'+k+'" class="bg_pattern_honeybee2" style="display:none;"></div>';
+                        catSubcatHtml += '</section>'; 
+                        k++;
+                    }
+                });
+                
+                $("#categoryWiseBusinessListingDivId").html(catSubcatHtml);
+                var finalLengthOfK = parseInt(k) - 1;
+                if(finalLengthOfK > 0)
+                {
+                    if($("#honeyBeeIdForCategoryList"+finalLengthOfK).length > 0) 
+                    {
+                        $("#honeyBeeIdForCategoryList"+finalLengthOfK).show();
+                    }
+                }
+            }
         </script>
     @endsection
 @endsection
