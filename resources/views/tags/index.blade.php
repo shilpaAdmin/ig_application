@@ -35,6 +35,7 @@
                                     <th>#</th>
                                     <th>Id</th>
                                     <th>Name</th>
+                                    <th>Approve Status</th>
                                     <th>Status</th>
                                     <th>Action</th>
 

@@ -31,13 +31,14 @@
                         <table id="BusinessList" class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    {{-- <th>Sequence</th> --}}
+                                    <th>Sequence</th>
                                     <th></th>
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Category</th>
                                     <th>Type</th>
                                     <th>About</th>
+                                    <th>Approve Status</th>
                                     <th>Status</th>
                                     <th>Action</th>
 

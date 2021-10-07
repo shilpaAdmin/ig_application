@@ -111,6 +111,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('matrimonial/matrimonialList', 'MatrimonialController@matrimoniallist')->name('datatable.matrimoniallist');
         Route::get('matrimonial/delete/{id}', 'MatrimonialController@delete')->name('matrimonial.delete');
         Route::get('matrimonial-detail/{id}', 'MatrimonialController@matrimonialDetail')->name('matrimonialdetail');
+        Route::get('matrimonial/approve/{id}', 'MatrimonialController@approveStatus')->name('matrimonial.approve');
 
         // Fourm routes
         Route::get('forum', 'ForumController@index')->name('forum');

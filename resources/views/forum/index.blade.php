@@ -305,7 +305,7 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
-                        window.location.href = "forum/approve/" + reomveId;
+                        window.location.href = "/admin/forum/approve/" + reomveId;
                     }
                 });
         });

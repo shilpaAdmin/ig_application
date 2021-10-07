@@ -177,7 +177,10 @@ class MatrimonialController extends Controller
         $result_obj = MatrimonialModel::where('matrimonial.status', '!=', 'deleted')->get();
 
         return DataTables::of($result_obj)
-
+        ->addColumn('DT_RowId', function ($result_obj)
+        {
+            return 'row_'.$result_obj->id;
+        })
         ->addColumn('full_name', function ($result_obj)
         {
             $full_name = '';
@@ -199,6 +202,15 @@ class MatrimonialController extends Controller
             $caste = $result_obj->caste;
             return $caste;
         })
+        ->addColumn('is_approve',function($result_obj)
+        {
+            $is_approve = '';
+            if($result_obj->is_approve==1)
+            $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
+            else
+            $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
+            return $is_approve;
+        })
         ->addColumn('status_td',function($result_obj){
             $status = '';
             if($result_obj->status=='active')
@@ -207,7 +219,6 @@ class MatrimonialController extends Controller
             $status.='<span class="badge badge-pill badge-soft-danger font-size-12">'.ucwords($result_obj->status).'</span>';
             return $status;
         })
-
         ->addColumn('command',function($result_obj){
             $command = '';
 
@@ -221,13 +232,47 @@ class MatrimonialController extends Controller
                 <a class="dropdown-item" href=" '.route('matrimonial.edit',$result_obj['id']).' ">Edit Record</a>
                 <a class="dropdown-item" href="javascript:;" onclick="deleteMatrimonial('.$result_obj['id'].')" >Delete Record</a>
                 <a class="dropdown-item" href="'.url('admin/matrimonial-detail/'.$result_obj['id']).'">Matrimonial Detail</a>
-
-
             </div>';
             return $command;
         })
-        ->rawColumns(['full_name','city','caste','married','status_td','command'])
+        ->rawColumns(['DT_RowId','is_approve','full_name','city','caste','married','status_td','command'])
         ->make(true);
+    }
+
+
+    public function approveStatus(Request $request ,$id)
+    {
+
+        $multipleIdExplode = explode(',',$id);
+
+        $approveData = MatrimonialModel::whereIn('id',$multipleIdExplode)->get()->toArray();
+        // dd($approveData);
+
+        if(count($approveData) > 0)
+        {
+            foreach($approveData as $record)
+            // dd($approveData);
+
+            {
+                $table_name = $record['is_approve'];
+
+
+                if($table_name == 1)
+                {
+
+                    $update = MatrimonialModel::where('id', '=', $record['id'])->update(['is_approve'=> 0]);
+
+
+                }
+                else{
+
+                    $update = MatrimonialModel::where('id', '=', $record['id'])->update(['is_approve'=> 1]);
+
+
+                }
+            }
+        }
+        return redirect()->back()->withSuccess('Data Approved successfully!');
     }
 
 
@@ -385,6 +430,8 @@ class MatrimonialController extends Controller
             return redirect()->route('matrimonial');
         }
     }
+
+
 
 
 }

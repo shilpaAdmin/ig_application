@@ -42,6 +42,7 @@
                                     <th>URL</th>
                                     <th>Media</th>
                                     <th>type</th>
+                                    <th>Approve Status</th>
                                     <th>Status</th>
                                     <th>Action</th>
 
