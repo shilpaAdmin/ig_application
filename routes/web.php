@@ -427,6 +427,9 @@ Route::namespace('Frontend')->group(function () {
 
     Route::get('/categorys/{id}','JobController@jobDetails')->name('job.details');
 
+    Route::get('/faq','FaqController@faqDetails')->name('faq.details');
+
+
 
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
