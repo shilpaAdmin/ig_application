@@ -2,42 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Model\TagForumMasterModel;
 use Illuminate\Http\Request;
 use App\Http\Requests\TagsRequest;
-
 use DataTables;
-
-use App\Http\Model\TagMasterModel;
 use Auth;
 
-class TagsController extends Controller
+class TagsforumController extends Controller
 {
     public function index(Request $request)
     {
-        return view('tags.index');
+        return view('tags_forum.index');
     }
 
     public function create()
     {
-        return view('tags.create');
+        return view('tags_forum.create');
     }
 
     public function delete($id)
     {
-        $delete = TagMasterModel::where('id', $id)->update([
+        $delete = TagForumMasterModel::where('id', $id)->update([
             'status' => 'deleted',
         ]);
 
         if ($delete) {
-            return redirect()->route('tags');
+            return redirect()->route('tagsforum');
         } else {
-            return redirect()->route('tags');
+            return redirect()->route('tagsforum');
         }
     }
 
-    public function tagsList()
+    public function tagsforumList()
     {
-        $result_obj = TagMasterModel::where('status','!=','deleted')->get();
+        $result_obj = TagForumMasterModel::where('status','!=','deleted')->get();
         // print_r($result_obj);
         // exit;
         return DataTables::of($result_obj)
@@ -87,7 +85,7 @@ class TagsController extends Controller
     {
         $input=$request->all();
 
-        $tags=new TagMasterModel;
+        $tags=new TagForumMasterModel;
         $tags->name=$input['name'];
 
         if(!empty($input['status']))
@@ -100,18 +98,18 @@ class TagsController extends Controller
 
         if($tags->save())
         {
-            return redirect( 'setting/tags' )->with('success','Tags has been added successfully!');
+            return redirect( 'admin/tagsforum' )->with('success','Tags Forum has been added successfully!');
         }
         else
         {
-            return redirect( 'setting/tags' )->with('error','Tags has not been added!');
+            return redirect( 'admin/tagsforum' )->with('error','Tags Forum has not been added!');
         }
     }
 
     public function edit($id)
     {
-        $row = TagMasterModel::where('id', $id)->first()->toArray();
-        return view('tags.edit', compact('row'));
+        $row = TagForumMasterModel::where('id', $id)->first()->toArray();
+        return view('tags_forum.edit', compact('row'));
     }
 
     public function update(TagsRequest $request,$id)
@@ -127,7 +125,7 @@ class TagsController extends Controller
             $status='inactive';
         }
 
-        $update=TagMasterModel::where('id',$id)->update(
+        $update=TagForumMasterModel::where('id',$id)->update(
             [
                 'name'=>$input['name'],
                 'status'=>$status,
@@ -136,11 +134,11 @@ class TagsController extends Controller
 
         if($update)
         {
-            return redirect()->route('tags');
+            return redirect()->route('tags_forum');
         }
         else
         {
-            return redirect()->route('tags');
+            return redirect()->route('tags_forum');
         }
     }
 
@@ -149,7 +147,7 @@ class TagsController extends Controller
 
         $multipleIdExplode = explode(',',$id);
 
-        $approveData = TagMasterModel::whereIn('id',$multipleIdExplode)->get()->toArray();
+        $approveData = TagForumMasterModel::whereIn('id',$multipleIdExplode)->get()->toArray();
         // dd($approveData);
 
         if(count($approveData) > 0)
@@ -164,13 +162,13 @@ class TagsController extends Controller
                 if($table_name == 1)
                 {
 
-                    $update = TagMasterModel::where('id', '=', $record['id'])->update(['is_approve'=> 0]);
+                    $update = TagForumMasterModel::where('id', '=', $record['id'])->update(['is_approve'=> 0]);
 
 
                 }
                 else{
 
-                    $update = TagMasterModel::where('id', '=', $record['id'])->update(['is_approve'=> 1]);
+                    $update = TagForumMasterModel::where('id', '=', $record['id'])->update(['is_approve'=> 1]);
 
 
                 }
@@ -178,6 +176,5 @@ class TagsController extends Controller
         }
         return redirect()->back()->withSuccess('Data Approved successfully!');
     }
-
 
 }

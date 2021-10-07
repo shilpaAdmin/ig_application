@@ -64,7 +64,7 @@
    background-position: 10% center;
 
    }
-   
+
    .container2 .btn {
    position: absolute;
    top: 90%;
@@ -100,7 +100,7 @@
                         </ul>
                     </div>
                     @endif
-                    
+
                     <form class="needs-validation" method="post" enctype="multipart/form-data"
                         action="{{route('category.store')}}" novalidate>
                         @csrf
@@ -172,7 +172,7 @@
 
                                 <div class="form-group">
                                     <img id="imageview" width="150px" height="150px" src="{{URL::asset('images/image-placeholder.jpg')}}" />
-                                    
+
                                 </div>
 
 
@@ -196,11 +196,11 @@
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="status" id="status" class="custom-control-input" value="Active"
                                 id="invalidCheck" >
-                                
+
                                 <label class="custom-control-label" for="invalidCheck">Active</label>
                             </div>
                         </div>
--->                        
+-->
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group ">
@@ -210,7 +210,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="hdnSearchCategoryId" id="hdnSearchCategoryId">
-                    </form> 
+                    </form>
                 </div>
             </div>
 
@@ -222,7 +222,7 @@
 
 <!-- Plugins js -->
 <script src="{{ URL::asset('assets/js/pages/form-validation.init.js')}}"></script>
-<!--<script src="{{ URL::asset('assets/js/pages/form-advanced.init.js')}}"></script>-->
+{{-- <script src="{{ URL::asset('assets/js/pages/form-advanced.init.js')}}"></script> --}}
 
 <script>
     $.ajaxSetup({
@@ -237,7 +237,7 @@
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-            
+
             reader.onload = function (e) {
                 $('#imageview').attr('src', e.target.result);
             }
@@ -316,7 +316,7 @@ $('#txtSearchCategory').on('select2:unselect', function (e) {
 });
 
     $('#subcategoryRadio').on('change',function(){
-        
+
         if($('#subcategoryRadio').is(':checked'))
         {
             $('#categoryDiv').show();
@@ -325,7 +325,7 @@ $('#txtSearchCategory').on('select2:unselect', function (e) {
     });
 
     $('#categoryRadio').on('change',function(){
-        
+
         if($('#categoryRadio').is(':checked'))
         {
             $('#categoryDiv').hide();

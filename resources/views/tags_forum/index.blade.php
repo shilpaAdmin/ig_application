@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Fourm @endsection
+@section('title') Tags Forum @endsection
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css') }}">
@@ -9,8 +9,8 @@
 @section('content')
 
     @component('common-components.breadcrumb')
-        @slot('title') Forum List @endslot
-        @slot('li_1') Forum @endslot
+        @slot('title') Tags Forum List @endslot
+        @slot('li_1') <a href="{{ route('tagsforum') }}" class=''>Tags forum</a> @endslot
         @slot('li_2') List @endslot
 
     @endcomponent
@@ -20,33 +20,30 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
-                        <h4 class="card-title" style="text-align:right;"><a href="{{ route('forum.create') }}"
+                        <h4 class="card-title" style="text-align:right;"><a href="{{ route('tagsforum.create') }}"
                                 class="btn btn-primary waves-effect btn-label waves-light"><i
                                     class="bx bx-plus label-icon"></i>ADD
-                                Fourm </a></h4><br><br><br>
+                                Tags Forum </a></h4><br><br><br>
 
-                            <div class="tableAction">
-                                <input type="button" id="approveStatusButton" value="Approve">
-                            </div>
-                            <table id="ForumList" class="table">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th></th>
-                                        <th>#</th>
-                                        <th>Id</th>
-                                        <th>Question</th>
-                                        <th>Description</th>
-                                        <th>URL</th>
-                                        <th>User</th>
-                                        <th>Approve Status</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                        <div class="tableAction">
+                            <input type="button" id="approveStatusButton" value="Approve">
+                        </div>
+                        <table id="TagforumList" class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
 
-                                </tbody>
-                            </table>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -79,9 +76,7 @@
                 }
             });
 
-
-
-            dt = $('#ForumList').DataTable({
+            dt = $('#TagforumList').DataTable({
                 destroy: true,
                 processing: true,
                 //serverSide: true,
@@ -91,8 +86,9 @@
                 "aaSorting": [],
                 rowReorder: true,
                 ajax: {
-                    url: "{{ url('/admin/forum/forumList') }}",
+                    url: "{{ route('datatable.tagsforumList') }}",
                 },
+
                 columns: [{
                         "data": null,
                         defaultContent: ''
@@ -113,38 +109,16 @@
                         targets: 1
                     },
                     {
-                        data: 'question',
-                        name: 'question',
-                        searchable: false,
-                    },
-                    {
-                        data: 'description',
-                        name: 'description',
-                        orderable: false,
-                    },
-                    {
-                        data: 'url',
-                        name: 'url',
-                        orderable: false,
-                        searchable: false,
-                    },
-                    {
-                        data: 'user_id',
-                        name: 'user_id',
-                        orderable: false,
-                        searchable: false,
+                        data: 'name',
+                        name: 'name',
                     },
                     {
                         data: 'is_approve',
                         name: 'is_approve',
-                        orderable: false,
-                        searchable: false,
                     },
                     {
                         data: 'status_td',
-                        name: 'status_td',
-                        orderable: false,
-                        searchable: false,
+                        name: 'status_td'
                     },
                     {
                         data: 'command',
@@ -153,7 +127,6 @@
                         orderable: false
                     }
                 ],
-
                 "columnDefs": [{
                     "targets": 0,
                     "data": "id",
@@ -180,7 +153,7 @@
                 }
             });
             var data = '';
-            $('#ForumList tbody').on('click', 'tr', function() {
+            $('#TagforumList tbody').on('click', 'tr', function() {
                 var allCheckboxLength = $('input[name="id[]"]').length;
                 var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
 
@@ -189,18 +162,18 @@
                 } else {
                     $('#selectAllCheckboxes').prop('checked', false);
                 }
-                $('#ForumList tbody tr').removeClass('selected');
+                $('#TagforumList tbody tr').removeClass('selected');
                 /*get checked checkbox value and check full row from table*/
                 $('input[name="id[]"]:checked').map(function() {
                     var checkedCheckBoxVal = $(this).val();
                     // alert("aa >> "+checkedCheckBoxVal);
-                    $('#ForumList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                    $('#TagforumList tbody #row_' + checkedCheckBoxVal).addClass('selected');
                     //console.log();
                     data = checkedCheckBoxVal;
                 });
 
                 /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#ForumList .selected').length;
+                var checkedRecordCount = $('#TagforumList .selected').length;
                 // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
                 if (checkedRecordCount > 0) {
@@ -214,20 +187,20 @@
             $('#selectAllCheckboxes').on('click', function() {
                 if ($('#selectAllCheckboxes').prop('checked')) {
                     // alert("In side if");
-                    $('#ForumList input[type="checkbox"]').prop('checked', true);
+                    $('#TagforumList input[type="checkbox"]').prop('checked', true);
                 } else {
 
-                    $('#ForumList input[type="checkbox"]').prop('checked', false);
+                    $('#TagforumList input[type="checkbox"]').prop('checked', false);
                 }
-                $('#ForumList tbody tr').removeClass('selected');
+                $('#TagforumList tbody tr').removeClass('selected');
                 $('input[name="id[]"]:checked').map(function() {
                     var checkedCheckBoxVal = $(this).val();
                     // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
-                    $('#ForumList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                    $('#TagforumList tbody #row_' + checkedCheckBoxVal).addClass('selected');
                 });
 
                 /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#ForumList .selected').length;
+                var checkedRecordCount = $('#TagforumList .selected').length;
                 // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
                 if (checkedRecordCount > 0) {
@@ -237,6 +210,7 @@
                     $("#approveStatusButton").attr("disabled", "disabled");
                 } //end here
             });
+
             $('.dataTables_filter input[type="search"]').css({
                 'width': '350px',
                 'display': 'inline-block'
@@ -263,29 +237,6 @@
 
         });
 
-
-        function deleteFourm(id) {
-            swal({
-                    title: "Are you sure?",
-                    text: "Delete Fourm",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, Delete it!",
-                    cancelButtonText: "No, cancel please!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function(isConfirm) {
-                    if (isConfirm) {
-                        window.location.href = "/admin/forum/delete/" + id;
-
-                    } else {
-                        swal("Cancelled", "Don't worry your data is safe :)", "error");
-                    }
-                });
-        }
-
         $('#approveStatusButton').click(function() {
 
 
@@ -305,7 +256,7 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
-                        window.location.href = "forum/approve/" + reomveId;
+                        window.location.href = "/admin/tagsforum/approve/" + reomveId;
                     }
                 });
         });

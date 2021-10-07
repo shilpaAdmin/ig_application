@@ -65,7 +65,7 @@ class ForumController extends Controller
         }
     }
 
-    public function advertisementList()
+    public function forumList()
     {
         $result_obj = ForumModel::where('forum.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
@@ -74,7 +74,10 @@ class ForumController extends Controller
         })->select('forum.*','user.name as user_id')->get();
 
         return DataTables::of($result_obj)
-
+        ->addColumn('DT_RowId', function ($result_obj)
+        {
+            return 'row_'.$result_obj->id;
+        })
         ->addColumn('question', function ($result_obj)
         {
             $question = '';
@@ -95,6 +98,15 @@ class ForumController extends Controller
             $url = '';
             $url = $result_obj->url;
             return $url;
+        })
+        ->addColumn('is_approve',function($result_obj)
+        {
+            $is_approve = '';
+            if($result_obj->is_approve==1)
+            $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
+            else
+            $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
+            return $is_approve;
         })
         ->addColumn('status_td',function($result_obj){
             $status = '';
@@ -120,7 +132,7 @@ class ForumController extends Controller
             </div>';
             return $command;
         })
-        ->rawColumns(['question','user_id','description','url','status_td','command'])
+        ->rawColumns(['DT_RowId','question','user_id','description','url','status_td','command','is_approve'])
         ->make(true);
     }
 
@@ -172,5 +184,40 @@ class ForumController extends Controller
         }
     }
 
+
+    public function approveStatus(Request $request ,$id)
+    {
+
+        $multipleIdExplode = explode(',',$id);
+
+        $approveData = ForumModel::whereIn('id',$multipleIdExplode)->get()->toArray();
+        // dd($approveData);
+
+        if(count($approveData) > 0)
+        {
+            foreach($approveData as $record)
+            // dd($approveData);
+
+            {
+                $table_name = $record['is_approve'];
+
+
+                if($table_name == 1)
+                {
+
+                    $update = ForumModel::where('id', '=', $record['id'])->update(['is_approve'=> 0]);
+
+
+                }
+                else{
+
+                    $update = ForumModel::where('id', '=', $record['id'])->update(['is_approve'=> 1]);
+
+
+                }
+            }
+        }
+        return redirect()->back()->withSuccess('Data Approved successfully!');
+    }
 
 }
