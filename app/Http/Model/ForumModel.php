@@ -12,7 +12,8 @@ class ForumModel extends Model
         'description',
         'url',
         'user_id',
-        'status'
+        'status',
+        'is_approve'
     ];
 
     public function user()
@@ -24,5 +25,5 @@ class ForumModel extends Model
     {
         return $this->hasMany(ForumCommentReplyModel::class, 'forum_id', 'id');
     }
-   
+
 }

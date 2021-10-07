@@ -107,8 +107,6 @@ class ForumController extends Controller
             else
             $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
             return $is_approve;
-            //$is_approve = $result_obj->is_approve;
-            //return $is_approve;
         })
         ->addColumn('status_td',function($result_obj){
             $status = '';
@@ -219,7 +217,7 @@ class ForumController extends Controller
                 }
             }
         }
-        return redirect()->back()->withSuccess('Data recovered successfully!');
+        return redirect()->back()->withSuccess('Data Approved successfully!');
     }
 
 }

@@ -49,7 +49,10 @@ class BusinessController extends Controller
         $result_obj = BusinessModel::where('status','!=','deleted')
         ->with('categories')->orderBy('id','DESC')->get();
         return DataTables::of($result_obj)
-
+        ->addColumn('DT_RowId', function ($result_obj)
+        {
+            return 'row_'.$result_obj->id;
+        })
         ->addColumn('description_td',function($result_obj){
             $description = '';
             if($result_obj->description=='')
@@ -73,6 +76,17 @@ class BusinessController extends Controller
             else
             $category_td='N/A';
             return $category_td;
+        })
+        ->addColumn('is_approve',function($result_obj)
+        {
+            $is_approve = '';
+            if($result_obj->is_approve==1)
+            $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
+            else
+            $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
+            return $is_approve;
+            //$is_approve = $result_obj->is_approve;
+            //return $is_approve;
         })
         ->addColumn('status_td',function($result_obj){
             $status = '';
@@ -105,7 +119,7 @@ class BusinessController extends Controller
 
             return $name;
         })
-        ->rawColumns(['status_td','command','image_src','type_td','name_td'])
+        ->rawColumns(['DT_RowId','status_td','command','image_src','type_td','name_td','is_approve'])
         ->make(true);
     }
 
@@ -656,5 +670,41 @@ class BusinessController extends Controller
 
 
         return view('business.businessdetail',compact('business_details'));
+    }
+
+
+    public function approveStatus(Request $request ,$id)
+    {
+
+        $multipleIdExplode = explode(',',$id);
+
+        $approveData = BusinessModel::whereIn('id',$multipleIdExplode)->get()->toArray();
+        // dd($approveData);
+
+        if(count($approveData) > 0)
+        {
+            foreach($approveData as $record)
+            // dd($approveData);
+
+            {
+                $table_name = $record['is_approve'];
+
+
+                if($table_name == 1)
+                {
+
+                    $update = BusinessModel::where('id', '=', $record['id'])->update(['is_approve'=> 0]);
+
+
+                }
+                else{
+
+                    $update = BusinessModel::where('id', '=', $record['id'])->update(['is_approve'=> 1]);
+
+
+                }
+            }
+        }
+        return redirect()->back()->withSuccess('Data recovered successfully!');
     }
 }

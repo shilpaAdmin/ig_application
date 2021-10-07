@@ -102,7 +102,10 @@ class AdvertisementController extends Controller
         })->select('advertisement.*','user.name as user_id','category.name as category_id')->get();
 
         return DataTables::of($result_obj)
-
+        ->addColumn('DT_RowId', function ($result_obj)
+        {
+            return 'row_'.$result_obj->id;
+        })
         ->addColumn('name', function ($result_obj)
         {
             $name = '';
@@ -164,7 +167,17 @@ class AdvertisementController extends Controller
             $type = $result_obj->type;
             return $type;
         })
-
+        ->addColumn('is_approve',function($result_obj)
+        {
+            $is_approve = '';
+            if($result_obj->is_approve==1)
+            $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
+            else
+            $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
+            return $is_approve;
+            //$is_approve = $result_obj->is_approve;
+            //return $is_approve;
+        })
         ->addColumn('status_td',function($result_obj){
             $status = '';
             if($result_obj->status=='active')
@@ -193,7 +206,7 @@ class AdvertisementController extends Controller
 
             return $command;
         })
-        ->rawColumns(['name','user_id','category_id','description','continously','start_date','url','image_src','type','status_td','command'])
+        ->rawColumns(['is_approve','name','user_id','category_id','description','continously','start_date','url','image_src','type','is_approve','status_td','command'])
         ->make(true);
     }
 
@@ -284,5 +297,38 @@ class AdvertisementController extends Controller
         }
     }
 
+    public function approveStatus(Request $request ,$id)
+    {
 
+        $multipleIdExplode = explode(',',$id);
+
+        $approveData = AdvertisementModel::whereIn('id',$multipleIdExplode)->get()->toArray();
+        // dd($approveData);
+
+        if(count($approveData) > 0)
+        {
+            foreach($approveData as $record)
+            // dd($approveData);
+
+            {
+                $table_name = $record['is_approve'];
+
+
+                if($table_name == 1)
+                {
+
+                    $update = AdvertisementModel::where('id', '=', $record['id'])->update(['is_approve'=> 0]);
+
+
+                }
+                else{
+
+                    $update = AdvertisementModel::where('id', '=', $record['id'])->update(['is_approve'=> 1]);
+
+
+                }
+            }
+        }
+        return redirect()->back()->withSuccess('Data recovered successfully!');
+    }
 }

@@ -70,6 +70,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('business/update/{id}', 'BusinessController@update')->name('business.update');
         Route::get('business/detailview/{id}', 'BusinessController@detailview')->name('business.detailview');
         Route::get('business/detail/{id}', 'BusinessController@businessdetail')->name('businessdetail');
+        Route::get('business/approve/{id}', 'BusinessController@approveStatus')->name('business.approve');
+
 
 
         Route::get('business/detail/{id}', 'BusinessDetailController@businessdetail')->name('businessdetail');
@@ -82,6 +84,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('tags/edit/{id}', 'TagsController@edit')->name('tags.edit');
         Route::get('tags/delete/{id}', 'TagsController@delete')->name('tags.delete');
         Route::post('tags/update/{id}', 'TagsController@update')->name('tags.update');
+        Route::get('tags/approve/{id}', 'TagsController@approveStatus')->name('tags.approve');
 
 
 
@@ -94,16 +97,18 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('category/autoComplete', 'AdvertisementController@advertiseCategoryAutoComplete')->name('AdcategoryAutoComplete');
         Route::get('advertisement/advertisementList', 'AdvertisementController@advertisementlist')->name('datatable.advertisementlist');
         Route::get('advertisement/delete/{id}', 'AdvertisementController@delete')->name('advertisement.delete');
+        Route::get('advertisement/approve/{id}', 'AdvertisementController@approveStatus')->name('advertisement.approve');
+
 
         //matrimonial routes
         Route::get('matrimonial', 'MatrimonialController@index')->name('matrimonial');
-        Route::get('matrimonial/create', 'matrimonialcontroller@create')->name('matrimonial.create');
-        Route::post('matrimonial/store', 'matrimonialcontroller@store')->name('matrimonial.store');
-        Route::get('matrimonial/edit/{id}', 'matrimonialcontroller@edit')->name('matrimonial.edit');
-        Route::post('matrimonial/update/{id}', 'matrimonialcontroller@update')->name('matrimonial.update');
-        Route::get('matrimonial/matrimonialList', 'matrimonialcontroller@matrimoniallist')->name('datatable.matrimoniallist');
-        Route::get('matrimonial/delete/{id}', 'matrimonialcontroller@delete')->name('matrimonial.delete');
-        Route::get('matrimonial-detail/{id}', 'MatrimonialDetailController@matrimonialDetail')->name('matrimonialdetail');
+        Route::get('matrimonial/create', 'MatrimonialController@create')->name('matrimonial.create');
+        Route::post('matrimonial/store', 'MatrimonialController@store')->name('matrimonial.store');
+        Route::get('matrimonial/edit/{id}', 'MatrimonialController@edit')->name('matrimonial.edit');
+        Route::post('matrimonial/update/{id}', 'MatrimonialController@update')->name('matrimonial.update');
+        Route::get('matrimonial/matrimonialList', 'MatrimonialController@matrimoniallist')->name('datatable.matrimoniallist');
+        Route::get('matrimonial/delete/{id}', 'MatrimonialController@delete')->name('matrimonial.delete');
+        Route::get('matrimonial-detail/{id}', 'MatrimonialController@matrimonialDetail')->name('matrimonialdetail');
 
         // Fourm routes
         Route::get('forum', 'ForumController@index')->name('forum');
@@ -147,10 +152,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('tagsforum', 'TagsforumController@index')->name('tagsforum');
         Route::get('tagsforum/create', 'TagsforumController@create')->name('tagsforum.create');
         Route::post('tagsforum/store', 'TagsforumController@store')->name('tagsforum.store');
-        Route::get('tagsforum/tagsforumList', 'TagsforumController@tagsList')->name('datatable.tagsforumList');
+        Route::get('tagsforum/tagsforumList', 'TagsforumController@tagsforumList')->name('datatable.tagsforumList');
         Route::get('tagsforum/edit/{id}', 'TagsforumController@edit')->name('tagsforum.edit');
         Route::get('tagsforum/delete/{id}', 'TagsforumController@delete')->name('tagsforum.delete');
         Route::post('tagsforum/update/{id}', 'TagsforumController@update')->name('tagsforum.update');
+        Route::get('tagsforum/approve/{id}', 'TagsforumController@approveStatus')->name('tagsforum.approve');
+
 
 
         //testmonial routes

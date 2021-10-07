@@ -20,7 +20,8 @@ class AdvertisementModel extends Model
         'url',
         'media',
         'type',
-        'status'
+        'status',
+        'is_approve'
     ];
 
     public function user()

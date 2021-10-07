@@ -11,7 +11,8 @@ class TagMasterModel extends Model
         'name',
         'created_by	',
         'last_updated_by',
-        'status'
+        'status',
+        'is_approve'
 
 
     ];
