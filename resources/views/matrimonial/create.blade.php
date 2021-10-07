@@ -36,7 +36,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Full Name</label>
-                                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter full name" maxlength="100" required />
+                                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter full name" maxlength="100" required/>
                                 <div class="invalid-feedback">
                                     Please provide a Full Name.
                                 </div>
@@ -252,13 +252,13 @@
                                 <label for="formrow-firstname-input">Married</label>
                                 <div class="d-flex">
                                 <div class="form-check mr-2">
-                                    <input class="form-check-input" type="radio" id="married_yes" name="Married" value="Yes" />
+                                    <input class="form-check-input" type="radio" id="married_yes" name="Married" value="Yes" required/>
                                     <label class="form-check-label" for="married_yes">
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check mr-2">
-                                <input class="form-check-input" type="radio" id="married_no" name="Married" value="No" />
+                                <input class="form-check-input" type="radio" id="married_no" name="Married" value="No" required/>
                                     <label class="form-check-label" for="married_no">
                                         No
                                     </label>
@@ -276,13 +276,13 @@
                                 <label for="formrow-firstname-input">Private</label>
                                 <div class="d-flex">
                                 <div class="form-check mr-2">
-                                    <input class="form-check-input" type="radio" id="private_yes" name="private" value="Yes" />
+                                    <input class="form-check-input" type="radio" id="private_yes" name="private" value="Yes" required/>
                                     <label class="form-check-label" for="private_yes">
                                         Yes
                                     </label>
                                 </div>
                                 <div class="form-check mr-2">
-                                    <input class="form-check-input" type="radio" id="private_no" name="private" value="No" />
+                                    <input class="form-check-input" type="radio" id="private_no" name="private" value="No" required/>
                                     <label class="form-check-label" for="private_no">
                                         No
                                     </label>
@@ -299,14 +299,14 @@
                                 <label for="formrow-firstname-input">Desired Marital Status</label>
                                 <div class="d-flex">
                                 <div class="form-check mr-2">
-                                    <input class="form-check-input" type="radio" id="unmarried" name="desired_marital_status" value="Unmarried" />
+                                    <input class="form-check-input" type="radio" id="unmarried" name="desired_marital_status" value="Unmarried" required/>
                                     <label class="form-check-label" for="unmarried">
                                         Unmarried
                                     </label>
 
                                 </div>
                                 <div class="form-check mr-2">
-                                    <input class="form-check-input" type="radio" id="married" name="desired_marital_status" value="Married" />
+                                    <input class="form-check-input" type="radio" id="married" name="desired_marital_status" value="Married" required/>
                                     <label class="form-check-label" for="married">
                                         Married
                                     </label>
@@ -338,7 +338,7 @@
                                        <div class="form-group">
                                        <input type="file" class="custom-file-input media_file form-control" name="media_file" id="media_file" accept="image/*" required />
                                         <label class="custom-file-label" for="customFile">Image</label>
-                                        <div class="invalid-feedback invalid-feedback-pic">
+                                        <div class="invalid-feedback">
                                             Media File is required !
                                         </div>
                                        </div>
@@ -353,6 +353,7 @@
                             </div>
                             <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn"><i class="bx bx-plus label-icon"></i> Add New</button>
                         </div>
+                        
                         <div class="col-md-12">
                             <div class="row">
                                 <label for="example-text-input" class="col-md-12 col-form-label pl-0">
@@ -366,7 +367,7 @@
                                             <div class="form-group email-form-margin">
                                                     {{-- <label for="formrow-email-input">Title</label> --}}
                                                     <div class="custom-file">
-                                                        <input type="text" placeholder="Enter Title" id="title" name="title" class="form-control" />
+                                                        <input type="text" placeholder="Enter Title" id="title" name="title" class="form-control" required/>
                                                         <div class="invalid-feedback">
                                                             Please provide a Title.
                                                         </div>
@@ -376,7 +377,7 @@
                                         <div class="col-lg-4 email-form-margin pl-0">
                                             <div class="form-group">
                                                 <div class="custom-file">
-                                                    <input type="text" placeholder="Enter Description" id="description" name="description" class="form-control" />
+                                                    <input type="text" placeholder="Enter Description" id="description" name="description" class="form-control" required/>
                                                     <div class="invalid-feedback">
                                                         Please provide a Description.
                                                     </div>
@@ -389,7 +390,10 @@
                                             </button>
                                         </div>
                                     </div>
+
                                 </div>
+                                <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light"><i class="bx bx-plus label-icon"></i>Add New</button>
+
 
                             </div>
                         </div>
@@ -428,6 +432,7 @@
 
 <!-- form mask -->
 <script src="{{ URL::asset('assets/libs/jquery-repeater/jquery-repeater.min.js')}}"></script>
+<script src="{{ URL::asset('assets/js/pages/form-validation.init.js')}}"></script>
 
 <!-- form mask init -->
 <script src="{{ URL::asset('assets/js/pages/form-repeater.int.js')}}"></script>
@@ -462,7 +467,7 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
-                $(input).parent().find(".small-pic").children().attr("src", e.target.result);
+                $(input).parent().parent().prev().find(".imagePreview2 ").attr("src", e.target.result);
             };
             reader.readAsDataURL(input.files[0]);
         }

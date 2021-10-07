@@ -41,22 +41,6 @@ class ForumController extends Controller
     {
         $input=$request->all();
 
-        if(isset($input['status']))
-        {
-            if($input['status'] == 'on')
-            {
-                $status = 'active';
-            }
-            else
-            {
-                $status = 'inactive';
-            }
-        }
-        else
-        {
-            $status = 'inactive';
-        }
-
         $userID = $request->user_id;
 
         $obj=new ForumModel();
@@ -64,7 +48,11 @@ class ForumController extends Controller
         $obj->description=$input['description'];
         $obj->url=$input['url'];
         $obj->user_id=$userID;
-        $obj->status = $status;
+
+        if(!empty($input['status']))
+        $obj->status=$input['status'];
+        else
+        $obj->status='inactive';
         $obj->save();
 
         if($obj)
@@ -151,22 +139,6 @@ class ForumController extends Controller
     {
         $input=$request->all();
 
-        if(isset($input['status']))
-        {
-            if($input['status'] == 'on')
-            {
-                $status = 'active';
-            }
-            else
-            {
-                $status = 'inactive';
-            }
-        }
-        else
-        {
-            $status = 'inactive';
-        }
-
         $userID = $request->user_id;
 
         $obj= ForumModel::find($id);
@@ -174,7 +146,11 @@ class ForumController extends Controller
         $obj->description=$input['description'];
         $obj->url=$input['url'];
         $obj->user_id=$userID;
-        $obj->status = $status;
+
+        if(!empty($input['status']))
+        $obj->status=$input['status'];
+        else
+        $obj->status='inactive';
         $obj->save();
 
         if($obj)

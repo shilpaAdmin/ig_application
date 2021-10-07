@@ -130,7 +130,7 @@
 
                         <div class="form-group" id="categoryDiv">
                             <label for="formrow-firstname-input">Category</label>
-                            <select class="form-select form-control form-control-lg txtSearchKeyword-box" data-search="on"  name="category_id" id="txtSearchCategory" >
+                            <select class="form-select form-control form-control-lg txtSearchKeyword-box" data-search="on"  name="category_id" id="txtSearchCategory" required>
                             </select>
 
                             <div class="invalid-feedback">
@@ -174,6 +174,9 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                         </div>
+                                        <div class="invalid-feedback">
+                                            Please provide a Start Date.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -189,6 +192,9 @@
                                         <input style="text-align: left !important;" type="text" placeholder="Enter End Date" class="form-control" name="end_date" value="{{ $row['end_date']}}" required />
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please provide a End Date.
                                         </div>
                                     </div>
                                 </div>
@@ -303,7 +309,7 @@
         }
     }
 
-    var str_url = '{{route("categoryAutoComplete")}}';
+    var str_url = '{{route("AdcategoryAutoComplete")}}';
 
     $('#txtSearchCategory').select2({
     ajax: {

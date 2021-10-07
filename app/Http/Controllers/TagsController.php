@@ -41,7 +41,6 @@ class TagsController extends Controller
         // print_r($result_obj);
         // exit;
         return DataTables::of($result_obj)
-        
         ->addColumn('status_td',function($result_obj){
             $status = '';
             if($result_obj->status=='active')
@@ -132,4 +131,60 @@ class TagsController extends Controller
         }
     }
     
+    public function tagsApprove(Request $request)
+    {
+        $input=$request->all();
+        //$multipleIdExplode = explode(',',$id);
+
+        /*$approveData = TagMasterModel::whereIn('id',$multipleIdExplode)->get()->toArray();
+        // dd($approveData);
+
+        if(count($approveData) > 0)
+        {
+            foreach($approveData as $record)
+            // dd($approveData);
+
+            {
+                $table_name = $record['is_approve'];
+
+
+                if($table_name == 0)
+                {
+
+                    $update = TagMasterModel::where('id', '=', $multipleIdExplode)->update(['is_approve'=> 0]);
+
+
+                }
+                else{
+
+                    $update = TagMasterModel::where('id', '=', $multipleIdExplode)->update(['is_approve'=> 1]);
+                   
+
+                }
+            }*/
+        print_r($input);
+        $approveData=TagMasterModel::where('id',$input['data'])->first();
+
+        if($approveData!==null && $approveData->count() > 0)
+        {
+            echo 'in count<br>';
+            foreach($approveData as $record)
+            {
+                $table_name = $record->is_approve;
+
+
+                if($table_name == 0)
+                {
+                    $update = TagMasterModel::where('id', '=', $input['data'])->update(['is_approve'=> 0]);
+                }
+                else
+                {
+                    $update = TagMasterModel::where('id', '=', $input['data'])->update(['is_approve'=> 1]);
+                }
+            }
+
+            // $delete = DeleteLogModel::whereIn('id',$multipleIdExplode)->delete();
+        }
+        echo json_encode(array('status'=>true,'message'=>'Status Changed !'));
+    }
 }

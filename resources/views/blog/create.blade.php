@@ -7,7 +7,7 @@
     width: 200px;
     }
 
-    @media (min-width: 993px) and (max-width: 1286px) 
+    @media (min-width: 993px) and (max-width: 1286px)
     {
         .imgdisplay-blog {
             height: 150px;
@@ -166,7 +166,7 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
-                $(input).parent().find(".small-pic").children().attr("src", e.target.result);
+                $(input).parent().parent().find(".small-pic").children().attr("src", e.target.result);
             };
             reader.readAsDataURL(input.files[0]);
         }

@@ -17,3 +17,5 @@ ALTER TABLE `testimonial` ADD `is_deleted` TINYINT(4) NOT NULL DEFAULT '0' COMME
 ALTER TABLE `city` ADD `status` ENUM('active','inactive','deleted') NOT NULL AFTER `contact_number`;
 
 ALTER TABLE `category` CHANGE `redirect_status` `redirect_status` INT(11) NULL DEFAULT '0' COMMENT '0-business , 1-faq, 2- forum, 3- matrimonial, 4- blog';
+
+ALTER TABLE `tag_master` ADD `is_approve` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0-disapprove,1-approve' AFTER `status`;
