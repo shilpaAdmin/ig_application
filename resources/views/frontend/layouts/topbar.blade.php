@@ -1,5 +1,5 @@
 
- 
+
 
 
  <!-- Modal location-->
@@ -106,7 +106,7 @@
                 <div class="main-nav__main-navigation one float-left">
                     <ul class="main-nav__navigation-box">
                         <li class="current-menu-item"> <a class="" href="{{ route('/') }}">Home</a></li>
-                          <li> <a href="{{ route('Faqs') }}">FAQs</a></li>
+                          <li> <a href="{{ route('faq.details') }}">FAQs</a></li>
                           <li> <a href="{{ route('ForumList') }}">Forum</a></li>
                           <li> <a href="{{ route('Contact') }}">Contact</a></li>
                     </ul>

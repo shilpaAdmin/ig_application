@@ -815,7 +815,7 @@
                 @foreach ($forums as $forum)
                 <div class="row forum__box">
                     <div class="col-lg-1  for_profile">
-                    
+
                         <img src="{{ URL::asset('images/user/'.$forum->user_image)}}" class="f__img_left')}}">
                     </div>
 
@@ -1334,23 +1334,23 @@
                             // link generate
                             var url='#';
                             if(redirectStatus==2){ // forum list
-                                url="{{ route('ForumList') }}";    
-                            } else if(redirectStatus==3){ //matrimonial 
-                                url="{{route('matrimoney')}}";    
+                                url="{{ route('ForumList') }}";
+                            } else if(redirectStatus==3){ //matrimonial
+                                url="{{route('matrimoney')}}";
                             } else if(redirectStatus=='5'){ // entertainment
                                 url="{{route('EntertainmentListingGrid')}}";
                             } else if(redirectStatus=='1'){ //faq
-                                url="{{ route('Faqs') }}";
+                                url="{{ route('faq.details') }}";
                             }
 
                             var btnLink='';
-                            if(redirectStatus=='1' || redirectStatus=='2' || redirectStatus=='3' ||redirectStatus=='4' || redirectStatus=='5') 
+                            if(redirectStatus=='1' || redirectStatus=='2' || redirectStatus=='3' ||redirectStatus=='4' || redirectStatus=='5')
                             {
                                 btnLink='<button class="explore_categories_arrow">\
                                             <a href="'+url+'"><span class="icon-right-arrow"></span></a>\
                                         </button>';
                             }
-                            else 
+                            else
                             {
                                 btnLink='<button class="explore_categories_arrow">\
                                                 <span type="button" data-toggle="modal" class="icon-right-arrow business-category" data-target="'+modelid+'" data-id="'+id+'" data-name="'+name+'"></span>\
@@ -1381,7 +1381,7 @@
                     var categoryId = $(this).attr("data-id");
                     var categoryName = $(this).attr("data-name");
                     $('#businessTitle').text(categoryName);
-                   
+
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': "{{csrf_token()}}"
@@ -1397,19 +1397,19 @@
                         beforeSend: function() {
                             $('#loader').show(); // Show loader
                         },
-                        success: function(data) 
+                        success: function(data)
                         {
                             $('#categoryBusinessModel').modal('show');
                             var htmlStr='';
-                            if(data.Result.length) 
+                            if(data.Result.length)
                             {
-                                $.each(data.Result, function(i) 
+                                $.each(data.Result, function(i)
                                 {
                                     var name = data.Result[i]['Name'];
                                     htmlStr+='<div class="w-50 float-left"> <a class=" a_cat_color" href="javascript:;"><i class="fas fa-angle-right"></i> '+name+'</a> </div>';
                                 });
-                            } 
-                            else 
+                            }
+                            else
                             {
                                 htmlStr='<div class="w-50 float-left"> <p>Data Not Found...!!!</p></div>';
                             }
@@ -1432,20 +1432,20 @@
                     });
                 });
             });
-            
+
             function setCategoryHtml(data)
             {
                 var catSubcatHtml = '';
                 var k = 0;
                 var currentAnimationStatus = 'slideInRight';
-                $.each(data.Result, function (i) 
+                $.each(data.Result, function (i)
                 {
                     var id = data.Result[i]['Id'];
                     var name = data.Result[i]['Name'];
                     var icon = data.Result[i]['Icon'];
                     var redirectStatus = data.Result[i]['redirect_status'];
                     var categoryPageRedirect = data.Result[i]['CategoryPageRedirect'];
-                    
+
 
                     if(data.Result[i].Subcategories != undefined)
                     {
@@ -1514,16 +1514,16 @@
                         catSubcatHtml += '</div>';
                         catSubcatHtml += '</div>';
                         catSubcatHtml += '<div id="honeyBeeIdForCategoryList'+k+'" class="bg_pattern_honeybee2" style="display:none;"></div>';
-                        catSubcatHtml += '</section>'; 
+                        catSubcatHtml += '</section>';
                         k++;
                     }
                 });
-                
+
                 $("#categoryWiseBusinessListingDivId").html(catSubcatHtml);
                 var finalLengthOfK = parseInt(k) - 1;
                 if(finalLengthOfK > 0)
                 {
-                    if($("#honeyBeeIdForCategoryList"+finalLengthOfK).length > 0) 
+                    if($("#honeyBeeIdForCategoryList"+finalLengthOfK).length > 0)
                     {
                         $("#honeyBeeIdForCategoryList"+finalLengthOfK).show();
                     }
