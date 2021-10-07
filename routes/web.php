@@ -34,7 +34,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get("/",'Admin\LoginController@viewlogin')->name('admin.login');
         Route::post('/login', 'Admin\LoginController@authenticate')->name('admin.authenticate');
     });
-    
+
 //     // Login Protected Routes
 //     Route::middleware(['auth'])->group(function () {
 //         // Place all your admin protected routes here ...
@@ -217,7 +217,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 // });
 
- 
+
     // Login Protected Routes
     Route::middleware(['auth'])->group(function () {
         // Place all your admin protected routes here ...
@@ -421,9 +421,12 @@ Route::namespace('Frontend')->group(function () {
 
     //category wise business listinng
     Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
-    
+
     //housing
     Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
+
+    Route::get('/categorys/{id}','JobController@jobDetails')->name('job.details');
+
 
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
