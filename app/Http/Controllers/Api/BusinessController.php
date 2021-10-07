@@ -101,7 +101,7 @@ class BusinessController extends Controller
 
         if(empty($request->DisplayMon) && empty($request->DisplayTue) && empty($request->DisplayWed) && empty($request->DisplayThur)
         && empty($request->DisplayFri) && empty($request->DisplaySat) && empty($request->DisplaySun))
-        {   
+        {
             $updateHoursFlag=1;
         }
 
@@ -171,7 +171,7 @@ class BusinessController extends Controller
             }
 
         }
-        
+
         if(count($relatedPersonDataArray) > 0)
         {
             $relatedPersonDataJson = json_encode($relatedPersonDataArray,JSON_FORCE_OBJECT);
@@ -187,7 +187,7 @@ class BusinessController extends Controller
             if(isset($input['BusinessId']) && !empty($input['BusinessId']))
             {
                 $data = BusinessModel::find($request->BusinessId);
-                
+
                 if(isset($request->RegisterId) && !empty($request->RegisterId))
                 $data->user_id=$request->RegisterId;
 
@@ -220,48 +220,48 @@ class BusinessController extends Controller
 
                 if(isset($request->USPID) && !empty($request->USPID))
                 $data->multiple_subcategory_id=$request->USPID;
-                
+
                 if(isset($request->ActualPrice) && !empty($request->ActualPrice))
                 $data->actual_price=$request->ActualPrice;
-                
+
                 if(isset($request->SellingPrice) && !empty($request->SellingPrice))
                 $data->selling_price=$request->SellingPrice;
-                
+
                 if(isset($request->DisplayHours) && !empty($request->DisplayHours))
                 $data->display_hours=$request->DisplayHours;
-                
+
                 if(isset($request->PaymentMode) && !empty($request->PaymentMode))
                 $data->payment_mode=$request->PaymentMode;
-                
+
                 if(isset($request->ContactPersonName) && !empty($request->ContactPersonName))
                 $data->contact_person_name=$request->ContactPersonName;
-                
+
                 if(isset($request->MobileNumber) && !empty($request->MobileNumber))
                 $data->mobile_number=$request->MobileNumber;
-                
+
                 if(isset($request->EmailID) && !empty($request->EmailID))
                 $data->email_id=$request->EmailID;
-                
+
                 if(isset($request->Website) && !empty($request->Website))
                 $data->website=$request->Website;
-                
+
                 //if(isset($mediaJson) && !empty($mediaJson))
                 if($updateMediaFlag!=1)
                 $data->media_file_json=$mediaJson;
-                
+
                 if(isset($request->UnitOption) && !empty($request->UnitOption))
                 $data->unit_option=$request->UnitOption;
-                
+
                 //if(isset($jsonJobData) && !empty($jsonJobData))
                 if($updateJobDetailFlag!=1)
                 $data->job_detail_json=$jsonJobData;
-                
+
                 if(isset($request->ReferenceUrl) && !empty($request->ReferenceUrl))
                 $data->reference_url=$request->ReferenceUrl;
-                
+
                 if(isset($request->Syllabus) && !empty($request->Syllabus))
                 $data->syllabus=$request->Syllabus;
-                
+
                 //if(isset($relatedPersonDataJson) && !empty($relatedPersonDataJson))
                 if($updateRelatedPersonDetailFlag!=1)
                 $data->realated_person_detail_json=$relatedPersonDataJson;
@@ -272,7 +272,7 @@ class BusinessController extends Controller
                 $data->status = 'active';
 
                 $data->save();
-                
+
                 /*$data->user_id = !empty($request->RegisterId) ? $request->RegisterId : "";
                 $data->tag_id = !empty($tagIdArray) ? implode(',',$tagIdArray) : "";
                 $data->category_id = !empty($request->CatagoryID) ? $request->CatagoryID : "";
@@ -348,7 +348,7 @@ class BusinessController extends Controller
             // $data->created_by = $request->mobile_number;
             // $data->last_updated_by = $request->hours_json;
             $locationData=$this->getUserLocationDetail($request->RegisterId);
-            
+
             if($locationData!==null)
             {
                 $data->cityid_or_countryid=$locationData->location_id;
@@ -410,19 +410,19 @@ class BusinessController extends Controller
     	$skip = (($Pagination - 1) * 30) ;
         $IsFavourite = isset($request->IsFavourite) ? $request->IsFavourite : '';
         $userId = isset($request->RegisterId) ? $request->RegisterId : '';
-        
+
 //        if(!isset($userId) || empty($userId))
 //        {
 //            $error[] = 'RegisterId Must be Required!';
 //        }
-        
+
 //        if(!empty($error))
 //        {
 //            return response()->json(['Status'=>False,'StatusMessage'=>$error,'Result'=>array()]);
 //        }
-                
+
         $totalCount = BusinessModel::where('status','active')->count();
-        
+
         $preQuery = BusinessModel::where('business.status','active')
         ->leftJoin('tag_master', function ($join) {
             $join->on('tag_master.id', '=', 'business.tag_id');
@@ -438,16 +438,16 @@ class BusinessController extends Controller
             $PriceMin = isset($request->PriceMin) ? $request->PriceMin : '';
             $FeatureOrTag = isset($request->FeatureOrTag) ? $request->FeatureOrTag : '';
             $SearchName = isset($request->SearchName) ? $request->SearchName : '';
-            
+
             if(isset($PriceMax) && !empty($PriceMax) && isset($PriceMin) && !empty($PriceMin))
             {
                 $query->whereBetween('business.selling_price', [$PriceMin,$PriceMax]);
             }
-            elseif (isset($PriceMin) && !empty($PriceMin)) 
+            elseif (isset($PriceMin) && !empty($PriceMin))
             {
                 $query->where('business.selling_price','>=', $PriceMin);
             }
-            elseif (isset($PriceMax) && !empty($PriceMax)) 
+            elseif (isset($PriceMax) && !empty($PriceMax))
             {
                 $query->where('business.selling_price','<=', $PriceMax);
             }
@@ -457,7 +457,7 @@ class BusinessController extends Controller
                 $query->whereBetween('business.selling_price', [$PriceMin,$PriceMax]);
             }
 
-            
+
             if(isset($CatagoryId) && !empty($CatagoryId))
             {
                 $query->where('business.category_id', $CatagoryId);
@@ -488,7 +488,7 @@ class BusinessController extends Controller
             {
                 $query->where('business.name', 'like', '%'. $SearchName.'%');
             }
-            
+
             if(isset($FeatureOrTag) && !empty($FeatureOrTag))
             {
                 if( strpos($FeatureOrTag, ',') !== false )
@@ -512,30 +512,30 @@ class BusinessController extends Controller
                 }
             }
         })->select('business.*','category.name as category_name');
-        
+
         if(isset($IsFavourite) && !empty($IsFavourite) && (strtolower($IsFavourite) == 'Yes'))
         {
             $preQuery->join('business_favourite', 'business_favourite.user_id', '=', 'business.user_id');
         }
         /* count of all data*/
         $totalFilteredCount = $preQuery->count();
-        
+
         /* fetch data*/
 
         if($Pagination==0)
         $listBusiness = $preQuery->get()->toArray();
         else
         $listBusiness = $preQuery->skip($skip)->take(30)->get()->toArray();
-        
+
         $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
-        
+
         $j = 0;
         $locationData = array();
         $tagIdArray = array();
-        
+
         $dataArray['TotalCount'] = $totalCount;
         $dataArray['FilteredCount'] = $totalFilteredCount;
-        
+
         if(count($fetchAllTag) > 0)
         {
             $t = 0;
@@ -574,7 +574,7 @@ class BusinessController extends Controller
                             array_push($tagNameArray, $data['name']);
                         }
                     }
-                    
+
                     if(count($tagNameArray) > 0)
                     {
                         $finalTagData = implode(',',$tagNameArray);
@@ -600,7 +600,7 @@ class BusinessController extends Controller
                             array_push($categoryNameArray, $data['name']);
                         }
                     }
-                    
+
                     if(count($categoryNameArray) > 0)
                     {
                         $finalCategoryData = implode(',',$categoryNameArray);
@@ -616,13 +616,13 @@ class BusinessController extends Controller
                     $isFavourite = 'No';
                 }
                 $mediaFileArray = $hoursArray = array();
-                
+
                 if(isset($businessData['hours_json']) && !empty($businessData['hours_json']))
                     $hoursArray = json_decode($businessData['hours_json'], true);
-                
+
                 if(isset($businessData['media_file_json']) && !empty($businessData['media_file_json']))
                     $mediaFileArray = json_decode($businessData['media_file_json'], true);
-                
+
                 $urlArray['URL'] = array();
                 if(count($mediaFileArray) > 0)
                 {
@@ -667,12 +667,12 @@ class BusinessController extends Controller
             return response()->json(['Status'=>False,'StatusMessage'=>'No Data Available','Result'=>array()]);
         }
     }
-        
+
     public function businessDetailData(Request $request)
     {
         $input = $request->all();
         $userId = isset($request->RegisterId) ? $request->RegisterId : '';
-        
+
         if(!isset($request->ListId) || empty($request->ListId))
         {
             $error[] = 'ListId Must be Required!';
@@ -681,17 +681,17 @@ class BusinessController extends Controller
         {
             return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
         }
-        $businessId = $request->ListId;  
+        $businessId = $request->ListId;
         $listBusiness = BusinessModel::where('business.status','active')
                 ->where('business.id',$businessId)
                 ->leftJoin('category', function ($join) {
                     $join->on('category.id', '=', 'business.category_id');
                 })->select('business.*','category.name as category_name')->get()->toArray();
-        
+
         $j = 0;
         $locationData = array();
         $tagIdArray = array();
-        
+
         if(count($listBusiness) > 0)
         {
             foreach($listBusiness as $businessData)
@@ -716,7 +716,7 @@ class BusinessController extends Controller
                             array_push($tagNameArray, $data['name']);
                         }
                     }
-                    
+
                     if(count($tagNameArray) > 0)
                     {
                         $finalTagData = implode(',',$tagNameArray);
@@ -742,7 +742,7 @@ class BusinessController extends Controller
                             array_push($categoryNameArray, $data['name']);
                         }
                     }
-                    
+
                     if(count($categoryNameArray) > 0)
                     {
                         $finalCategoryData = implode(',',$categoryNameArray);
@@ -758,7 +758,7 @@ class BusinessController extends Controller
                     $isFavourite = 'No';
                 }
                 $mediaFileArray = $hoursArray = array();
-                
+
                 if(isset($businessData['hours_json']) && !empty($businessData['hours_json']))
                     $hoursArray = json_decode($businessData['hours_json'], true);
                 $urlArray['URL'] = array();
@@ -775,10 +775,10 @@ class BusinessController extends Controller
                         }
                     }
                 }
-                    
-                
-                
-                
+
+
+
+
                 $relatedPersonUrlArray['URL'] = array();
                 if(isset($businessData['realated_person_detail_json']) && !empty($businessData['realated_person_detail_json']))
                 {
@@ -796,7 +796,7 @@ class BusinessController extends Controller
                         }
                     }
                 }
-                
+
                 $JobSalary = $JobExperience = $JobQualification = '';
                 if(isset($businessData['job_detail_json']) && !empty($businessData['job_detail_json']))
                     $jobDetailArray = json_decode($businessData['job_detail_json'], true);
@@ -806,8 +806,8 @@ class BusinessController extends Controller
                     $JobExperience = $jobDetailArray['JobExperience'];
                     $JobQualification = $jobDetailArray['JobQualification'];
                 }
-                
-                
+
+
                 $dataArray['List'][$j]['Id'] = (string)$businessData['id'];
                 $dataArray['List'][$j]['Name'] = $businessData['name'];
                 $dataArray['List'][$j]['FeatureorTag'] = $finalTagData;
@@ -857,7 +857,7 @@ class BusinessController extends Controller
         $userId = isset($request->RegisterId) ? $request->RegisterId : '';
 
         $totalCount = BusinessModel::where('status','active')->count();
-        
+
         $preQuery = BusinessModel::where('business.status','active')
         ->leftJoin('tag_master', function ($join) {
             $join->on('tag_master.id', '=', 'business.tag_id');
@@ -901,28 +901,28 @@ class BusinessController extends Controller
             {
                 $query->where('business.user_id', $userId);
             }
-            
+
         })->select('business.*','category.name as category_name');
-        
+
         if(isset($IsFavourite) && !empty($IsFavourite) && (strtolower($IsFavourite) == 'yes'))
         {
             $preQuery->join('business_favourite', 'business_favourite.user_id', '=', 'business.user_id');
         }
         /* count of all data*/
         $totalFilteredCount = $preQuery->count();
-        
+
         /* fetch data*/
         $listBusiness = $preQuery->skip($skip)->take(30)->get()->toArray();
-        
+
         $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
-        
+
         $j = 0;
         $locationData = array();
         $tagIdArray = array();
-        
+
         $dataArray['TotalCount'] = $totalCount;
         $dataArray['FilteredCount'] = $totalFilteredCount;
-        
+
         if(count($fetchAllTag) > 0)
         {
             $t = 0;
@@ -937,7 +937,7 @@ class BusinessController extends Controller
         {
             $dataArray['ApprovedFeaturesOrTags'] = array();
         }
-        
+
         if(count($listBusiness) > 0)
         {
             foreach($listBusiness as $businessData)
@@ -962,7 +962,7 @@ class BusinessController extends Controller
                             array_push($tagNameArray, $data['name']);
                         }
                     }
-                    
+
                     if(count($tagNameArray) > 0)
                     {
                         $finalTagData = implode(',',$tagNameArray);
@@ -988,7 +988,7 @@ class BusinessController extends Controller
                             array_push($categoryNameArray, $data['name']);
                         }
                     }
-                    
+
                     if(count($categoryNameArray) > 0)
                     {
                         $finalCategoryData = implode(',',$categoryNameArray);
@@ -1004,13 +1004,13 @@ class BusinessController extends Controller
                     $isFavourite = 'No';
                 }
                 $mediaFileArray = $hoursArray = array();
-                
+
                 if(isset($businessData['hours_json']) && !empty($businessData['hours_json']))
                     $hoursArray = json_decode($businessData['hours_json'], true);
-                
+
                 if(isset($businessData['media_file_json']) && !empty($businessData['media_file_json']))
                     $mediaFileArray = json_decode($businessData['media_file_json'], true);
-                
+
                 $urlArray['URL'] = array();
                 if(count($mediaFileArray) > 0)
                 {
@@ -1058,12 +1058,12 @@ class BusinessController extends Controller
     public function userEnquireEnroll(Request $request)
     {
         $input=$request->all();
-        
+
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';
 		}
-        
+
         if(!isset($input['ListId']) || empty($input['ListId']))
         {
             $error[] = 'ListId Must be Required!';
@@ -1075,9 +1075,9 @@ class BusinessController extends Controller
 		}
 
         if(isset($input['RegisterId']) && !empty($input['RegisterId']))
-        {   
+        {
             $user=User::where('id',$input['RegisterId'])->first();
-            
+
             if($user===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!','Result'=>array()]);
@@ -1085,9 +1085,9 @@ class BusinessController extends Controller
         }
 
         if(isset($input['ListId']) && !empty($input['ListId']))
-        {   
+        {
             $business=BusinessModel::where('id',$input['ListId'])->first();
-            
+
             if($business===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'Business record not exist!','Result'=>array()]);
@@ -1109,7 +1109,7 @@ class BusinessController extends Controller
         return response()->json(['Status'=>$status,'StatusMessage'=>$statusMessage,'Result'=>array()]);
     }
 
-   
+
     public function getBusinessUserEnquiryList(Request $request)
     {
         $input=$request->all();
@@ -1125,11 +1125,11 @@ class BusinessController extends Controller
 
                 if(isset($input['ListId']) && !empty($input['ListId']))
                 $userBusinessEnquiryPreQuery->where('business.id',$input['ListId']);
-                
+
                 $userBusinessEnquiryData= $userBusinessEnquiryPreQuery
                 ->get()->toArray();
         */
-        
+
         if(!isset($input['ListId']) || empty($input['ListId']))
         {
             $error[] = 'ListId Must be Required!';
@@ -1141,9 +1141,9 @@ class BusinessController extends Controller
 		}
 
         if(isset($input['ListId']) && !empty($input['ListId']))
-        {   
+        {
             $business=BusinessModel::where('id',$input['ListId'])->first();
-            
+
             if($business===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'Business record not exist!','Result'=>array()]);
@@ -1152,17 +1152,17 @@ class BusinessController extends Controller
 
         $userBusinessEnquiryPreQuery=BusinessUserEnquiryModel::with(['business','user'])
         ->where('business_user_enquiry.business_id',$input['ListId']);
-                
+
         $businessEnquiryData=$userBusinessEnquiryPreQuery->get()->toArray();
 
         //print_r($businessEnquiryData);exit;
 
         $totalEnquiries=count($businessEnquiryData);
-        
+
         $enquiryArray=array();
 
         if($totalEnquiries > 0)
-        {   
+        {
             for($i=0;$i<$totalEnquiries;$i++)
             {
                 $user_image_path=public_path().'/images/user/'.$businessEnquiryData[$i]['user']['user_image'];
@@ -1183,7 +1183,7 @@ class BusinessController extends Controller
                 $enquiryArray[$i]['Date']=!empty($businessEnquiryData[$i]['created_at'])?date('d-m-Y',strtotime($businessEnquiryData[$i]['created_at'])):'';
                 $enquiryArray[$i]['Time']=!empty($businessEnquiryData[$i]['created_at'])?date('H:i:s',strtotime($businessEnquiryData[$i]['created_at'])):'';
                 $enquiryArray[$i]['ListingName']=!empty($businessEnquiryData[$i]['business']['name'])?$businessEnquiryData[$i]['business']['name']:'';
-                
+
                 $media_file_obj=$businessEnquiryData[$i]['business']['media_file_json'];
                 $mediaArray=json_decode($media_file_obj,true);
 
@@ -1211,13 +1211,13 @@ class BusinessController extends Controller
         {
             return response()->json(['Status'=>false,'StatusMessage'=>'No Data Available !','Result'=>array()]);
         }
-        
+
     }
-    
+
     public function addUserFavouriteBusiness(Request $request)
     {
         $input=$request->all();
-        
+
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';
@@ -1234,9 +1234,9 @@ class BusinessController extends Controller
 		}
 
         if(isset($input['RegisterId']) && !empty($input['RegisterId']))
-        {   
+        {
             $user=User::where('id',$input['RegisterId'])->first();
-            
+
             if($user===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!','Result'=>array()]);
@@ -1244,15 +1244,15 @@ class BusinessController extends Controller
         }
 
         if(isset($input['ListId']) && !empty($input['ListId']))
-        {   
+        {
             $business=BusinessModel::where('id',$input['ListId'])->first();
-            
+
             if($business===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'Business record not exist!','Result'=>array()]);
             }
         }
-        
+
         if($business->status!='active')
         {
             return response()->json(['Status'=>false,'StatusMessage'=>'Business is inactive or deleted!','Result'=>array()]);
@@ -1267,7 +1267,7 @@ class BusinessController extends Controller
         {
             $result=BusinessFavouriteModel::where('user_id',$input['RegisterId'])
             ->where('business_id',$input['ListId'])->delete();
-            
+
             if($result)
             {
                 return response()->json(['Status'=>true,'StatusMessage'=>'User unfavourite business successfully !','Result'=>array()]);
@@ -1278,7 +1278,7 @@ class BusinessController extends Controller
             }
         }
         else
-        {     
+        {
             $create=BusinessFavouriteModel::create([
                 'user_id' => $input['RegisterId'],
                 'business_id'=>$input['ListId'],
@@ -1286,7 +1286,7 @@ class BusinessController extends Controller
                 'last_updated_by'=>$input['RegisterId'],
                 'status'=>'active'
             ]);
-            
+
             if($create)
             {
                 return response()->json(['Status'=>true,'StatusMessage'=>'User added favourite business successfully !','Result'=>array()]);
@@ -1297,11 +1297,11 @@ class BusinessController extends Controller
             }
         }
     }
-    
+
     /*public function getBusinessCountCategorywise(Request $request)
     {
         $input=$request->all();
-        
+
     }*/
 
     public function getBusinessesCategoryWise(Request $request)
@@ -1316,7 +1316,7 @@ class BusinessController extends Controller
         {
             return response()->json(['Status'=>false,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
 		}
-        
+
         $businessArr=BusinessModel::where('category_id',$input['catagoryId'])->select('id','name')->get()->toArray();
         if(count($businessArr) > 0)
         {

@@ -93,6 +93,8 @@ class BusinessController extends Controller
             <div class="dropdown-menu">
                 <a class="dropdown-item" href=" '.route('business.edit',$result_obj['id']).' ">Edit Record</a>
                 <a class="dropdown-item" href="'.route('business.delete',$result_obj['id']).'">Delete Record</a>
+                <a class="dropdown-item" href="'.url('admin/business/detail/'.$result_obj['id']).'">Business Detail</a>
+
             </div>';
 
             return $command;
@@ -111,12 +113,27 @@ class BusinessController extends Controller
     {
         $input = $request->all();
 
+
         if (isset($input['search']) && !empty($input['search'])) {
-            $category_qry = TagMasterModel::where('name', 'LIKE', '%' . $input['search'] . '%');
+            $tags_qry = TagMasterModel::where('name', 'LIKE', '%' . $input['search'] . '%');
         } else {
-            $category_qry = TagMasterModel::where('id', '>', 0);
+            $tags_qry = TagMasterModel::where('id', '>', 0);
         }
-        $result = $category_qry->select('id', 'name')->get()->toArray();
+        $result = $tags_qry->select('id', 'name')->get()->toArray();
+
+        return response()->json($result);
+    }
+
+    public function BusinessCategoryAutoComplete(Request $request)
+    {
+        $input = $request->all();
+
+        if (isset($input['search']) && !empty($input['search'])) {
+            $category_qry = CategoryModel::where('name', 'LIKE', '%' . $input['search'] . '%');
+        } else {
+            $category_qry = CategoryModel::where('id', '>', 0);
+        }
+        $result = $category_qry->where('category.status','!=','deleted')->select('id', 'name')->get()->toArray();
 
         return response()->json($result);
     }
@@ -323,8 +340,8 @@ class BusinessController extends Controller
         $business->job_detail_json=json_encode(array('JobSalary'=>$input['job_salary'],
         'JobExperience'=>$input['job_experiance'],'JobQualification'=>$input['job_qualification']));
         // print_r($business->job_detail_json);
-        $business->created_by=Auth::user()->id;
-        $business->last_updated_by=Auth::user()->id;
+        // $business->created_by=Auth::user()->id;
+        // $business->last_updated_by=Auth::user()->id;
         $business->payment_mode=$input['payment_mode'];
         $business->website=$input['website'];
 
@@ -618,5 +635,26 @@ class BusinessController extends Controller
     {
         $row = BusinessModel::where('id', $id)->first()->toArray();
         return view('business.detailview',compact('row'));
+    }
+
+
+    public function businessdetail($id)
+    {
+
+        $business_details = BusinessModel::where('business.status', '!=', 'deleted')->leftJoin('user',function ($join)
+        {
+            $join->on('business.user_id', '=', 'user.id');
+        }) ->leftJoin('tag_master', function ($join)
+        {
+            $join->on('business.tag_id', '=', 'tag_master.id');
+        })->leftJoin('category', function ($join)
+        {
+            $join->on('business.category_id', '=', 'category.id');
+        })->select('business.*','user.name as user_name','tag_master.name as tag_name','category.name as category_name')
+        ->where('business.id',$id)->first()->toArray();
+        // dd($business_details);
+
+
+        return view('business.businessdetail',compact('business_details'));
     }
 }

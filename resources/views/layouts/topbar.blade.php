@@ -398,7 +398,7 @@
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                             class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> {{ __('Logout') }}
                     </a>
-                    {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"> --}}
+                    <form id="logout-form" action="{{ url('/admin/logout') }}" method="get" style="display: none;">
                         @csrf
                     </form>
                 </div>

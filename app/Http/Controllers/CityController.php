@@ -30,21 +30,7 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $input=$request->all();
-        if(isset($input['status']))
-        {
-            if($input['status'] == 'on')
-            {
-                $status = 'active';
-            }
-            else
-            {
-                $status = 'inactive';
-            }
-        }
-        else
-        {
-            $status = 'inactive';
-        }
+
 
         $obj=new CitysModel();
         $obj->name = $input['name'];
@@ -59,7 +45,10 @@ class CityController extends Controller
         $obj->latitude = $input['latitude'];
         $obj->longitude = $input['longitude'];
         $obj->contact_number = $input['contact_number'];
-        // $obj->status = $status;
+        if(!empty($input['status']))
+        $obj->status=$input['status'];
+        else
+        $obj->status='inactive';
         $obj->save();
 
         if($obj)
@@ -84,21 +73,6 @@ class CityController extends Controller
     public function update(Request $request,$id)
     {
         $input=$request->all();
-        // if(isset($input['status']))
-        // {
-        //     if($input['status'] == 'on')
-        //     {
-        //         $status = 'active';
-        //     }
-        //     else
-        //     {
-        //         $status = 'inactive';
-        //     }
-        // }
-        // else
-        // {
-        //     $status = 'inactive';
-        // }
 
         $obj= CitysModel::find($id);
         $obj->name = $input['name'];
@@ -113,7 +87,10 @@ class CityController extends Controller
         $obj->latitude = $input['latitude'];
         $obj->longitude = $input['longitude'];
         $obj->contact_number = $input['contact_number'];
-        // $obj->status = $status;
+        if(!empty($input['status']))
+        $obj->status=$input['status'];
+        else
+        $obj->status='inactive';
         $obj->save();
 
         if($obj)

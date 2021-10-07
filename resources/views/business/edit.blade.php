@@ -269,43 +269,7 @@
 
                             </div>
                         </div>
-
-
-
                     </div>
-
-
-
-
-
-                    <!--<div class="form-group">
-                            <label for="formrow-firstname-input">Tags</label>
-                            <select class="form-select form-control txtSearchKeyword-box" data-search="on"  name="txtSearchTag" id="txtSearchTag" required>
-                            </select>
-
-                            <div class="invalid-feedback">
-                                Please provide a Tag.
-                            </div>
-                        </div>-->
-
-
-
-                    <!-- <div id="category_result" class="form-group">
-                    </div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                     <div class="row">
                         <label for="example-text-input" class="col-md-12 col-form-label">
@@ -696,59 +660,59 @@
             }
         });
 
-        @if(isset($row['tag_id']) && !empty($row['tag_id']))
-        var $option = $("<option selected></option>").val({
-            {
-                $tag_data - > id
-            }
-        }).text('{{$tag_data->name}}');
-        $('#txtSearchTag').append($option).trigger('change');
-        @endif
+        // @if(isset($row['tag_id']) && !empty($row['tag_id']))
+        // var $option = $("<option selected></option>").val({
+        //     {
+        //         $tag_data - > id
+        //     }
+        // }).text('{{$tag_data->name}}');
+        // $('#txtSearchTag').append($option).trigger('change');
+        // @endif
 
-        @if(isset($row['category_id']) && !empty($row['category_id']))
-        var $option = $("<option selected></option>").val({
-            {
-                $category_data - > id
-            }
-        }).text('{{$category_data->name}}');
-        $('#txtSearchCategory').append($option).trigger('change');
-        showSubCategory();
+        // @if(isset($row['category_id']) && !empty($row['category_id']))
+        // var $option = $("<option selected></option>").val({
+        //     {
+        //         $category_data - > id
+        //     }
+        // }).text('{{$category_data->name}}');
+        // $('#txtSearchCategory').append($option).trigger('change');
+        // showSubCategory();
 
-        @if(isset($row['multiple_subcategory_id']) && !empty($row['multiple_subcategory_id']))
-        var sub_category_ids = [{
-            {
-                $row['multiple_subcategory_id']
-            }
-        }];
-        @else
-        var sub_category_ids = [];
-        @endif
+        // @if(isset($row['multiple_subcategory_id']) && !empty($row['multiple_subcategory_id']))
+        // var sub_category_ids = [{
+        //     {
+        //         $row['multiple_subcategory_id']
+        //     }
+        // }];
+        // @else
+        // var sub_category_ids = [];
+        // @endif
 
-        @endif
+        // @endif
 
-        var str_url = '{{route("tagAutoComplete")}}';
+    var str_url = '{{route("tagAutoComplete")}}';
+    console.log(str_url);
 
-        /* $('#txtSearchTag').select2({
-        placeholder:'Select Tags',
-        tags:true,
-        ajax: {
-            url: str_url,
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
+    $('#txtSearchTag').select2({
+    ajax: {
+        //tags:true,
+        url: str_url,
+        dataType: "json",
+        type: "POST",
+        data: function(params) {
             var queryParameters = {
                 search: params.term
             }
             return queryParameters;
         },
-        processResults: function (data, params) {
+        processResults: function(data, params) {
             params.page = params.page || 1;
             return {
-                results: $.map(data, function (tag) {
+                results: $.map(data, function(tag) {
                     return {
                         text: tag.name,
                         id: tag.id,
-                        result:tag
+                        result: tag
                     }
                 }),
                 pagination: {
@@ -756,29 +720,43 @@
                 }
             };
         },
-            cache: true
-        },
-        minimumInputLength: 1,
-}).
-on('select2:close',function(){
+        cache: true,
+    },
+    placeholder: 'Select tags',
+    minimumInputLength: 1
 
-    var element=$(this);
-    var new_tag=$.trim(element.val());
-    var editHiddenVal = $("#hdnTagId").val();
+}).on("select2:select", function(e) {
+    var selected = e.params.data.result;
+    var countryId = selected.id;
+    var countryName = selected.name;
+    var editHiddenVal = $("#hdnSearchTagId").val();
 
-    if(editHiddenVal=='' || editHiddenVal==null)
+    if (editHiddenVal != '') //use in edit
     {
-        console.log('in if,new='+new_tag);
-        $("#hdnTagId").val(new_tag);
-    }
-    else
+        $('#hdnSearchTagId').val(countryId);
+    } else //first time adding
     {
-        new_tag=new_tag;
-        console.log('in else,new='+new_tag);
-        $("#hdnTagId").val(new_tag);
+        /*Add selected area id into array*/
+        $('#hdnSearchTagId').val(countryId); //store array
     }
+});
 
-});*/
+$('#txtSearchTag').on('select2:unselect', function(e) {
+    var data = e.params.data;
+    var countryId = data.id;
+
+    var editHiddenVal = $('#hdnSearchTagId').val();
+    var checkComma = editHiddenVal.includes(',');
+    if (checkComma) {
+        var editArray = editHiddenVal.split(',');
+        /*Remove data from specific array*/
+        editArray.splice(editArray.indexOf(countryId.toString()), 1);
+        $('#hdnSearchTagId').val(data.id);
+    } else {
+        // $("#selectedTagsDivId").hide();
+        $('#hdnSearchTagId').val('');
+    }
+});
 
         $('#txtSearchTag').select2({
             ajax: {
@@ -844,7 +822,7 @@ on('select2:close',function(){
             }
         });
 
-        var str_url = '{{route("categoryAutoComplete")}}';
+        var str_url = '{{route("BusinesscategoryAutoComplete")}}';
 
         $('#txtSearchCategory').select2({
             ajax: {
@@ -1053,11 +1031,11 @@ on('select2:close',function(){
     //     $('div[data-repeater-list="media_detail"]').append($str);
     // }
 
-    function addRelatedPersonFunction() {
-        $str = '<div data-repeater-item class="row"><div class="col-lg-4"> <input type="file" class="custom-file-input related_person form-control" name="related_person_image[]" id="related_person_image" accept="image/*" required=""><label class="custom-file-label" for="customFile">Image</label><div class="invalid-feedback invalid-feedback-pic">Related Person Image is required !</div></div><div class="col-lg-4"><div class="form-group"><label for="formrow-firstname-input">Related Person Details</label><textarea name="related_person_details[]" class="form-control" value="" id="related_person_details" placeholder="Related Person Details" required></textarea><div class="invalid-feedback">Please provide a Related Person Details.</div></div></div><div class="col-lg-3"><img class="imagePreview" alt="" width="100" height="100" src="{{URL::asset('
-        images / image - placeholder.jpg ')}}" /></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete="" data-toggle="tooltip" data-placement="top" title="" class="btn btn-danger mt-2" data-original-title="Delete"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
-        $('div[data-repeater-list="related_personal_repeater"]').append($str);
-    }
+    // function addRelatedPersonFunction() {
+    //     $str = '<div data-repeater-item class="row"><div class="col-lg-4"> <input type="file" class="custom-file-input related_person form-control" name="related_person_image[]" id="related_person_image" accept="image/*" required=""><label class="custom-file-label" for="customFile">Image</label><div class="invalid-feedback invalid-feedback-pic">Related Person Image is required !</div></div><div class="col-lg-4"><div class="form-group"><label for="formrow-firstname-input">Related Person Details</label><textarea name="related_person_details[]" class="form-control" value="" id="related_person_details" placeholder="Related Person Details" required></textarea><div class="invalid-feedback">Please provide a Related Person Details.</div></div></div><div class="col-lg-3"><img class="imagePreview" alt="" width="100" height="100" src="{{URL::asset('
+    //     images / image - placeholder.jpg ')}}" /></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete="" data-toggle="tooltip" data-placement="top" title="" class="btn btn-danger mt-2" data-original-title="Delete"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
+    //     $('div[data-repeater-list="related_personal_repeater"]').append($str);
+    // }
 
     function readURL(input) {
         if (input.files && input.files[0]) {

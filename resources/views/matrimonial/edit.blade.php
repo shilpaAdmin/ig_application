@@ -393,7 +393,7 @@
                         <br>
 
 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="row">
 
                                     <label for="example-text-input" class="col-md-12 col-form-label pl-0">
