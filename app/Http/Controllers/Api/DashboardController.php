@@ -62,7 +62,7 @@ class DashboardController extends Controller
         $blogsData=BlogsModel::with(['user'])->skip(0)->take(10)->orderBy('id','DESC')->get();
         //print_r($blogs);
 
-        $forumsData=ForumModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $forumsData=ForumModel::with(['user'])->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         //print_r($forums);
 
         $advertisementsData=AdvertisementModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
@@ -140,7 +140,7 @@ class DashboardController extends Controller
                 $advertisementArray[$i]['Name']=$advertisementsData[$i]['name'];
 
                 $image='';
-                if($advertisementsData[$i]['media'])
+                if(!empty($advertisementsData[$i]['media']))
                 {
                     $image_path=public_path().'/images/advertisement/'.$advertisementsData[$i]['media'];
                     if(file_exists($image_path))
@@ -197,6 +197,10 @@ class DashboardController extends Controller
                 $i++;
             }
         }
+        else
+        {
+            $blogsArray['List']=array();
+        }
 
         $totalfaqs=count($faqsData);
         $totalfaqtags=count($tagFAQData);
@@ -213,19 +217,31 @@ class DashboardController extends Controller
                 $faqsArray['List'][$i]['Date']=date('d-m-Y',strtotime($faqsData[$i]['created_at']));
                 $faqsArray['List'][$i]['Time']=date('H:i:s',strtotime($faqsData[$i]['created_at']));
             }
+        }
+        else
+        {
+            $faqsArray['List']=array();
+        }
 
+        if($totalfaqtags > 0)
+        {
             for($j=0;$j<$totalfaqtags;$j++)
             {
                 $faqsArray['Tags'][$j]['Id']=$tagFAQData[$j]['id'];
                 $faqsArray['Tags'][$j]['Name']=$tagFAQData[$j]['name'];
             }
         }
+        else
+        {
+            $faqsArray['Tags']=array();
+        }
+
         $totalforums=count($forumsData);
         $forumArray=[];
 
         if($totalforums > 0)
         {
-
+            $forumArray['TotalCount']=strval($totalforums);
             for($i=0;$i<$totalforums;$i++)
             {
                 $forumArray['List'][$i]['Id']=strval($forumsData[$i]['id']);
@@ -458,9 +474,17 @@ class DashboardController extends Controller
                         $j++;
                     }
                 }
-            
+                else
+                {
+                    $dataArray['List']=array();
+                }
             }
-        }    
+        }
+        else
+        {
+            $dataArray['List']=array();
+        }   
+
         $newsData=NewsModel::first();
         $registerId=isset($input['RegisterId'])?$input['RegisterId']:'';
 
@@ -633,6 +657,7 @@ class DashboardController extends Controller
         {
             $dataArray['ApprovedFeaturesOrTags'] = array();
         }
+
         if(count($listBusiness) > 0)
         {
             foreach($listBusiness as $businessData)
@@ -875,6 +900,10 @@ class DashboardController extends Controller
                 $FAQArray['Tags'][$j]['Name']=$tagsData[$j]['name'];
             }
         }
+        else
+        {
+            $FAQArray['Tags']=array();
+        }
         //-----------------------------------End FAQ-----------------------------------------
 
         //-----------------------------------Start BLOG--------------------------------------
@@ -910,11 +939,11 @@ class DashboardController extends Controller
                         $m=1;
                         for($j=0;$j<$totalMedias;$j++)
                         {    
-                            $media_path=public_path().'/images/blogs/'.$mediaArray[$j]['Media'.$m];
+                            $media_path=public_path().'/images/blogs/'.$mediaArray[$j];
 
                             if(file_exists($media_path))
                             {
-                                array_push($mediaFiles,URL::to('/images/blogs').'/'.$mediaArray[$j]['Media'.$m]);
+                                array_push($mediaFiles,URL::to('/images/blogs').'/'.$mediaArray[$j]);
                             }
                             $m++;
                         }

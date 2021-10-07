@@ -145,7 +145,11 @@ class BlogController extends Controller
         $blogURL=[];
         $mediaArray=json_decode($blogs->media_file_json,true);
 
+
+        if(!empty($mediaArray))
         $totalMedias=count($mediaArray);
+        else
+        $totalMedias=0;
 
         if($totalMedias > 0)
         {
@@ -162,10 +166,12 @@ class BlogController extends Controller
                 $m++;
             }
         }
+
         $blog_comments=BlogsCommentReplyModel::with(['user','blog'])
         ->where('blog_id',$input['BlogId'])->where('is_deleted',0)
         ->where('comment_id',0)->skip($skip)->take(30)->get()->toArray();;
         
+
         $dataArray['Id']=strval($blogs->id);
         $dataArray['Name']=!empty($blogs->name)?$blogs->name:'';
         $dataArray['BlogBy']=!empty($blogs->user['name'])?$blogs->user['name']:'';

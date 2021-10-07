@@ -19,3 +19,9 @@ ALTER TABLE `city` ADD `status` ENUM('active','inactive','deleted') NOT NULL AFT
 ALTER TABLE `category` CHANGE `redirect_status` `redirect_status` INT(11) NULL DEFAULT '0' COMMENT '0-business , 1-faq, 2- forum, 3- matrimonial, 4- blog';
 
 ALTER TABLE `tag_master` ADD `is_approve` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0-disapprove,1-approve' AFTER `status`;
+
+ALTER TABLE `advertisement` ADD `is_approve` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0=disapprove,1=approve' AFTER `type`;
+
+ALTER TABLE `tag_forum` ADD `is_approve` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0=disapprove,1=approve' AFTER `last_updated_by`;
+
+ALTER TABLE `tag_master` ADD `is_approve` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0=disapprove,1=approve' AFTER `last_updated_by`;

@@ -117,6 +117,7 @@ class AdvertisementController extends Controller
         }
         else
         {
+            $locationData=$this->getUserLocationDetail($input['RegisterId']);
             
             $result=AdvertisementModel::create([
             'name'=>$input['Name'],

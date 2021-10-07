@@ -36,8 +36,6 @@ Route::group(['prefix' => 'admin'], function () {
 
         // Admin User Logout
         Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
-        
-        // dashboard
         Route::get('/dashboard', 'DashboardController@index')->name('home');
 
         //category routes
@@ -107,7 +105,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('forum/forumList', 'ForumController@forumList')->name('datatable.forumlist');
         Route::get('forum/delete/{id}', 'ForumController@delete')->name('forum.delete');
         Route::get('forum/approve/{id}', 'ForumController@approveStatus')->name('forum.approve');
-
+        Route::get('forum/getcommentreplylist/{id}', 'ForumController@getCommentReplyList')->name('forum.getCommentReplyList');
 
         //faq routes
         Route::get('faq', 'FaqController@index')->name('faq');
@@ -182,7 +180,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('location/delete/{id}', 'LocationController@delete')->name('location.delete');
         Route::post('location/update/{id}', 'LocationController@update')->name('location.update');
 
-
+		//Country routes
         Route::get('country', 'CountryController@index')->name('country');
         Route::get('country/create', 'CountryController@create')->name('country.create');
         Route::post('country/store', 'CountryController@store')->name('country.store');
@@ -191,6 +189,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('country/update/{id}', 'CountryController@update')->name('country.update');
         Route::get('country/countryList', 'CountryController@countryList')->name('datatable.countryList');
 
+        //city Route
         Route::get('city', 'CityController@index')->name('city');
         Route::get('city/create', 'CityController@create')->name('city.create');
         Route::post('city/store', 'CityController@store')->name('city.store');
