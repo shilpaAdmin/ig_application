@@ -15,44 +15,7 @@
 
         <!-- Listings Details Main Image Box Start-->
         <section class="listings_details_main_image_box">
-            <div class="container-full-width">
-                <div class="thm__owl-carousel owl-carousel owl-theme" data-options='{"margin":3, "loop": true, "smartSpeed": 700, "autoplay": true, "autoplayHoverPause": true, "autoplayTimeout": 5000, "items": 3,"responsive": {
-                    "0": {
-                        "items": 1
-                    },
-                    "480": {
-                        "items": 2
-                    },
-                    "992": {
-                        "items": 3
-                    }
-                }}'>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/edu-1.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/edu-2.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/edu-3.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('frontend.category.details-page-image-list.image-list')
         </section>
 
         <!--Main Bottom Start-->
@@ -68,8 +31,8 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4>Carl Duisberg Centern<i class="fa fa-check"></i></h4>
-                                <small>Halvorson, Adrienview 73379 </small>
+                                <h4>{{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
+                                <small>{{ $businessData['address'] }}, {{ $businessData['description'] }} </small>
 
                             </div>
                             <div class="main_bottom_rating_time">
@@ -125,14 +88,7 @@
                             <div class="listings_details_text">
                                 <h3 class="mb-3">About</h3>
 
-                                <p class="first_text mb-0">Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
-                                    tellus.
-                                    Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Etiam ultricies
-                                    nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.
-                                    Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
-                                    adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-                                    hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien
-                                    ut libero venenatis faucibus. </p>
+                                <p class="first_text mb-0">{{ $businessData['about'] }}</p>
 
                             </div>
 
@@ -319,104 +275,113 @@
             </div>
         </section>
 
-
-        <section class="mt-5 mb-5">
-            <div class="container">
-                <div class="row mb-4">
-                    <div class="col-6">
-                        <h4>Similar&nbsp;Courses</h4>
+        @if (isset($similarData))
+            <section class="mt-5 mb-5">
+                <div class="container">
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <h4>Similar&nbsp;Courses</h4>
+                        </div>
+                        <div class="col-6 text-right"> <a href="education-listing-list.html" class="link-simple"> View
+                                All </a> </div>
                     </div>
-                    <div class="col-6 text-right"> <a href="education-listing-list.html" class="link-simple"> View
-                            All </a> </div>
-                </div>
 
+                    <div class="row">
 
+                        @foreach($similarData as $similarDatas)
+                            @php
+                                if (isset($similarDatas['media_file_json']) && !empty($similarDatas['media_file_json'])) {
+                                    $attachmentArray = json_decode($similarDatas['media_file_json'], true);
+                                } else {
+                                    $attachmentArray = [];
+                                }
+                                $q = 1;
+                                if(count($attachmentArray)){
+                                    $imageUrl= URL::to('/images/business').'/'.$attachmentArray[0]['Media1'] ;
+                                } else {
+                                    $imageUrl= URL::asset('assets/frontend/images/listings/education2.jpg');
+                                }
+                            @endphp
 
+                            <div class="col-xl-6 col-md-12 col-sm-12">
+                                <div class="listings_two_page_content joblist_shadow">
+                                    <div class="listings_two_page_single overflow-y__hidden">
+                                        <div class="listings_two_page_img">
+                                            <img src="{{ $imageUrl }}" alt="">
 
-                <div class="row">
-
-                    <div class="col-xl-6 col-md-12 col-sm-12">
-                        <div class="listings_two_page_content joblist_shadow">
-                            <!--listings Two Page Single-->
-                            <div class="listings_two_page_single overflow-y__hidden">
-                                <div class="listings_two_page_img">
-                                    <img src="{{ URL::asset('assets/frontend/images/listings/education2.jpg')}}" alt="">
-
-                                    <div class="heart_icon">
-                                        <i class="icon-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="listings_three-page_content pt-3">
-                                    <div class="title">
-                                        <h3><a href="education-details.html">Carl Duisberg Centren<span
-                                                    class="fa fa-check"></span></a></h3>
-
-                                        <p class="mb-0">Halvorson , Adrienview 73379</p>
-                                        <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> 4.5km Away
-                                            from you</p>
-                                    </div>
-                                    <ul class="list-unstyled listings_three-page_contact_info">
-                                        <li class="d-inline-block">
-                                            <h6> 250+ Students enrolled this week </h6>
-                                        </li>
-                                    </ul>
-                                    <div class="listings_three-page_content_bottom">
-                                        <div class="left">
-                                            <a class="job_list_pill mb-0" href="#"> DE / EN </a>
+                                            <div class="heart_icon">
+                                                <i class="icon-heart"></i>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
-                                            <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                        <div class="listings_three-page_content pt-3">
+                                            <div class="title">
+                                                <h3><a href="education-details.html">{{ $similarDatas['name'] }}<span
+                                                            class="fa fa-check"></span></a></h3>
+
+                                                <p class="mb-0">{{ $similarDatas['address'] }} , {{ $similarDatas['description'] }}</p>
+                                                <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> 4.5km Away
+                                                    from you</p>
+                                            </div>
+                                            <ul class="list-unstyled listings_three-page_contact_info">
+                                                <li class="d-inline-block">
+                                                    <h6> 250+ Students enrolled this week </h6>
+                                                </li>
+                                            </ul>
+                                            <div class="listings_three-page_content_bottom">
+                                                <div class="left">
+                                                    <a class="job_list_pill mb-0" href="#"> DE / EN </a>
+                                                </div>
+                                                <div>
+                                                    <a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                                    <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        @endforeach
+                        {{-- <div class="col-xl-6 col-md-12 col-sm-12">
+                            <div class="listings_two_page_content joblist_shadow">
+                                <div class="listings_two_page_single overflow-y__hidden">
+                                    <div class="listings_two_page_img">
+                                        <img src="{{ URL::asset('assets/frontend/images/listings/education2.jpg')}}" alt="">
 
-                    <div class="col-xl-6 col-md-12 col-sm-12">
-                        <div class="listings_two_page_content joblist_shadow">
-                            <!--listings Two Page Single-->
-                            <div class="listings_two_page_single overflow-y__hidden">
-                                <div class="listings_two_page_img">
-                                    <img src="{{ URL::asset('assets/frontend/images/listings/education2.jpg')}}" alt="">
-
-                                    <div class="heart_icon">
-                                        <i class="icon-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="listings_three-page_content pt-3">
-                                    <div class="title">
-                                        <h3><a href="education-details.html">Carl Duisberg Centren<span
-                                                    class="fa fa-check"></span></a></h3>
-
-                                        <p class="mb-0">Halvorson , Adrienview 73379</p>
-                                        <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> 4.5km Away
-                                            from you</p>
-                                    </div>
-                                    <ul class="list-unstyled listings_three-page_contact_info">
-                                        <li class="d-inline-block">
-                                            <h6> 250+ Students enrolled this week </h6>
-                                        </li>
-                                    </ul>
-                                    <div class="listings_three-page_content_bottom">
-                                        <div class="left">
-                                            <a class="job_list_pill mb-0" href="#"> DE / EN </a>
+                                        <div class="heart_icon">
+                                            <i class="icon-heart"></i>
                                         </div>
-                                        <div>
-                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
-                                            <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                    </div>
+                                    <div class="listings_three-page_content pt-3">
+                                        <div class="title">
+                                            <h3><a href="education-details.html">Carl Duisberg Centren<span
+                                                        class="fa fa-check"></span></a></h3>
+
+                                            <p class="mb-0">Halvorson , Adrienview 73379</p>
+                                            <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> 4.5km Away
+                                                from you</p>
+                                        </div>
+                                        <ul class="list-unstyled listings_three-page_contact_info">
+                                            <li class="d-inline-block">
+                                                <h6> 250+ Students enrolled this week </h6>
+                                            </li>
+                                        </ul>
+                                        <div class="listings_three-page_content_bottom">
+                                            <div class="left">
+                                                <a class="job_list_pill mb-0" href="#"> DE / EN </a>
+                                            </div>
+                                            <div>
+                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                                <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
-
-
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
     </div><!-- /.page-wrapper -->
 
 </body>

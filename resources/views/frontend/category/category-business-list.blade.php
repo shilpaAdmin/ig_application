@@ -514,23 +514,23 @@
             function loadMore(page,viewData){
                 
                 var url="{{route('category.business-list',['id'=>$id])}}";
-                url+='?page='+page+'&viewData='+viewData;
+                    url+='?page='+page+'&viewData='+viewData;
 
                 $.ajax({
                         type: 'get',
                         url:url ,
-                        dataType: 'html',
+                        dataType: 'json',
                         async: true,
                         beforeSend: function() {
                             $('.ajax-loading').show();
                         },
                         success: function(data) {
                           
-                            if(data.length == 0){
+                            if(data.html.length == 0){
                                 $('.ajax-loading').html("No more records!");
                                 return;
                             }
-                            $("#results").append(data);          
+                            $("#results").append(data.html);          
                         },
                         error: function(XMLHttpRequest, errorStatus, errorThrown) {
                             console.log("XHR :: " + JSON.stringify(XMLHttpRequest));

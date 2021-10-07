@@ -9,49 +9,10 @@
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
     </div><!-- /.preloader -->
 
-
-
     <div class="page-wrapper">
         <!-- Listings Details Main Image Box Start-->
         <section class="listings_details_main_image_box">
-            <div class="container-full-width">
-                <div class="thm__owl-carousel owl-carousel owl-theme" data-options='{"margin":3, "loop": true, "smartSpeed": 700, "autoplay": true, "autoplayHoverPause": true, "autoplayTimeout": 5000, "items": 3,"responsive": {
-                    "0": {
-                        "items": 1
-                    },
-                    "480": {
-                        "items": 2
-                    },
-                    "992": {
-                        "items": 3
-                    }
-                }}'>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img height_fixed_ent_detail">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/endD1.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img height_fixed_ent_detail">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/endD2.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img height_fixed_ent_detail">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/endD3.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('frontend.category.details-page-image-list.image-list')
         </section>
 
         <!--Main Bottom Start-->
@@ -67,9 +28,9 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4>Inception<i class="fa fa-check"></i></h4>
+                                <h4>{{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
                             </div>
-                            <small> <i class="fas fa-map-marker-alt"></i> Friedrischat-palast Cinema </small> <br>
+                            <small> <i class="fas fa-map-marker-alt"></i> {{ $businessData['about'] }} </small> <br>
                             <small class="d-inline-block"> Action , Thriller </small> &nbsp; | &nbsp;<small
                                 class="d-inline-block"> 1hr 54min </small>
 
@@ -95,36 +56,20 @@
                                 <div class="badge-pill badge-success d-inline-block mb-3 mr-3"> 2D </div>
                                 <div class="badge-pill badge-success d-inline-block mb-3 mr-3"> 3D </div>
                             </div>
-
+                            <?php
+                                $timestamp = strtotime( $businessData['created_at'] );
+                                $date = date('M d,Y', $timestamp );
+                            ?>
                             <ul class="list-unstyled">
-                                <li>In Cinemas <span> May 3, 2021</span></li>
+                                <li>In Cinemas <span> {{$date}}</span></li>
                                 <li><a href="#">Add to Wishlist<i class="far fa-heart"></i></a></li>
                             </ul>
                         </div>
                     </div>
 
-
-
-
-
-
-
-
-
                 </div>
             </div>
         </section>
-
-
-
-
-
-
-
-
-
-
-
 
         <!--Listings Details Start-->
         <section class="listings_details">
@@ -144,23 +89,16 @@
                                 <div class="badge-pill badge-cast d-inline-block mb-3 mr-3"> Tamil </div>
 
 
-                                <p class="first_text mb-0">Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
-                                    tellus.
-                                    Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Etiam ultricies
-                                    nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.
-                                    Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
-                                    adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-                                    hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien
-                                    ut libero venenatis faucibus. </p>
+                                <p class="first_text mb-0"> {{ $businessData['about'] }} </p>
 
-                                <p class="first_text mb-0">Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
+                                {{-- <p class="first_text mb-0">Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
                                     tellus.
                                     Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Etiam ultricies
                                     nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.
                                     Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
                                     adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
                                     hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien
-                                    ut libero venenatis faucibus. </p>
+                                    ut libero venenatis faucibus. </p> --}}
 
 
 
@@ -245,92 +183,136 @@
             </div>
         </section>
 
-
-        <section class="mt-5 mb-5">
-            <div class="container">
-                <div class="row mb-4">
-                    <div class="col-6">
-                        <h4>Similar&nbsp;Movies</h4>
+        @if (isset($similarData))
+            <section class="mt-5 mb-5">
+                <div class="container">
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <h4>Similar&nbsp;Movies</h4>
+                        </div>
+                        <div class="col-6 text-right"> <a href="#" class="link-simple"> View All </a> </div>
                     </div>
-                    <div class="col-6 text-right"> <a href="#" class="link-simple"> View All </a> </div>
-                </div>
+                    <div class="row">
+                        @foreach($similarData as $similarDatas)
+                            @php
+                                if (isset($similarDatas['media_file_json']) && !empty($similarDatas['media_file_json'])) {
+                                    $attachmentArray = json_decode($similarDatas['media_file_json'], true);
+                                } else {
+                                    $attachmentArray = [];
+                                }
+                                $q = 1;
+                                if(count($attachmentArray)){
+                                    $imageUrl= URL::to('/images/business').'/'.$attachmentArray[0]['Media1'] ;
+                                } else {
+                                    $imageUrl= URL::asset('assets/frontend/images/listings/ent3.jpg');
+                                }
+                            @endphp
 
-
-
-
-                <div class="row">
-                    <div class="col-xl-6 col-md-12 col-sm-12">
-                        <div class="listings_two_page_content joblist_shadow">
-                            <!--listings Two Page Single-->
-                            <div class="listings_two_page_single overflow-y__hidden">
-                                <div class="listings_two_page_img">
-                                    <img src="{{ URL::asset('assets/frontend/images/listings/ent3.jpg')}}" alt="">
-
-                                    <div class="heart_icon">
-                                        <i class="icon-heart"></i>
+                            <div class="col-xl-6 col-md-12 col-sm-12">
+                                <div class="listings_two_page_content joblist_shadow">
+                                    <div class="listings_two_page_single overflow-y__hidden">
+                                        <div class="listings_two_page_img">
+                                            <img src="{{ $imageUrl }}" alt="">
+    
+                                            <div class="heart_icon">
+                                                <i class="icon-heart"></i>
+                                            </div>
+                                        </div>
+                                        <div class="listings_three-page_content pt-3">
+                                            <div class="title">
+                                                <h3><a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}">{{ $similarDatas['name'] }}</a> </h3>
+    
+                                                <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy </p>
+                                                <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p>
+                                            </div>
+                                            <ul class="list-unstyled listings_three-page_contact_info">
+                                                <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
+                                            </ul>
+                                            <div class="listings_three-page_content_bottom">
+                                                <div class="left">
+    
+                                                </div>
+                                                <div>
+                                                    <a href="{{ route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ]) }}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="listings_three-page_content pt-3">
-                                    <div class="title">
-                                        <h3><a href="{{route('Entertainmentdetails')}}">Monster Hunter</a> </h3>
+                            </div>
+                        @endforeach
 
-                                        <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy </p>
-                                        <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p>
-                                    </div>
-                                    <ul class="list-unstyled listings_three-page_contact_info">
-                                        <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
-                                    </ul>
-                                    <div class="listings_three-page_content_bottom">
-                                        <div class="left">
+                        {{-- <div class="col-xl-6 col-md-12 col-sm-12">
+                            <div class="listings_two_page_content joblist_shadow">
+                                <div class="listings_two_page_single overflow-y__hidden">
+                                    <div class="listings_two_page_img">
+                                        <img src="{{ URL::asset('assets/frontend/images/listings/ent3.jpg')}}" alt="">
 
+                                        <div class="heart_icon">
+                                            <i class="icon-heart"></i>
                                         </div>
-                                        <div>
-                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                    </div>
+                                    <div class="listings_three-page_content pt-3">
+                                        <div class="title">
+                                            <h3><a href="{{route('Entertainmentdetails')}}">Monster Hunter</a> </h3>
+
+                                            <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy </p>
+                                            <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p>
+                                        </div>
+                                        <ul class="list-unstyled listings_three-page_contact_info">
+                                            <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
+                                        </ul>
+                                        <div class="listings_three-page_content_bottom">
+                                            <div class="left">
+
+                                            </div>
+                                            <div>
+                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-xl-6 col-md-12 col-sm-12">
-                        <div class="listings_two_page_content joblist_shadow">
-                            <!--listings Two Page Single-->
-                            <div class="listings_two_page_single overflow-y__hidden">
-                                <div class="listings_two_page_img">
-                                    <img src="{{ URL::asset('assets/frontend/images/listings/ent3.jpg')}}" alt="">
+                        <div class="col-xl-6 col-md-12 col-sm-12">
+                            <div class="listings_two_page_content joblist_shadow">
+                                <div class="listings_two_page_single overflow-y__hidden">
+                                    <div class="listings_two_page_img">
+                                        <img src="{{ URL::asset('assets/frontend/images/listings/ent3.jpg')}}" alt="">
 
-                                    <div class="heart_icon">
-                                        <i class="icon-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="listings_three-page_content pt-3">
-                                    <div class="title">
-                                        <h3><a href="{{route('Entertainmentdetails')}}">Monster Hunter</a> </h3>
-
-                                        <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy </p>
-                                        <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p>
-                                    </div>
-                                    <ul class="list-unstyled listings_three-page_contact_info">
-                                        <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
-                                    </ul>
-                                    <div class="listings_three-page_content_bottom">
-                                        <div class="left">
-
+                                        <div class="heart_icon">
+                                            <i class="icon-heart"></i>
                                         </div>
-                                        <div>
-                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                    </div>
+                                    <div class="listings_three-page_content pt-3">
+                                        <div class="title">
+                                            <h3><a href="{{route('Entertainmentdetails')}}">Monster Hunter</a> </h3>
+
+                                            <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy </p>
+                                            <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p>
+                                        </div>
+                                        <ul class="list-unstyled listings_three-page_contact_info">
+                                            <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
+                                        </ul>
+                                        <div class="listings_three-page_content_bottom">
+                                            <div class="left">
+
+                                            </div>
+                                            <div>
+                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
+
+
                     </div>
-
-
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
 
     </div><!-- /.page-wrapper -->
 

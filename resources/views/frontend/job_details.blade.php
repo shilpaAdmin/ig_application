@@ -1,3 +1,7 @@
+
+
+
+
 @extends('frontend.layouts.master')
 @section('title') Job Details @endsection
 @section('content')
@@ -98,44 +102,7 @@
     <div class="page-wrapper">
         <!-- Listings Details Main Image Box Start-->
         <section class="listings_details_main_image_box">
-            <div class="container-full-width">
-                <div class="thm__owl-carousel owl-carousel owl-theme" data-options='{"margin":3, "loop": true, "smartSpeed": 700, "autoplay": true, "autoplayHoverPause": true, "autoplayTimeout": 5000, "items": 3,"responsive": {
-                    "0": {
-                        "items": 1
-                    },
-                    "480": {
-                        "items": 2
-                    },
-                    "992": {
-                        "items": 3
-                    }
-                }}'>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/job1.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/job2.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/job3.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('frontend.category.details-page-image-list.image-list')
         </section>
 
         <!--Main Bottom Start-->
@@ -151,9 +118,9 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4>Software Engineer<i class="fa fa-check"></i></h4>
-                                <small>Hir infotech Pvt Ltd </small> <small class="d-block"> Halvorson ,
-                                    Adrienview 73379 </small>
+                                <h4> {{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
+                                <small>{{ $businessData['about'] }} </small><br>
+                                <small>{{ $businessData['address'] }} </small>
 
                             </div>
                             <div class="main_bottom_rating_time">
@@ -179,34 +146,18 @@
                             </div>
 
                             <ul class="list-unstyled">
-                                <li>Date Posted <span>May 3, 2021</span></li>
-                                <li><a href="#">Add to Wishlist<i class="far fa-heart"></i></a></li>
+                                <?php
+                                    $timestamp = strtotime( $businessData['created_at'] );
+                                    $date = date('M d,Y', $timestamp );
+                                ?>
+                                <li>Date Posted <span>{{ isset($date)? $date :'-'  }}</span></li>
+                                <li><a href="#">Add to Favourite<i class="far fa-heart"></i></a></li>
                             </ul>
                         </div>
                     </div>
-
-
-
-
-
-
-
-
-
                 </div>
             </div>
         </section>
-
-
-
-
-
-
-
-
-
-
-
 
         <!--Listings Details Start-->
         <section class="listings_details">
@@ -219,14 +170,7 @@
                             <div class="listings_details_text">
                                 <h3 class="mb-3">Description</h3>
 
-                                <p class="first_text mb-0">Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
-                                    tellus.
-                                    Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Etiam ultricies
-                                    nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.
-                                    Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
-                                    adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-                                    hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien
-                                    ut libero venenatis faucibus. </p>
+                                <p class="first_text mb-0">{{ $businessData['description'] }} </p>
 
                             </div>
 
@@ -237,28 +181,39 @@
                                 <div class="house_detaill_main clearfix">
                                     <div class="house_detaill">
                                         <div> <i class="far fa-calendar"></i> </div>
+                                        <?php
+                                        $timestamp = strtotime( $businessData['created_at'] );
+                                        $date = date('M d,Y', $timestamp );
+                                        ?>
                                         <div class="house_desc">Date Posted</div>
-                                        <p>May 3, 2021</p>
+                                        <p>{{ $date }}</p>
                                     </div>
+                                    @php
+                                    if (isset($businessData['job_detail_json']) && !empty($businessData['job_detail_json'])) {
+                                        $attachmentArray = json_decode($businessData['job_detail_json'], true);
+                                    } else {
+                                        $attachmentArray = [];
+                                    }
+                                    $q = 1;
+                                @endphp
+
                                     <div class="house_detaill">
                                         <div><i class="fas fa-user-graduate"></i> </div>
                                         <div class="house_desc">Qualifications</div>
-                                        <p>Graduate</p>
+                                        <p>{{ $attachmentArray['JobQualification'] }}</p>
                                     </div>
 
                                     <div class="house_detaill">
                                         <div> <i class="far fa-money-bill-alt"></i> </div>
                                         <div class="house_desc">Offered Salary</div>
-                                        <p>$50,000 - $68000</p>
+                                        <p>{{ $attachmentArray['JobSalary'] }}</p>
                                     </div>
 
                                     <div class="house_detaill">
                                         <div> <i class="fas fa-user-clock"></i> </div>
                                         <div class="house_desc">Experience</div>
-                                        <p>2 years</p>
+                                        <p>{{ $attachmentArray['JobExperience'] }}</p>
                                     </div>
-
-
                                 </div>
                             </div>
 
@@ -272,28 +227,9 @@
 
                                     <div class="col-lg-12">
                                         <ul class="listings_details_features_list">
-                                            <li class="job_li_icon">Lorem ipsum dolor sit amet consectetur,
-                                                adipisicing elit. Reiciendis, recusandae. adipisicing elit. Reiciendis,
-                                                recusandae.
-                                            </li>
-                                            <li class="job_li_icon">Lorem, ipsum dolor sit amet consectetur
-                                                adipisicing elit. Nostrum quasi harum voluptates, eveniet cupiditate sed
-                                                sit nobis rerum et corrupti.
-                                            </li>
-                                            <li class="job_li_icon">Lorem ipsum dolor sit amet consectetur,
-                                                adipisicing elit. Reiciendis, recusandae. adipisicing elit. Reiciendis,
-                                                recusandae.
-                                            </li>
-                                            <li class="job_li_icon">Lorem, ipsum dolor sit amet consectetur
-                                                adipisicing elit. Nostrum quasi harum voluptates, eveniet cupiditate sed
-                                                sit nobis rerum et corrupti.
-                                            </li>
-
-
+                                            <li class="job_li_icon">{{ $businessData['sub_description_1'] }}</li>
                                         </ul>
                                     </div>
-
-
                                 </div>
                             </div>
 
@@ -306,32 +242,11 @@
 
                                     <div class="col-lg-12">
                                         <ul class="listings_details_features_list">
-                                            <li class="job_li_icon">Lorem ipsum dolor sit amet consectetur,
-                                                adipisicing elit. Reiciendis, recusandae. adipisicing elit. Reiciendis,
-                                                recusandae.
-                                            </li>
-                                            <li class="job_li_icon">Lorem, ipsum dolor sit amet consectetur
-                                                adipisicing elit. Nostrum quasi harum voluptates, eveniet cupiditate sed
-                                                sit nobis rerum et corrupti.
-                                            </li>
-                                            <li class="job_li_icon">Lorem ipsum dolor sit amet consectetur,
-                                                adipisicing elit. Reiciendis, recusandae. adipisicing elit. Reiciendis,
-                                                recusandae.
-                                            </li>
-                                            <li class="job_li_icon">Lorem, ipsum dolor sit amet consectetur
-                                                adipisicing elit. Nostrum quasi harum voluptates, eveniet cupiditate sed
-                                                sit nobis rerum et corrupti.
-                                            </li>
-
-
+                                            <li class="job_li_icon">{{ $businessData['sub_descrition'] }}</li>
                                         </ul>
                                     </div>
-
-
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                     <div class="col-xl-4">
@@ -343,39 +258,11 @@
                                     <!--Single_item-->
                                     <div class="additional_info_single">
                                         <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>It Company</p>
+                                            <p><i class="fas fa-dot-circle"></i>{{ $businessData['sub_descrition'] }}</p>
                                         </div>
                                     </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Founded in 1998</p>
-                                        </div>
-                                    </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Located in New York</p>
-                                        </div>
-                                    </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Mail us at <a
-                                                    href="#">hir@gmail.com</a> </p>
-                                        </div>
-                                    </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>More info on <a href="#">
-                                                    hirinfotech.com</a></p>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -383,99 +270,77 @@
         </section>
 
 
-        <section class="mt-5 mb-5">
-            <div class="container">
-                <div class="row mb-4">
-                    <div class="col-6">
-                        <h4>Similar&nbsp;Jobs</h4>
+        @if (isset($similarData))
+            <section class="mt-5 mb-5">
+                <div class="container">
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <h4>Similar&nbsp;Jobs</h4>
+                        </div>
+                        <div class="col-6 text-right"> <a href="#" class="link-simple"> View All </a> </div>
                     </div>
-                    <div class="col-6 text-right"> <a href="#" class="link-simple"> View All </a> </div>
-                </div>
+
+                    <div class="row">
+                        @foreach($similarData as $similarDatas)
+                        <div class="col-xl-6 col-md-12 col-sm-12">
+                            <div class="listings_two_page_content joblist_shadow">
+                                <!--listings Two Page Single-->
+                                @php
+                                    if (isset($similarDatas['media_file_json']) && !empty($similarDatas['media_file_json'])) {
+                                        $attachmentArray = json_decode($similarDatas['media_file_json'], true);
+                                    } else {
+                                        $attachmentArray = [];
+                                    }
+                                    $q = 1;
 
 
+                                    if(count($attachmentArray)){
+                                        $imageUrl= URL::to('/images/business').'/'.$attachmentArray[0]['Media1'] ;
+                                    } else {
+                                        $imageUrl=URL::asset('assets/frontend/images/img/gridimglisthouse.png');
+                                    }
+                                @endphp
+                                <div class="listings_two_page_single overflow-y__hidden">
+                                    <div class="listings_two_page_img">
 
+                                        <img src="{{$imageUrl}}" alt="">
 
-                <div class="row">
-                    <div class="col-xl-6 col-md-12 col-sm-12">
-                        <div class="listings_two_page_content joblist_shadow">
-                            <!--listings Two Page Single-->
-                            <div class="listings_two_page_single overflow-y__hidden">
-                                <div class="listings_two_page_img">
-                                    <img src="{{ URL::asset('assets/frontend/images/listings/job-list.jpg')}}" alt="">
-
-                                    <div class="heart_icon">
-                                        <i class="icon-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="listings_three-page_content pt-3">
-                                    <div class="title">
-                                        <h3><a href="job-details.html"> Software Engineer<span
-                                                    class="fa fa-check"></span></a></h3>
-                                        <p class="mb-0">Hir infotech Pvt Ltd</p>
-                                        <p class="mb-0">Halvorson , Adrienview 73379</p>
-                                    </div>
-                                    <ul class="list-unstyled listings_three-page_contact_info">
-                                        <li class="d-inline-block"><a class="job_list_pill" href="#"> Full-time</a>
-                                        </li>
-                                        <li class="d-inline-block"><a class="job_list_pill" href="#"> Private</a>
-                                        </li>
-                                    </ul>
-                                    <div class="listings_three-page_content_bottom">
-                                        <div class="left">
-
+                                        <div class="heart_icon">
+                                            <i class="icon-heart"></i>
                                         </div>
-                                        <div>
-                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
-                                            <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                    </div>
+                                    <div class="listings_three-page_content pt-3">
+                                        <div class="title">
+                                            <h3><a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}"> {{ $similarDatas['name'] }}<span
+                                                        class="fa fa-check"></span></a></h3>
+                                            <p class="mb-0">{{ $similarDatas['about'] }}</p>
+                                            <p class="mb-0">{{ $similarDatas['address'] }}</p>
+                                        </div>
+                                        <ul class="list-unstyled listings_three-page_contact_info">
+                                            <li class="d-inline-block"><a class="job_list_pill" href="#"> Full-time</a>
+                                            </li>
+                                            <li class="d-inline-block"><a class="job_list_pill" href="#"> Private</a>
+                                            </li>
+                                        </ul>
+                                        <div class="listings_three-page_content_bottom">
+                                            <div class="left">
+
+                                            </div>
+                                            <div>
+                                                <a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                                <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @endforeach
+
                     </div>
-
-                    <div class="col-xl-6 col-md-12 col-sm-12">
-                        <div class="listings_two_page_content joblist_shadow">
-                            <!--listings Two Page Single-->
-                            <div class="listings_two_page_single overflow-y__hidden">
-                                <div class="listings_two_page_img">
-                                    <img src="{{ URL::asset('assets/frontend/images/listings/job-list.jpg')}}" alt="">
-
-                                    <div class="heart_icon">
-                                        <i class="icon-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="listings_three-page_content pt-3">
-                                    <div class="title">
-                                        <h3><a href="job-details.html"> Software Engineer<span
-                                                    class="fa fa-check"></span></a></h3>
-                                        <p class="mb-0">Hir infotech Pvt Ltd</p>
-                                        <p class="mb-0">Halvorson , Adrienview 73379</p>
-                                    </div>
-                                    <ul class="list-unstyled listings_three-page_contact_info">
-                                        <li class="d-inline-block"><a class="job_list_pill" href="#"> Full-time</a>
-                                        </li>
-                                        <li class="d-inline-block"><a class="job_list_pill" href="#"> Private</a>
-                                        </li>
-                                    </ul>
-                                    <div class="listings_three-page_content_bottom">
-                                        <div class="left">
-
-                                        </div>
-                                        <div>
-                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
-                                            <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
 
     </div><!-- /.page-wrapper -->
 </body>

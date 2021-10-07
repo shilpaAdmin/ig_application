@@ -1338,7 +1338,8 @@
                             } else if(redirectStatus==3){ //matrimonial 
                                 url="{{route('matrimoney')}}";    
                             } else if(redirectStatus=='5'){ // entertainment
-                                url="{{route('EntertainmentListingGrid')}}";
+                                // url="{{route('EntertainmentListingGrid')}}";
+                                url="/category/"+id;
                             } else if(redirectStatus=='1'){ //faq
                                 url="{{ route('Faqs') }}";
                             }
@@ -1445,10 +1446,11 @@
                     var icon = data.Result[i]['Icon'];
                     var redirectStatus = data.Result[i]['redirect_status'];
                     var categoryPageRedirect = data.Result[i]['CategoryPageRedirect'];
-                    
+                  
 
                     if(data.Result[i].Subcategories != undefined)
                     {
+                        console.log(id+"=>"+name);
                         catSubcatHtml += '<section class="weekly background__grey" style="position:relative;">';
                         if(k == 0)
                         {

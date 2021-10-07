@@ -23,11 +23,6 @@
 
 //Route::get('pages-404', 'HradminController@index');
 
-Route::get("dm",function(){
-    return view('frontend.index_old');
-});
-
-// Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 Route::group(['prefix' => 'admin'], function () {
 
     Route::middleware(['guest'])->group(function () {
@@ -36,17 +31,13 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
 
-
     // Login Protected Routes
     Route::middleware(['auth'])->group(function () {
-        // Place all your admin protected routes here ...
-        Route::get("/dashboard", function () {
-            // return "yr login";
-        })->name('home');
 
         // Admin User Logout
         Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
-
+        
+        // dashboard
         Route::get('/dashboard', 'DashboardController@index')->name('home');
 
         //category routes
@@ -74,10 +65,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('business/detail/{id}', 'BusinessController@businessdetail')->name('businessdetail');
         Route::get('business/approve/{id}', 'BusinessController@approveStatus')->name('business.approve');
 
-
-
-        Route::get('business/detail/{id}', 'BusinessDetailController@businessdetail')->name('businessdetail');
-
         //tags routes
         Route::get('tags', 'TagsController@index')->name('tags');
         Route::get('tags/create', 'TagsController@create')->name('tags.create');
@@ -87,8 +74,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('tags/delete/{id}', 'TagsController@delete')->name('tags.delete');
         Route::post('tags/update/{id}', 'TagsController@update')->name('tags.update');
         Route::get('tags/approve/{id}', 'TagsController@approveStatus')->name('tags.approve');
-
-
 
         // Advertisement routes
         Route::get('advertisement', 'AdvertisementController@index')->name('advertisement');
@@ -162,7 +147,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('tagsforum/approve/{id}', 'TagsforumController@approveStatus')->name('tagsforum.approve');
 
 
-
         //testmonial routes
         Route::get('testmonial', 'TestmonialController@index')->name('testmonial');
         Route::get('testmonial/details/{id}', 'TestmonialController@testmonialdetails')->name('testmonial.details');
@@ -223,8 +207,6 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 
-
-
 //Frontend start here
 Route::get('/','HomeController@home')->name('/');
 Route::get('/Faqs','HomeController@faqs')->name('Faqs');
@@ -244,11 +226,10 @@ Route::get('/gdrp/notice','HomeController@gdrpnotice')->name('Gdrpnotice');
 Route::namespace('Frontend')->group(function () {
 
     // forum
-    Route::get('/forumlist','ForumController@index')->name('ForumList');
+    Route::get('/forum','ForumController@index')->name('ForumList');
     Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');
     Route::post('/save-comments','ForumController@saveForumComment')->name('save.comments');
     Route::post('/like-dislike','ForumController@saveLikeDislike')->name('like-dislike');
-
 
     // Matrimoney
     Route::get('/matrimoney','MatrimoneyController@viewMatrimoney')->name('matrimoney');
@@ -256,7 +237,7 @@ Route::namespace('Frontend')->group(function () {
     //category wise business listinng
     Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
 
-    //housing
+    //category business details 
     Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
 
 });
