@@ -240,14 +240,15 @@ Route::namespace('Frontend')->group(function () {
     //category business details 
     Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
 
+    // Faq 
+    Route::get('/faq','FaqController@faqDetails')->name('faq.details');
+
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
-
 
 //forum
 // Route::get('/forumlist','HomeController@forumList')->name('ForumList');
 // Route::get('/forumdetail','HomeController@forumdetail')->name('forumdetail');
-
 
 //Matrimoney List
 Route::get('/matrimoney/list','HomeController@matrimoneyList')->name('MatrimoneyList');
