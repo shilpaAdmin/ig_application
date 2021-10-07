@@ -311,7 +311,7 @@
                                     </div>
                                     <div class="listings_three-page_content pt-3">
                                         <div class="title">
-                                            <h3><a href="job-details.html"> {{ $similarDatas['name'] }}<span
+                                            <h3><a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}"> {{ $similarDatas['name'] }}<span
                                                         class="fa fa-check"></span></a></h3>
                                             <p class="mb-0">{{ $similarDatas['about'] }}</p>
                                             <p class="mb-0">{{ $similarDatas['address'] }}</p>

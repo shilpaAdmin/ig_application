@@ -1338,7 +1338,8 @@
                             } else if(redirectStatus==3){ //matrimonial 
                                 url="{{route('matrimoney')}}";    
                             } else if(redirectStatus=='5'){ // entertainment
-                                url="{{route('EntertainmentListingGrid')}}";
+                                // url="{{route('EntertainmentListingGrid')}}";
+                                url="/category/"+id;
                             } else if(redirectStatus=='1'){ //faq
                                 url="{{ route('Faqs') }}";
                             }

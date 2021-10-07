@@ -63,6 +63,12 @@ class CategoryController extends Controller
                 } else {
                     $view = view("frontend.category.list-view.tourtravel-listing-list",compact('businessDatas','id'))->render();
                 }
+            } else if($categoryPageRedirect=="8"){
+                if( $request->viewData !=0){
+                    $view = view("frontend.category.list-view.entertainment-listing-grid",compact('businessDatas','id'))->render();
+                } else {
+                    $view = view("frontend.category.list-view.entertainment-listing-list",compact('businessDatas','id'))->render();
+                }
             } else if($categoryPageRedirect=="9"){
                 if( $request->viewData !=0){
                     $view = view("frontend.category.list-view.event-listing-grid",compact('businessDatas','id'))->render();

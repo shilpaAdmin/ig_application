@@ -51,6 +51,9 @@ class HousingController extends Controller
         }else if($categoryPageRedirect=="4"){
             // tour & travel(transport) details
             return view('frontend.tourtravel_details',compact('businessData','similarData'));
+        }else if($categoryPageRedirect=="8"){
+            // entaintment details
+            return view('frontend.entertainment_details',compact('businessData','similarData'));
         }else if($categoryPageRedirect=="9"){
             // event details
             return view('frontend.event_details',compact('businessData','similarData'));

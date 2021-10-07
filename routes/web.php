@@ -410,7 +410,7 @@ Route::get('/gdrp/notice','HomeController@gdrpnotice')->name('Gdrpnotice');
 Route::namespace('Frontend')->group(function () {
 
     // forum
-    Route::get('/forumlist','ForumController@index')->name('ForumList');
+    Route::get('/forum','ForumController@index')->name('ForumList');
     Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');
     Route::post('/save-comments','ForumController@saveForumComment')->name('save.comments');
     Route::post('/like-dislike','ForumController@saveLikeDislike')->name('like-dislike');
