@@ -102,40 +102,7 @@
     <div class="page-wrapper">
         <!-- Listings Details Main Image Box Start-->
         <section class="listings_details_main_image_box">
-            <div class="container-full-width">
-                <div class="thm__owl-carousel owl-carousel owl-theme" data-options='{"margin":3, "loop": true, "smartSpeed": 700, "autoplay": true, "autoplayHoverPause": true, "autoplayTimeout": 5000, "items": 3,"responsive": {
-                    "0": {
-                        "items": 1
-                    },
-                    "480": {
-                        "items": 2
-                    },
-                    "992": {
-                        "items": 3
-                    }
-                }}'>
-                @php
-                if (isset($jobData['media_file_json']) && !empty($jobData['media_file_json'])) {
-                    $attachmentArray = json_decode($jobData['media_file_json'], true);
-                } else {
-                    $attachmentArray = [];
-                }
-                $q = 1;
-            @endphp
-                @if (count($attachmentArray) > 0)
-                    @for ($k = 0; $k < count($attachmentArray); $k++)
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('images/business/'.$attachmentArray[$k]['Media'.($k+1)]) }}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    @endfor
-                @endif
-                </div>
-            </div>
+            @include('frontend.category.details-page-image-list.image-list')
         </section>
 
         <!--Main Bottom Start-->
@@ -151,9 +118,9 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4> {{ $jobData['name'] }}<i class="fa fa-check"></i></h4>
-                                <small>{{ $jobData['about'] }} </small><br>
-                                <small>{{ $jobData['address'] }} </small>
+                                <h4> {{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
+                                <small>{{ $businessData['about'] }} </small><br>
+                                <small>{{ $businessData['address'] }} </small>
 
                             </div>
                             <div class="main_bottom_rating_time">
@@ -180,8 +147,8 @@
 
                             <ul class="list-unstyled">
                                 <?php
-                                $timestamp = strtotime( $jobData['created_at'] );
-                                $date = date('M d,Y', $timestamp );
+                                    $timestamp = strtotime( $businessData['created_at'] );
+                                    $date = date('M d,Y', $timestamp );
                                 ?>
                                 <li>Date Posted <span>{{ isset($date)? $date :'-'  }}</span></li>
                                 <li><a href="#">Add to Favourite<i class="far fa-heart"></i></a></li>
@@ -203,7 +170,7 @@
                             <div class="listings_details_text">
                                 <h3 class="mb-3">Description</h3>
 
-                                <p class="first_text mb-0">{{ $jobData['description'] }} </p>
+                                <p class="first_text mb-0">{{ $businessData['description'] }} </p>
 
                             </div>
 
@@ -215,15 +182,15 @@
                                     <div class="house_detaill">
                                         <div> <i class="far fa-calendar"></i> </div>
                                         <?php
-                                        $timestamp = strtotime( $jobData['created_at'] );
+                                        $timestamp = strtotime( $businessData['created_at'] );
                                         $date = date('M d,Y', $timestamp );
                                         ?>
                                         <div class="house_desc">Date Posted</div>
                                         <p>{{ $date }}</p>
                                     </div>
                                     @php
-                                    if (isset($jobData['job_detail_json']) && !empty($jobData['job_detail_json'])) {
-                                        $attachmentArray = json_decode($jobData['job_detail_json'], true);
+                                    if (isset($businessData['job_detail_json']) && !empty($businessData['job_detail_json'])) {
+                                        $attachmentArray = json_decode($businessData['job_detail_json'], true);
                                     } else {
                                         $attachmentArray = [];
                                     }
@@ -247,9 +214,6 @@
                                         <div class="house_desc">Experience</div>
                                         <p>{{ $attachmentArray['JobExperience'] }}</p>
                                     </div>
-
-
-
                                 </div>
                             </div>
 
@@ -263,11 +227,9 @@
 
                                     <div class="col-lg-12">
                                         <ul class="listings_details_features_list">
-                                            <li class="job_li_icon">{{ $jobData['sub_description_1'] }}</li>
+                                            <li class="job_li_icon">{{ $businessData['sub_description_1'] }}</li>
                                         </ul>
                                     </div>
-
-
                                 </div>
                             </div>
 
@@ -280,15 +242,11 @@
 
                                     <div class="col-lg-12">
                                         <ul class="listings_details_features_list">
-                                            <li class="job_li_icon">{{ $jobData['sub_descrition'] }}</li>
+                                            <li class="job_li_icon">{{ $businessData['sub_descrition'] }}</li>
                                         </ul>
                                     </div>
-
-
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                     <div class="col-xl-4">
@@ -300,7 +258,7 @@
                                     <!--Single_item-->
                                     <div class="additional_info_single">
                                         <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>{{ $jobData['sub_descrition'] }}</p>
+                                            <p><i class="fas fa-dot-circle"></i>{{ $businessData['sub_descrition'] }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -313,75 +271,75 @@
 
 
         @if (isset($similarData))
-        <section class="mt-5 mb-5">
-            <div class="container">
-                <div class="row mb-4">
-                    <div class="col-6">
-                        <h4>Similar&nbsp;Jobs</h4>
+            <section class="mt-5 mb-5">
+                <div class="container">
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <h4>Similar&nbsp;Jobs</h4>
+                        </div>
+                        <div class="col-6 text-right"> <a href="#" class="link-simple"> View All </a> </div>
                     </div>
-                    <div class="col-6 text-right"> <a href="#" class="link-simple"> View All </a> </div>
-                </div>
 
-                <div class="row">
-                    @foreach($similarData as $similarDatas)
-                    <div class="col-xl-6 col-md-12 col-sm-12">
-                        <div class="listings_two_page_content joblist_shadow">
-                            <!--listings Two Page Single-->
-                            @php
-                            if (isset($similarDatas['media_file_json']) && !empty($similarDatas['media_file_json'])) {
-                                $attachmentArray = json_decode($similarDatas['media_file_json'], true);
-                            } else {
-                                $attachmentArray = [];
-                            }
-                            $q = 1;
+                    <div class="row">
+                        @foreach($similarData as $similarDatas)
+                        <div class="col-xl-6 col-md-12 col-sm-12">
+                            <div class="listings_two_page_content joblist_shadow">
+                                <!--listings Two Page Single-->
+                                @php
+                                    if (isset($similarDatas['media_file_json']) && !empty($similarDatas['media_file_json'])) {
+                                        $attachmentArray = json_decode($similarDatas['media_file_json'], true);
+                                    } else {
+                                        $attachmentArray = [];
+                                    }
+                                    $q = 1;
 
 
-                            if(count($attachmentArray)){
-                                $imageUrl= URL::to('/images/business').'/'.$attachmentArray[0]['Media1'] ;
-                            } else {
-                                $imageUrl=URL::asset('assets/frontend/images/img/gridimglisthouse.png');
-                            }
-                        @endphp
-                            <div class="listings_two_page_single overflow-y__hidden">
-                                <div class="listings_two_page_img">
+                                    if(count($attachmentArray)){
+                                        $imageUrl= URL::to('/images/business').'/'.$attachmentArray[0]['Media1'] ;
+                                    } else {
+                                        $imageUrl=URL::asset('assets/frontend/images/img/gridimglisthouse.png');
+                                    }
+                                @endphp
+                                <div class="listings_two_page_single overflow-y__hidden">
+                                    <div class="listings_two_page_img">
 
-                                    <img src="{{$imageUrl}}" alt="">
+                                        <img src="{{$imageUrl}}" alt="">
 
-                                    <div class="heart_icon">
-                                        <i class="icon-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="listings_three-page_content pt-3">
-                                    <div class="title">
-                                        <h3><a href="job-details.html"> {{ $similarDatas['name'] }}<span
-                                                    class="fa fa-check"></span></a></h3>
-                                        <p class="mb-0">{{ $similarDatas['about'] }}</p>
-                                        <p class="mb-0">{{ $similarDatas['address'] }}</p>
-                                    </div>
-                                    <ul class="list-unstyled listings_three-page_contact_info">
-                                        <li class="d-inline-block"><a class="job_list_pill" href="#"> Full-time</a>
-                                        </li>
-                                        <li class="d-inline-block"><a class="job_list_pill" href="#"> Private</a>
-                                        </li>
-                                    </ul>
-                                    <div class="listings_three-page_content_bottom">
-                                        <div class="left">
-
+                                        <div class="heart_icon">
+                                            <i class="icon-heart"></i>
                                         </div>
-                                        <div>
-                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
-                                            <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                    </div>
+                                    <div class="listings_three-page_content pt-3">
+                                        <div class="title">
+                                            <h3><a href="job-details.html"> {{ $similarDatas['name'] }}<span
+                                                        class="fa fa-check"></span></a></h3>
+                                            <p class="mb-0">{{ $similarDatas['about'] }}</p>
+                                            <p class="mb-0">{{ $similarDatas['address'] }}</p>
+                                        </div>
+                                        <ul class="list-unstyled listings_three-page_contact_info">
+                                            <li class="d-inline-block"><a class="job_list_pill" href="#"> Full-time</a>
+                                            </li>
+                                            <li class="d-inline-block"><a class="job_list_pill" href="#"> Private</a>
+                                            </li>
+                                        </ul>
+                                        <div class="listings_three-page_content_bottom">
+                                            <div class="left">
+
+                                            </div>
+                                            <div>
+                                                <a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                                <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
+                        @endforeach
 
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
         @endif
 
     </div><!-- /.page-wrapper -->

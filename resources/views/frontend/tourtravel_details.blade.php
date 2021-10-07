@@ -13,44 +13,7 @@
     <div class="page-wrapper">
         <!-- Listings Details Main Image Box Start-->
         <section class="listings_details_main_image_box">
-            <div class="container-full-width">
-                <div class="thm__owl-carousel owl-carousel owl-theme" data-options='{"margin":3, "loop": true, "smartSpeed": 700, "autoplay": true, "autoplayHoverPause": true, "autoplayTimeout": 5000, "items": 3,"responsive": {
-                    "0": {
-                        "items": 1
-                    },
-                    "480": {
-                        "items": 2
-                    },
-                    "992": {
-                        "items": 3
-                    }
-                }}'>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/tour-1.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/tour-2.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <!--Listings Details Main Image Box Single-->
-                        <div class="listings_details_main_image_box_single">
-                            <div class="listings_details_main_image_box__img">
-                                <img src="{{ URL::asset('assets/frontend/images/listings/tour-3.jpg')}}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('frontend.category.details-page-image-list.image-list')
         </section>
 
         <!--Main Bottom Start-->
@@ -66,8 +29,8 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4>Fly Executive Services Pvt Ltd<i class="fa fa-check"></i></h4>
-                                <small>Halvorson, Adrienview 73379 </small>
+                                <h4>{{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
+                                <small>{{ $businessData['address'] }}, {{ $businessData['description'] }} </small>
                             </div>
                             <div class="main_bottom_rating_time">
                                 <div class="mr-3">
@@ -115,27 +78,10 @@
                 <div class="row">
                     <div class="col-xl-8">
                         <div class="listings_details_left">
-
-
                             <div class="listings_details_text">
                                 <h3 class="mb-3">About</h3>
-
-                                <p class="first_text mb-0">Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
-                                    tellus.
-                                    Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Etiam ultricies
-                                    nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.
-                                    Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
-                                    adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-                                    hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien
-                                    ut libero venenatis faucibus. </p>
-
+                                <p class="first_text mb-0"> {{ $businessData['about'] }} </p>
                             </div>
-
-
-
-
-
-
 
                             <div class="listings_details_features border-bottom-0">
                                 <div class="listings_details_features_title">
@@ -144,19 +90,19 @@
                                 <div class="row tax_contact_main">
                                     <div class="col-sm-12">
                                         <span class="tax_contact text_green"> <i class="far fa-user"></i> </span>
-                                        Contact Person Name
+                                        {{ isset($businessData['contact_person_name']) ? $businessData['contact_person_name'] :'-' }}
                                     </div>
                                     <div class="col-sm-12">
                                         <span class="tax_contact text_green"> <i class="fas fa-mobile-alt"></i>
-                                        </span> +91 0987654321
+                                        </span> {{isset($businessData['mobile_number']) ? $businessData['mobile_number'] : '-'}}
                                     </div>
                                     <div class="col-sm-12">
                                         <span class="tax_contact text_green"> <i class="far fa-envelope"></i> </span>
-                                        name@gmail.com
+                                        {{ isset($businessData['email_id']) ? $businessData['email_id'] : '-'}}
                                     </div>
                                     <div class="col-sm-12">
                                         <span class="tax_contact text_green"> <i class="fas fa-map-marker-alt"></i>
-                                        </span> Halvorson, Adrienview 73379
+                                        </span> {{isset($businessData['address']) ? $businessData['address'] : '-'}}
                                     </div>
                                 </div>
                             </div>
@@ -249,113 +195,165 @@
             </div>
         </section>
 
-
-        <section class="mt-5 mb-5">
-            <div class="container">
-                <div class="row mb-4">
-                    <div class="col-6">
-                        <h4>Similar&nbsp;Providers</h4>
+        @if (isset($similarData))
+            <section class="mt-5 mb-5">
+                <div class="container">
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <h4>Similar&nbsp;Providers</h4>
+                        </div>
+                        <div class="col-6 text-right"> <a href="{{route('TourtravelListingList')}}" class="link-simple"> View
+                                All </a> </div>
                     </div>
-                    <div class="col-6 text-right"> <a href="{{route('TourtravelListingList')}}" class="link-simple"> View
-                            All </a> </div>
-                </div>
 
-
-
-
-                <div class="row">
-
-                    <div class="col-xl-6 col-md-12 col-sm-12">
-                        <div class="listings_two_page_content">
-                            <!--listings Two Page Single-->
-                            <div class="listings_two_page_single">
-                                <div class="listings_two_page_img">
-                                    <img src="{{ URL::asset('assets/frontend/images/listings/tour1.jpg')}}" alt="">
-
-                                    <div class="heart_icon">
-                                        <i class="icon-heart"></i>
+                    <div class="row">
+                        @foreach($similarData as $similarDatas)
+                            @php
+                                if (isset($similarDatas['media_file_json']) && !empty($similarDatas['media_file_json'])) {
+                                    $attachmentArray = json_decode($similarDatas['media_file_json'], true);
+                                } else {
+                                    $attachmentArray = [];
+                                }
+                                $q = 1;
+                                if(count($attachmentArray)){
+                                    $imageUrl= URL::to('/images/business').'/'.$attachmentArray[0]['Media1'] ;
+                                } else {
+                                    $imageUrl= URL::asset('assets/frontend/images/listings/tour1.jpg');
+                                }
+                            @endphp
+                             <div class="col-xl-6 col-md-12 col-sm-12">
+                                <div class="listings_two_page_content">
+                                    <div class="listings_two_page_single">
+                                        <div class="listings_two_page_img">
+                                            <img src="{{ $imageUrl}}" alt="">
+    
+                                            <div class="heart_icon">
+                                                <i class="icon-heart"></i>
+                                            </div>
+                                        </div>
+                                        <div class="listings_three-page_contentt pt-3">
+                                            <div class="title">
+                                                <h3><a href="{{route('Tourtraveldetails')}}">{{ $similarDatas['name'] }}<span
+                                                            class="fa fa-check"></span></a></h3>
+                                                <p>{{ $similarDatas['address'] }},{{ $similarDatas['description'] }}</p>
+                                            </div>
+                                            <ul class="list-unstyled listings_three-page_contact_info">
+                                                <li>
+                                                    <a class="rating_listt" href="#">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <span class="gry_clr"><i class="fas fa-star"> </i></span>
+                                                        <span class="clr_blackk">4.0</span> </a>
+                                                </li>
+                                                <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
+                                                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
+                                            </ul>
+                                            <div class="listings_three-page_content_bottom">
+                                                <div class="left">
+    
+                                                </div>
+                                                <div>
+                                                    <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
+                                                    <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="listings_three-page_contentt pt-3">
-                                    <div class="title">
-                                        <h3><a href="{{route('Tourtraveldetails')}}">Fly Services Pvt Ltd<span
-                                                    class="fa fa-check"></span></a></h3>
-                                        <p>Halvorson, Adrienview 73379</p>
-                                    </div>
-                                    <ul class="list-unstyled listings_three-page_contact_info">
-                                        <li>
-                                            <a class="rating_listt" href="#">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <span class="gry_clr"><i class="fas fa-star"> </i></span>
-                                                <span class="clr_blackk">4.0</span> </a>
-                                        </li>
-                                        <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
-                                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
-                                    </ul>
-                                    <div class="listings_three-page_content_bottom">
-                                        <div class="left">
+                            </div>
+                        @endforeach
+                        {{-- <div class="col-xl-6 col-md-12 col-sm-12">
+                            <div class="listings_two_page_content">
+                                <div class="listings_two_page_single">
+                                    <div class="listings_two_page_img">
+                                        <img src="{{ URL::asset('assets/frontend/images/listings/tour1.jpg')}}" alt="">
 
+                                        <div class="heart_icon">
+                                            <i class="icon-heart"></i>
                                         </div>
-                                        <div>
-                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                            <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                    </div>
+                                    <div class="listings_three-page_contentt pt-3">
+                                        <div class="title">
+                                            <h3><a href="{{route('Tourtraveldetails')}}">Fly Services Pvt Ltd<span
+                                                        class="fa fa-check"></span></a></h3>
+                                            <p>Halvorson, Adrienview 73379</p>
+                                        </div>
+                                        <ul class="list-unstyled listings_three-page_contact_info">
+                                            <li>
+                                                <a class="rating_listt" href="#">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <span class="gry_clr"><i class="fas fa-star"> </i></span>
+                                                    <span class="clr_blackk">4.0</span> </a>
+                                            </li>
+                                            <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
+                                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
+                                        </ul>
+                                        <div class="listings_three-page_content_bottom">
+                                            <div class="left">
+
+                                            </div>
+                                            <div>
+                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
+                                                <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-xl-6 col-md-12 col-sm-12">
-                        <div class="listings_two_page_content">
-                            <!--listings Two Page Single-->
-                            <div class="listings_two_page_single">
-                                <div class="listings_two_page_img">
-                                    <img src="{{ URL::asset('assets/frontend/images/listings/tour1.jpg')}}" alt="">
+                        <div class="col-xl-6 col-md-12 col-sm-12">
+                            <div class="listings_two_page_content">
+                                <div class="listings_two_page_single">
+                                    <div class="listings_two_page_img">
+                                        <img src="{{ URL::asset('assets/frontend/images/listings/tour1.jpg')}}" alt="">
 
-                                    <div class="heart_icon">
-                                        <i class="icon-heart"></i>
-                                    </div>
-                                </div>
-                                <div class="listings_three-page_contentt pt-3">
-                                    <div class="title">
-                                        <h3><a href="{{route('Tourtraveldetails')}}">Fly Services Pvt Ltd<span
-                                                    class="fa fa-check"></span></a></h3>
-                                        <p>Halvorson, Adrienview 73379</p>
-                                    </div>
-                                    <ul class="list-unstyled listings_three-page_contact_info">
-                                        <li>
-                                            <a class="rating_listt" href="#">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <span class="gry_clr"><i class="fas fa-star"> </i></span>
-                                                <span class="clr_blackk">4.0</span> </a>
-                                        </li>
-                                        <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
-                                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
-                                    </ul>
-                                    <div class="listings_three-page_content_bottom">
-                                        <div class="left">
-
+                                        <div class="heart_icon">
+                                            <i class="icon-heart"></i>
                                         </div>
-                                        <div>
-                                            <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                            <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                    </div>
+                                    <div class="listings_three-page_contentt pt-3">
+                                        <div class="title">
+                                            <h3><a href="{{route('Tourtraveldetails')}}">Fly Services Pvt Ltd<span
+                                                        class="fa fa-check"></span></a></h3>
+                                            <p>Halvorson, Adrienview 73379</p>
+                                        </div>
+                                        <ul class="list-unstyled listings_three-page_contact_info">
+                                            <li>
+                                                <a class="rating_listt" href="#">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <span class="gry_clr"><i class="fas fa-star"> </i></span>
+                                                    <span class="clr_blackk">4.0</span> </a>
+                                            </li>
+                                            <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
+                                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
+                                        </ul>
+                                        <div class="listings_three-page_content_bottom">
+                                            <div class="left">
+
+                                            </div>
+                                            <div>
+                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
+                                                <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div> --}}
 
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
     </div><!-- /.page-wrapper -->
 </body>
 </html>

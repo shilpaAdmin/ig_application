@@ -45,7 +45,7 @@
 
                     </div>
                     <div>
-                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                        <a href="{{route('housing.details',['id'=>$business['category_id'],'bid'=>$business['id'] ])}}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
                         <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                     </div>
                 </div>

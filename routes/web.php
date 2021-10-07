@@ -415,17 +415,16 @@ Route::namespace('Frontend')->group(function () {
     Route::post('/save-comments','ForumController@saveForumComment')->name('save.comments');
     Route::post('/like-dislike','ForumController@saveLikeDislike')->name('like-dislike');
 
-
     // Matrimoney
     Route::get('/matrimoney','MatrimoneyController@viewMatrimoney')->name('matrimoney');
 
     //category wise business listinng
     Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
 
-    //housing
+    //category business details 
     Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
 
-    Route::get('/categorys/{id}','JobController@jobDetails')->name('job.details');
+    // Route::get('/categorys/{id}','JobController@jobDetails')->name('job.details');
 
 
 });

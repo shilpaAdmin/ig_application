@@ -28,7 +28,6 @@ class HousingController extends Controller
         }
         $categoryPageRedirect= isset($category) ? $category->category_page_redirect: 0;
 
-
         // get business details data
         $businessData = BusinessModel::where('id', $businessid)->first();
         $similarData=null;
@@ -42,13 +41,19 @@ class HousingController extends Controller
             return view('frontend.housing_details', compact('businessData','similarData'));
         } else if($categoryPageRedirect=="1"){
             // job details
-            return view('frontend.job_details');
+            return view('frontend.job_details',compact('businessData','similarData'));
         }else if($categoryPageRedirect=="2"){
             // educations
-            return view('frontend.education_details');
+            return view('frontend.education_details',compact('businessData','similarData'));
         }else if($categoryPageRedirect=="3"){
             // taxation details
-            return view('frontend.taxation_details');
+            return view('frontend.taxation_details',compact('businessData','similarData'));
+        }else if($categoryPageRedirect=="4"){
+            // tour & travel(transport) details
+            return view('frontend.tourtravel_details',compact('businessData','similarData'));
+        }else if($categoryPageRedirect=="9"){
+            // event details
+            return view('frontend.event_details',compact('businessData','similarData'));
         }
 
     }
