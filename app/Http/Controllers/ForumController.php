@@ -8,6 +8,8 @@ use App\Http\Requests\CategoryRequest;
 use DataTables;
 use App\Http\Model\UserModel;
 use App\Http\Model\ForumModel;
+use App\Http\Model\ForumCommentReplyModel;
+
 use Auth;
 
 class ForumController extends Controller
@@ -65,7 +67,7 @@ class ForumController extends Controller
         }
     }
 
-    public function advertisementList()
+    public function forumList()
     {
         $result_obj = ForumModel::where('forum.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
@@ -74,13 +76,26 @@ class ForumController extends Controller
         })->select('forum.*','user.name as user_id')->get();
 
         return DataTables::of($result_obj)
+        ->addColumn('DT_RowId', function ($result_obj)
+        {
+            return 'row_'.$result_obj->id;
+        })
+        ->addColumn('question_td', function ($result_obj)
+        {
+            $question_td = '';
 
-        ->addColumn('question', function ($result_obj)
+            if(!empty($result_obj->question))
+            $question_td='<a href=" '.route('forum.getCommentReplyList',$result_obj->id).' " >'.ucwords($result_obj->question.$result_obj->id).'</a>';
+            //$question_td = '<a href="'.route('forum.getCommentReplyList')">'.ucwords($result_obj->question).'</a>';
+            
+            return $question_td;
+        })
+       /* ->addColumn('question', function ($result_obj)
         {
             $question = '';
             $question = ucwords($result_obj->question);
             return $question;
-        })
+        })*/
         ->addColumn('user_id',function($result_obj){
             $user_id = '';
             $user_id = $result_obj->user_id;
@@ -95,6 +110,17 @@ class ForumController extends Controller
             $url = '';
             $url = $result_obj->url;
             return $url;
+        })
+        ->addColumn('is_approve',function($result_obj)
+        {
+            $is_approve = '';
+            if($result_obj->is_approve==1)
+            $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
+            else
+            $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
+            return $is_approve;
+            //$is_approve = $result_obj->is_approve;
+            //return $is_approve;
         })
         ->addColumn('status_td',function($result_obj){
             $status = '';
@@ -120,10 +146,50 @@ class ForumController extends Controller
             </div>';
             return $command;
         })
-        ->rawColumns(['question','user_id','description','url','status_td','command'])
+        ->rawColumns(['DT_RowId','question_td','user_id','description','url','status_td','command','is_approve'])
         ->make(true);
     }
 
+    public function getCommentReplyList($id)
+    {
+        $forum_id=$id;
+
+        $sortBy = isset($input['sort_by']) ? $input['sort_by'] : 'DESC';
+        $recordsPerPage = isset($input['recordsPerPage']) ? $input['recordsPerPage'] : 5;
+        $pageNumber = isset($input['pageNumber']) ? $input['pageNumber'] : 1;
+
+        $skip = (($pageNumber - 1) * $recordsPerPage);
+
+        $commentData = ForumCommentReplyModel::where('forum_id',$forum_id)->where('comment_id',0)->orderBy('comment_id','desc')->skip($skip)->take(5)->get()->toArray();
+        
+        $commentReplyArray = array();
+        foreach ($commentData as $comment)
+        {
+            $commentId = $comment['id'];
+            $replyData =ForumCommentReplyModel::where('comment_id',$commentId)->where('comment_id','!=',0)->orderBy('id','desc')->get()->toArray();
+            $commentReplyArray[$commentId]['id'] = $commentId;
+            $commentReplyArray[$commentId]['comment'] = $comment['message'];
+            $commentReplyArray[$commentId]['media'] = $comment['media'];
+            if(count($replyData) > 0)
+            {
+                $j = 0;
+                foreach($replyData as $reply)
+                {
+                    $replyId = $reply['id'];
+                    $replyMessage = $reply['message'];
+                    $replyMedia = $reply['media'];
+                    
+                    $commentReplyArray[$commentId]['reply'][$j]['id'] = $replyId;
+                    $commentReplyArray[$commentId]['reply'][$j]['comment'] = $replyMessage;
+                    $commentReplyArray[$commentId]['reply'][$j]['media'] = $replyMedia;
+                    $j++;
+                }
+            }
+        }
+        // echo '<pre>';
+        // print_r($commentReplyArray);exit;
+        return view('forum.comment_reply_structure', compact('commentReplyArray','recordsPerPage'));
+    }
 
     public function edit($id)
     {
@@ -133,7 +199,6 @@ class ForumController extends Controller
         return view('forum.edit', compact('row','users'));
 
     }
-
 
     public function update(Request $request,$id)
     {
@@ -172,5 +237,40 @@ class ForumController extends Controller
         }
     }
 
+
+    public function approveStatus(Request $request ,$id)
+    {
+
+        $multipleIdExplode = explode(',',$id);
+
+        $approveData = ForumModel::whereIn('id',$multipleIdExplode)->get()->toArray();
+        // dd($approveData);
+
+        if(count($approveData) > 0)
+        {
+            foreach($approveData as $record)
+            // dd($approveData);
+
+            {
+                $table_name = $record['is_approve'];
+
+
+                if($table_name == 1)
+                {
+
+                    $update = ForumModel::where('id', '=', $record['id'])->update(['is_approve'=> 0]);
+
+
+                }
+                else{
+
+                    $update = ForumModel::where('id', '=', $record['id'])->update(['is_approve'=> 1]);
+
+
+                }
+            }
+        }
+        return redirect()->back()->withSuccess('Data recovered successfully!');
+    }
 
 }

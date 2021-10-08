@@ -114,6 +114,10 @@ class FAQController extends Controller
                 $dataArray['Tags'][$j]['Name']=$tagsData[$j]['name'];
             }
         }
+        else
+        {
+            $dataArray['Tags']=array();
+        }
 
         if(!empty($dataArray['List']))
         {
@@ -121,7 +125,7 @@ class FAQController extends Controller
         }
         else
         {
-            return response()->json(['Status'=>false,'StatusMessage'=>'No Data Available','Result'=>$dataArray]);
+            return response()->json(['Status'=>false,'StatusMessage'=>'No FAQ Data Available','Result'=>$dataArray]);
         }
 
     }

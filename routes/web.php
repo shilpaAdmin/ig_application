@@ -228,7 +228,7 @@ Route::group(['prefix' => 'admin'], function () {
         // Admin User Logout
         Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
 
-        Route::get('/dashboard', 'dashboardController@index')->name('home');
+        Route::get('/dashboard', 'DashboardController@index')->name('home');
 
         //category routes
         Route::get('category', 'CategoryController@index')->name('category');
@@ -279,13 +279,13 @@ Route::group(['prefix' => 'admin'], function () {
 
         //matrimonial routes
         Route::get('matrimonial', 'MatrimonialController@index')->name('matrimonial');
-        Route::get('matrimonial/create', 'matrimonialcontroller@create')->name('matrimonial.create');
-        Route::post('matrimonial/store', 'matrimonialcontroller@store')->name('matrimonial.store');
-        Route::get('matrimonial/edit/{id}', 'matrimonialcontroller@edit')->name('matrimonial.edit');
-        Route::post('matrimonial/update/{id}', 'matrimonialcontroller@update')->name('matrimonial.update');
-        Route::get('matrimonial/matrimonialList', 'matrimonialcontroller@matrimoniallist')->name('datatable.matrimoniallist');
-        Route::get('matrimonial/delete/{id}', 'matrimonialcontroller@delete')->name('matrimonial.delete');
-        Route::get('matrimonial-detail/{id}', 'MatrimonialDetailController@matrimonialDetail')->name('matrimonialdetail');
+        Route::get('matrimonial/create', 'MatrimonialController@create')->name('matrimonial.create');
+        Route::post('matrimonial/store', 'MatrimonialController@store')->name('matrimonial.store');
+        Route::get('matrimonial/edit/{id}', 'MatrimonialController@edit')->name('matrimonial.edit');
+        Route::post('matrimonial/update/{id}', 'MatrimonialController@update')->name('matrimonial.update');
+        Route::get('matrimonial/matrimonialList', 'MatrimonialController@matrimoniallist')->name('datatable.matrimoniallist');
+        Route::get('matrimonial/delete/{id}', 'MatrimonialController@delete')->name('matrimonial.delete');
+        Route::get('matrimonial-detail/{id}', 'MatrimonialController@matrimonialDetail')->name('matrimonialdetail');
 
         // Fourm routes
         Route::get('forum', 'ForumController@index')->name('forum');
@@ -293,8 +293,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('forum/store', 'ForumController@store')->name('forum.store');
         Route::get('forum/edit/{id}', 'ForumController@edit')->name('forum.edit');
         Route::post('forum/update/{id}', 'ForumController@update')->name('forum.update');
-        Route::get('forum/forumList', 'ForumController@advertisementList')->name('datatable.forumlist');
+        Route::get('forum/forumList', 'ForumController@forumList')->name('datatable.forumlist');
         Route::get('forum/delete/{id}', 'ForumController@delete')->name('forum.delete');
+        Route::get('forum/approve/{id}', 'ForumController@approveStatus')->name('forum.approve');
+        Route::get('forum/getcommentreplylist/{id}', 'ForumController@getCommentReplyList')->name('forum.getCommentReplyList');
 
         //faq routes
         Route::get('faq', 'FaqController@index')->name('faq');
@@ -368,7 +370,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('location/delete/{id}', 'LocationController@delete')->name('location.delete');
         Route::post('location/update/{id}', 'LocationController@update')->name('location.update');
 
-
+		//Country routes
         Route::get('country', 'CountryController@index')->name('country');
         Route::get('country/create', 'CountryController@create')->name('country.create');
         Route::post('country/store', 'CountryController@store')->name('country.store');
@@ -377,6 +379,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('country/update/{id}', 'CountryController@update')->name('country.update');
         Route::get('country/countryList', 'CountryController@countryList')->name('datatable.countryList');
 
+        //city Route
         Route::get('city', 'CityController@index')->name('city');
         Route::get('city/create', 'CityController@create')->name('city.create');
         Route::post('city/store', 'CityController@store')->name('city.store');
