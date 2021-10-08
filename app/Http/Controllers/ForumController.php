@@ -49,6 +49,7 @@ class ForumController extends Controller
         $obj->question=$input['question'];
         $obj->description=$input['description'];
         $obj->url=$input['url'];
+        $obj->telegram_link=$input['telegram_link'];
         $obj->user_id=$userID;
 
         if(!empty($input['status']))
@@ -87,7 +88,7 @@ class ForumController extends Controller
             if(!empty($result_obj->question))
             $question_td='<a href=" '.route('forum.getCommentReplyList',$result_obj->id).' " >'.ucwords($result_obj->question.$result_obj->id).'</a>';
             //$question_td = '<a href="'.route('forum.getCommentReplyList')">'.ucwords($result_obj->question).'</a>';
-            
+
             return $question_td;
         })
        /* ->addColumn('question', function ($result_obj)
@@ -98,7 +99,7 @@ class ForumController extends Controller
         })*/
         ->addColumn('user_id',function($result_obj){
             $user_id = '';
-            $user_id = $result_obj->user_id;
+            $user_id = ucwords($result_obj->user_id);
             return $user_id;
         })
         ->addColumn('description',function($result_obj){
@@ -154,22 +155,38 @@ class ForumController extends Controller
     {
         $forum_id=$id;
 
+        $forumDetail=ForumModel::with(['user'])->where('id',$forum_id)->first();
+        
         $sortBy = isset($input['sort_by']) ? $input['sort_by'] : 'DESC';
         $recordsPerPage = isset($input['recordsPerPage']) ? $input['recordsPerPage'] : 5;
         $pageNumber = isset($input['pageNumber']) ? $input['pageNumber'] : 1;
 
         $skip = (($pageNumber - 1) * $recordsPerPage);
 
-        $commentData = ForumCommentReplyModel::where('forum_id',$forum_id)->where('comment_id',0)->orderBy('comment_id','desc')->skip($skip)->take(5)->get()->toArray();
+        $commentData = ForumCommentReplyModel::where('forum_comment_reply.forum_id',$forum_id)
+        ->where('forum_comment_reply.comment_id',0)
+        ->leftJoin('user','forum_comment_reply.user_id','user.id')
+        ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
+        ->where('forum_comment_reply.is_deleted',0)
+        //->skip($skip)->take(5)
+        ->get()->toArray();
         
         $commentReplyArray = array();
         foreach ($commentData as $comment)
         {
             $commentId = $comment['id'];
-            $replyData =ForumCommentReplyModel::where('comment_id',$commentId)->where('comment_id','!=',0)->orderBy('id','desc')->get()->toArray();
+            $replyData =ForumCommentReplyModel::where('forum_comment_reply.comment_id',$commentId)
+            ->where('forum_comment_reply.comment_id','!=',0)
+            ->leftJoin('user','forum_comment_reply.user_id','user.id')
+            ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
+            ->where('forum_comment_reply.is_deleted',0)
+            ->orderBy('forum_comment_reply.id','desc')->get()->toArray();
+
             $commentReplyArray[$commentId]['id'] = $commentId;
             $commentReplyArray[$commentId]['comment'] = $comment['message'];
             $commentReplyArray[$commentId]['media'] = $comment['media'];
+            $commentReplyArray[$commentId]['username'] = $comment['username'];
+            $commentReplyArray[$commentId]['userimage'] = $comment['userimage'];
             if(count($replyData) > 0)
             {
                 $j = 0;
@@ -178,17 +195,21 @@ class ForumController extends Controller
                     $replyId = $reply['id'];
                     $replyMessage = $reply['message'];
                     $replyMedia = $reply['media'];
-                    
+                    $replyUsername = $reply['username'];
+                    $replyUserimage = $reply['userimage'];
+
                     $commentReplyArray[$commentId]['reply'][$j]['id'] = $replyId;
                     $commentReplyArray[$commentId]['reply'][$j]['comment'] = $replyMessage;
                     $commentReplyArray[$commentId]['reply'][$j]['media'] = $replyMedia;
+                    $commentReplyArray[$commentId]['reply'][$j]['username'] = $replyUsername;
+                    $commentReplyArray[$commentId]['reply'][$j]['userimage'] = $replyUserimage;
                     $j++;
                 }
             }
         }
         // echo '<pre>';
         // print_r($commentReplyArray);exit;
-        return view('forum.comment_reply_structure', compact('commentReplyArray','recordsPerPage'));
+        return view('forum.comment_reply_structure', compact('commentReplyArray','recordsPerPage','forumDetail'));
     }
 
     public function edit($id)
@@ -210,6 +231,7 @@ class ForumController extends Controller
         $obj->question=$input['question'];
         $obj->description=$input['description'];
         $obj->url=$input['url'];
+        $obj->telegram_link=$input['telegram_link'];
         $obj->user_id=$userID;
 
         if(!empty($input['status']))
@@ -273,4 +295,38 @@ class ForumController extends Controller
         return redirect()->back()->withSuccess('Data recovered successfully!');
     }
 
+    public function deleteReply(Request $request)
+    {
+        $input=$request->all();
+
+        $form=ForumCommentReplyModel::find($input['ReplyId']);
+        $form->is_deleted=1;
+        $result=$form->save();
+
+        if($result)
+        {
+            echo json_encode(array('status'=>true,'message'=>'Reply Deleted Successfully'));
+        }
+        else
+        {
+            echo json_encode(array('status'=>false,'message'=>'Reply not Deleted'));
+        }
+    }
+    
+    public function deleteComment(Request $request)
+    {
+        $input=$request->all();
+
+        ForumCommentReplyModel::where('id',$input['CommentId'])->update(['is_deleted'=>1]);
+
+        if(ForumCommentReplyModel::where('comment_id',$input['CommentId'])->update(['is_deleted'=>1]))
+        {
+            echo json_encode(array('status'=>true,'message'=>'Comment Deleted Successfully'));
+        }
+        else
+        {
+            echo json_encode(array('status'=>false,'message'=>'Comment not Deleted'));
+        }
+    }
 }
+

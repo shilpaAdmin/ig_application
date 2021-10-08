@@ -79,7 +79,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('advertisement/store', 'AdvertisementController@store')->name('advertisement.store');
         Route::get('advertisement/edit/{id}', 'AdvertisementController@edit')->name('advertisement.edit');
         Route::post('advertisement/update/{id}', 'AdvertisementController@update')->name('advertisement.update');
-        Route::post('category/autoComplete', 'AdvertisementController@advertiseCategoryAutoComplete')->name('AdcategoryAutoComplete');
+        Route::post('advertisement/category/autoComplete', 'AdvertisementController@advertiseCategoryAutoComplete')->name('AdcategoryAutoComplete');
         Route::get('advertisement/advertisementList', 'AdvertisementController@advertisementlist')->name('datatable.advertisementlist');
         Route::get('advertisement/delete/{id}', 'AdvertisementController@delete')->name('advertisement.delete');
         Route::get('advertisement/approve/{id}', 'AdvertisementController@approveStatus')->name('advertisement.approve');
@@ -106,6 +106,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('forum/delete/{id}', 'ForumController@delete')->name('forum.delete');
         Route::get('forum/approve/{id}', 'ForumController@approveStatus')->name('forum.approve');
         Route::get('forum/getcommentreplylist/{id}', 'ForumController@getCommentReplyList')->name('forum.getCommentReplyList');
+        Route::post('forum/deleteReply', 'ForumController@deleteReply')->name('forum.deleteReply');
+        Route::post('forum/deleteComment', 'ForumController@deleteComment')->name('forum.deleteComment');
 
         //faq routes
         Route::get('faq', 'FaqController@index')->name('faq');
@@ -121,6 +123,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('blog', 'BlogController@index')->name('blog');
         Route::get('blog/create', 'BlogController@create')->name('blog.create');
         Route::post('blog/store', 'BlogController@store')->name('blog.store');
+        Route::post('blog/category/autoComplete', 'BlogController@blogCategoryAutoComplete')->name('BlogcategoryAutoComplete');
         Route::get('blog/edit/{id}', 'BlogController@edit')->name('blog.edit');
         Route::post('blog/update/{id}', 'BlogController@update')->name('blog.update');
         Route::get('blog/blogList', 'BlogController@bloglist')->name('datatable.bloglist');
@@ -157,10 +160,14 @@ Route::group(['prefix' => 'admin'], function () {
 
 
         //testmonial routes
-        Route::get('testmonial', 'TestmonialController@index')->name('testmonial');
-        Route::get('testmonial/details/{id}', 'TestmonialController@testmonialdetails')->name('testmonial.details');
-        Route::get('testmonial/testmonialList', 'TestmonialController@testmonialList')->name('datatable.testmoniallist');
-        Route::get('testmonial/delete/{id}', 'TestmonialController@delete')->name('testmonial.delete');
+        Route::get('testimonial', 'TestimonialController@index')->name('testimonial');
+        Route::get('testimonial/create', 'TestimonialController@create')->name('testimonial.create');
+        Route::post('testimonial/store', 'TestimonialController@store')->name('testimonial.store');
+        Route::get('testimonial/edit/{id}', 'TestimonialController@edit')->name('testimonial.edit');
+        Route::post('testimonial/update/{id}', 'TestimonialController@update')->name('testimonial.update');
+        Route::get('testimonial/details/{id}', 'TestimonialController@testmonialdetails')->name('testimonial.details');
+        Route::get('testimonial/testimonialList', 'TestimonialController@testmonialList')->name('datatable.testimoniallist');
+        Route::get('testimonial/delete/{id}', 'TestimonialController@delete')->name('testimonial.delete');
 
 
         //Legel pages routes
@@ -211,7 +218,11 @@ Route::group(['prefix' => 'admin'], function () {
         //Route::get('city/delete/{id}', 'CityController@delete')->name('city.delete');
 
 
-        Route::get('user/edit/{id}', 'userupdatecontroller@edit')->name('userupdate.edit');
+        //user list
+        Route::get('user', 'UserController@index')->name('user');
+        Route::get('user/userList', 'UserController@userlist')->name('datatable.userList');
+        Route::get('user/delete/{id}', 'UserController@delete')->name('user.delete');
+
     });
 });
 

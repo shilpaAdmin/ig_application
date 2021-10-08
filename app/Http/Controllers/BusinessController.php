@@ -1,710 +1,1403 @@
 <?php
+namespace App\Http\Controllers\Api;
 
-namespace App\Http\Controllers;
+use App\Http\Controllers\Controller;
+
+use App\Http\Model\CountrysModel;
+use App\Http\Model\BusinessModel;
+use App\Http\Model\CategoryModel;
+use App\Http\Model\TagMasterModel;
+use App\Http\Model\BusinessFavouriteModel;
+use App\User;
+
+use App\Http\Model\BusinessUserEnquiryModel;
+
+use App\Http\Traits\UserLocationDetailTrait;
+
+use Carbon\Carbon;
+use DataTables;
+use URL;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\BusinessRequest;
-use DataTables;
-
-use App\Http\Model\BusinessModel;
-use App\Http\Model\UserModel;
-use App\Http\Model\TagMasterModel;
-use App\Http\Model\CategoryModel;
-
-use Auth;
 
 class BusinessController extends Controller
 {
-    public function index(Request $request)
-    {
-        return view('business.index');
-    }
+    use UserLocationDetailTrait;
 
-    public function create()
-    {
-        $days=array('DisplayMon'=>'Monday','DisplayTue'=>'Tuesday','DisplayWed'=>'Wednesday',
-        'DisplayThur'=>'Thursday','DisplayFri'=>'Friday','DisplaySat'=>'Saturday','DisplaySun'=>'Sunday');
-        $users=UserModel::pluck('name','id');
-        // echo '<pre>';
-        // print_r($users);
-        // exit;
-        return view('business.create',compact('days','users'));
-    }
-
-    public function delete($id)
-    {
-        $delete = BusinessModel::where('id', $id)->update([
-            'status' => 'deleted',
-        ]);
-
-        if ($delete) {
-            return redirect()->route('business');
-        } else {
-            return redirect()->route('business');
-        }
-    }
-
-    public function businessList()
-    {
-        $result_obj = BusinessModel::where('status','!=','deleted')
-        ->with('categories')->orderBy('id','DESC')->get();
-        return DataTables::of($result_obj)
-        ->addColumn('DT_RowId', function ($result_obj)
-        {
-            return 'row_'.$result_obj->id;
-        })
-        ->addColumn('description_td',function($result_obj){
-            $description = '';
-            if($result_obj->description=='')
-            $description.='<span class="badge badge-pill badge-soft-success font-size-12">'.ucwords($result_obj->status).'</span>';
-            else
-            $description.='<span class="badge badge-pill badge-soft-danger font-size-12">'.ucwords($result_obj->status).'</span>';
-            return $description;
-        })
-        ->addColumn('type_td',function($result_obj){
-            $type_td = '';
-            if($result_obj->type=='product')
-            $type_td.='<span class="badge badge-pill badge-soft-success font-size-12"> Product</span>';
-            else
-            $type_td.='<span class="badge badge-pill badge-soft-warning font-size-12"> Service </span>';
-            return $type_td;
-        })
-        ->addColumn('category_td',function($result_obj){
-            $category_td = '';
-            if(!empty($result_obj->categories['name']))
-            $category_td=$result_obj->categories['name'];
-            else
-            $category_td='N/A';
-            return $category_td;
-        })
-        ->addColumn('is_approve',function($result_obj)
-        {
-            $is_approve = '';
-            if($result_obj->is_approve==1)
-            $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
-            else
-            $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
-            return $is_approve;
-            //$is_approve = $result_obj->is_approve;
-            //return $is_approve;
-        })
-        ->addColumn('status_td',function($result_obj){
-            $status = '';
-            if($result_obj->status=='active')
-            $status.='<span class="badge badge-pill badge-soft-success font-size-12">'.ucwords($result_obj->status).'</span>';
-            else
-            $status.='<span class="badge badge-pill badge-soft-danger font-size-12">'.ucwords($result_obj->status).'</span>';
-            return $status;
-        })->addColumn('command',function($result_obj){
-            $command = '';
-
-            $command.='<div class="btn-group dropleft">
-            <button type="button"
-                class="btn dropdown-toggle dropdown-toggle-split btn-sm three_part_saction"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="mdi mdi-dots-vertical"></i>
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href=" '.route('business.edit',$result_obj['id']).' ">Edit Record</a>
-                <a class="dropdown-item" href="'.route('business.delete',$result_obj['id']).'">Delete Record</a>
-                <a class="dropdown-item" href="'.url('admin/business/detail/'.$result_obj['id']).'">Business Detail</a>
-
-            </div>';
-
-            return $command;
-        })->addColumn('name_td',function($result_obj){
-            $name = '';
-
-            $name.='<td><a href=" '.route('business.detailview',$result_obj['id']).' " >'.$result_obj['name'].'</a></td>';
-
-            return $name;
-        })
-        ->rawColumns(['DT_RowId','status_td','command','image_src','type_td','name_td','is_approve'])
-        ->make(true);
-    }
-
-    public function tagAutoComplete(Request $request)
-    {
-        $input = $request->all();
-
-
-        if (isset($input['search']) && !empty($input['search'])) {
-            $tags_qry = TagMasterModel::where('name', 'LIKE', '%' . $input['search'] . '%');
-        } else {
-            $tags_qry = TagMasterModel::where('id', '>', 0);
-        }
-        $result = $tags_qry->select('id', 'name')->get()->toArray();
-
-        return response()->json($result);
-    }
-
-    public function BusinessCategoryAutoComplete(Request $request)
-    {
-        $input = $request->all();
-
-        if (isset($input['search']) && !empty($input['search'])) {
-            $category_qry = CategoryModel::where('name', 'LIKE', '%' . $input['search'] . '%');
-        } else {
-            $category_qry = CategoryModel::where('id', '>', 0);
-        }
-        $result = $category_qry->where('category.status','!=','deleted')->select('id', 'name')->get()->toArray();
-
-        return response()->json($result);
-    }
-
-  /*  public function tagAutoComplete(Request $request)
-    {
-        $input = $request->all();
-
-        if (isset($input['search']) && !empty($input['search'])) {
-            $tag_qry = TagMasterModel::where('name', 'LIKE', '%' . $input['search'] . '%');
-        } else {
-            $tag_qry = TagMasterModel::where('id', '>', 0);
-        }
-        $result = $tag_qry->select('id', 'name')->get()->toArray();
-
-
-        // if (count($result) == 0 && isset($input['flag']) && $input['flag'] == 'add') {
-        //     $arr = explode(',', $input['search']);
-        //     $id = '';
-        //     foreach ($arr as $val) {
-        //         if (!is_numeric($val)) {
-        //             if (!TagMasterModel::where('name', '=', $val)->exists()) {
-        //                 $obj = new TagMasterModel();
-        //                 $obj->name = $val;
-        //                 $input['flag'] = '';
-        //                 $obj->save();
-        //                 $id = $obj->id;
-        //             }
-        //         }
-        //     }
-        //     if (!empty($id))
-        //         $arr = ['data' => $id, 'status' => 'success'];
-        //     else
-        //         $arr = ['status' => 'success'];
-
-        //     return response()->json($arr);
-        // }
-        return response()->json($result);
-    }*/
-
-
-    public function store(Request $request)
+    public function storeAllBusinessData(Request $request)
     {
         $input=$request->all();
-        //  echo '<pre>';
-        //  print_r($input);
-        //  exit;
 
-        $business=new BusinessModel;
-
-        if(!empty($input['user_id']))
-        $business->user_id=$input['user_id'];
-
-        if(!empty($input['txtSearchTag']))
-        $business->tag_id=$input['txtSearchTag'];
-
-        if(count($input['hours_detail']) > 0)
-        $business->display_hours='yes';
-        else
-        $business->display_hours='no';
-
-        $business->category_id=$input['hdnSearchCategoryId'];
-        $business->type=!empty($input['type'])?$input['type']:'';
-        $business->name=!empty($input['name'])?$input['name']:'';
-        $business->about=!empty($input['about'])?$input['about']:'';
-        $business->address=!empty($input['address'])?$input['address']:'';
-        $business->description=!empty($input['description'])?$input['description']:'';
-        $business->sub_descrition=!empty($input['sub_description'])?$input['sub_description']:'';
-        $business->sub_description_1=!empty($input['sub_description1'])?$input['sub_description1']:'';
-        $business->actual_price=!empty($input['actual_price'])?$input['actual_price']:'';
-        $business->actual_price_unit=!empty($input['actual_price_unit'])?$input['actual_price_unit']:'';
-        $business->selling_price=!empty($input['selling_price'])?$input['selling_price']:'';
-        $business->selling_price_unit=!empty($input['selling_price_unit'])?$input['selling_price_unit']:'';
-
-        $business->contact_person_name=!empty($input['contact_person_name'])?$input['contact_person_name']:'';
-        $business->mobile_number=!empty($input['mobile_number'])?$input['mobile_number']:'';
-        $business->email_id=!empty($input['email_id'])?$input['email_id']:'';
-        $business->unit_option=!empty($input['unit_option'])?$input['unit_option']:'';
-        $business->reference_url=!empty($input['reference_url'])?$input['reference_url']:'';
-        $business->syllabus=!empty($input['syllabus'])?$input['syllabus']:'';
-
-        if(!empty($input['subcategory']))
-        $business->multiple_subcategory_id=implode(',',$input['subcategory']);
-
-        $Hours=['DisplayMon'=>'','DisplayTue'=>'','DisplayWed'=>'',
-        'DisplayThur'=>'','DisplayFri'=>'','DisplaySat'=>'','DisplaySun'=>''];
-
-        foreach($input['hours_detail'] as $hours)
+        if(!isset($input['BuisnessType']) || empty($input['BuisnessType']))
         {
-            switch($hours['txtDay'])
+            $error[] = 'BuisnessType Must be Required!';
+		}
+        if(!isset($input['Name']) || empty($input['Name']))
+        {
+            $error[] = 'Name Must be Required!';
+		}
+        if(!empty($error))
+        {
+            return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+		}
+        /* media file code start here */
+        $destinationPath = public_path().'/images/business/';
+        $mediaFileArray = array();
+
+        $updateMediaFlag=0;
+
+        if(isset($input['TotalMedia']) && !empty($input['TotalMedia']))
+        {
+            $totalMedia = (int)$input['TotalMedia'];
+
+            for($k = 1; $k <= $totalMedia; $k++)
             {
-                case 'DisplayMon':
-                $Hours['DisplayMon']=$hours['start_time'].' To '.$hours['end_time'];
-                break;
+                if($mediaData = $request->file('Media'.$k))
+                {
+                    $imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+                    $mediaData->move($destinationPath, $imageName);
 
-                case 'DisplayTue':
-                $Hours['DisplayTue']=$hours['start_time'].' To '.$hours['end_time'];
-                break;
-
-                case 'DisplayWed':
-                $Hours['DisplayWed']=$hours['start_time'].' To '.$hours['end_time'];
-                break;
-
-                case 'DisplayThur':
-                $Hours['DisplayThur']=$hours['start_time'].' To '.$hours['end_time'];
-                break;
-
-                case 'DisplayFri':
-                $Hours['DisplayFri']=$hours['start_time'].' To '.$hours['end_time'];
-                break;
-
-                case 'DisplaySat':
-                $Hours['DisplaySat']=$hours['start_time'].' To '.$hours['end_time'];
-                break;
-
-                case 'DisplaySun':
-                $Hours['DisplaySun']=$hours['start_time'].' To '.$hours['end_time'];
-                break;
+                    $mediaFileArray[] = array('Media'.$k=>$imageName);
+                }
             }
         }
-        // print_r(json_encode($Hours));
-
-        $business->hours_json=json_encode($Hours);
-
-        $count=1;
-        $Related_Person_details=[];
-
-        $count_related_personal_detail=count($input['related_personal_detail']);
-
-        if($count_related_personal_detail > 0)
+        if(count($mediaFileArray) > 0)
         {
-            for($k=0;$k < $count_related_personal_detail;$k++)
-            {
-                $Related_Person_details[$k]['RelatedPersonDetail'.$count]=$input['related_personal_detail'][$k]['related_person_details'];
+            $mediaJson = json_encode($mediaFileArray,JSON_FORCE_OBJECT);
+        }
+        else
+        {
+            $mediaJson = '{}';
+            $updateMediaFlag=1;
+        }
+        /* media file code end here */
 
-                if ($document_file = $input['related_personal_detail'][$k]['related_person_image'])
+        /*tag master start */
+        $tagIdArray = array();
+        if(isset($input['FeaturesOrTags']) && !empty($input['FeaturesOrTags']))
+        {
+            $arr = explode(',', $input['FeaturesOrTags']);
+            foreach ($arr as $val)
+            {
+                $tagData = TagMasterModel::where('name', '=', $val)->get()->toArray();
+                if(count($tagData) > 0)
                 {
-                    $nameArr=explode('.',$document_file->getClientOriginalName());
-                    $extension=$document_file->getClientOriginalExtension();
-                    $name=$nameArr[0];
-                    $photo_name=  md5(time().'_'. $name).'.' . $extension;
-                    $document_file->move(public_path() . '/images/business_related_person/', $photo_name);
+                    array_push($tagIdArray, $tagData[0]['id']);
                 }
-                $Related_Person_details[$k]['RelatedPersonImage'.$count]=$photo_name;
-                $count++;
+                else
+                {
+                    $obj = new TagMasterModel();
+                    $obj->name = $val;
+                    $obj->save();
+                    array_push($tagIdArray, $obj->id);
+                }
             }
-            /*foreach($input['related_personal_detail'] as $related_personal_detail)
-            {
-                $Related_Person_details['RelatedPersonDetail'.$count]=$related_personal_detail['related_person_details'];
+        }
+        /*tag master end */
 
-                if ($document_file = $related_personal_detail['related_person_image'])
+        /* hours code start here */
+
+        $updateHoursFlag=0;
+
+        if(empty($request->DisplayMon) && empty($request->DisplayTue) && empty($request->DisplayWed) && empty($request->DisplayThur)
+        && empty($request->DisplayFri) && empty($request->DisplaySat) && empty($request->DisplaySun))
+        {
+            $updateHoursFlag=1;
+        }
+
+        $DisplayMon = !empty($request->DisplayMon) ? $request->DisplayMon : "";
+        $DisplayTue = !empty($request->DisplayTue) ? $request->DisplayTue : "";
+        $DisplayWed = !empty($request->DisplayWed) ? $request->DisplayWed : "";
+        $DisplayThur = !empty($request->DisplayThur) ? $request->DisplayThur : "";
+        $DisplayFri = !empty($request->DisplayFri) ? $request->DisplayFri : "";
+        $DisplaySat = !empty($request->DisplaySat) ? $request->DisplaySat : "";
+        $DisplaySun = !empty($request->DisplaySun) ? $request->DisplaySun : "";
+
+        $hoursJson = array("DisplayMon"=>$DisplayMon,"DisplayTue"=>$DisplayTue,"DisplayWed"=>$DisplayWed,"DisplayThur"=>$DisplayThur,"DisplayFri"=>$DisplayFri,"DisplaySat"=>$DisplaySat,"DisplaySun"=>$DisplaySun);
+
+        if(isset($hoursJson) && !empty($hoursJson))
+        {
+            $jsonHoureData = json_encode($hoursJson,JSON_FORCE_OBJECT);
+        }
+        else
+        {
+            $jsonHoureData = '{}';
+        }
+        /* hours code end here */
+
+        /* job code start here*/
+        $JobQualification = !empty($request->JobQualification) ? $request->JobQualification : "";
+        $JobSalary = !empty($request->JobSalary) ? $request->JobSalary : "";
+        $JobExperience =!empty($request->JobExperience) ? $request->JobExperience : "";
+
+        $updateJobDetailFlag=0;
+        if(empty($JobQualification) && empty($JobSalary) && empty($JobExperience))
+        {
+            $updateJobDetailFlag=1;
+        }
+
+        $jobDetailJson = array("JobQualification"=>$JobQualification,"JobSalary"=>$JobSalary,"JobExperience"=>$JobExperience);
+        if(isset($jobDetailJson) && !empty($jobDetailJson))
+            $jsonJobData = json_encode($jobDetailJson,JSON_FORCE_OBJECT);
+        else
+            $jsonJobData = '{}';
+        /* job code end here*/
+
+
+        /* relatedPersonDataJson file code start here */
+        $updateRelatedPersonDetailFlag=0;
+        $relatedPersondestinationPath = public_path().'/images/business_related_person/';
+        $relatedPersonDataArray = array();
+        if(isset($input['TotalRelatedPerson']) && !empty($input['TotalRelatedPerson']))
+        {
+            $mediaFileArray = array();
+            $totalRelatedPerson = (int)$input['TotalRelatedPerson'];
+            for($k = 1; $k <= $totalRelatedPerson; $k++)
+            {
+                $relatedPersonImage = $relatedPersonDetail = '';
+                if($relatedPersonImageMediaData = $request->file('RelatedPersonImage'.$k))
                 {
-                    $nameArr=explode('.',$document_file->getClientOriginalName());
-                    $extension=$document_file->getClientOriginalExtension();
-                    $name=$nameArr[0];
-                    $photo_name=  md5(time().'_'. $name). '_' . '.' . $extension;
-                    $document_file->move(public_path() . '/images/business_related_person/', $photo_name);
+                    $imageName = md5(time() . '_' . $relatedPersonImageMediaData->getClientOriginalName()) . '.' . $relatedPersonImageMediaData->getClientOriginalExtension();
+                    $relatedPersonImageMediaData->move($relatedPersondestinationPath, $imageName);
+
+                    $relatedPersonImage =$imageName;
                 }
-                $Related_Person_details['RelatedPersonImage'.$count]=$photo_name;
-                $count++;
-            }*/
 
-            $business->realated_person_detail_json=json_encode($Related_Person_details,JSON_FORCE_OBJECT);
-            // print_r(json_encode($Related_Person_details,JSON_FORCE_OBJECT));
-        }
-
-        $count2=1;
-        $Media_Details=[];
-
-        $count_mediadetail=count($input['media_detail']);
-
-        if($count_mediadetail > 0)
-        {
-            for($j=0;$j < $count_mediadetail;$j++)
-            {
-                if ($document_file = $input['media_detail'][$j]['media_file'])
+                if(isset($input['RelatedPersonDetail'.$k]) && !empty($input['RelatedPersonDetail'.$k]))
                 {
-                    $nameArr=explode('.',$document_file->getClientOriginalName());
-                    $extension=$document_file->getClientOriginalExtension();
-                    $name=$nameArr[0];
-                    $media_name= md5(time().'_'. $name). '.' . $extension;
-                    $document_file->move(public_path() . '/images/business/', $media_name);
+                    $relatedPersonDetail = $input['RelatedPersonDetail'.$k];
                 }
-                $Media_Details[$j]['Media'.$count2]=$media_name;
-                $count2++;
-            }
-
-            /*foreach($input['media_detail'] as $media_detail)
-            {
-                if ($document_file = $media_detail['media_file'])
-                {
-                    $nameArr=explode('.',$document_file->getClientOriginalName());
-                    $extension=$document_file->getClientOriginalExtension();
-                    $name=$nameArr[0];
-                    $media_name= md5(time().'_'. $name). '.' . $extension;
-                    $document_file->move(public_path() . '/images/business/', $media_name);
-                }
-                $Media_Details['Media'.$count2]=$media_name;
-            }*/
-            // print_r(json_encode($Media_Details,JSON_FORCE_OBJECT));
-            $business->media_file_json=json_encode($Media_Details,JSON_FORCE_OBJECT);
-        }
-
-        $business->job_detail_json=json_encode(array('JobSalary'=>$input['job_salary'],
-        'JobExperience'=>$input['job_experiance'],'JobQualification'=>$input['job_qualification']));
-        // print_r($business->job_detail_json);
-        // $business->created_by=Auth::user()->id;
-        // $business->last_updated_by=Auth::user()->id;
-        $business->payment_mode=$input['payment_mode'];
-        $business->website=$input['website'];
-
-        if(!empty($input['status']) && 'active'== strtolower($input['status']))
-        {
-            $business->status=strtolower($input['status']);
-        }
-        else
-        {
-            $business->status='inactive';
-        }
-
-        if($business->save())
-        {
-            return redirect('admin/business');
-        }
-        else
-        {
-            return redirect('admin/business');
-        }
-    }
-
-
-    public function edit($id)
-    {
-        $row = BusinessModel::where('id', $id)->first()->toArray();
-        // dd($row);
-
-        $days=array('DisplayMon'=>'Monday','DisplayTue'=>'Tuesday','DisplayWed'=>'Wednesday',
-        'DisplayThur'=>'Thursday','DisplayFri'=>'Friday','DisplaySat'=>'Saturday','DisplaySun'=>'Sunday');
-
-        if(!empty($row['tag_id']))
-        $tag_data = TagMasterModel::where('id',$row['tag_id'])->select('id','name')->first();
-        else
-        $tag_data='';
-
-        if(!empty($row['category_id']))
-        $category_data=CategoryModel::where('id',$row['category_id'])->select('id','name')->first();
-        else
-        $category_data='';
-
-        $users=UserModel::pluck('name','id');
-
-        if(!empty($row['media_file_json']))
-        $row['media_file_arr']=json_decode($row['media_file_json'],true);
-        else
-        $row['media_file_arr']='';
-
-        if(!empty($row['realated_person_detail_json']))
-        $row['related_person_detail_arr']=json_decode($row['realated_person_detail_json'],true);
-        else
-        $row['related_person_detail_arr']='';
-
-        if(!empty($row['hours_json']))
-        $row['hours_detail_arr']=json_decode($row['hours_json'],true);
-        else
-        $row['hours_detail_arr']='';
-
-        $count_hours_detail=count($row['hours_detail_arr']);
-
-        // echo '<pre>';
-        // print_r($row);
-        // exit;
-
-        //job detail
-        $job_detail_obj=json_decode($row['job_detail_json'],true);
-
-        return view('business.edit', compact('row','days','users','tag_data','category_data','job_detail_obj'));
-    }
-
-
-    public function update(Request $request,$id)
-    {
-    $input=$request->all();
-    // dd($input);
-
-    $destinationPath = public_path().'/images/library/';
-    $multipleDataArray = array();
-
-    foreach($input['group-a'] as $multipleData)
-    {
-        if(isset($multipleData['media_file_json']) && !empty($multipleData['media_file_json']))
-        {
-            if ($attachmentFile = $multipleData['media_file_json'])
-            {
-                $attachmentName = md5(time() . '_' . $attachmentFile->getClientOriginalName()) . '.' . $attachmentFile->getClientOriginalExtension();
-
-                $attachmentFile->move($destinationPath, $attachmentName);
+                $relatedPersonDataArray[] = array('RelatedPersonDetail'.$k=>$relatedPersonDetail,'RelatedPersonImage'.$k=>$relatedPersonImage);
             }
 
         }
-        else if(isset($multipleData['media_file_json_db']) && !empty($multipleData['media_file_json_db']))
+
+        if(count($relatedPersonDataArray) > 0)
         {
-            $attachmentName = $multipleData['media_file_json_db'];
+            $relatedPersonDataJson = json_encode($relatedPersonDataArray,JSON_FORCE_OBJECT);
         }
-        array_push($multipleDataArray,$attachmentName);
-    }
-    if(count($multipleDataArray) > 0)
+        else
+        {
+            $relatedPersonDataJson = '{}';
+            $updateRelatedPersonDetailFlag=1;
+        }
+        /* relatedPersonDataJson file code end here */
+        try
+        {
+            if(isset($input['BusinessId']) && !empty($input['BusinessId']))
+            {
+                $data = BusinessModel::find($request->BusinessId);
+
+                if(isset($request->RegisterId) && !empty($request->RegisterId))
+                $data->user_id=$request->RegisterId;
+
+                if(isset($tagIdArray) && !empty($tagIdArray))
+                $data->tag_id=implode(',',$tagIdArray);
+
+                if(isset($request->CatagoryID) && !empty($request->CatagoryID))
+                $data->category_id=$request->CatagoryID;
+
+                if(isset($request->BuisnessType) && !empty($request->BuisnessType))
+                $data->type=$request->BuisnessType;
+
+                if(isset($request->Name) && !empty($request->Name))
+                $data->name=$request->Name;
+
+                if(isset($request->About) && !empty($request->About))
+                $data->about=$request->About;
+
+                if(isset($request->Address) && !empty($request->Address))
+                $data->address=$request->Address;
+
+                if(isset($request->Description) && !empty($request->Description))
+                $data->description=$request->Description;
+
+                if(isset($request->SubDescription) && !empty($request->SubDescription))
+                $data->sub_descrition=$request->SubDescription;
+
+                if(isset($request->SubDescription2) && !empty($request->SubDescription2))
+                $data->sub_description_1=$request->SubDescription2;
+
+                if(isset($request->USPID) && !empty($request->USPID))
+                $data->multiple_subcategory_id=$request->USPID;
+
+                if(isset($request->ActualPrice) && !empty($request->ActualPrice))
+                $data->actual_price=$request->ActualPrice;
+
+                if(isset($request->SellingPrice) && !empty($request->SellingPrice))
+                $data->selling_price=$request->SellingPrice;
+
+                if(isset($request->DisplayHours) && !empty($request->DisplayHours))
+                $data->display_hours=$request->DisplayHours;
+
+                if(isset($request->PaymentMode) && !empty($request->PaymentMode))
+                $data->payment_mode=$request->PaymentMode;
+
+                if(isset($request->ContactPersonName) && !empty($request->ContactPersonName))
+                $data->contact_person_name=$request->ContactPersonName;
+
+                if(isset($request->MobileNumber) && !empty($request->MobileNumber))
+                $data->mobile_number=$request->MobileNumber;
+
+                if(isset($request->EmailID) && !empty($request->EmailID))
+                $data->email_id=$request->EmailID;
+
+                if(isset($request->Website) && !empty($request->Website))
+                $data->website=$request->Website;
+
+                //if(isset($mediaJson) && !empty($mediaJson))
+                if($updateMediaFlag!=1)
+                $data->media_file_json=$mediaJson;
+
+                if(isset($request->UnitOption) && !empty($request->UnitOption))
+                $data->unit_option=$request->UnitOption;
+
+                //if(isset($jsonJobData) && !empty($jsonJobData))
+                if($updateJobDetailFlag!=1)
+                $data->job_detail_json=$jsonJobData;
+
+                if(isset($request->ReferenceUrl) && !empty($request->ReferenceUrl))
+                $data->reference_url=$request->ReferenceUrl;
+
+                if(isset($request->Syllabus) && !empty($request->Syllabus))
+                $data->syllabus=$request->Syllabus;
+
+                //if(isset($relatedPersonDataJson) && !empty($relatedPersonDataJson))
+                if($updateRelatedPersonDetailFlag!=1)
+                $data->realated_person_detail_json=$relatedPersonDataJson;
+
+                if($updateHoursFlag!=1)
+                $data->hours_json =$jsonHoureData;
+
+                $data->status = 'active';
+
+                $data->save();
+
+                /*$data->user_id = !empty($request->RegisterId) ? $request->RegisterId : "";
+                $data->tag_id = !empty($tagIdArray) ? implode(',',$tagIdArray) : "";
+                $data->category_id = !empty($request->CatagoryID) ? $request->CatagoryID : "";
+                $data->type = !empty($request->BuisnessType) ? $request->BuisnessType : "";
+                $data->name =!empty($request->Name) ? $request->Name : "";
+                $data->about =!empty($request->About) ? $request->About : "";
+                $data->address = !empty($request->Address) ? $request->Address : "";
+                $data->description = !empty($request->Description) ? $request->Description : "";
+                $data->sub_descrition =!empty($request->SubDescription) ? $request->SubDescription : "";
+                $data->sub_description_1 = !empty($request->SubDescription2) ? $request->SubDescription2 : "";
+                $data->multiple_subcategory_id = !empty($request->USPID) ? $request->USPID : "";
+                $data->actual_price = !empty($request->ActualPrice) ? $request->ActualPrice : "";
+                //  $data->actual_price_unit = $request->actual_price_unit;
+                $data->selling_price = !empty($request->SellingPrice) ? $request->SellingPrice : "";
+                // $data->selling_price_unit = $request->selling_price_unit;
+                $data->display_hours = !empty($request->DisplayHours) ? $request->DisplayHours : "";
+                $data->hours_json =$jsonHoureData;
+                $data->payment_mode =!empty($request->PaymentMode) ? $request->PaymentMode : "";
+                $data->contact_person_name = !empty($request->ContactPersonName) ? $request->ContactPersonName : "";
+                $data->mobile_number = !empty($request->MobileNumber) ? $request->MobileNumber : "";
+                $data->email_id = !empty($request->EmailID) ? $request->EmailID : "";
+                $data->website = !empty($request->Website) ? $request->Website : "";
+                $data->media_file_json = !empty($mediaJson) ? $mediaJson : "";
+                $data->unit_option = !empty($request->UnitOption) ? $request->UnitOption : "";
+                $data->job_detail_json =!empty($jsonJobData) ? $jsonJobData : "";
+                $data->reference_url = !empty($request->ReferenceUrl) ? $request->ReferenceUrl : "";
+                $data->syllabus = !empty($request->Syllabus) ? $request->Syllabus : "";
+                $data->realated_person_detail_json = !empty($relatedPersonDataJson) ? $relatedPersonDataJson : "";
+                // $data->is_approve = $request->is_approve;
+                // $data->approved_by_user_id = $request->approved_by_user_id;
+                // $data->declined_by_user_id = $request->contact_person_name;
+                // $data->created_by = $request->mobile_number;
+                // $data->last_updated_by = $request->hours_json;
+                $data->status = 'active';*/
+
+                // $lastInsertedId = $data->id;
+                return response()->json(['Status'=>True,'StatusMessage'=>'Business updated successfully']);
+            }
+            else
+            {
+            $data = new BusinessModel();
+            $data->user_id = !empty($request->RegisterId) ? $request->RegisterId : "";
+            $data->tag_id = !empty($tagIdArray) ? implode(',',$tagIdArray) : "";
+            $data->category_id = !empty($request->CatagoryID) ? $request->CatagoryID : "";
+            $data->type = !empty($request->BuisnessType) ? $request->BuisnessType : "";
+            $data->name =!empty($request->Name) ? $request->Name : "";
+            $data->about =!empty($request->About) ? $request->About : "";
+            $data->address = !empty($request->Address) ? $request->Address : "";
+            $data->description = !empty($request->Description) ? $request->Description : "";
+            $data->sub_descrition =!empty($request->SubDescription) ? $request->SubDescription : "";
+            $data->sub_description_1 = !empty($request->SubDescription2) ? $request->SubDescription2 : "";
+            $data->multiple_subcategory_id = !empty($request->USPID) ? $request->USPID : "";
+            $data->actual_price = !empty($request->ActualPrice) ? $request->ActualPrice : "";
+            //  $data->actual_price_unit = $request->actual_price_unit;
+            $data->selling_price = !empty($request->SellingPrice) ? $request->SellingPrice : "";
+            // $data->selling_price_unit = $request->selling_price_unit;
+            $data->display_hours = !empty($request->DisplayHours) ? $request->DisplayHours : "";
+            $data->hours_json =$jsonHoureData;
+            $data->payment_mode =!empty($request->PaymentMode) ? $request->PaymentMode : "";
+            $data->contact_person_name = !empty($request->ContactPersonName) ? $request->ContactPersonName : "";
+            $data->mobile_number = !empty($request->MobileNumber) ? $request->MobileNumber : "";
+            $data->email_id = !empty($request->EmailID) ? $request->EmailID : "";
+            $data->website = !empty($request->Website) ? $request->Website : "";
+            $data->media_file_json = !empty($mediaJson) ? $mediaJson : "";
+            $data->unit_option = !empty($request->UnitOption) ? $request->UnitOption : "";
+            $data->job_detail_json =!empty($jsonJobData) ? $jsonJobData : "";
+            $data->reference_url = !empty($request->ReferenceUrl) ? $request->ReferenceUrl : "";
+            $data->syllabus = !empty($request->Syllabus) ? $request->Syllabus : "";
+            $data->realated_person_detail_json = !empty($relatedPersonDataJson) ? $relatedPersonDataJson : "";
+            // $data->is_approve = $request->is_approve;
+            // $data->approved_by_user_id = $request->approved_by_user_id;
+            // $data->declined_by_user_id = $request->contact_person_name;
+            // $data->created_by = $request->mobile_number;
+            // $data->last_updated_by = $request->hours_json;
+            $locationData=$this->getUserLocationDetail($request->RegisterId);
+
+            if($locationData!==null)
+            {
+                $data->cityid_or_countryid=$locationData->location_id;
+                $data->type_city_or_country=$locationData->location_type;
+            }
+
+            $data->status = 'active';
+            $data->save();
+            $lastInsertedId = $data->id;
+            //  echo "<pre>"; print_r($data);exit;
+            //$businessArray = $this->getBussinessData($lastInsertedId );
+            return response()->json(['Status'=>True,'StatusMessage'=>'Business add successfully']);
+            }
+
+        // echo "<pre>"; print_r($data);
+        }
+        catch(\Exception $e)
+        {
+            $error[] = $e;
+            return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+        }
+     }
+    public function getBussinessData($businessId)
     {
-        $multipleDataJson = json_encode($multipleDataArray, JSON_FORCE_OBJECT);
+        $BusinessData = BusinessModel::where('id', $businessId)->get()->toArray();
+        $businessArray = array();
+        if(count($BusinessData) > 0)
+        {
+            $businessArray['BuisnessType'] = $BusinessData[0]['type'];
+            $businessArray['Name'] = $BusinessData[0]['name'];
+            $businessArray['About'] = $BusinessData[0]['about'];
+            $businessArray['Address'] = $BusinessData[0]['address'];
+            $businessArray['Description'] = $BusinessData[0]['description'];
+            $businessArray['SubDescription'] = $BusinessData[0]['sub_descrition'];
+            $businessArray['SubDescription2'] = $BusinessData[0]['sub_description_1'];
+            $businessArray['USPID'] = $BusinessData[0]['multiple_subcategory_id'];
+            $businessArray['ActualPrice'] = $BusinessData[0]['actual_price'];
+            $businessArray['SellingPrice'] = $BusinessData[0]['selling_price'];
+            $businessArray['DisplayHours'] = $BusinessData[0]['display_hours'];
+            $businessArray['PaymentMode'] = $BusinessData[0]['payment_mode'];
+            $businessArray['ContactPersonName'] = $BusinessData[0]['contact_person_name'];
+            $businessArray['MobileNumber'] = $BusinessData[0]['mobile_number'];
+            $businessArray['EmailID'] = $BusinessData[0]['email_id'];
+
+            $businessArray['Website'] = $BusinessData[0]['website'];
+            $businessArray['UnitOption'] = $BusinessData[0]['unit_option'];
+            $businessArray['ReferenceUrl'] = $BusinessData[0]['reference_url'];
+            $businessArray['Syllabus'] = $BusinessData[0]['syllabus'];
+            $businessArray['Status'] = $BusinessData[0]['status'];
+
+        }
+        return $businessArray;
     }
-    else
+
+    public function listBusinessData(Request $request)
     {
-        $multipleDataJson = '{}';
+        $input = $request->all();
+        $Pagination = isset($input['Pagination']) ? $input['Pagination'] : 1;
+    	$skip = (($Pagination - 1) * 30) ;
+        $IsFavourite = isset($request->IsFavourite) ? $request->IsFavourite : '';
+        $userId = isset($request->RegisterId) ? $request->RegisterId : '';
+
+//        if(!isset($userId) || empty($userId))
+//        {
+//            $error[] = 'RegisterId Must be Required!';
+//        }
+
+//        if(!empty($error))
+//        {
+//            return response()->json(['Status'=>False,'StatusMessage'=>$error,'Result'=>array()]);
+//        }
+        $searchTagIdArray = array();
+        if(isset($request->FeatureOrTag) && !empty($request->FeatureOrTag))
+        {
+            $explodeTagName = explode(',',$request->FeatureOrTag);
+            $tagMasterArray = TagMasterModel::whereIn('name',$explodeTagName)->get()->toArray();
+            if(count($tagMasterArray) > 0)
+            {
+                foreach($tagMasterArray as $tagData)
+                {
+                    array_push($searchTagIdArray,$tagData['id']);
+                }
+            }
+            $request->FeatureOrTag = implode(',', $searchTagIdArray);
+        }
+        
+        
+        $totalCount = BusinessModel::where('status','active')->count();
+
+        $preQuery = BusinessModel::where('business.status','active')
+        ->leftJoin('tag_master', function ($join) {
+            $join->on('tag_master.id', '=', 'business.tag_id');
+        })
+        ->leftJoin('category', function ($join) {
+            $join->on('category.id', '=', 'business.category_id');
+        })
+        ->where(function($query) use ($request)
+        {
+            $CatagoryId = isset($request->CatagoryId) ? $request->CatagoryId : '';
+            $SubcatagoryId = isset($request->SubcatagoryId) ? $request->SubcatagoryId : '';
+            $PriceMax = isset($request->PriceMax) ? $request->PriceMax : '';
+            $PriceMin = isset($request->PriceMin) ? $request->PriceMin : '';
+            $FeatureOrTag = isset($request->FeatureOrTag) ? $request->FeatureOrTag : '';
+            $SearchName = isset($request->SearchName) ? $request->SearchName : '';
+
+            if(isset($PriceMax) && !empty($PriceMax) && isset($PriceMin) && !empty($PriceMin))
+            {
+                $query->whereBetween('business.selling_price', [$PriceMin,$PriceMax]);
+            }
+            elseif (isset($PriceMin) && !empty($PriceMin))
+            {
+                $query->where('business.selling_price','>=', $PriceMin);
+            }
+            elseif (isset($PriceMax) && !empty($PriceMax))
+            {
+                $query->where('business.selling_price','<=', $PriceMax);
+            }
+
+            if(isset($PriceMax) && !empty($PriceMax) && isset($PriceMin) && !empty($PriceMin))
+            {
+                $query->whereBetween('business.selling_price', [$PriceMin,$PriceMax]);
+            }
+
+            if(isset($CatagoryId) && !empty($CatagoryId))
+            {
+                $query->where('business.category_id', $CatagoryId);
+            }
+            if(isset($SubcatagoryId) && !empty($SubcatagoryId))
+            {
+                if( strpos($SubcatagoryId, ',') !== false )
+                {
+                    $explodeSubCategory = explode(',', $SubcatagoryId);
+                    for($k =0; $k < count($explodeSubCategory); $k++)
+                    {
+                        if($k==0)
+                        {
+                            $query->whereRaw("( find_in_set($explodeSubCategory[$k] ,business.multiple_subcategory_id)");
+                        }
+                        else
+                        {
+                            if($k+1 == count($explodeSubCategory))
+                                $query->orWhereRaw("find_in_set($explodeSubCategory[$k],business.multiple_subcategory_id))");
+                            else
+                                $query->orWhereRaw("find_in_set($explodeSubCategory[$k],business.multiple_subcategory_id)");
+                        }
+                    }
+                }
+                else
+                {
+                    $query->whereRaw("find_in_set($SubcatagoryId ,business.multiple_subcategory_id)");
+                }
+            }
+            if(isset($SearchName) && !empty($SearchName))
+            {
+                $query->where('business.name', 'like', '%'. $SearchName.'%');
+            }
+
+            if(isset($FeatureOrTag) && !empty($FeatureOrTag))
+            {
+                if( strpos($FeatureOrTag, ',') !== false )
+                {
+                    $explodeFeatureOrTag = explode(',', $FeatureOrTag);
+                    for($k =0; $k < count($explodeFeatureOrTag); $k++)
+                    {
+                        if($k==0)
+                        {
+                            $query->whereRaw("(find_in_set($explodeFeatureOrTag[$k] ,business.tag_id)");
+                        }
+                        else
+                        {
+                            if($k+1 == count($explodeFeatureOrTag))
+                                $query->orWhereRaw("find_in_set($explodeFeatureOrTag[$k],business.tag_id))");
+                            else
+                                $query->orWhereRaw("find_in_set($explodeFeatureOrTag[$k],business.tag_id)");
+                        }
+                    }
+                }
+                else
+                {
+                    $query->whereRaw("find_in_set($FeatureOrTag ,business.tag_id)");
+                }
+            }
+        })->select('business.*','category.name as category_name');
+
+        if(isset($IsFavourite) && !empty($IsFavourite) && (strtolower($IsFavourite) == 'Yes'))
+        {
+            $preQuery->join('business_favourite', 'business_favourite.user_id', '=', 'business.user_id');
+        }
+        /* count of all data*/
+        $totalFilteredCount = $preQuery->count();
+//echo $finalQuery = $preQuery->toSql();
+        /* fetch data*/
+
+        if($Pagination==0)
+        $listBusiness = $preQuery->get()->toArray();
+        else
+        $listBusiness = $preQuery->skip($skip)->take(30)->get()->toArray();
+
+        $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
+
+        $j = 0;
+        $locationData = array();
+        $tagIdArray = array();
+
+        $dataArray['TotalCount'] = $totalCount;
+        $dataArray['FilteredCount'] = $totalFilteredCount;
+
+        if(count($fetchAllTag) > 0)
+        {
+            $t = 0;
+            foreach($fetchAllTag as $tagData)
+            {
+                $dataArray['ApprovedFeaturesOrTags'][$t]['id'] = $tagData['id'];
+                $dataArray['ApprovedFeaturesOrTags'][$t]['name'] = $tagData['name'];
+                $t++;
+            }
+        }
+        else
+        {
+            $dataArray['ApprovedFeaturesOrTags'] = array();
+        }
+        if(count($listBusiness) > 0)
+        {
+            foreach($listBusiness as $businessData)
+            {
+                $finalTagData = '';
+                if(isset($businessData['tag_id']) && !empty($businessData['tag_id']))
+                {
+                    if(strpos($businessData['tag_id'], ',') !== false )
+                    {
+                        $arr = explode(',',  $businessData['tag_id']);
+                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                    }
+                    else
+                    {
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                    }
+                    $tagNameArray = array();
+                    if(count($tagData) > 0)
+                    {
+                        foreach($tagData as $data)
+                        {
+                            array_push($tagNameArray, $data['name']);
+                        }
+                    }
+
+                    if(count($tagNameArray) > 0)
+                    {
+                        $finalTagData = implode(',',$tagNameArray);
+                    }
+                }
+                $finalCategoryData = '';
+                if(isset($businessData['multiple_subcategory_id']) && !empty($businessData['multiple_subcategory_id']))
+                {
+                    if(strpos($businessData['multiple_subcategory_id'], ',') !== false )
+                    {
+                        $arr = explode(',',  $businessData['multiple_subcategory_id']);
+                        $categoryData = CategoryModel::whereIn('id',$arr)->get()->toArray();
+                    }
+                    else
+                    {
+                        $categoryData = CategoryModel::where('id',$businessData['tag_id'])->get()->toArray();
+                    }
+                    $categoryNameArray = array();
+                    if(count($categoryData) > 0)
+                    {
+                        foreach($categoryData as $data)
+                        {
+                            array_push($categoryNameArray, $data['name']);
+                        }
+                    }
+
+                    if(count($categoryNameArray) > 0)
+                    {
+                        $finalCategoryData = implode(',',$categoryNameArray);
+                    }
+                }
+                $businessFavourite = BusinessFavouriteModel::where('business_id',$businessData['id'])->where('user_id',$userId)->get()->toArray();
+                if(count($businessFavourite) > 0)
+                {
+                    $isFavourite = 'Yes';
+                }
+                else
+                {
+                    $isFavourite = 'No';
+                }
+                $mediaFileArray = $hoursArray = array();
+
+                if(isset($businessData['hours_json']) && !empty($businessData['hours_json']))
+                    $hoursArray = json_decode($businessData['hours_json'], true);
+
+                if(isset($businessData['media_file_json']) && !empty($businessData['media_file_json']))
+                    $mediaFileArray = json_decode($businessData['media_file_json'], true);
+
+                $urlArray['URL'] = array();
+                if(count($mediaFileArray) > 0)
+                {
+                    $m = 1;
+                    foreach($mediaFileArray as $mediaData)
+                    {
+                        $urlArray['URL'][] = !empty($mediaData['Media'.$m]) ? URL::to('/images/business').'/'.$mediaData['Media'.$m] : '';
+                        $m++;
+                    }
+                }
+                $dataArray['List'][$j]['Id'] = (string)$businessData['id'];
+                $dataArray['List'][$j]['Name'] = $businessData['name'];
+                $dataArray['List'][$j]['FeatureorTag'] = $finalTagData;
+                $dataArray['List'][$j]['isFavourite'] = $isFavourite;
+                $dataArray['List'][$j]['Address'] = !empty($businessData['address']) ? $businessData['address'] : '';
+                $dataArray['List'][$j]['Date'] = date('d-m-Y', strtotime($businessData['created_at']));
+                $dataArray['List'][$j]['Time'] = date('H:i:s', strtotime($businessData['created_at']));
+                $dataArray['List'][$j]['ActuralPrice'] = !empty($businessData['actual_price']) ? (string)$businessData['actual_price'] : '';
+                $dataArray['List'][$j]['SellingPrice'] = !empty($businessData['selling_price']) ? (string)$businessData['selling_price'] : '';
+                $dataArray['List'][$j]['About'] = !empty($businessData['about']) ? (string)$businessData['about'] : '';
+                $dataArray['List'][$j]['ContactPersonName'] = !empty($businessData['contact_person_name']) ? $businessData['contact_person_name'] : '';
+                $dataArray['List'][$j]['MobileNumber'] =!empty($businessData['mobile_number']) ? (string)$businessData['mobile_number'] : '';
+                $dataArray['List'][$j]['UnitOption'] = !empty($businessData['unit_option']) ? (string)$businessData['unit_option'] : '';
+                $dataArray['List'][$j]['CategoryName'] = !empty($businessData['category_name']) ? $businessData['category_name'] : '';
+                $dataArray['List'][$j]['SubCategoryName'] = $finalCategoryData;
+                $dataArray['List'][$j]['DisplayHours'] = !empty($businessData['display_hours']) ? $businessData['display_hours'] : '';
+                $dataArray['List'][$j]['Hours'] = $hoursArray;
+                $dataArray['List'][$j]['Media'] = $urlArray;
+                $j++;
+            }
+        }
+        else
+        {
+            $dataArray['List'] = array();
+        }
+        if($dataArray)
+        {
+            return response()->json(['Status'=>True,'StatusMessage'=>'Business Data Listed Successfully','Result'=>$dataArray]);
+        }
+        else
+        {
+            return response()->json(['Status'=>False,'StatusMessage'=>'No Data Available','Result'=>array()]);
+        }
     }
 
-    $business=BusinessModel::find($id);
-
-    if(!empty($input['user_id']))
-    $business->user_id=$input['user_id'];
-
-    if(!empty($input['txtSearchTag']))
-    $business->tag_id=$input['txtSearchTag'];
-
-    // if(count($input['hours_detail']) > 0)
-    // $business->display_hours='yes';
-    // else
-    // $business->display_hours='no';
-
-    $business->category_id=$input['hdnSearchCategoryId'];
-    $business->type=!empty($input['type'])?$input['type']:'';
-    $business->name=!empty($input['name'])?$input['name']:'';
-    $business->about=!empty($input['about'])?$input['about']:'';
-    $business->address=!empty($input['address'])?$input['address']:'';
-    $business->description=!empty($input['description'])?$input['description']:'';
-    $business->sub_descrition=!empty($input['sub_description'])?$input['sub_description']:'';
-    $business->sub_description_1=!empty($input['sub_description1'])?$input['sub_description1']:'';
-    $business->actual_price=!empty($input['actual_price'])?$input['actual_price']:'';
-    $business->actual_price_unit=!empty($input['actual_price_unit'])?$input['actual_price_unit']:'';
-    $business->selling_price=!empty($input['selling_price'])?$input['selling_price']:'';
-    $business->selling_price_unit=!empty($input['selling_price_unit'])?$input['selling_price_unit']:'';
-
-    $business->contact_person_name=!empty($input['contact_person_name'])?$input['contact_person_name']:'';
-    $business->mobile_number=!empty($input['mobile_number'])?$input['mobile_number']:'';
-    $business->email_id=!empty($input['email_id'])?$input['email_id']:'';
-    $business->unit_option=!empty($input['unit_option'])?$input['unit_option']:'';
-    $business->reference_url=!empty($input['reference_url'])?$input['reference_url']:'';
-    $business->syllabus=!empty($input['syllabus'])?$input['syllabus']:'';
-    $business->media_file_json = !empty($multipleDataJson) ? $multipleDataJson:'';
-
-    if(!empty($input['subcategory']))
-    $business->multiple_subcategory_id=implode(',',$input['subcategory']);
-
-    $Hours=['DisplayMon'=>'','DisplayTue'=>'','DisplayWed'=>'',
-    'DisplayThur'=>'','DisplayFri'=>'','DisplaySat'=>'','DisplaySun'=>''];
-
-    // foreach($input['hours_detail'] as $hours)
-    // {
-    //     switch($hours['txtDay'])
-    //     {
-    //         case 'DisplayMon':
-    //         $Hours['DisplayMon']=$hours['start_time'].' To '.$hours['end_time'];
-    //         break;
-
-    //         case 'DisplayTue':
-    //         $Hours['DisplayTue']=$hours['start_time'].' To '.$hours['end_time'];
-    //         break;
-
-    //         case 'DisplayWed':
-    //         $Hours['DisplayWed']=$hours['start_time'].' To '.$hours['end_time'];
-    //         break;
-
-    //         case 'DisplayThur':
-    //         $Hours['DisplayThur']=$hours['start_time'].' To '.$hours['end_time'];
-    //         break;
-
-    //         case 'DisplayFri':
-    //         $Hours['DisplayFri']=$hours['start_time'].' To '.$hours['end_time'];
-    //         break;
-
-    //         case 'DisplaySat':
-    //         $Hours['DisplaySat']=$hours['start_time'].' To '.$hours['end_time'];
-    //         break;
-
-    //         case 'DisplaySun':
-    //         $Hours['DisplaySun']=$hours['start_time'].' To '.$hours['end_time'];
-    //         break;
-    //     }
-    // }
-    // // print_r(json_encode($Hours));
-
-    // $business->hours_json=json_encode($Hours);
-
-    // $count=1;
-    // $Related_Person_details=[];
-
-    // $count_related_personal_detail=count($input['related_personal_detail']);
-
-    // if($count_related_personal_detail > 0)
-    // {
-    //     for($k=0;$k < $count_related_personal_detail;$k++)
-    //     {
-    //         $Related_Person_details[$k]['RelatedPersonDetail'.$count]=$input['related_personal_detail'][$k]['related_person_details'];
-
-    //         if ($document_file = $input['related_personal_detail'][$k]['related_person_image'])
-    //         {
-    //             $nameArr=explode('.',$document_file->getClientOriginalName());
-    //             $extension=$document_file->getClientOriginalExtension();
-    //             $name=$nameArr[0];
-    //             $photo_name=  md5(time().'_'. $name).'.' . $extension;
-    //             $document_file->move(public_path() . '/images/business_related_person/', $photo_name);
-    //         }
-    //         $Related_Person_details[$k]['RelatedPersonImage'.$count]=$photo_name;
-    //         $count++;
-    //     }
-    //     /*foreach($input['related_personal_detail'] as $related_personal_detail)
-    //     {
-    //         $Related_Person_details['RelatedPersonDetail'.$count]=$related_personal_detail['related_person_details'];
-
-    //         if ($document_file = $related_personal_detail['related_person_image'])
-    //         {
-    //             $nameArr=explode('.',$document_file->getClientOriginalName());
-    //             $extension=$document_file->getClientOriginalExtension();
-    //             $name=$nameArr[0];
-    //             $photo_name=  md5(time().'_'. $name). '_' . '.' . $extension;
-    //             $document_file->move(public_path() . '/images/business_related_person/', $photo_name);
-    //         }
-    //         $Related_Person_details['RelatedPersonImage'.$count]=$photo_name;
-    //         $count++;
-    //     }*/
-
-    //     $business->realated_person_detail_json=json_encode($Related_Person_details,JSON_FORCE_OBJECT);
-    //     // print_r(json_encode($Related_Person_details,JSON_FORCE_OBJECT));
-    // }
-
-    // $count2=1;
-    // $Media_Details=[];
-
-    // $count_mediadetail=count($input['media_detail']);
-
-    // if($count_mediadetail > 0)
-    // {
-    //     for($j=0;$j < $count_mediadetail;$j++)
-    //     {
-    //         if ($document_file = $input['media_detail'][$j]['media_file'])
-    //         {
-    //             $nameArr=explode('.',$document_file->getClientOriginalName());
-    //             $extension=$document_file->getClientOriginalExtension();
-    //             $name=$nameArr[0];
-    //             $media_name= md5(time().'_'. $name). '.' . $extension;
-    //             $document_file->move(public_path() . '/images/business/', $media_name);
-    //         }
-    //         $Media_Details[$j]['Media'.$count2]=$media_name;
-    //         $count2++;
-    //     }
-
-    //     /*foreach($input['media_detail'] as $media_detail)
-    //     {
-    //         if ($document_file = $media_detail['media_file'])
-    //         {
-    //             $nameArr=explode('.',$document_file->getClientOriginalName());
-    //             $extension=$document_file->getClientOriginalExtension();
-    //             $name=$nameArr[0];
-    //             $media_name= md5(time().'_'. $name). '.' . $extension;
-    //             $document_file->move(public_path() . '/images/business/', $media_name);
-    //         }
-    //         $Media_Details['Media'.$count2]=$media_name;
-    //     }*/
-    //     // print_r(json_encode($Media_Details,JSON_FORCE_OBJECT));
-    //     $business->media_file_json=json_encode($Media_Details,JSON_FORCE_OBJECT);
-    // }
-
-    $business->job_detail_json=json_encode(array('JobSalary'=>$input['job_salary'],
-    'JobExperience'=>$input['job_experiance'],'JobQualification'=>$input['job_qualification']));
-    // print_r($business->job_detail_json);
-    $business->created_by=Auth::user()->id;
-    $business->last_updated_by=Auth::user()->id;
-    $business->payment_mode=$input['payment_mode'];
-    $business->website=$input['website'];
-
-    if(!empty($input['status']) && 'active'== strtolower($input['status']))
+    public function businessDetailData(Request $request)
     {
-        $business->status=strtolower($input['status']);
-    }
-    else
-    {
-        $business->status='inactive';
+        $input = $request->all();
+        $userId = isset($request->RegisterId) ? $request->RegisterId : '';
+
+        if(!isset($request->ListId) || empty($request->ListId))
+        {
+            $error[] = 'ListId Must be Required!';
+        }
+        if(!empty($error))
+        {
+            return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+        }
+        $businessId = $request->ListId;
+        $listBusiness = BusinessModel::where('business.status','active')
+                ->where('business.id',$businessId)
+                ->leftJoin('category', function ($join) {
+                    $join->on('category.id', '=', 'business.category_id');
+                })->select('business.*','category.name as category_name')->get()->toArray();
+
+        $j = 0;
+        $locationData = array();
+        $tagIdArray = array();
+
+        if(count($listBusiness) > 0)
+        {
+            foreach($listBusiness as $businessData)
+            {
+                $finalTagData = '';
+                if(isset($businessData['tag_id']) && !empty($businessData['tag_id']))
+                {
+                    if(strpos($businessData['tag_id'], ',') !== false )
+                    {
+                        $arr = explode(',',  $businessData['tag_id']);
+                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                    }
+                    else
+                    {
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                    }
+                    $tagNameArray = array();
+                    if(count($tagData) > 0)
+                    {
+                        foreach($tagData as $data)
+                        {
+                            array_push($tagNameArray, $data['name']);
+                        }
+                    }
+
+                    if(count($tagNameArray) > 0)
+                    {
+                        $finalTagData = implode(',',$tagNameArray);
+                    }
+                }
+                $finalCategoryData = '';
+                if(isset($businessData['multiple_subcategory_id']) && !empty($businessData['multiple_subcategory_id']))
+                {
+                    if(strpos($businessData['multiple_subcategory_id'], ',') !== false )
+                    {
+                        $arr = explode(',',  $businessData['multiple_subcategory_id']);
+                        $categoryData = CategoryModel::whereIn('id',$arr)->get()->toArray();
+                    }
+                    else
+                    {
+                        $categoryData = CategoryModel::where('id',$businessData['multiple_subcategory_id'])->get()->toArray();
+                    }
+                    $categoryNameArray = array();
+                    if(count($categoryData) > 0)
+                    {
+                        foreach($categoryData as $data)
+                        {
+                            array_push($categoryNameArray, $data['name']);
+                        }
+                    }
+
+                    if(count($categoryNameArray) > 0)
+                    {
+                        $finalCategoryData = implode(',',$categoryNameArray);
+                    }
+                }
+                $businessFavourite = BusinessFavouriteModel::where('business_id',$businessData['id'])->where('user_id',$userId)->get()->toArray();
+                if(count($businessFavourite) > 0)
+                {
+                    $isFavourite = 'Yes';
+                }
+                else
+                {
+                    $isFavourite = 'No';
+                }
+                $mediaFileArray = $hoursArray = array();
+
+                if(isset($businessData['hours_json']) && !empty($businessData['hours_json']))
+                    $hoursArray = json_decode($businessData['hours_json'], true);
+                $urlArray['URL'] = array();
+                if(isset($businessData['media_file_json']) && !empty($businessData['media_file_json']))
+                {
+                    $mediaFileArray = json_decode($businessData['media_file_json'], true);
+                    if(count($mediaFileArray) > 0)
+                    {
+                        $m = 1;
+                        foreach($mediaFileArray as $mediaData)
+                        {
+                            $urlArray['URL'][] = !empty($mediaData['Media'.$m]) ? URL::to('/images/business').'/'.$mediaData['Media'.$m] : '';
+                            $m++;
+                        }
+                    }
+                }
+
+
+
+
+                $relatedPersonUrlArray['URL'] = array();
+                if(isset($businessData['realated_person_detail_json']) && !empty($businessData['realated_person_detail_json']))
+                {
+                    $relatedPersonDetailArray = json_decode($businessData['realated_person_detail_json'], true);
+                    if(count($relatedPersonDetailArray) > 0)
+                    {
+                        $m = 1;
+                        $r = 0;
+                        foreach($relatedPersonDetailArray as $mediaData)
+                        {
+                            $relatedPersonUrlArray['URL'][$r]['Media'] = !empty($mediaData['RelatedPersonImage'.$m]) ? URL::to('/images/business_related_person').'/'.$mediaData['RelatedPersonImage'.$m] : '';
+                            $relatedPersonUrlArray['URL'][$r]['Detail'] = !empty($mediaData['RelatedPersonDetail'.$m]) ? $mediaData['RelatedPersonDetail'.$m] : '';
+                            $m++;
+                            $r++;
+                        }
+                    }
+                }
+
+                $JobSalary = $JobExperience = $JobQualification = '';
+                if(isset($businessData['job_detail_json']) && !empty($businessData['job_detail_json']))
+                    $jobDetailArray = json_decode($businessData['job_detail_json'], true);
+                if(count($jobDetailArray) > 0)
+                {
+                    $JobSalary = $jobDetailArray['JobSalary'];
+                    $JobExperience = $jobDetailArray['JobExperience'];
+                    $JobQualification = $jobDetailArray['JobQualification'];
+                }
+
+
+                $dataArray['List'][$j]['Id'] = (string)$businessData['id'];
+                $dataArray['List'][$j]['Name'] = $businessData['name'];
+                $dataArray['List'][$j]['FeatureorTag'] = $finalTagData;
+                $dataArray['List'][$j]['isFavourite'] = $isFavourite;
+                $dataArray['List'][$j]['Address'] = !empty($businessData['address']) ? $businessData['address'] : '';
+                $dataArray['List'][$j]['Date'] = date('d-m-Y', strtotime($businessData['created_at']));
+                $dataArray['List'][$j]['Time'] = date('H:i:s', strtotime($businessData['created_at']));
+                $dataArray['List'][$j]['ActuralPrice'] = !empty($businessData['actual_price']) ? (string)$businessData['actual_price'] : '';
+                $dataArray['List'][$j]['SellingPrice'] = !empty($businessData['selling_price']) ? (string)$businessData['selling_price'] : '';
+                $dataArray['List'][$j]['About'] = !empty($businessData['about']) ? $businessData['about'] : '';
+                $dataArray['List'][$j]['ContactPersonName'] = !empty($businessData['contact_person_name']) ? $businessData['contact_person_name'] : '';
+                $dataArray['List'][$j]['MobileNumber'] =!empty($businessData['mobile_number']) ? (string)$businessData['mobile_number'] : '';
+                $dataArray['List'][$j]['UnitOption'] = !empty($businessData['unit_option']) ? (string)$businessData['unit_option'] : '';
+                $dataArray['List'][$j]['CategoryName'] = !empty($businessData['category_name']) ? $businessData['category_name'] : '';
+                $dataArray['List'][$j]['SubCategoryName'] = $finalCategoryData;
+                $dataArray['List'][$j]['DisplayHours'] = !empty($businessData['display_hours']) ? $businessData['display_hours'] : '';
+                $dataArray['List'][$j]['Hours'] = $hoursArray;
+                $dataArray['List'][$j]['Media'] = $urlArray;
+                $dataArray['List'][$j]['Type'] = !empty($businessData['type']) ? $businessData['type'] : '';
+                $dataArray['List'][$j]['Description'] = !empty($businessData['description']) ? $businessData['description'] : '';
+                $dataArray['List'][$j]['SubDescription'] = !empty($businessData['sub_descrition']) ? $businessData['sub_descrition'] : '';
+                $dataArray['List'][$j]['SubDescription1'] = !empty($businessData['sub_description_1']) ? $businessData['sub_description_1'] : '';
+                $dataArray['List'][$j]['PaymentMode'] =!empty($businessData['payment_mode']) ? $businessData['payment_mode'] : '';
+                $dataArray['List'][$j]['EmailId'] = !empty($businessData['email_id']) ? $businessData['email_id'] : '';
+                $dataArray['List'][$j]['website'] = !empty($businessData['website']) ? $businessData['website'] : '';
+                $dataArray['List'][$j]['JobSalary'] = !empty($JobSalary) ? $JobSalary : '';
+                $dataArray['List'][$j]['JobExperience'] = !empty($JobExperience) ? $JobExperience : '';
+                $dataArray['List'][$j]['JobQualification'] = !empty($JobQualification) ? $JobQualification : '';
+                $dataArray['List'][$j]['ReferenceUrl'] =!empty($businessData['reference_url']) ? $businessData['reference_url'] : '';
+                $dataArray['List'][$j]['Syllabus'] = !empty($businessData['syllabus']) ? $businessData['syllabus'] : '';
+                $dataArray['List'][$j]['relatedPersonMedia'] =$relatedPersonUrlArray;
+                $j++;
+            }
+            return response()->json(['Status'=>True,'StatusMessage'=>'Business Detail Listed Successfully','Result'=>$dataArray]);
+        }
+        else
+        {
+            return response()->json(['Status'=>False,'StatusMessage'=>'No Data Available','Result'=>array()]);
+        }
     }
 
-    if($business->save())
+    public function MyListings(Request $request)
     {
-        return redirect('admin/business');
-    }
-    else
-    {
-        return redirect('admin/business');
+        $input = $request->all();
+        $Pagination = isset($input['Pagination']) ? $input['Pagination'] : 1;
+    	$skip = (($Pagination - 1) * 30) ;
+        $userId = isset($request->RegisterId) ? $request->RegisterId : '';
+
+        $totalCount = BusinessModel::where('status','active')->count();
+
+        $preQuery = BusinessModel::where('business.status','active')
+        ->leftJoin('tag_master', function ($join) {
+            $join->on('tag_master.id', '=', 'business.tag_id');
+        })
+        ->leftJoin('category', function ($join) {
+            $join->on('category.id', '=', 'business.category_id');
+        })
+        ->where(function($query) use ($request)
+        {
+            $CatagoryId = isset($request->CatagoryId) ? $request->CatagoryId : '';
+            $SubcatagoryId = isset($request->SubcatagoryId) ? $request->SubcatagoryId : '';
+            $userId = isset($request->RegisterId) ? $request->RegisterId : '';
+
+            if(isset($CatagoryId) && !empty($CatagoryId))
+            {
+                $query->where('business.category_id', $CatagoryId);
+            }
+            if(isset($SubcatagoryId) && !empty($SubcatagoryId))
+            {
+                if( strpos($SubcatagoryId, ',') !== false )
+                {
+                    $explodeSubCategory = explode(',', $SubcatagoryId);
+                    for($k =0; $k < count($explodeSubCategory); $k++)
+                    {
+                        if($k==0)
+                        {
+                            $query->whereRaw("find_in_set($explodeSubCategory[$k] ,business.multiple_subcategory_id)");
+                        }
+                        else
+                        {
+                            $query->orWhereRaw("find_in_set($explodeSubCategory[$k],business.multiple_subcategory_id)");
+                        }
+                    }
+                }
+                else
+                {
+                    $query->whereRaw("find_in_set($SubcatagoryId ,business.multiple_subcategory_id)");
+                }
+            }
+            if(isset($userId) && !empty($userId))
+            {
+                $query->where('business.user_id', $userId);
+            }
+
+        })->select('business.*','category.name as category_name');
+
+        if(isset($IsFavourite) && !empty($IsFavourite) && (strtolower($IsFavourite) == 'yes'))
+        {
+            $preQuery->join('business_favourite', 'business_favourite.user_id', '=', 'business.user_id');
+        }
+        /* count of all data*/
+        $totalFilteredCount = $preQuery->count();
+
+        /* fetch data*/
+        $listBusiness = $preQuery->skip($skip)->take(30)->get()->toArray();
+
+        $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
+
+        $j = 0;
+        $locationData = array();
+        $tagIdArray = array();
+
+        $dataArray['TotalCount'] = $totalCount;
+        $dataArray['FilteredCount'] = $totalFilteredCount;
+
+        if(count($fetchAllTag) > 0)
+        {
+            $t = 0;
+            foreach($fetchAllTag as $tagData)
+            {
+                $dataArray['ApprovedFeaturesOrTags'][$t]['id'] = $tagData['id'];
+                $dataArray['ApprovedFeaturesOrTags'][$t]['name'] = $tagData['name'];
+                $t++;
+            }
+        }
+        else
+        {
+            $dataArray['ApprovedFeaturesOrTags'] = array();
+        }
+
+        if(count($listBusiness) > 0)
+        {
+            foreach($listBusiness as $businessData)
+            {
+                $finalTagData = '';
+                if(isset($businessData['tag_id']) && !empty($businessData['tag_id']))
+                {
+                    if(strpos($businessData['tag_id'], ',') !== false )
+                    {
+                        $arr = explode(',',  $businessData['tag_id']);
+                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                    }
+                    else
+                    {
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                    }
+                    $tagNameArray = array();
+                    if(count($tagData) > 0)
+                    {
+                        foreach($tagData as $data)
+                        {
+                            array_push($tagNameArray, $data['name']);
+                        }
+                    }
+
+                    if(count($tagNameArray) > 0)
+                    {
+                        $finalTagData = implode(',',$tagNameArray);
+                    }
+                }
+                $finalCategoryData = '';
+                if(isset($businessData['multiple_subcategory_id']) && !empty($businessData['multiple_subcategory_id']))
+                {
+                    if(strpos($businessData['multiple_subcategory_id'], ',') !== false )
+                    {
+                        $arr = explode(',',  $businessData['multiple_subcategory_id']);
+                        $categoryData = CategoryModel::whereIn('id',$arr)->get()->toArray();
+                    }
+                    else
+                    {
+                        $categoryData = CategoryModel::where('id',$businessData['tag_id'])->get()->toArray();
+                    }
+                    $categoryNameArray = array();
+                    if(count($categoryData) > 0)
+                    {
+                        foreach($categoryData as $data)
+                        {
+                            array_push($categoryNameArray, $data['name']);
+                        }
+                    }
+
+                    if(count($categoryNameArray) > 0)
+                    {
+                        $finalCategoryData = implode(',',$categoryNameArray);
+                    }
+                }
+                $businessFavourite = BusinessFavouriteModel::where('business_id',$businessData['id'])->where('user_id',$userId)->get()->toArray();
+                if(count($businessFavourite) > 0)
+                {
+                    $isFavourite = 'Yes';
+                }
+                else
+                {
+                    $isFavourite = 'No';
+                }
+                $mediaFileArray = $hoursArray = array();
+
+                if(isset($businessData['hours_json']) && !empty($businessData['hours_json']))
+                    $hoursArray = json_decode($businessData['hours_json'], true);
+
+                if(isset($businessData['media_file_json']) && !empty($businessData['media_file_json']))
+                    $mediaFileArray = json_decode($businessData['media_file_json'], true);
+
+                $urlArray['URL'] = array();
+                if(count($mediaFileArray) > 0)
+                {
+                    $m = 1;
+                    foreach($mediaFileArray as $mediaData)
+                    {
+                        $urlArray['URL'][] = !empty($mediaData['Media'.$m]) ? URL::to('/images/business').'/'.$mediaData['Media'.$m] : '';
+                        $m++;
+                    }
+                }
+                $dataArray['List'][$j]['Id'] = (string)$businessData['id'];
+                $dataArray['List'][$j]['Name'] = $businessData['name'];
+                $dataArray['List'][$j]['FeatureorTag'] = $finalTagData;
+                $dataArray['List'][$j]['isFavourite'] = $isFavourite;
+                $dataArray['List'][$j]['Media'] = $urlArray['URL'];
+                $dataArray['List'][$j]['Address'] = !empty($businessData['address']) ? $businessData['address'] : '';
+                $dataArray['List'][$j]['Date'] = date('d-m-Y', strtotime($businessData['created_at']));
+                $dataArray['List'][$j]['Time'] = date('H:i:s', strtotime($businessData['created_at']));
+                $dataArray['List'][$j]['ActuralPrice'] = !empty($businessData['actual_price']) ? (string)$businessData['actual_price'] : '';
+                $dataArray['List'][$j]['SellingPrice'] = !empty($businessData['selling_price']) ? (string)$businessData['selling_price'] : '';
+                $dataArray['List'][$j]['About'] = !empty($businessData['about']) ? (string)$businessData['about'] : '';
+                $dataArray['List'][$j]['ContactPersonName'] = !empty($businessData['contact_person_name']) ? $businessData['contact_person_name'] : '';
+                $dataArray['List'][$j]['MobileNumber'] =!empty($businessData['mobile_number']) ? (string)$businessData['mobile_number'] : '';
+                $dataArray['List'][$j]['UnitOption'] = !empty($businessData['unit_option']) ? (string)$businessData['unit_option'] : '';
+
+                $enquiryBusinessCounts=BusinessUserEnquiryModel::where('business_id',$businessData['id'])->where('user_id',$userId)->count();
+                $dataArray['List'][$j]['EnquireCount'] =  (string)$enquiryBusinessCounts ;
+                $j++;
+            }
+        }
+        else
+        {
+            $dataArray['List'] = array();
+        }
+        if($dataArray)
+        {
+            return response()->json(['Status'=>True,'StatusMessage'=>'MyListing Data Listed Successfully','Result'=>$dataArray]);
+        }
+        else
+        {
+            return response()->json(['Status'=>False,'StatusMessage'=>'No Data Available','Result'=>array()]);
+        }
     }
 
+    public function userEnquireEnroll(Request $request)
+    {
+        $input=$request->all();
+
+        if(!isset($input['RegisterId']) || empty($input['RegisterId']))
+        {
+            $error[] = 'RegisterId Must be Required!';
+		}
+
+        if(!isset($input['ListId']) || empty($input['ListId']))
+        {
+            $error[] = 'ListId Must be Required!';
+        }
+
+        if(!empty($error))
+        {
+            return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+		}
+
+        if(isset($input['RegisterId']) && !empty($input['RegisterId']))
+        {
+            $user=User::where('id',$input['RegisterId'])->first();
+
+            if($user===null)
+            {
+                return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!','Result'=>array()]);
+            }
+        }
+
+        if(isset($input['ListId']) && !empty($input['ListId']))
+        {
+            $business=BusinessModel::where('id',$input['ListId'])->first();
+
+            if($business===null)
+            {
+                return response()->json(['Status'=>false,'StatusMessage'=>'Business record not exist!','Result'=>array()]);
+            }
+        }
+
+        $status='';
+        $statusMessage='';
+        if(BusinessUserEnquiryModel::insert(['business_id'=>$input['ListId'],'user_id'=>$input['RegisterId']]))
+        {
+            $status=true;
+            $statusMessage='User enquiry successfully !';
+        }
+        else
+        {
+            $status=false;
+            $statusMessage='User enquiry not successfull !';
+        }
+        return response()->json(['Status'=>$status,'StatusMessage'=>$statusMessage,'Result'=>array()]);
+    }
+
+
+    public function getBusinessUserEnquiryList(Request $request)
+    {
+        $input=$request->all();
+
+        /*
+                $businessEnquiryData=BusinessUserEnquiryModel::with(['user','business'])
+                ->where('business_id',$input['ListId'])->get()->toArray();*/
+
+                /*$userBusinessEnquiryPreQuery=BusinessUserEnquiryModel::with(['user'])
+                ->join('business',function($join){
+                    $join->on('business_user_enquiry.business_id','=','business.id');
+                });
+
+                if(isset($input['ListId']) && !empty($input['ListId']))
+                $userBusinessEnquiryPreQuery->where('business.id',$input['ListId']);
+
+                $userBusinessEnquiryData= $userBusinessEnquiryPreQuery
+                ->get()->toArray();
+        */
+
+        if(!isset($input['ListId']) || empty($input['ListId']))
+        {
+            $error[] = 'ListId Must be Required!';
+        }
+
+        if(!empty($error))
+        {
+            return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+		}
+
+        if(isset($input['ListId']) && !empty($input['ListId']))
+        {
+            $business=BusinessModel::where('id',$input['ListId'])->first();
+
+            if($business===null)
+            {
+                return response()->json(['Status'=>false,'StatusMessage'=>'Business record not exist!','Result'=>array()]);
+            }
+        }
+
+        $userBusinessEnquiryPreQuery=BusinessUserEnquiryModel::with(['business','user'])
+        ->where('business_user_enquiry.business_id',$input['ListId']);
+
+        $businessEnquiryData=$userBusinessEnquiryPreQuery->get()->toArray();
+
+        //print_r($businessEnquiryData);exit;
+
+        $totalEnquiries=count($businessEnquiryData);
+
+        $enquiryArray=array();
+
+        if($totalEnquiries > 0)
+        {
+            for($i=0;$i<$totalEnquiries;$i++)
+            {
+                $user_image_path=public_path().'/images/user/'.$businessEnquiryData[$i]['user']['user_image'];
+
+                if(file_exists($user_image_path))
+                {
+                    $userImage=URL::to('/images/user').'/'.$businessEnquiryData[$i]['user']['user_image'];
+                }
+                else
+                {
+                    $userImage='';
+                }
+                $enquiryArray[$i]['Id']=strval($businessEnquiryData[$i]['id']);
+                $enquiryArray[$i]['Name']=!empty($businessEnquiryData[$i]['user']['name'])?$businessEnquiryData[$i]['user']['name']:'';
+                $enquiryArray[$i]['UserImage']=$userImage;
+                $enquiryArray[$i]['Address']=!empty($businessEnquiryData[$i]['user']['address'])?$businessEnquiryData[$i]['user']['address']:'';
+                $enquiryArray[$i]['Email']=!empty($businessEnquiryData[$i]['user']['email'])?$businessEnquiryData[$i]['user']['email']:'';
+                $enquiryArray[$i]['Date']=!empty($businessEnquiryData[$i]['created_at'])?date('d-m-Y',strtotime($businessEnquiryData[$i]['created_at'])):'';
+                $enquiryArray[$i]['Time']=!empty($businessEnquiryData[$i]['created_at'])?date('H:i:s',strtotime($businessEnquiryData[$i]['created_at'])):'';
+                $enquiryArray[$i]['ListingName']=!empty($businessEnquiryData[$i]['business']['name'])?$businessEnquiryData[$i]['business']['name']:'';
+
+                $media_file_obj=$businessEnquiryData[$i]['business']['media_file_json'];
+                $mediaArray=json_decode($media_file_obj,true);
+
+                $businessImage='';
+
+                if(count($mediaArray) > 0)
+                {
+                    $business_image_path=public_path().'/images/business/'.$mediaArray[0]['Media1'];
+
+                    if(file_exists($business_image_path))
+                    $businessImage= URL::to('/images/business').'/'.$mediaArray[0]['Media1'];
+                    else
+                    $businessImage='';
+                }
+                else
+                {
+                    $businessImage='';
+                }
+
+                $enquiryArray[$i]['ListingImage']=$businessImage;
+            }
+            return response()->json(['Status'=>true,'StatusMessage'=>'Get Business Enquiry Data successfully!','Result'=>$enquiryArray]);
+        }
+        else
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>'No Data Available !','Result'=>array()]);
+        }
+
+    }
+
+    public function addUserFavouriteBusiness(Request $request)
+    {
+        $input=$request->all();
+
+        if(!isset($input['RegisterId']) || empty($input['RegisterId']))
+        {
+            $error[] = 'RegisterId Must be Required!';
+        }
+
+        if(!isset($input['ListId']) || empty($input['ListId']))
+        {
+            $error[] = 'ListId Must be Required!';
+        }
+
+        if(!empty($error))
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+		}
+
+        if(isset($input['RegisterId']) && !empty($input['RegisterId']))
+        {
+            $user=User::where('id',$input['RegisterId'])->first();
+
+            if($user===null)
+            {
+                return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!','Result'=>array()]);
+            }
+        }
+
+        if(isset($input['ListId']) && !empty($input['ListId']))
+        {
+            $business=BusinessModel::where('id',$input['ListId'])->first();
+
+            if($business===null)
+            {
+                return response()->json(['Status'=>false,'StatusMessage'=>'Business record not exist!','Result'=>array()]);
+            }
+        }
+
+        if($business->status!='active')
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>'Business is inactive or deleted!','Result'=>array()]);
+        }
+
+        if($user->status!='active')
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>'User is inactive or deleted!','Result'=>array()]);
+        }
+
+        if(BusinessFavouriteModel::where('user_id',$input['RegisterId'])->where('business_id',$input['ListId'])->exists())
+        {
+            $result=BusinessFavouriteModel::where('user_id',$input['RegisterId'])
+            ->where('business_id',$input['ListId'])->delete();
+
+            if($result)
+            {
+                return response()->json(['Status'=>true,'StatusMessage'=>'User unfavourite business successfully !','Result'=>array()]);
+            }
+            else
+            {
+                return response()->json(['Status'=>false,'StatusMessage'=>'UnFavourite business changes not saved !','Result'=>array()]);
+            }
+        }
+        else
+        {
+            $create=BusinessFavouriteModel::create([
+                'user_id' => $input['RegisterId'],
+                'business_id'=>$input['ListId'],
+                'created_by'=>$input['RegisterId'],
+                'last_updated_by'=>$input['RegisterId'],
+                'status'=>'active'
+            ]);
+
+            if($create)
+            {
+                return response()->json(['Status'=>true,'StatusMessage'=>'User added favourite business successfully !','Result'=>array()]);
+            }
+            else
+            {
+                return response()->json(['Status'=>false,'StatusMessage'=>'Favourite business not added by user !','Result'=>array()]);
+            }
+        }
+    }
+
+    /*public function getBusinessCountCategorywise(Request $request)
+    {
+        $input=$request->all();
+
+    }*/
+
+    public function getBusinessesCategoryWise(Request $request)
+    {
+        $input=$request->all();
+        if(!isset($input['catagoryId']) && empty($input['catagoryId']))
+        {
+            $error[] = 'CategoryId Must be Required!';
+        }
+
+        if(!empty($error))
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+		}
+
+        $businessArr=BusinessModel::where('category_id',$input['catagoryId'])->select('id','name')->get()->toArray();
+        if(count($businessArr) > 0)
+        {
+            return response()->json(['Status'=>true,'StatusMessage'=>'Get business categorywise successfully !','Result'=>$businessArr]);
+        }
+        else
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>'No Data available !','Result'=>array()]);
+        }
+    }
+    public function getCategoryWiseBusinessData(Request $request)
+    {
+        $categoryData=CategoryModel::where('parent_category_id',0)->where('redirect_status',0)->get()->toArray();
+        $finalBusinessData = array();
+        if(count($categoryData) > 0)
+        {
+            foreach($categoryData as $catData)
+            {
+                $categoryId = $catData['id'];
+                $categoryName = $catData['name'];
+                $categoryParamLink = $catData['param_link'];
+                
+                $listBusiness = BusinessModel::where('business.status','active')->select('business.*')
+                ->where('business.category_id',$categoryId)
+                ->skip(0)->take(10)
+                ->orderBy('business.id','DESC')
+                ->get()->toArray();
+                
+                $finalBusinessData += [$categoryName => $listBusiness]; 
+            }
+        }
+        //echo "<pre>"; print_r($finalBusinessData);
+        //s exit;
+        return view('frontend.listing_structure.categoryWiseBusinessListStructure',compact('finalBusinessData'));
+    }
 }
-    public function detailview($id)
-    {
-        $row = BusinessModel::where('id', $id)->first()->toArray();
-        return view('business.detailview',compact('row'));
-    }
 
 
-    public function businessdetail($id)
-    {
-
-        $business_details = BusinessModel::where('business.status', '!=', 'deleted')->leftJoin('user',function ($join)
-        {
-            $join->on('business.user_id', '=', 'user.id');
-        }) ->leftJoin('tag_master', function ($join)
-        {
-            $join->on('business.tag_id', '=', 'tag_master.id');
-        })->leftJoin('category', function ($join)
-        {
-            $join->on('business.category_id', '=', 'category.id');
-        })->select('business.*','user.name as user_name','tag_master.name as tag_name','category.name as category_name')
-        ->where('business.id',$id)->first()->toArray();
-        // dd($business_details);
 
 
-        return view('business.businessdetail',compact('business_details'));
-    }
 
 
-    public function approveStatus(Request $request ,$id)
-    {
-
-        $multipleIdExplode = explode(',',$id);
-
-        $approveData = BusinessModel::whereIn('id',$multipleIdExplode)->get()->toArray();
-        // dd($approveData);
-
-        if(count($approveData) > 0)
-        {
-            foreach($approveData as $record)
-            // dd($approveData);
-
-            {
-                $table_name = $record['is_approve'];
 
 
-                if($table_name == 1)
-                {
-
-                    $update = BusinessModel::where('id', '=', $record['id'])->update(['is_approve'=> 0]);
 
 
-                }
-                else{
-
-                    $update = BusinessModel::where('id', '=', $record['id'])->update(['is_approve'=> 1]);
 
 
-                }
-            }
-        }
-        return redirect()->back()->withSuccess('Data recovered successfully!');
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

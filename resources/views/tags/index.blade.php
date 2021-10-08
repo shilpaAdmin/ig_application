@@ -246,11 +246,11 @@
             // alert('inisde');
             swal({
                     title: "Are you sure?",
-                    text: "Recover Record",
+                    text: "Approve Record",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, recover it!",
+                    confirmButtonText: "Yes, Approve it!",
                     cancelButtonText: "No, cancel please!",
                     closeOnConfirm: true,
                     closeOnCancel: true

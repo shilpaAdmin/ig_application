@@ -22,65 +22,52 @@ class FAQController extends Controller
         $FAQFilter=array();
         
         $userId=!empty($input['RegisterId'])?$input['RegisterId']:'';
+        $tagsId=isset($input['TagsID'])?$input['TagsID']:'';
 
-        if($input['TagsID']!=0)
+        if(isset($tagsId) && !empty($tagsId))
         {
-            $tagArray=explode(',',$input['TagsID']);
-            
-            $query=FAQModel::orderBy('id','desc');
-
-            if(isset($input['TagsID']) && !empty($input['TagsID']))
+            if($tagsId!=0)
             {
-                $tags=$input['TagsID'];
-                if( strpos($input['TagsID'], ',') !== false )
+                $tagArray=explode(',',$tagsId);
+                
+                $query=FAQModel::orderBy('id','desc');
+
+                if(isset($tagsId) && !empty($tagsId))
                 {
-                    $explodeTags = explode(',', $input['TagsID']);
-                    for($k =0; $k < count($explodeTags); $k++)
+                    $tags=$tagsId;
+                    if( strpos($tagsId, ',') !== false )
                     {
-                        if($k==0)
+                        $explodeTags = explode(',', $tagsId);
+                        for($k =0; $k < count($explodeTags); $k++)
                         {
-                            $query->whereRaw("find_in_set($explodeTags[$k] ,tags)");
-                        }
-                        else
-                        {
-                            $query->orWhereRaw("find_in_set($explodeTags[$k],tags)");
+                            if($k==0)
+                            {
+                                $query->whereRaw("find_in_set($explodeTags[$k] ,tags)");
+                            }
+                            else
+                            {
+                                $query->orWhereRaw("find_in_set($explodeTags[$k],tags)");
+                            }
                         }
                     }
+                    else
+                    {
+                        $query->whereRaw("find_in_set($tags ,tags)");
+                    }
                 }
+
+                if(empty($userId))
+                $FAQFilter=$query->get()->toArray();
                 else
-                {
-                    $query->whereRaw("find_in_set($tags ,tags)");
-                }
+                $FAQFilter=$query->where('user_id',$userId)->get()->toArray();
             }
-
-            if(empty($userId))
-            $FAQFilter=$query->get()->toArray();
-            else
-            $FAQFilter=$query->where('user_id',$userId)->get()->toArray();
-
-            /*$tagArr=array();
-
-            if (strpos($input['TagsID'], ',') !== false) 
-            {
-                $tagArr=explode(',',$input['TagsID']);
-                $tagsData=TagFAQMasterModel::whereIn('id',$tagArr)->get()->toArray();
-            }
-            else
-            {
-                $tagId=$input['TagsID'];
-                $tagsData=TagFAQMasterModel::where('id',$tagId)->get()->toArray();
-            }*/
-
-            // print_r($tagsData);
-            // exit;
-
         }
         else
         {
             if(empty($userId))
-            $FAQFilter=FAQModel::get()->toArray();
+            $FAQFilter=FAQModel::where('status','active')->get()->toArray();
             else
-            $FAQFilter=FAQModel::where('user_id',$userId)->get()->toArray();
+            $FAQFilter=FAQModel::where('user_id',$userId)->where('status','active')->get()->toArray();
         }
         
         $tagsData=TagFAQMasterModel::get()->toArray();

@@ -12,7 +12,8 @@ class ForumCommentReplyModel extends Model
         'forum_id',
         'type',
         'comment_id',
-        'message'
+        'message',
+        'is_deleted'
     ];
 
     public function forum()

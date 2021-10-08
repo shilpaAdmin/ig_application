@@ -50,6 +50,16 @@
                         </div>
 
                         <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="formrow-firstname-input">Telegram Link</label>
+                                <input type="text" class="form-control" name="telegram_link" id="telegram_link" required placeholder="Telegram Link" value="{{old('telegram_link')}}" />
+                                <div class="invalid-feedback">
+                                    Please provide a Telegram Link.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
                         <div class="form-group">
                             <label for="formrow-firstname-input">User</label>
                             <select class="form-select form-control" name="user_id" id="user_id" required>

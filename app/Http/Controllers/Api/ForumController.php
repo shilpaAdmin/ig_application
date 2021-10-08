@@ -468,9 +468,9 @@ class ForumController extends Controller
             }
         }
 
-        $result=$preQuery->update(['is_deleted'=>1]);
+        //$result=$preQuery->update(['is_deleted'=>1]);
 
-        if($result)
+        if($preQuery->update(['is_deleted'=>1]))
         {
 
             if($input['Type']=='blog')

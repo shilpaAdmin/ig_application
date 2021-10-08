@@ -11,6 +11,7 @@ class ForumModel extends Model
         'question',
         'description',
         'url',
+        'telegram_link',
         'user_id',
         'status',
         'is_approve'

@@ -32,10 +32,10 @@ class CategoryController extends Controller
                 {
                     $categoryData[$j]['Id']= (string)$data['id'];
                     // echo "<pre>";print_r($categoryData[$j]['id']);exit;
-                    $categoryData[$j]['Name']= trim($data['name']);
-                    $categoryData[$j]['paramLink']= trim($data['param_link']);
-                    $categoryData[$j]['redirect_status']= trim($data['redirect_status']);
-                    $categoryData[$j]['CategoryPageRedirect']= trim($data['category_page_redirect']);
+                    $categoryData[$j]['Name']= !empty($data['name'])?trim($data['name']):'';
+                    $categoryData[$j]['paramLink']= !empty($data['param_link'])?trim($data['param_link']):'';
+                    $categoryData[$j]['redirect_status']= !empty($data['redirect_status'])?trim($data['redirect_status']):'';
+                    $categoryData[$j]['CategoryPageRedirect']= !empty($data['category_page_redirect'])?trim($data['category_page_redirect']):'';
                     $categoryData[$j]['Icon']= URL::to('images/categories').'/'.$data['media_file'];
 
                     // $categoryData[$j]['parent_category_id'] = (string)$data['parent_category_id'];
