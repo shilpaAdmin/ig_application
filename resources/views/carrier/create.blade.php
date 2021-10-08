@@ -87,6 +87,7 @@
         </div>
         <!-- Form end here-->
 
+
         <!-- listing start here-->
         <div class="card">
 
@@ -101,6 +102,7 @@
                                 <th>Type</th>
                                 <th>Name</th>
                                 <th>Description</th>
+                                <th>Applicant</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -254,6 +256,12 @@
                     orderable: false,
                 },
                 {
+                    data: 'applicant',
+                    name: 'applicant',
+                    searchable: false,
+                    orderable: false
+                },
+                {
                     data: 'status_td',
                     name: 'status_td',
                     orderable:false,
@@ -378,5 +386,12 @@
 
         });
     });
+
+
+
+    function openJobDetailPopup(id)
+    {
+        window.location.href = "/admin/carrier/detail/" + id;
+    }
 </script>
 @endsection

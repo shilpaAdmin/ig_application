@@ -133,6 +133,17 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('carrier/edit/{id}', 'CarrierController@edit')->name('carrieEdit');
         Route::get('carrier/delete/{id}', 'CarrierController@delete')->name('carrierdelete');
 
+        Route::get('carrier/applicantdelete/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
+
+
+    Route::get('carrier/detail/{id}', 'CarrierController@jobDetail')->name('job.detail');
+
+    Route::get('job/datatableList_applicant', 'CarrierController@jobapplyListapplicant')->name('jobapplyListapplicant');
+
+
+
+
+
 
         //tags forum routes
         Route::get('tagsforum', 'TagsforumController@index')->name('tagsforum');
