@@ -3,6 +3,8 @@
 namespace App\Http\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 
 class AdvertisementModel extends Model
 {
@@ -30,4 +32,16 @@ class AdvertisementModel extends Model
     {
         return $this->belongsTo('App\Http\Model\CategoryModel','category_id' );
     }
+
+    public static function getEnumValues($table, $column) {
+        $type = DB::select(DB::raw("SHOW COLUMNS FROM $table WHERE Field = '{$column}'"))[0]->Type ;
+        preg_match('/^enum\((.*)\)$/', $type, $matches);
+        $enum = array();
+        foreach( explode(',', $matches[1]) as $value )
+        {
+          $v = trim( $value, "'" );
+          $enum = Arr::add($enum, $v, $v);
+        }
+        return $enum;
+      }
 }

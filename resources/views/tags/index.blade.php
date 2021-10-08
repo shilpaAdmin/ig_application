@@ -23,10 +23,15 @@
                     <h4 class="card-title" style="text-align:right;"><a href="{{route('tags.create')}}"
                             class="btn btn-primary waves-effect btn-label waves-light"><i
                                 class="bx bx-plus label-icon"></i>ADD
-                            Tags </a></h4>
+                            Tags </a></h4><br><br><br>
+                            <div class="tableAction">
+                        <input type="button" id="deleteButton" value="Delete">
+                        <input type="button" id="recoverButton" value="Recover">
+                    </div>
                             <table id="TagsList" class="table">
                         <thead class="thead-light">
                             <tr>
+                                <th></th>
                                 <th>#</th>
                                 <!--
                                 <th>Type</th>
@@ -58,6 +63,10 @@
 <!-- Init js-->
 <script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
 <script>
+    $.ajaxSetup({
+        headers:{'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+    });
+
 $(function() {
     var table_html = '';
     var table_html_td = '';
@@ -89,6 +98,7 @@ $(function() {
         },
 
         columns: [
+            { "data": null, defaultContent: '' },
             { 
                 data: 'id',
                 name: 'sequence',
@@ -119,13 +129,32 @@ $(function() {
                 orderable:false
             }
         ],
+        
             rowReorder: {
                 dataSrc: 'sequence',
             },
             columnDefs: [{
             type: 'dateNonStandard',
             targets: -1
-            }]
+            }],
+            "columnDefs": 
+    [
+        {
+            "targets" : 0,
+            "data" : "id",
+            "title": "<input type='checkbox' name='select_all' value='1' id='selectAllCheckboxes'>",
+            "visible": true,				
+            "width" : "5%",	//https://datatables.net/reference/option/columns.width
+            "searchable" : false,
+            "orderable" : false,
+            "orderData" : "",
+            "className" : "",
+            "render": function (data, type, full, meta)
+            {
+                return '<input type="checkbox" id="id_'+data.id+'" name="id[]" value="' + data.id + '">';
+            }		
+        },
+    ],
     });
 
 
@@ -148,7 +177,208 @@ $(function() {
             });
         });
 
+    $('#recoverButton').click( function () 
+    {
+        var multipleId = getListIdList();
+        var reomveId = multipleId;
+
+        console.log(multipleId);
+        swal({
+            title: "Are you sure?",
+            text: "Recover Record",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, recover it!",
+            cancelButtonText: "No, cancel please!",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+        function(isConfirm)
+        {
+            if (isConfirm)
+            {
+                window.location.href = "delete_log/recover/" + reomveId;
+            }
+        });		
+    });
+    /*$('table [type="checkbox"]').each(function(i, chk) 
+    {
+        //alert(1);
+        if (chk.checked) 
+        {
+            //alert("Checked!", i, chk);
+        }
+        else
+        {
+            $("#deleteButton").attr("disabled","disabled"); 
+            $("#recoverButton").attr("disabled","disabled");
+        } 
+    });*/
+    var data='';
+    $('#TagsList tbody').on( 'click', 'tr', function () 
+    {
+       var allCheckboxLength = $('input[name="id[]"]').length;
+       var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
+
+        if(allCheckboxLength == checkedCheckboxLen)
+        {
+            $('#selectAllCheckboxes').prop('checked',true);
+        }
+        else
+        {
+            $('#selectAllCheckboxes').prop('checked',false);
+        }
+         $('#TagsList tbody tr').removeClass('selected');
+        /*get checked checkbox value and check full row from table*/
+        $('input[name="id[]"]:checked').map(function()
+        {
+            var checkedCheckBoxVal = $(this).val();
+            //alert("aa >> "+checkedCheckBoxVal);
+            $('#TagsList tbody #row_'+checkedCheckBoxVal).addClass('selected');
+            console.log(checkedCheckBoxVal);
+            data=checkedCheckBoxVal;
+        });
+
+        /* Code for edit button(action) enable/disable */
+        var checkedRecordCount = $('#TagsList .selected').length;
+        //alert(" individual checkedRecordCount >> "+checkedRecordCount);
+        // if(checkedRecordCount > 0)
+        // {
+        //     $("#deleteButton").removeAttr("disabled");
+        //     $("#recoverButton").removeAttr("disabled");
+        // }
+        // if(checkedRecordCount == 0)
+        // {
+        //     $("#deleteButton").attr("disabled","disabled"); 
+        //     $("#recoverButton").attr("disabled","disabled");
+        // } //end here
+    });
+            
+// Handle click on "Select all" control
+
+    $('#selectAllCheckboxes').on('click', function()
+    {
+        if ($('#selectAllCheckboxes').prop('checked')) 
+        {
+            //alert("In side if");
+            $('#TagsList input[type="checkbox"]').prop('checked', true);
+        }
+        else 
+        {
+            //alert("In side else");
+            $('#TagsList input[type="checkbox"]').prop('checked', false);
+        }
+        $('#TagsList tbody tr').removeClass('selected');
+        $('input[name="id[]"]:checked').map(function()
+        {
+            var checkedCheckBoxVal = $(this).val();
+            $('#TagsList tbody #row_'+checkedCheckBoxVal).addClass('selected');
+
+            data=checkedCheckBoxVal;
+        });
+
+        /* Code for edit button(action) enable/disable */
+        var checkedRecordCount = $('#TagsList .selected').length;
+        //alert(" individual checkedRecordCount >> "+checkedRecordCount);
+        
+        // if(checkedRecordCount > 0)
+        // {
+        //     $("#deleteButton").removeAttr("disabled");
+        //     $("#recoverButton").removeAttr("disabled");
+        // }
+        // if(checkedRecordCount == 0)
+        // {
+        //     $("#deleteButton").attr("disabled","disabled"); 
+        //     $("#recoverButton").attr("disabled","disabled"); 
+        // } //end here
+    });
+
+    $('#deleteButton').click(function(){
+        console.log(data);
+        $.ajax({
+            url:'{{route("tagsApprove")}}',
+            data:'data='+data,
+            type:'post',
+            success:function(html)
+            {
+                console.log('in tags approve'+html);
+            },
+            error:function(html)
+            {
+                console.log(''+html);
+            }
+        })
+    });
+
 });
+
+function getListIdList()
+{
+    var tableDataLength = dt.rows('.selected').data().length;
+    //alert("tableDataLength >> "+tableDataLength);
+    var listId = "";
+    for(var i=0;i < tableDataLength;i++)
+    {
+        var id = dt.rows('.selected').data()[i]['id'];
+        if(listId == "")
+            listId += id;
+        else
+            listId += ","+id;	
+    }	// for loop ends here
+    //alert("listId >> "+listId);
+    return listId;
+}
+
+/*function recordDelete(id)
+{
+    swal({
+        title: "Are you sure want to delete?",
+        text: "Record Permanently",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel please!",
+        closeOnConfirm: true,
+        closeOnCancel: true
+    },
+    function(isConfirm)
+    {
+        if (isConfirm)
+        {
+            window.location.href = "delete_log/delete/" + id;
+        }
+    });
+}*/
+
+/*function recordRecover(id)
+{
+    swal({
+        title: "Are you sure?",
+        text: "Recover Record",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Yes, recover it!",
+        cancelButtonText: "No, cancel please!",
+        closeOnConfirm: true,
+        closeOnCancel: true
+    },
+    function(isConfirm)
+    {
+        if (isConfirm)
+        {
+            window.location.href = "delete_log/recover/" + id;
+        }
+    });
+}*/
+
+function recordEdit(redirectUrl)
+{
+    window.location.href = redirectUrl;
+}
+
 </script>
 
 @endsection

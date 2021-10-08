@@ -213,7 +213,7 @@ class AdvertisementController extends Controller
     }
 
 
-    public function categoryAutoComplete(Request $request)
+    public function advertiseCategoryAutoComplete(Request $request)
     {
         $input = $request->all();
 

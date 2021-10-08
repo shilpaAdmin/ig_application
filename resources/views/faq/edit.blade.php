@@ -76,7 +76,7 @@
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="invalidCheck" name="status" value="active" value="{{ $row['status'] }}">
+                                <input type="checkbox" class="custom-control-input" id="invalidCheck" name="status" value="active" @if($row['status'] == 'active') checked @endif>
                                 <label class="custom-control-label" for="invalidCheck">Active</label>
                             </div>
                         </div>

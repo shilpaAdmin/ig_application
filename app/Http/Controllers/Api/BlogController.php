@@ -68,11 +68,11 @@ class BlogController extends Controller
                     $m=1;
                     for($j=0;$j<$totalMedias;$j++)
                     {    
-                        $media_path=public_path().'/images/blogs/'.$mediaArray[$j]['Media'.$m];
+                        $media_path=public_path().'/images/blogs/'.$mediaArray[$j];
 
                         if(file_exists($media_path))
                         {
-                            array_push($mediaFiles,URL::to('/images/blogs').'/'.$mediaArray[$j]['Media'.$m]);
+                            array_push($mediaFiles,URL::to('/images/blogs').'/'.$mediaArray[$j]);
                         }
                         $m++;
                     }
@@ -153,11 +153,11 @@ class BlogController extends Controller
             
             for($j=0;$j<$totalMedias;$j++)
             {    
-                $media_path=public_path().'/images/blogs/'.$mediaArray[$j]['Media'.$m];
+                $media_path=public_path().'/images/blogs/'.$mediaArray[$j];
 
                 if(file_exists($media_path))
                 {
-                    array_push($blogURL,URL::to('/images/blogs').'/'.$mediaArray[$j]['Media'.$m]);
+                    array_push($blogURL,URL::to('/images/blogs').'/'.$mediaArray[$j]);
                 }
                 $m++;
             }

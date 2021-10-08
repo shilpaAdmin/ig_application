@@ -530,12 +530,6 @@
 
                                     </div>
 
-
-
-
-
-
-
                                 </div>
 
                                 <div class="col-lg-4">
@@ -786,7 +780,7 @@
                         <div class="col-md-4">
 
                         <div>
-                            
+
                         </div>
                         </div>
 
@@ -922,7 +916,7 @@
         }
     });
 
-    var str_url = '{{route("categoryAutoComplete")}}';
+    var str_url = '{{route("BusinesscategoryAutoComplete")}}';
 
     $('#txtSearchCategory').select2({
         ajax: {
@@ -1046,7 +1040,7 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                $(input).parent().find('.my-2').children().attr('src', e.target.result);
+                $(input).parent().parent().prev().find('.imagePreview').attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
         }
@@ -1056,7 +1050,7 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                $(input).parent().find('.small-pic').children().attr('src', e.target.result);
+                $(input).parent().parent().prev().find('.small-pic').children().attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
         }
