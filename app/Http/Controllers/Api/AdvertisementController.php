@@ -7,11 +7,15 @@ use App\Http\Model\AdvertisementModel;
 use App\Http\Model\CategoryModel;
 use App\User;
 
+use App\Http\Traits\UserLocationDetailTrait;
+
 use URL;
 use Illuminate\Http\Request;
 
 class AdvertisementController extends Controller
 {
+    use UserLocationDetailTrait;
+    
     public function AddAds(Request $request)
     {
         $input=$request->all();
