@@ -12,7 +12,7 @@
 @endcomponent
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-6">
             <div class="card mb-2">
                 <div class="card-body">
                     @if ($errors->any())

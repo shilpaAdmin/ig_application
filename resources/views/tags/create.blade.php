@@ -28,6 +28,7 @@
                     <form class="needs-validation" method="post" enctype="multipart/form-data"
                         action="{{route('tags.store')}}" novalidate>
                         @csrf
+                        
                         <div class="form-group">
                             <label for="formrow-firstname-input">Tags Name</label>
 

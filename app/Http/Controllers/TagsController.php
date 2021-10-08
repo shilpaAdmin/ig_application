@@ -49,7 +49,7 @@ class TagsController extends Controller
         {
             $is_approve = '';
             if($result_obj->is_approve==1)
-            $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
+            $is_approve.='<span class="badge badge-pill badge-soft-success  font-size-12">Approve</span>';
             else
             $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
             return $is_approve;

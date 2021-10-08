@@ -14,10 +14,22 @@
 <div class="row mb-3" id="">
     <div class="col-md-12">
         <div class="card  bg-gray-bg text-white-50 m-0">
-            <div class="card-body card-body-py-3">
-                <h5 class="m-0">Carrier List</h5>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-6">
+                    <div class="card-body card-body-py-3">
+                        <h5 class="m-0">Carrier List</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-6">
+                    <div>
+                        <h4 class="card-title" style="text-align:right;"><a href="javascript:void(0);" id="addnewsFeedBtn" class="btn addbtnforall2 waves-effect btn-label waves-light resetFrom"><i class="bx bx-plus label-icon"></i>ADD Carrier</a></h4>
+                    </div>
+                </div>
+
             </div>
+            
         </div>
+        
     </div>
 </div>
 
@@ -92,7 +104,7 @@
 
             <div class="card-body custom_tab_part">
                 <div class="table-responsive custom_tabal_saction_part">
-                    <h4 class="card-title" style="text-align:right;"><a href="javascript:void(0);" id="addnewsFeedBtn" class="btn btn-primary waves-effect btn-label waves-light resetFrom"><i class="bx bx-plus label-icon"></i>ADD Carrier</a></h4>
+                    
                     <table id="carrierCardList" class="table">
                         <thead class="thead-light">
                             <tr>

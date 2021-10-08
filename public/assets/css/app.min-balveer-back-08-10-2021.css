@@ -4451,7 +4451,7 @@ span.logo-lg img {
 
 
 .login_logo img {
-    width: 300px !important;
+    width: 50px !important;
     margin-bottom: 14px;
     height: auto !important;
 }
@@ -5010,11 +5010,11 @@ div.dataTables_length {
   margin: 0;
 }
 
-/* .custom_tabal_saction_part h4.card-title a.btn {
+.custom_tabal_saction_part h4.card-title a.btn {
   position: absolute;
   left: 0;
   top: 0;
-} */
+}
 
 .custom_tabal_saction_part div.dataTables_wrapper div.dataTables_filter label {
   margin: 0;
@@ -5921,136 +5921,3 @@ z-index: 1;
 
 
 /*---- 24-03-21 end start balveer ----*/
-
-
-
-
-/* Hiren css start 08/10/2021 */
-
-.addbtnforall
-{
-  background-color: #298541;
-  color: white;
-}
-.addbtnforall2
-{
-  background-color: #298541;
-  color: white;
- margin-top: 12px;
- margin-right: 20px;
-}
-.addbtnforall:hover
-{
-  background-color: #1f6431;
-  color: white;
-}
-.addbtnforall2:hover
-{
-  background-color: #1f6431;
-  color: white;
-}
-.page-item.active .page-link {
-  z-index: 3;
-  color: #fff;
-  background-color: #298541;
-  border-color: #298541;
-}
-
-.custom_tabal_saction_part h4.card-title a.btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-
-
-
-input#approveStatusButton {
-  color: white;
-  background-color: #298541;
-  border: 1px solid;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-.tableAction {
-  position: absolute;
- 
-  margin-top: 19px;
-  
-}
-
-div.dataTables_wrapper div.dataTables_filter {
-  text-align: right;
-  margin-bottom: 34px;
-  margin-top: 20px;
-  position: relative;
-}
-
-div.dataTables_length {
-  text-align: right;
-  margin-top: 0px;
-}
-
-select.custom-select.custom-select-sm.form-control.form-control-sm {
-  margin-left: 10px;
-}
-
-
-
-@media (min-width: 320px) and (max-width: 604px) 
-{
-  input.jigar.form-control.form-control-sm {
-    width: 100px !important;
-    margin-left: -22px !important;
-    position: absolute;
-    margin-top: -17px !important;
-}
-.bx-search-alt
-{
-  display: none;
-}
-div#TagsList_length {
-
-  float: left;
-}
-.custom_tabal_saction_part h4.card-title a.btn {
-  position: absolute;
-  /* right: 0; */
-  top: 0;
-  left: 0;
-}
-}
-@media (min-width: 605px) and (max-width: 767px) 
-{
-  div#TagsList_length {
-
-    float: left;
-  }
-}
-@media (min-width: 768px) and (max-width: 990px) 
-{
-  input.jigar.form-control.form-control-sm {
-    width: 250px !important;
-}
-}
-@media (min-width: 991px) and (max-width: 1105px){
-  input.jigar.form-control.form-control-sm {
-    width: 300px !important;
-}
-}
-
-div.dataTables_wrapper div.dataTables_filter {
-  text-align: center !important;
-}
-
-.btnappdis
-{
-  background-color: white;
-}
-.btnappdis1
-{
-  background-color: white !important;
-}
-
-
-/* Hiren css End 08/10/2021 */

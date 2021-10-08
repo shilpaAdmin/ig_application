@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
                         <h4 class="card-title" style="text-align:right;"><a href="{{ route('tagsforum.create') }}"
-                                class="btn btn-primary waves-effect btn-label waves-light"><i
+                                class="btn addbtnforall waves-effect btn-label waves-light"><i
                                     class="bx bx-plus label-icon"></i>ADD
                                 Tags Forum </a></h4><br><br><br>
 
