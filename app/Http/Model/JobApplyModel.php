@@ -12,6 +12,7 @@ class JobApplyModel extends Model
         'full_name',
         'email',
         'mobile_number',
+        'career_id',
         'skill',
         'subject',
         'message',

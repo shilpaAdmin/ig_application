@@ -133,6 +133,17 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('carrier/edit/{id}', 'CarrierController@edit')->name('carrieEdit');
         Route::get('carrier/delete/{id}', 'CarrierController@delete')->name('carrierdelete');
 
+        Route::get('carrier/applicantdelete/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
+
+
+    Route::get('carrier/detail/{id}', 'CarrierController@jobDetail')->name('job.detail');
+
+    Route::get('job/datatableList_applicant', 'CarrierController@jobapplyListapplicant')->name('jobapplyListapplicant');
+
+
+
+
+
 
         //tags forum routes
         Route::get('tagsforum', 'TagsforumController@index')->name('tagsforum');
@@ -211,7 +222,7 @@ Route::get('/','HomeController@home')->name('/');
 Route::get('/Faqs','HomeController@faqs')->name('Faqs');
 Route::get('/contact','HomeController@contact')->name('Contact');
 Route::get('/about','HomeController@about')->name('About');
-Route::get('/careers','HomeController@careers')->name('Careers');
+// Route::get('/careers','HomeController@careers')->name('Careers');
 Route::get('/add/service','HomeController@addservice')->name('Addservice');
 Route::get('/add/business','HomeController@addbusiness')->name('Addbusiness');
 Route::get('/add/advertisement','HomeController@addadvertisement')->name('Addadvertisement');
@@ -236,10 +247,14 @@ Route::namespace('Frontend')->group(function () {
     //category wise business listinng
     Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
 
-    //category business details 
+    //category career details
+    Route::get('/careers','CareerController@careerList')->name('category.career-list');
+
+
+    //category business details
     Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
 
-    // Faq 
+    // Faq
     Route::get('/faq','FaqController@faqDetails')->name('faq.details');
 
     // blogs 

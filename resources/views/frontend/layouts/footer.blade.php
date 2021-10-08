@@ -10,7 +10,7 @@
                     <div class="col-lg-12 border_bottom">
                         <a href="index.html" class="footernavbart"><img src="{{ URL::asset('assets/frontend/images/img/footer-logo.png')}}"></a>
                         <a href="{{ route('About') }}" class="footernavbart float-md-right">About us</a>
-                        <a href="{{ route('Careers')}}" class="footernavbart  float-md-right ">Careers</a>
+                        <a href="{{ route('category.career-list')}}" class="footernavbart  float-md-right ">Careers</a>
                         <a href="{{  route('Contact') }}" class="footernavbart  float-md-right ">Contact us</a>
                     </div>
 

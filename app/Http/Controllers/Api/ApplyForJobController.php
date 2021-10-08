@@ -22,14 +22,10 @@ class ApplyForJobController extends Controller
     {
 
         $input=$request->all();
-        // echo "<pre>";
-        // print_r($input);
-        // exit;
-
-        if(!isset($input['RegisterId']) || empty($input['RegisterId']))
-        {
-            $error[] = 'RegisterId Must be Required!';
-		}
+        // if(!isset($input['RegisterId']) || empty($input['RegisterId']))
+        // {
+        //     $error[] = 'RegisterId Must be Required!';
+		// }
         if(!isset($input['name']) || empty($input['name']))
         {
             $error[] = 'name Must be Required!';
@@ -64,7 +60,6 @@ class ApplyForJobController extends Controller
             return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
 		}
 
- 
         $imageName = '';
         $destinationPath = public_path().'/images/job_apply/';
         if ($coverletter = $request->file('coverLetter'))
@@ -74,6 +69,9 @@ class ApplyForJobController extends Controller
             $coverletter->move($destinationPath, $imageName);
         }
 
+        // dd($imageName);
+
+
         $resumeName = '';
         $destinationPath = public_path().'/images/job_apply/';
         if ($resume = $request->file('Resume'))
@@ -82,6 +80,7 @@ class ApplyForJobController extends Controller
 
             $resume->move($destinationPath, $resumeName);
         }
+
         $data = new JobApplyModel();
         $data->user_id	 =!empty($request->RegisterId) ? $request->RegisterId : "";
         $data->full_name =!empty($request->name) ? $request->name : "";
