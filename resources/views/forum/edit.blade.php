@@ -51,7 +51,7 @@
                         </div>
                         </div>
 
-                       <div class="col-lg-4">
+                    <div class="col-lg-4">
                        <div class="form-group">
                             <label for="formrow-firstname-input">URL</label>
                             <input type="text" class="form-control" name="url" id="url"
@@ -60,7 +60,17 @@
                                 Please provide a URL.
                             </div>
                         </div>
-                       </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="formrow-firstname-input">Telegram Link</label>
+                            <input type="text" class="form-control" name="telegram_link" id="telegram_link" required placeholder="Telegram Link" value="{{$row['telegram_link']}}" />
+                            <div class="invalid-feedback">
+                                Please provide a Telegram Link.
+                            </div>
+                        </div>
+                    </div>
 
 
                         <div class="col-lg-4">

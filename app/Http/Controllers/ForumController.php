@@ -49,6 +49,7 @@ class ForumController extends Controller
         $obj->question=$input['question'];
         $obj->description=$input['description'];
         $obj->url=$input['url'];
+        $obj->telegram_link=$input['telegram_link'];
         $obj->user_id=$userID;
 
         if(!empty($input['status']))
@@ -87,7 +88,7 @@ class ForumController extends Controller
             if(!empty($result_obj->question))
             $question_td='<a href=" '.route('forum.getCommentReplyList',$result_obj->id).' " >'.ucwords($result_obj->question.$result_obj->id).'</a>';
             //$question_td = '<a href="'.route('forum.getCommentReplyList')">'.ucwords($result_obj->question).'</a>';
-            
+
             return $question_td;
         })
        /* ->addColumn('question', function ($result_obj)
@@ -98,7 +99,7 @@ class ForumController extends Controller
         })*/
         ->addColumn('user_id',function($result_obj){
             $user_id = '';
-            $user_id = $result_obj->user_id;
+            $user_id = ucwords($result_obj->user_id);
             return $user_id;
         })
         ->addColumn('description',function($result_obj){
@@ -161,7 +162,7 @@ class ForumController extends Controller
         $skip = (($pageNumber - 1) * $recordsPerPage);
 
         $commentData = ForumCommentReplyModel::where('forum_id',$forum_id)->where('comment_id',0)->orderBy('comment_id','desc')->skip($skip)->take(5)->get()->toArray();
-        
+
         $commentReplyArray = array();
         foreach ($commentData as $comment)
         {
@@ -178,7 +179,7 @@ class ForumController extends Controller
                     $replyId = $reply['id'];
                     $replyMessage = $reply['message'];
                     $replyMedia = $reply['media'];
-                    
+
                     $commentReplyArray[$commentId]['reply'][$j]['id'] = $replyId;
                     $commentReplyArray[$commentId]['reply'][$j]['comment'] = $replyMessage;
                     $commentReplyArray[$commentId]['reply'][$j]['media'] = $replyMedia;
@@ -210,6 +211,7 @@ class ForumController extends Controller
         $obj->question=$input['question'];
         $obj->description=$input['description'];
         $obj->url=$input['url'];
+        $obj->telegram_link=$input['telegram_link'];
         $obj->user_id=$userID;
 
         if(!empty($input['status']))

@@ -11,20 +11,20 @@
         @slot('li_2') Add @endslot
     @endcomponent
 
-<style>
-    .imgdisplay-blog {
-    height: 200px;
-    width: 200px;
-    }
-
-    @media (min-width: 993px) and (max-width: 1286px)
-    {
+    <style>
         .imgdisplay-blog {
-            height: 150px;
-            width: 150px;
+            height: 200px;
+            width: 200px;
         }
-    }
-</style>
+
+        @media (min-width: 993px) and (max-width: 1286px) {
+            .imgdisplay-blog {
+                height: 150px;
+                width: 150px;
+            }
+        }
+
+    </style>
 
     <div class="row">
         <div class="col-12">
@@ -44,44 +44,56 @@
                         action="{{ route('blog.update', $row['id']) }}" novalidate>
                         @csrf
                         <div class="row">
-                        <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="formrow-firstname-input">Name</label>
-                            <input type="text" class="form-control" name="name" id="name" required placeholder="Name"
-                                value="{{ $row['name'] }}">
-                            <div class="invalid-feedback">
-                                Please provide a Question.
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="formrow-firstname-input">Name</label>
+                                    <input type="text" class="form-control" name="name" id="name" required
+                                        placeholder="Name" value="{{ $row['name'] }}">
+                                    <div class="invalid-feedback">
+                                        Please provide a Question.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        </div>
 
-                        <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="formrow-firstname-input">Description</label>
-                            <input type="text" class="form-control" name="description" id="description" required
-                                placeholder="Description" value="{{ $row['description'] }}">
-                            <div class="invalid-feedback">
-                                Please provide a Description.
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="formrow-firstname-input">Description</label>
+                                    <input type="text" class="form-control" name="description" id="description" required
+                                        placeholder="Description" value="{{ $row['description'] }}">
+                                    <div class="invalid-feedback">
+                                        Please provide a Description.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        </div>
 
 
-                        <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="formrow-firstname-input">User</label>
-                            <select class="form-select form-control" name="user_id" id="user_id" required>
-                                <option value="">Select User</option>
-                                @foreach ($users as $userid => $username)
-                                    <option value="{{ $userid }}" @if ($row['user_id'] == $userid) selected @endif>{{ ucwords($username) }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="formrow-firstname-input">User</label>
+                                    <select class="form-select form-control" name="user_id" id="user_id" required>
+                                        <option value="">Select User</option>
+                                        @foreach ($users as $userid => $username)
+                                            <option value="{{ $userid }}" @if ($row['user_id'] == $userid) selected @endif>
+                                                {{ ucwords($username) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
 
-                            <div class="invalid-feedback">
-                                Please provide a User.
+                                    <div class="invalid-feedback">
+                                        Please provide a User.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="form-group col-md-4" id="categoryDiv">
+                                <label for="formrow-firstname-input">Category</label>
+                                <select class="form-select form-control form-control-lg txtSearchKeyword-box"
+                                    data-search="on" name="category_id" id="txtSearchCategory" required>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please provide a Category.
+                                </div>
+                            </div>
                         </div>
 
 
@@ -106,16 +118,16 @@
                                     @for ($k = 0; $k < count($attachmentArray); $k++)
                                         <div data-repeater-item class="row">
                                             <div class="col-lg-3">
-                                            <div class="small-pic">
+                                                <div class="small-pic">
                                                     <img class="imagePreview2 imgdisplay-blog" alt=""
-                                                        src="{{ URL::asset('images/blogs/'.$attachmentArray[$k]) }}" />
+                                                        src="{{ URL::asset('images/blogs/' . $attachmentArray[$k]) }}" />
                                                 </div><br>
                                             </div>
                                             <div class="col-lg-4 ">
                                                 <input type="file" class="custom-file-input media_file form-control"
-                                                    name="group-a[0][media_file_json]" id="media_file" accept="image/*" >
-                                                    <input type="hidden" name="group-a[0][media_file_json_from_db]"
-                                                            value="{{ $attachmentArray[$k] }}">
+                                                    name="group-a[0][media_file_json]" id="media_file" accept="image/*">
+                                                <input type="hidden" name="group-a[0][media_file_json_from_db]"
+                                                    value="{{ $attachmentArray[$k] }}">
                                                 <label class="custom-file-label" for="customFile">Image</label>
                                                 <div class="invalid-feedback invalid-feedback-pic">
                                                     Media File is required !
@@ -124,12 +136,13 @@
 
                                             <div class="col-lg-1">
                                                 <button type="button" data-repeater-delete data-toggle="tooltip"
-                                                    data-placement="top" title="Delete" class="btn btn-sm btn-danger mt-2 mb-2">
+                                                    data-placement="top" title="Delete"
+                                                    class="btn btn-sm btn-danger mt-2 mb-2">
                                                     <i class="bx bx-trash d-block font-size-16"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        @endfor
+                                    @endfor
                                 @endif
                             </div>
                             <button type="button" data-repeater-create
@@ -140,27 +153,27 @@
 
 
                         <div class="row">
-                        <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="formrow-firstname-input">Tagged</label>
-                            <input type="text" class="form-control" name="tagged" id="tagged" required
-                                placeholder="Tagged" value="{{ $row['tagged'] }}">
-                            <div class="invalid-feedback">
-                                Please provide a Tagged.
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="formrow-firstname-input">Tagged</label>
+                                    <input type="text" class="form-control" name="tagged" id="tagged" required
+                                        placeholder="Tagged" value="{{ $row['tagged'] }}">
+                                    <div class="invalid-feedback">
+                                        Please provide a Tagged.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        </div>
 
-                       <div class="col-lg-4">
-                       <div class="form-group">
-                            <label for="formrow-firstname-input">URL</label>
-                            <input type="text" class="form-control" name="url" id="url" required placeholder="URL"
-                                value="{{ $row['url'] }}">
-                            <div class="invalid-feedback">
-                                Please provide a URL.
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="formrow-firstname-input">URL</label>
+                                    <input type="text" class="form-control" name="url" id="url" required placeholder="URL"
+                                        value="{{ $row['url'] }}">
+                                    <div class="invalid-feedback">
+                                        Please provide a URL.
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                       </div>
                         </div>
 
 
@@ -180,6 +193,8 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="hdnSearchCategoryId" id="hdnSearchCategoryId" >
+
                     </form>
                 </div>
             </div>
@@ -205,6 +220,10 @@
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
         });
+        @foreach ($categoryData as $categorydata)
+        var $option = $("<option selected></option>").val({{$categorydata->id}}).text('{{$categorydata->name}}');
+        $('#txtSearchCategory').append($option).trigger('change');
+        @endforeach
 
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -219,5 +238,71 @@
         $(document).on('change', '.media_file', function() {
             readURL(this);
         });
+
+
+        var str_url = '{{ route('BlogcategoryAutoComplete') }}';
+
+    $('#txtSearchCategory').select2({
+        ajax: {
+            url: str_url,
+            dataType: "json",
+            type: "POST",
+            data: function(params) {
+                var queryParameters = {
+                    search: params.term
+                }
+                return queryParameters;
+            },
+            processResults: function(data, params) {
+                params.page = params.page || 1;
+                return {
+                    results: $.map(data, function(tag) {
+                        return {
+                            text: tag.name,
+                            id: tag.id,
+                            result: tag
+                        }
+                    }),
+                    pagination: {
+                        more: (params.page * 30) < data.total_count
+                    }
+                };
+            },
+            cache: true,
+        },
+        placeholder: 'Select category',
+        minimumInputLength: 1
+
+    }).on("select2:select", function(e) {
+        var selected = e.params.data.result;
+        var countryId = selected.id;
+        var countryName = selected.name;
+        var editHiddenVal = $("#hdnSearchCategoryId").val();
+
+        if (editHiddenVal != '') //use in edit
+        {
+            $('#hdnSearchCategoryId').val(countryId);
+        } else //first time adding
+        {
+            /*Add selected area id into array*/
+            $('#hdnSearchCategoryId').val(countryId); //store array
+        }
+    });
+    $('#txtSearchCategory').on('select2:unselect', function(e) {
+        var data = e.params.data;
+        var countryId = data.id;
+
+        var editHiddenVal = $('#hdnSearchCategoryId').val();
+        var checkComma = editHiddenVal.includes(',');
+        if (checkComma) {
+            var editArray = editHiddenVal.split(',');
+            /*Remove data from specific array*/
+            editArray.splice(editArray.indexOf(countryId.toString()), 1);
+            $('#hdnSearchCategoryId').val(data.id);
+        } else {
+            // $("#selectedTagsDivId").hide();
+            $('#hdnSearchCategoryId').val('');
+        }
+    });
     </script>
 @endsection
