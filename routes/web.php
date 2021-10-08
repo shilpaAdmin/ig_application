@@ -211,7 +211,7 @@ Route::get('/','HomeController@home')->name('/');
 Route::get('/Faqs','HomeController@faqs')->name('Faqs');
 Route::get('/contact','HomeController@contact')->name('Contact');
 Route::get('/about','HomeController@about')->name('About');
-Route::get('/careers','HomeController@careers')->name('Careers');
+// Route::get('/careers','HomeController@careers')->name('Careers');
 Route::get('/add/service','HomeController@addservice')->name('Addservice');
 Route::get('/add/business','HomeController@addbusiness')->name('Addbusiness');
 Route::get('/add/advertisement','HomeController@addadvertisement')->name('Addadvertisement');
@@ -236,10 +236,14 @@ Route::namespace('Frontend')->group(function () {
     //category wise business listinng
     Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
 
-    //category business details 
+    //category career details
+    Route::get('/careers','CareerController@careerList')->name('category.career-list');
+
+
+    //category business details
     Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
 
-    // Faq 
+    // Faq
     Route::get('/faq','FaqController@faqDetails')->name('faq.details');
 
 });

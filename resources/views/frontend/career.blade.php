@@ -3,6 +3,32 @@
 @section('content')
 <!DOCTYPE html>
 <html lang="en">
+    @section('css')
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/select2/select2.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}">
+
+<link rel="stylesheet" type="text/css"
+    href="{{ URL::asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
+<link rel="stylesheet" type="text/css"
+    href="{{ URL::asset('assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css')}}">
+<link href="{{ URL::asset('assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet"
+    type="text/css">
+<link rel="stylesheet" type="text/css"
+    href="{{ URL::asset('assets/libs/bootstrap-touchspin/bootstrap-touchspin.min.css')}}">
+<link rel="stylesheet" href="{{ URL::asset('assets/libs/datepicker/datepicker.min.css')}}" type="text/css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/style.css')}}" type="text/css" />
+
+{{-- <link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/bootstrap.min.css')}}"> --}}
+
+<link rel="stylesheet" type="text/css"
+    href="{{ URL::asset('assets/frontend/css/bootstrap.min.css')}}">
+
+
+@endsection
+<head><meta name="csrf-token" content="{{ csrf_token() }}"></head>
 <body>
 <!-- Modal location-->
 <div class="modal fade" id="exampleModallocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -276,83 +302,20 @@
                 </div>
 
                 <div class="row">
+                    @foreach($careerData as $career)
                     <div class="col-xl-4 col-lg-4">
                         <!--contact Details Single-->
                         <div class="contact_details_single">
                             <div class="contact_details_inner p-0">
                                 <div class="contact_details_content p-5">
-                                    <h3 class="text_green">Data entry Operator</h3>
-                                    <h6 class="py-2 ">Full time / Part time</h6>
-                                    <p>Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Id magnam, maxime dolorum quis aperiam eos!</p>
+                                    <h3 class="text_green">{{ $career['name'] }}</h3>
+                                    <h6 class="py-2 ">{{ $career['type'] }}</h6>
+                                    <p>{{ $career['description'] }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-xl-4 col-lg-4">
-                        <!--contact Details Single-->
-                        <div class="contact_details_single">
-                            <div class="contact_details_inner p-0">
-                                <div class="contact_details_content p-5">
-                                    <h3 class=" text_green">Back office staff</h3>
-                                    <h6 class="py-2">Full time / Part time</h6>
-                                    <p>Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Id magnam, maxime dolorum quis aperiam eos!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4">
-                        <!--contact Details Single-->
-                        <div class="contact_details_single">
-                            <div class="contact_details_inner p-0">
-                                <div class="contact_details_content p-5">
-                                    <h3 class=" text_green">Tele Caller</h3>
-                                    <h6 class="py-2">Full time / Part time</h6>
-                                    <p>Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Id magnam, maxime dolorum quis aperiam eos!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4">
-                        <!--contact Details Single-->
-                        <div class="contact_details_single">
-                            <div class="contact_details_inner p-0">
-                                <div class="contact_details_content p-5">
-                                    <h3 class=" text_green">Back office staff</h3>
-                                    <h6 class="py-2">Full time / Part time</h6>
-                                    <p>Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Id magnam, maxime dolorum quis aperiam eos!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4">
-                        <!--contact Details Single-->
-                        <div class="contact_details_single">
-                            <div class="contact_details_inner p-0">
-                                <div class="contact_details_content p-5">
-                                    <h3 class=" text_green">Tele Caller</h3>
-                                    <h6 class="py-2">Full time / Part time</h6>
-                                    <p>Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Id magnam, maxime dolorum quis aperiam eos!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="col-xl-4 col-lg-4">
-                        <!--contact Details Single-->
-                        <div class="contact_details_single">
-                            <div class="contact_details_inner p-0">
-                                <div class="contact_details_content p-5">
-                                    <h3 class="text_green">Data entry Operator</h3>
-                                    <h6 class="py-2 ">Full time / Part time</h6>
-                                    <p>Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Id magnam, maxime dolorum quis aperiam eos!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -362,42 +325,56 @@
                 <div class="row">
                     <div class="col-lg-8 mb-5 order-lg-first order-last">
                         <div class="contact-one__form__wrap">
-                            <form action="inc/sendemail.php" class="contact-one__form">
+                            <form action="{{route('ApplyForJob')}}" method="post"  id="jobApplyForm"  class="contact-one__form">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input type="text" name="name" placeholder="Your name">
+                                            <input type="text" name="name" id="name" placeholder="Your name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input type="email" name="name" placeholder="Email address">
+                                            <input type="email" name="email" id="email"  placeholder="Email address">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input type="text" name="phone" placeholder="Contact number">
+                                            <input type="text" name="number"  id="number" placeholder="Contact number">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input type="text" name="Subject" placeholder="Applied for">
+                                            <input type="text" name="subject"  id="subject" placeholder="Applied for">
                                         </div>
                                     </div>
 
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-
-                                                <label class="label_theme uploadfile_label2" for="exampleFormControlFile1"> Upload CV </label>
-                                                <input type="file" class="form-control-file file-upload-input" id="exampleFormControlFile1">
-                                             </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input type="text" name="skill"  id="skill" placeholder="Skill">
                                         </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <label class="label_theme uploadfile_label2" for="coverLetter"> Upload Cover Letter </label>
+                                            <input type="file" class="form-control-file file-upload-input" name="coverLetter" id="coverLetter">
+                                         </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <label class="label_theme uploadfile_label2" for="resume"> Upload CV </label>
+                                            <input type="file" class="form-control-file file-upload-input" name="Resume" id="resume">
+                                            </div>
+                                    </div>
+
 
 
                                     <div class="col-md-12">
                                         <div class="input-group">
-                                            <textarea name="message" placeholder="Write about yourself"></textarea>
+                                            <textarea name="message" id="message" placeholder="Write about yourself"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -406,6 +383,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <input type="hidden" name="RegisterId" id="hdnUserId" value="0">
                             </form>
                         </div>
                     </div>
@@ -429,4 +407,125 @@
         </section>
 </body>
 </html>
+
+@section('script')
+
+
+<!-- Init js-->
+<script src="{{ URL::asset('assets/libs/datatables/datatables.min.js')}}"></script>
+
+<script src="{{ URL::asset('assets/libs/jszip/jszip.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/pdfmake/pdfmake.min.js')}}"></script>
+
+<!-- Init js-->
+<script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
+
+
+<script src="{{ URL::asset('assets/libs/select2/select2.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-touchspin/bootstrap-touchspin.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/datepicker/datepicker.min.js')}}"></script>
+
+<script src="{{ URL::asset('assets/js/pages/form-advanced.init.js')}}"></script>
+
+<script src="{{ URL::asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
+
+<!-- Plugins js -->
+<script src="{{ URL::asset('assets/js/pages/form-validation.init.js')}}"></script>
+
+<!-- form mask -->
+<script src="{{ URL::asset('assets/libs/jquery-repeater/jquery-repeater.min.js')}}"></script>
+
+<!-- form mask init -->
+<script src="{{ URL::asset('assets/js/pages/form-repeater.int.js')}}"></script>
+
+<!-- form mask -->
+<script src="{{ URL::asset('assets/libs/inputmask/inputmask.min.js')}}"></script>
+
+<!-- form mask init -->
+<script src="{{ URL::asset('assets/js/pages/form-mask.init.js')}}"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script>
+
+
+$(document).ready(function () {
+
+
+$('#jobApplyForm').on('submit',function(e){
+    e.preventDefault();
+
+    // var name = $('#name').val();
+    // var email = $('#email').val();
+    // var number = $('#number').val();
+    // var message = $('#message').val();
+    // var subject = $('#subject').val();
+    // var resume = $('#resume').val();
+    // var skill = $('#skill').val();
+    // var coverLetter = $('#coverLetter').val();
+    // var RegisterId = $('#hdnUserId').val();
+    var formData = new FormData(this);
+
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+
+    $.ajax({
+    url: "{{ route('ApplyForJob') }}",
+    type:"POST",
+
+    datatype:"json",
+    cache:false,
+    contentType: false,
+    processData: false,
+    data: formData,
+
+        // data = data,
+        // name:name,
+        // email:email,
+        // number:number,
+        // message:message,
+        // subject :subject,
+        // Resume :resume,
+        // skill :skill,
+        // coverLetter :coverLetter,
+        // RegisterId :RegisterId,
+
+
+        success:function(response){
+
+            console.log(response);
+
+            if(response.Status){
+                swal("Done!","It was succesfully inserted!","success");
+            }else{
+                swal("Warning", "There is something wrong please try after some time", "error");
+            }
+            $("#jobApplyForm")[0].reset();
+
+            console.log(response);
+        },
+        error: function(response) {
+            $('#nameErrorMsg').text(response.responseJSON.errors.name);
+            $('#emailErrorMsg').text(response.responseJSON.errors.email);
+            $('#mobileErrorMsg').text(response.responseJSON.errors.mobile);
+            $('#messageErrorMsg').text(response.responseJSON.errors.message);
+        },
+
+    });
+    });
+
+});
+
+
+</script>
+@endsection
+
 @endsection
