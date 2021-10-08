@@ -630,39 +630,54 @@
         <!--Two Boxes Start-->
         <section class="two_boxes">
             <div class="container adv_main owl-theme owl-carousel">
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 wow slideInLeft animated animated">
-                        <div class="box_one">
-                            <div class="box_one_img">
-                                <img src="{{ URL::asset('assets/frontend/images/resources/two-boxes-img-1.jpg') }}"
-                                    alt="">
-                                <div class="box_one_text">
-                                    <!-- <p>Outstanding</p>
-                                              <h2>Places in<br>London</h2> -->
+                @foreach ($advertisments as $key=>$advertisment)
+                    @php
+                        if(isset($advertisment['media']) ) {
+                            $imageUrl= URL::to('/images/advertisement').'/'.$advertisment['media'] ;        
+                        } else {
+                            $imageUrl='';
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4 {{ $key=0 ? 'wow slideInLeft animated animated' : '' }}">
+                            <div class="box_one">
+                                <div class="box_one_img">
+                                    @php
+                                        if( !isset($imageUrl) ){
+                                            $imageUrl = URL::asset('assets/frontend/images/resources/two-boxes-img-1.jpg');
+                                        }
+                                    @endphp 
+                                    <img src="{{ $imageUrl }}"
+                                        alt="">
+                                    <div class="box_one_text">
+                                    </div>
+                                    <div class="box_one_btn">
+                                        <a href="event.html">20 Listings</a>
+                                    </div>
                                 </div>
-                                <div class="box_one_btn">
-                                    <a href="event.html">20 Listings</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-8 {{ $key=0 ? 'wow slideInRight animated animated' : '' }}">
+                            <div class="box_two">
+                                <div class="box_two_img">
+                                    @php
+                                        if( !isset($imageUrl) ){
+                                            $imageUrl = URL::asset('assets/frontend/images/resources/two-boxes-img-2.jpg');
+                                        }
+                                    @endphp 
+                                    <img src="{{ $imageUrl }}"
+                                        alt="">
+                                    <div class="box_two_text">
+                                    </div>
+                                    <div class="box_two_btn">
+                                        <a href="#">20 Listings</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-8 col-lg-8 wow slideInRight animated animated">
-                        <div class="box_two">
-                            <div class="box_two_img">
-                                <img src="{{ URL::asset('assets/frontend/images/resources/two-boxes-img-2.jpg') }}"
-                                    alt="">
-                                <div class="box_two_text">
-                                    <!-- <p>Inside Europe</p>
-                                              <h2>Let�s have<br>dinner</h2> -->
-                                </div>
-                                <div class="box_two_btn">
-                                    <a href="#">20 Listings</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
+                @endforeach
+                {{-- <div class="row">
                     <div class="col-xl-4 col-lg-4">
                         <div class="box_one">
                             <div class="box_one_img">
@@ -693,8 +708,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+                </div> --}}
+                {{-- <div class="row">
                     <div class="col-xl-4 col-lg-4">
                         <div class="box_one">
                             <div class="box_one_img">
@@ -725,7 +740,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <ul class="circles">
                 <li></li>
@@ -869,6 +884,30 @@
                     <div class="col-xl-6 wow slideInLeft animated animated">
                         <div class="faq_one_right">
                             <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
+                                @foreach ($faqs as $key=>$faq)
+                                    <div class="accrodion {{$key==0 ? 'active' :''}}">
+                                        <div class="accrodion-title">
+                                            <h4>{{ $faq->question}}</h4>
+                                        </div>
+                                        <div class="accrodion-content">
+                                            <div class="inner">
+                                                <p>{{ $faq->answer }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                               
+                                {{-- <div class="accrodion active">
+                                    <div class="accrodion-title">
+                                        <h4>How to create a new listings on site</h4>
+                                    </div>
+                                    <div class="accrodion-content">
+                                        <div class="inner">
+                                            <p>There are many variations of passages the majority have suffered
+                                                alteration in some fo injected humour, randomised words believable.</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="accrodion">
                                     <div class="accrodion-title">
                                         <h4>How to create a new listings on site</h4>
@@ -877,31 +916,9 @@
                                         <div class="inner">
                                             <p>There are many variations of passages the majority have suffered
                                                 alteration in some fo injected humour, randomised words believable.</p>
-                                        </div><!-- /.inner -->
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="accrodion active">
-                                    <div class="accrodion-title">
-                                        <h4>How to create a new listings on site</h4>
-                                    </div>
-                                    <div class="accrodion-content">
-                                        <div class="inner">
-                                            <p>There are many variations of passages the majority have suffered
-                                                alteration in some fo injected humour, randomised words believable.</p>
-                                        </div><!-- /.inner -->
-                                    </div>
-                                </div>
-                                <div class="accrodion">
-                                    <div class="accrodion-title">
-                                        <h4>How to create a new listings on site</h4>
-                                    </div>
-                                    <div class="accrodion-content">
-                                        <div class="inner">
-                                            <p>There are many variations of passages the majority have suffered
-                                                alteration in some fo injected humour, randomised words believable.</p>
-                                        </div><!-- /.inner -->
-                                    </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -932,33 +949,46 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-4">
-                        <!--Blog One single-->
-                        <div class="blog_one_single wow fadeInUp" data-wow-delay="100ms">
-                            <div class="blog_image">
-                                <img src="{{ URL::asset('assets/frontend/images/blog/blog-1-img-1.jpg') }}"
-                                    alt="Blog One Image">
-                            </div>
-                            <div class="blog-one__content">
-                                <ul class="list-unstyled blog-one__meta">
-                                    <li><a href=""><i class="far fa-user-circle"></i>by Admin</a></li>
-                                    <li><a href=""><i class="far fa-comments"></i>2 Comments</a>
-                                    </li>
-                                </ul>
-                                <div class="blog_one_title">
-                                    <h3><a href="{{ route('Blogdetail') }}">Top 8 Amazing Places to Stay in Canada</a>
-                                    </h3>
+                    @foreach ($blogs as $blog)
+
+                    @php
+                        $images=json_decode($blog->media_file_json, true);
+                        if(count($images)){
+                            $imageUrl= URL::to('/images/blogs').'/'.$images[0]['Media1'] ;
+                        } else {
+                            $imageUrl= URL::asset('assets/frontend/images/blog/blog-1-img-1.jpg');
+                        }
+
+                        $slug = Str::slug($blog->name, '-');
+                    @endphp
+    
+                        <div class="col-xl-4">
+                            <!--Blog One single-->
+                            <div class="blog_one_single wow fadeInUp" data-wow-delay="100ms">
+                                <div class="blog_image">
+                                    <img src="{{ $imageUrl }}"
+                                        alt="Blog One Image">
                                 </div>
-                                <div class="blog_one_text">
-                                    <p>Lorem ipsum dolor sit amet, cibo mundi ea duo, vim exerci phaedrum</p>
-                                </div>
-                                <div class="blog_one_date">
-                                    <p>07<br>Aug</p>
+                                <div class="blog-one__content">
+                                    <ul class="list-unstyled blog-one__meta">
+                                        <li><a href=""><i class="far fa-user-circle"></i>by {{ isset($blog->user) && isset($blog->user->name) ? $blog->user->name : '-' }}</a></li>
+                                        <li><a href=""><i class="far fa-comments"></i>{{$blog->blogComments->count()}} Comments</a></li>
+                                    </ul>
+                                    <div class="blog_one_title">
+                                        <h3><a href="{{ route('blog.detail',['slug'=>$slug]) }}">{{ isset($blog->name) ? $blog->name :'-'}}</a>
+                                        </h3>
+                                    </div>
+                                    <div class="blog_one_text">
+                                        <p>{{ isset($blog->description) ? $blog->description : '-' }}</p>
+                                    </div>
+                                    <div class="blog_one_date">
+                                        <p>{{ $blog->created_at->format('d') }}<br>{{ $blog->created_at->format('M') }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-4">
+                    @endforeach
+                    {{-- <div class="col-xl-4">
                         <!--Blog One single-->
                         <div class="blog_one_single wow fadeInDown" data-wow-delay="200ms">
                             <div class="blog_image">
@@ -1011,7 +1041,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <ul class="circles">
@@ -1407,7 +1437,8 @@
                                 $.each(data.Result, function(i)
                                 {
                                     var name = data.Result[i]['Name'];
-                                    htmlStr+='<div class="w-50 float-left"> <a class=" a_cat_color" href="javascript:;"><i class="fas fa-angle-right"></i> '+name+'</a> </div>';
+                                    var id = data.Result[i]['Id'];
+                                    htmlStr+='<div class="w-50 float-left"> <a class=" a_cat_color" href="/category/'+id+'"><i class="fas fa-angle-right"></i> '+name+'</a> </div>';
                                 });
                             }
                             else

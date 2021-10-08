@@ -242,6 +242,11 @@ Route::namespace('Frontend')->group(function () {
     // Faq 
     Route::get('/faq','FaqController@faqDetails')->name('faq.details');
 
+    // blogs 
+    Route::get('blog','BlogController@viewBlogList')->name('blog.list');
+    Route::get('blog/{slug}','BlogController@viewBlogDetails')->name('blog.detail');
+    Route::post('save-blog-comments','BlogController@saveBlogComments')->name('save.blog.comments');
+
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
 

@@ -118,3 +118,5 @@ Route::post('ApplyForCareer', 'Api\CarrierController@applyForCareer')->middlewar
 Route::post('MyFavouriteList', 'Api\DashboardController@myFavouriteList')->middleware('CheckHashToken');
 
 Route::post('getCategoryWiseBusinessData', 'Api\BusinessController@getCategoryWiseBusinessData')->name('getCategoryWiseBusinessData');
+
+Route::post('getApplyJobList', 'Api\ApplyForJobController@getApplyJobList');

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Model\ForumModel;
+use App\Http\Model\AdvertisementModel;
+use App\Http\Model\FAQModel;
+use App\Http\Model\BlogsModel;
 
 class HomeController extends Controller
 {
@@ -42,13 +45,21 @@ class HomeController extends Controller
     }
     public function home(Request $request)
     {
+        // forums 
         $forums=ForumModel::select('forum.*','user.name','user.user_image')
-        ->with(['forumComments'])
-        ->join('user','user.id','=','forum.user_id')
-        ->get();
-        // dd($forums);
+                        ->with(['forumComments'])
+                        ->join('user','user.id','=','forum.user_id')
+                        ->get();
 
-        return view('frontend.index',compact('forums'));
+        // advertisments
+        $advertisments= AdvertisementModel::where('status','=','active')->get();
+
+        // Question & answer(faq)
+        $faqs = FAQModel:: where('status','=','active')->orderBy('id','desc')->take(3)->get();
+    
+        // Blogs (news 7 articals)
+        $blogs = BlogsModel::with(['user','blogComments'])->where('status','=','active')->orderBy('id','desc')->take(3)->get();
+        return view('frontend.index',compact('forums','advertisments','faqs','blogs'));
     }
 
     public function faqs(Request $request)

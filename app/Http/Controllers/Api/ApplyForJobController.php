@@ -102,5 +102,78 @@ class ApplyForJobController extends Controller
 
     }
 
+    public function getApplyJobList(Request $request)
+    {
+        
+        $input=$request->all();
 
+        $jobId = isset($input['JobID']) ? $input['JobID'] : '';
+
+        if(isset($jobId) && !empty($jobId)) {
+            $applyForJob =JobApplyModel::select('apply_for_job.*','business.name as business_name','business.media_file_json','user.user_image','user.name as user_name')
+                                ->leftJoin('user','user.id','=','apply_for_job.user_id')
+                                ->leftJoin('business','business.id','=','apply_for_job.job_id')
+                                ->where('apply_for_job.job_id','=',$jobId)
+                                ->get();
+        } else {
+            $applyForJob =JobApplyModel::select('apply_for_job.*','business.name as business_name','business.media_file_json','user.user_image','user.name as user_name')
+                        ->leftJoin('user','user.id','=','apply_for_job.user_id')
+                        ->lejftJoin('business','business.id','=','apply_for_job.job_id')
+                        ->get();
+        }
+        $applyForJob_Obj = $applyForJob->toArray();
+        $applyForJob_count=count($applyForJob_Obj);
+
+        $ApplyForJobArray=array();
+        if($applyForJob_count > 0) {
+            for($i=0;$i<$applyForJob_count;$i++)
+            {
+                $ApplyForJobArray[$i]['Id']=strval($applyForJob_Obj[$i]['id']);
+                $ApplyForJobArray[$i]['UserId']=strval($applyForJob_Obj[$i]['id']);
+                $ApplyForJobArray[$i]['UserName']=strval($applyForJob_Obj[$i]['user_name']);
+
+                $ApplyForJobArray[$i]['CoverLetter']='';
+                $ApplyForJobArray[$i]['Resume']='';
+
+                $ApplyForJobArray[$i]['UserImage']='';
+                $userImage=strval($applyForJob_Obj[$i]['user_image']);
+                if( isset( $userImage)) {
+                    $ApplyForJobArray[$i]['UserImage'] = URL::to('/images/user').'/'.strval($applyForJob_Obj[$i]['user_image']);
+                }
+               
+                $cover=strval($applyForJob_Obj[$i]['cover_letter']);
+                if( isset( $cover)) {
+                    $ApplyForJobArray[$i]['CoverLetter'] = URL::to('/images/job_apply').'/'.strval($applyForJob_Obj[$i]['cover_letter']);
+                }
+
+                $resume=strval($applyForJob_Obj[$i]['resume']);
+                if( isset( $resume)) {
+                    $ApplyForJobArray[$i]['Resume'] = URL::to('/images/job_apply').'/'.strval($applyForJob_Obj[$i]['resume']);
+                }
+
+                $ApplyForJobArray[$i]['JobTitle']=strval($applyForJob_Obj[$i]['business_name']);
+                $ApplyForJobArray[$i]['Name']=strval($applyForJob_Obj[$i]['full_name']);
+                $ApplyForJobArray[$i]['Number']=strval($applyForJob_Obj[$i]['mobile_number']);
+                $ApplyForJobArray[$i]['Email']=strval($applyForJob_Obj[$i]['email']);
+                $ApplyForJobArray[$i]['Skill']=strval($applyForJob_Obj[$i]['skill']);
+                $ApplyForJobArray[$i]['Subject']=strval($applyForJob_Obj[$i]['subject']);
+                $ApplyForJobArray[$i]['Message']=strval($applyForJob_Obj[$i]['message']);
+
+                $applyjob_media_arr=json_decode($applyForJob_Obj[$i]['media_file_json'],true);
+                $media1='';
+                if(!empty($applyjob_media_arr))
+                {
+                    if(isset($applyjob_media_arr[0]['Media1']) && file_exists(public_path().'/images/matrimonial/media/'.$applyjob_media_arr[0]['Media1']))
+                    $media1=$applyjob_media_arr[0]['Media1'];
+                }
+                $ApplyForJobArray[$i]['JobImage']=!empty($media1)?URL::to('/images/business').'/'.$media1:'';
+            }
+            return response()->json(['Status'=>true,'StatusMessage'=>'Apply Job  List successfully !','Result'=>[$ApplyForJobArray]]);
+        }
+        else
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>'No Data available !','Result'=>[]]);
+        }
+        
+    }
 }

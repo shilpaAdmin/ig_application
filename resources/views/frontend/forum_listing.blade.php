@@ -403,9 +403,9 @@
                             <a href="{{route('forumdetail')}}?id={{$forum->id}}" class="for__title">{{$forum->question}}</a>
 
                             <p class="for_desc">
-                                <span> <a href="#"> {{$forum->name}}</a></span>
-                                <span> <a href="#">  {{$forum->created_at->diffForHumans()}}</a></span>
-                                <span> <a href="#">  {{$forum->forumComments->count()}} replies </a></span>
+                                <span> <a href="javascript:void(0);"> {{$forum->name}}</a></span>
+                                <span> <a href="javascript:void(0);">  {{$forum->created_at->diffForHumans()}}</a></span>
+                                <span> <a href="javascript:void(0);">  {{$forum->forumComments->count()}} replies </a></span>
                             </p>
                         </div>
 
