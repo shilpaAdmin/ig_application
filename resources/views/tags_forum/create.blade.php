@@ -28,15 +28,25 @@
                     <form class="needs-validation" method="post" enctype="multipart/form-data"
                         action="{{route('tagsforum.store')}}" novalidate>
                         @csrf
-                        <div class="form-group">
-                            <label for="formrow-firstname-input">Tags Name</label>
 
-                            <input type="text" class="form-control" name="name" id="name"
-                            required  placeholder="Tag Name" value="{{old('name')}}">
-                            <div class="invalid-feedback">
-                                Please provide a Tag Name.
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div>
+
+                                    <div class="form-group">
+                                        <label for="formrow-firstname-input">Tags Name</label>
+            
+                                        <input type="text" class="form-control" name="name" id="name"
+                                        required  placeholder="Tag Name" value="{{old('name')}}">
+                                        <div class="invalid-feedback">
+                                            Please provide a Tag Name.
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
+                       
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">

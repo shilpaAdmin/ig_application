@@ -20,8 +20,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive custom_tabal_saction_part">
-                    <h4 class="card-title" style="text-align:right;"><a href="{{route('country.create')}}"
-                            class="btn btn-primary waves-effect btn-label waves-light"><i
+                    <h4 class="card-titlee" style="text-align:right;"><a href="{{route('country.create')}}"
+                            class="btn addbtnforall waves-effect btn-label waves-light"><i
                                 class="bx bx-plus label-icon"></i>ADD
                                 Country </a></h4>
                             <table id="countryList" class="table">

@@ -138,25 +138,43 @@
                                 Please provide a Category.
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="formrow-firstname-input">Category Name</label>
 
-                            <input type="text" class="form-control" name="name" id="name"
-                                placeholder="Category Name" value="{{$row['name']}}" required>
-                            <div class="invalid-feedback">
-                                Please provide a Category Name.
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div>
+                                    <div class="form-group">
+                                        <label for="formrow-firstname-input">Category Name</label>
+            
+                                        <input type="text" class="form-control" name="name" id="name"
+                                            placeholder="Category Name" value="{{$row['name']}}" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a Category Name.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div>
+
+                                    <div class="form-group">
+                                        <label for="formrow-firstname-input">Category Description</label>
+            
+                                        <input type="text" class="form-control" name="description" value="{{$row['description']}}"
+                                            id="description" placeholder="Category Description" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a Category Description.
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
+                        
 
-                        <div class="form-group">
-                            <label for="formrow-firstname-input">Category Description</label>
-
-                            <input type="text" class="form-control" name="description" value="{{$row['description']}}"
-                                id="description" placeholder="Category Description" required>
-                            <div class="invalid-feedback">
-                                Please provide a Category Description.
-                            </div>
-                        </div>
+                        
                         <div class="row">
 
                             <div class="col-md-6">
@@ -245,7 +263,7 @@
         }
     }
 
-    var str_url = '{{route("categoryAutoComplete")}}';
+ 
 
     $('#txtSearchCategory').select2({
     ajax: {
