@@ -64,7 +64,7 @@
    background-position: 10% center;
 
    }
-   
+
    .container2 .btn {
    position: absolute;
    top: 90%;
@@ -103,7 +103,7 @@
                     <form class="needs-validation" method="post" enctype="multipart/form-data"
                         action="{{ route('category.update',$row['id']) }}" novalidate>
                         @csrf
-                        
+
                         <input type="hidden" value="{{ $row['id'] }}" name="id">
 
                         <div class="form-group">
@@ -174,7 +174,7 @@
 
                                 <div class="form-group">
                                 <img src="@if($row['media_file']!='' && file_exists(public_path().'/images/categories/'.$row['media_file'])){{ URL::asset('/images/categories/'.$row['media_file']) }} @endif" id="imageview" width="150px" height="150px" />
-                                    
+
                                 </div>
 
                             </div>
@@ -198,11 +198,11 @@
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="status" id="status" class="custom-control-input" value="Active"
                                 id="invalidCheck" >
-                                
+
                                 <label class="custom-control-label" for="invalidCheck">Active</label>
                             </div>
                         </div>
--->                        
+-->
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group ">
@@ -212,7 +212,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="hdnSearchCategoryId" id="hdnSearchCategoryId" value="@if($row['parent_category_id']!=0){{$row['parent_category_id']}}@endif">
-                    </form> 
+                    </form>
                 </div>
             </div>
 
@@ -237,7 +237,7 @@
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-            
+
             reader.onload = function (e) {
                 $('#imageview').attr('src', e.target.result);
             }
@@ -245,7 +245,7 @@
         }
     }
 
-    var str_url = '{{route("categoryAutoComplete")}}';
+    var str_url = '{{url("category/autoComplete")}}';
 
     $('#txtSearchCategory').select2({
     ajax: {
@@ -316,7 +316,7 @@ $('#txtSearchCategory').on('select2:unselect', function (e) {
 });
 
     $('#subcategoryRadio').on('change',function(){
-        
+
         if($('#subcategoryRadio').is(':checked'))
         {
             $('#categoryDiv').show();
@@ -331,7 +331,7 @@ $('#txtSearchCategory').on('select2:unselect', function (e) {
     @endif
 
     $('#categoryRadio').on('change',function(){
-        
+
         if($('#categoryRadio').is(':checked'))
         {
             $('#categoryDiv').hide();

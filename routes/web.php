@@ -79,7 +79,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('advertisement/store', 'AdvertisementController@store')->name('advertisement.store');
         Route::get('advertisement/edit/{id}', 'AdvertisementController@edit')->name('advertisement.edit');
         Route::post('advertisement/update/{id}', 'AdvertisementController@update')->name('advertisement.update');
-        Route::post('category/autoComplete', 'AdvertisementController@advertiseCategoryAutoComplete')->name('AdcategoryAutoComplete');
+        Route::post('advertisement/category/autoComplete', 'AdvertisementController@advertiseCategoryAutoComplete')->name('AdcategoryAutoComplete');
         Route::get('advertisement/advertisementList', 'AdvertisementController@advertisementlist')->name('datatable.advertisementlist');
         Route::get('advertisement/delete/{id}', 'AdvertisementController@delete')->name('advertisement.delete');
         Route::get('advertisement/approve/{id}', 'AdvertisementController@approveStatus')->name('advertisement.approve');
@@ -146,10 +146,14 @@ Route::group(['prefix' => 'admin'], function () {
 
 
         //testmonial routes
-        Route::get('testmonial', 'TestmonialController@index')->name('testmonial');
-        Route::get('testmonial/details/{id}', 'TestmonialController@testmonialdetails')->name('testmonial.details');
-        Route::get('testmonial/testmonialList', 'TestmonialController@testmonialList')->name('datatable.testmoniallist');
-        Route::get('testmonial/delete/{id}', 'TestmonialController@delete')->name('testmonial.delete');
+        Route::get('testimonial', 'TestimonialController@index')->name('testimonial');
+        Route::get('testimonial/create', 'TestimonialController@create')->name('testimonial.create');
+        Route::post('testimonial/store', 'TestimonialController@store')->name('testimonial.store');
+        Route::get('testimonial/edit/{id}', 'TestimonialController@edit')->name('testimonial.edit');
+        Route::post('testimonial/update/{id}', 'TestimonialController@update')->name('testimonial.update');
+        Route::get('testimonial/details/{id}', 'TestimonialController@testmonialdetails')->name('testimonial.details');
+        Route::get('testimonial/testimonialList', 'TestimonialController@testmonialList')->name('datatable.testimoniallist');
+        Route::get('testimonial/delete/{id}', 'TestimonialController@delete')->name('testimonial.delete');
 
 
         //Legel pages routes
@@ -236,10 +240,10 @@ Route::namespace('Frontend')->group(function () {
     //category wise business listinng
     Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
 
-    //category business details 
+    //category business details
     Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
 
-    // Faq 
+    // Faq
     Route::get('/faq','FaqController@faqDetails')->name('faq.details');
 
 });

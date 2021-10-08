@@ -102,8 +102,6 @@
                                     class="mdi mdi-music-note-whole"></i>Legal Pages</a>
                         </li>
 
-
-
                     </ul>
                 </li>
 
@@ -120,8 +118,8 @@
                 </li>
 
                 <li>
-                    <a href="{{ url('admin/testmonial') }}"
-                        class="{{ Request::segment(2) === 'testmonial.create' ? 'active' : '' }} "><i
+                    <a href="{{ url('admin/testimonial') }}"
+                        class="{{ Request::segment(2) === 'testimonial.create' ? 'active' : '' }} "><i
                             class="mdi mdi-music-note-whole"></i>Testmonial</a>
                 </li>
 

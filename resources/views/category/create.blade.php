@@ -156,7 +156,6 @@
                             </div>
                         </div>
                         <div class="row">
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="formrow-email-input">Image</label>
@@ -245,7 +244,7 @@
         }
     }
 
-    var str_url = '{{route("categoryAutoComplete")}}';
+    var str_url = '{{url("category/autoComplete")}}';
 
     $('#txtSearchCategory').select2({
     ajax: {
