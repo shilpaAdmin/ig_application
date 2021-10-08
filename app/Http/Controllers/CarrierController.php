@@ -66,7 +66,6 @@ class CarrierController extends Controller
             // $data->status=$status;
             $data->save();
         }
-
         return redirect()->action('CarrierController@index');
      }
 
