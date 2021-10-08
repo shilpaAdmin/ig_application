@@ -229,7 +229,6 @@
                 }
                 else
                 {
-                    alert("In side else");
                     $('#ForumList input[type="checkbox"]').prop('checked', false);
                 }
                 $('#ForumList tbody tr').removeClass('selected');
