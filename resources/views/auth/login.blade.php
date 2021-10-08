@@ -23,6 +23,25 @@ body {
     width: 100%;
     margin: 0 !important;
 }
+.btn-primary {
+    background-color: #298541 !important;
+    border-color: #298541 !important;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #147a2f !important;
+    border-color: #147a2f !important;
+}
+
+.bg-soft-primary-new {
+    background-color: rgba(41, 133, 65, 0.25) !important;
+}
+
+.bg-light1 {
+    background-color: #f0f3f6!important;
+}
+
 </style>
 @endsection
 @section('body')
@@ -37,13 +56,14 @@ body {
     <div class="account-pages my-4">
         <div class="container">
             <div class="login_logo">
-                <img src="/assets/images/IG-dark.png" style="width: 100px;
-    height: 70px;">
+                <!--<img src="/assets/images/IG-dark.png" style="width: 100px; height: 70px;">-->
+	                <img src="/assets/images/The-ig-grp-logo.png">
+					
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-5">
                     <div class="card overflow-hidden mb-2">
-                        <div class="bg-soft-primary">
+                        <div class="bg-soft-primary-new">
                             <div class="row d-flex align-items-center">
                                 <div class="col-6">
                                     <div class="text-primary p-4">
@@ -53,7 +73,7 @@ body {
                                 </div>
                                 <div class="col-6 align-self-end mob_imiage_part">
                                     <!-- <img src="assets/images/profile-img.png" alt="" class="img-fluid"> -->
-                                    <img src="../assets/images/IG-mob.png" alt="" class="img-fluid">
+                                    <img src="../assets/images/same-mob-ig.png" alt="" class="img-fluid">
                                 </div>
 
                             </div>
@@ -62,7 +82,7 @@ body {
                             <div>
                                 <a href="{{url('index')}}">
                                     <div class="avatar-md profile-user-wid mb-4">
-                                        <span class="avatar-title bg-light">
+                                        <span class="avatar-title bg-light1">
                                             <img src="/assets/images/img_347562.png" alt="" class="" height="34">
                                         </span>
                                     </div>
