@@ -18,11 +18,31 @@
                 <li class="menu-title">Modules</li>
 
                 <li>
-                    <a href="{{ url('admin/business') }}"
+                    {{-- <a href="{{ url('admin/business') }}"
                         class="{{ Request::segment(2) === 'business.create' ? 'active' : '' }} "><i
-                            class="mdi mdi-music-note-whole"></i>Business</a>
-                </li>
+                        class="has-arrow waves-effect"></i>Business</a> --}}
 
+                        <a href="javascript: void(0);" class="has-arrow waves-effect ">
+                            <i class="bx bx-check-double"></i>
+                            <span>Business</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <?php
+                                if(isset($subCategoryData) && !empty($subCategoryData))
+                                {
+                                        if(count($subCategoryData) > 0)
+                                        {
+                                                foreach($subCategoryData as $dynamicData)
+                                                {
+                                        ?>
+                                                <li><a href="{{ route('subCategoryList',$dynamicData->id) }}"><i class="mdi mdi-music-note-whole"></i>{{ $dynamicData->name }}</a></li>
+                                        <?php
+                                                }
+                                        }
+                                }
+                                ?>
+                        </ul>
+                </li>
                 <li>
                     <a href="{{ url('admin/matrimonial') }}"
                         class="{{ Request::segment(2) === 'matrimonial.create' ? 'active' : '' }} "><i

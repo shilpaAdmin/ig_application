@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
-use DB; 
+use DB;
 use View;
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,8 +27,17 @@ class AppServiceProvider extends ServiceProvider
     {
 		//echo 'inside always route chnage';
         Schema::defaultStringLength(191);
-		
-		
-	
+
+        $subCategoryData = DB::table('category')->where('parent_category_id',0)->where('redirect_status',0)->get();
+        // dd($mediaLibraryMasterData);
+
+		View::composer('layouts.sidebar', function($view) use($subCategoryData)
+		{
+			$view->with('subCategoryData',$subCategoryData);
+		});
+
+
+
+
     }
 }
