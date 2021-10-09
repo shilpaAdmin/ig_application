@@ -7,6 +7,7 @@ use App\Http\Model\BusinessModel;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 use DataTables;
+use App\Http\Model\CategoryModel;
 use App\Http\Model\UserModel;
 use App\Http\Model\ForumModel;
 use Auth;
@@ -41,6 +42,9 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+
+        $categoryId= $request->category_id;
+
         $destinationPath = public_path().'/images/blogs/';
         $multipleDataArray = array();
 
@@ -80,6 +84,7 @@ class BlogController extends Controller
         $obj->media_file_json=$multipleDataJson;
         $obj->tagged=$input['tagged'];
         $obj->user_id=$userID;
+        $obj->category_id=$categoryId;
         if(!empty($input['status']))
         $obj->status=$input['status'];
         else
@@ -155,8 +160,9 @@ class BlogController extends Controller
     {
         $row = BlogsModel::where('id', $id)->first()->toArray();
         $users=UserModel::where('status','!=','deleted')->pluck('name','id');
+        $categoryData = CategoryModel::where('id',$row['category_id'])->select('id','name')->get();
 
-        return view('blog.edit', compact('row','users'));
+        return view('blog.edit', compact('row','users','categoryData'));
 
     }
 
@@ -164,6 +170,8 @@ class BlogController extends Controller
     public function update(Request $request,$id)
     {
         $input = $request->all();
+
+        $categoryId= $request->category_id;
         $destinationPath = public_path().'/images/blogs/';
         $multipleDataArray = array();
 
@@ -208,6 +216,7 @@ class BlogController extends Controller
         $obj->media_file_json=$multipleDataJson;
         $obj->tagged=$input['tagged'];
         $obj->user_id=$userID;
+        $obj->category_id=$categoryId;
         if(!empty($input['status']))
         $obj->status=$input['status'];
         else
@@ -234,11 +243,24 @@ class BlogController extends Controller
     public function delete($id)
     {
         $delete = BlogsModel::where('id',$id)->update(['status'=>'deleted']);
-        if($delete){
-            return redirect()->route('blog');
-        }else{
-            return redirect()->route('blog');
+
+        return redirect()->route('blog');
+
+    }
+
+    public function blogCategoryAutoComplete(Request $request)
+    {
+        $input = $request->all();
+
+        if (isset($input['search']) && !empty($input['search'])) {
+            $category_qry = CategoryModel::where('name', 'LIKE', '%' . $input['search'] . '%');
+        } else {
+            $category_qry = CategoryModel::where('id', '>', 0);
         }
+        $result = $category_qry->where('parent_category_id','=',0)->select('id','name')->get()->toArray();
+
+
+        return response()->json($result);
     }
 
 

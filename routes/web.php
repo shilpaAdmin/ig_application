@@ -123,6 +123,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('blog', 'BlogController@index')->name('blog');
         Route::get('blog/create', 'BlogController@create')->name('blog.create');
         Route::post('blog/store', 'BlogController@store')->name('blog.store');
+        Route::post('blog/category/autoComplete', 'BlogController@blogCategoryAutoComplete')->name('BlogcategoryAutoComplete');
         Route::get('blog/edit/{id}', 'BlogController@edit')->name('blog.edit');
         Route::post('blog/update/{id}', 'BlogController@update')->name('blog.update');
         Route::get('blog/blogList', 'BlogController@bloglist')->name('datatable.bloglist');
@@ -206,7 +207,11 @@ Route::group(['prefix' => 'admin'], function () {
         //Route::get('city/delete/{id}', 'CityController@delete')->name('city.delete');
 
 
-        Route::get('user/edit/{id}', 'userupdatecontroller@edit')->name('userupdate.edit');
+        //user list
+        Route::get('user', 'UserController@index')->name('user');
+        Route::get('user/userList', 'UserController@userlist')->name('datatable.userList');
+        Route::get('user/delete/{id}', 'UserController@delete')->name('user.delete');
+
     });
 });
 

@@ -47,6 +47,11 @@
                         class="{{ Request::segment(2) === 'blog.create' ? 'active' : '' }} "><i
                             class="mdi mdi-music-note-whole"></i>Blog</a>
                 </li>
+                <li>
+                    <a href="{{ url('admin/user') }}"
+                        class="{{ Request::segment(2) === 'user' ? 'active' : '' }} "><i
+                            class="mdi mdi-music-note-whole"></i>User List</a>
+                </li>
 
 
                 <li>
