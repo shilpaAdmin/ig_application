@@ -13,6 +13,7 @@ class TestimonialModel extends Model
         'designation',
         'image',
         'media',
-        'user_id'
+        'user_id',
+        'status'
     ];
 }

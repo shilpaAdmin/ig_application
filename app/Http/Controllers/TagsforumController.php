@@ -71,8 +71,8 @@ class TagsforumController extends Controller
                 <i class="mdi mdi-dots-vertical"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href=" '.route('tags.edit',$result_obj['id']).' ">Edit Record</a>
-                <a class="dropdown-item" href="'.route('tags.delete',$result_obj['id']).'">Delete Record</a>
+                <a class="dropdown-item" href=" '.route('tagsforum.edit',$result_obj['id']).' ">Edit Record</a>
+                <a class="dropdown-item" href="'.route('tagsforum.delete',$result_obj['id']).'">Delete Record</a>
             </div>';
 
             return $command;
@@ -134,11 +134,11 @@ class TagsforumController extends Controller
 
         if($update)
         {
-            return redirect()->route('tags_forum');
+            return redirect()->route('tagsforum');
         }
         else
         {
-            return redirect()->route('tags_forum');
+            return redirect()->route('tagsforum');
         }
     }
 
