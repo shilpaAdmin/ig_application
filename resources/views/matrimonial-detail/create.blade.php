@@ -54,12 +54,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <h4 class="card-title">Matrimonial Detail</h4>
-                                    <p class="card-title-desc">{{$row['full_name']}}</p>
+                                    <p class="card-title-desc">{{$row[0]['full_name']}}</p>
                                 </div>
                                 <div class="col-md-6 align-self-center text-right">
                                     <p class="card-title-desc"><span class="mat_detail_ac_status">
                                         <?php
-                                          if($row['private']=='Yes')
+                                          if($row[0]['private']=='Yes')
                                           {
                                               echo "Private";
                                           }
@@ -117,7 +117,7 @@
                                                    <div class="mat_detail_title"> Full Name</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['full_name']}}</div>
+                                                <div class="mat_desc">{{$row[0]['full_name']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -128,7 +128,7 @@
                                                    <div class="mat_detail_title"> City</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['city']}}</div>
+                                                <div class="mat_desc">{{$row[0]['city']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -141,7 +141,7 @@
                                                    <div class="mat_detail_title"> Country </div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$countryData[0]['country_name']}}</div>
+                                                {{-- <div class="mat_desc">{{$countryData[0]['country_name']}}</div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -154,7 +154,7 @@
                                                    <div class="mat_detail_title"> Height</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['height']}}</div>
+                                                <div class="mat_desc">{{$row[0]['height']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -167,11 +167,11 @@
                                                 {{-- <div class="mat_desc">{{$row['birth_date']}}</div> --}}
                                                 <div class="mat_desc">
                                                     <?php
-                                                    if($row['birth_date']=='0000-00-00'){
+                                                    if($row[0]['birth_date']=='0000-00-00'){
                                                         echo "N/A";
                                                     }
                                                     else{
-                                                        echo $row['birth_date'];
+                                                        echo $row[0]['birth_date'];
                                                     }
                                                     ?>
                                                 </div>
@@ -186,7 +186,7 @@
                                                    <div class="mat_detail_title"> Age</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['age']}}</div>
+                                                <div class="mat_desc">{{$row[0]['age']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -197,7 +197,7 @@
                                                    <div class="mat_detail_title"> Caste</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['caste']}}</div>
+                                                <div class="mat_desc">{{$row[0]['caste']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,7 +207,7 @@
                                                    <div class="mat_detail_title"> Subcaste</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['subcaste']}}</div>
+                                                <div class="mat_desc">{{$row[0]['subcaste']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -218,7 +218,7 @@
                                                    <div class="mat_detail_title"> Designation</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['designation']}}</div>
+                                                <div class="mat_desc">{{$row[0]['designation']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -229,7 +229,7 @@
                                                    <div class="mat_detail_title"> Other</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['other']}}</div>
+                                                <div class="mat_desc">{{$row[0]['other']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -240,7 +240,7 @@
                                                    <div class="mat_detail_title"> Annual Income</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['annual_income']}}</div>
+                                                <div class="mat_desc">{{$row[0]['annual_income']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -250,7 +250,7 @@
                                                    <div class="mat_detail_title"> Married</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['married']}}</div>
+                                                <div class="mat_desc">{{$row[0]['married']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -260,7 +260,7 @@
                                                    <div class="mat_detail_title"> Address </div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['address']}}</div>
+                                                <div class="mat_desc">{{$row[0]['address']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -271,7 +271,7 @@
                                                    <div class="mat_detail_title"> About</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['about']}}</div>
+                                                <div class="mat_desc">{{$row[0]['about']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -298,7 +298,7 @@
                                                    <div class="mat_detail_title"> Desired Religion </div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['desired_religion']}}</div>
+                                                <div class="mat_desc">{{$row[0]['desired_religion']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -309,7 +309,7 @@
                                                    <div class="mat_detail_title"> Desired Mother Tongue</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['desired_mother_tongue']}}</div>
+                                                <div class="mat_desc">{{$row[0]['desired_mother_tongue']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -319,7 +319,7 @@
                                                    <div class="mat_detail_title"> Desired Age</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['desired_age']}}</div>
+                                                <div class="mat_desc">{{$row[0]['desired_age']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -329,7 +329,7 @@
                                                    <div class="mat_detail_title"> Desired Height</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['desired_height']}}</div>
+                                                <div class="mat_desc">{{$row[0]['desired_height']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -339,7 +339,7 @@
                                                    <div class="mat_detail_title"> Desired Annual Income</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['desired_annual_income']}}</div>
+                                                <div class="mat_desc">{{$row[0]['desired_annual_income']}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -349,7 +349,7 @@
                                                    <div class="mat_detail_title"> Desired Country</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$countryData[0]['desired_country_name']}}</div>
+                                                {{-- <div class="mat_desc">{{$countryData[0]['desired_country_name']}}</div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -359,7 +359,7 @@
                                                    <div class="mat_detail_title"> Desired Marital Status</div>
                                                 </div>
                                                 <div class="col-6">
-                                                <div class="mat_desc">{{$row['desired_marital_status']}}</div>
+                                                <div class="mat_desc">{{$row[0]['desired_marital_status']}}</div>
                                                 </div>
                                             </div>
                                         </div>
