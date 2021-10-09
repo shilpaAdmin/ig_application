@@ -18,14 +18,14 @@
 
                 </li>
 
-                <li class="menu-title">Modules</li>
+                {{-- <li class="menu-title">Modules</li> --}}
 
                 <!-- Quick Guide Sidebar End -->
-                <li>
+                {{-- <li>
                     <a href="{{ url('admin/business') }}"
                         class="{{ Request::segment(2) === 'business.create' ? 'active' : '' }} "><i
                             class="mdi mdi-music-note-whole"></i>Business</a>
-                </li>
+                </li> --}}
 
                 <li class="menu-title">Modules</li>
 
@@ -61,11 +61,11 @@
                             class="mdi mdi-music-note-whole"></i>Matrimonial</a>
                 </li>
 
-                <li>
+                {{-- <li>
                     <a href="{{ url('admin/faq') }}"
                         class="{{ Request::segment(2) === 'faq.create' ? 'active' : '' }} "><i
                             class="mdi mdi-music-note-whole"></i>FAQ</a>
-                </li>
+                </li> --}}
             <li>
                <a href="{{ url('admin/faq') }}"
                   class="{{ Request::segment(2) === 'faq.create' ? 'active' : '' }} ">

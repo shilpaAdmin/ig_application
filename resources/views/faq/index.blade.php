@@ -1,6 +1,6 @@
 @extends('layouts.master') @section('title') FAQ @endsection @section('css')
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}" />
-@endsection @section('content') 
+@endsection @section('content')
 
 <div class="row mb-3" id="">
     <div class="col-md-12">
@@ -75,49 +75,7 @@ $(function() {
         }
     });
 
-    var dt = $('#FaqList').DataTable({
-        destroy: true,
-        processing: true,
-        //serverSide: true,
-        responsive: true,
-        autoWidth: false,
-        "order": [], //Initial no order.
-        "aaSorting": [],
-        rowReorder: true,
-        ajax: {
-            url: "{{ url('/admin/faq/faqList') }}",
-        },
 
-        columns: [
-            {
-                data: 'id',
-                name: 'sequence',
-                orderable:false,
-                searchable: false,
-                targets: 0,
-                visible: false
-            },
-            {
-                data: 'id',
-                name: 'id',
-                orderable:false,
-                searchable: false,
-                targets: 1,
-
-            },
-            {
-                data: 'user_id',
-                name: 'user_id',
-                orderable:true,
-                searchable: true,
-            },
-            "dom-date-asc": function (a, b) {
-                return a < b ? -1 : a > b ? 1 : 0;
-            },
-            "dom-date-desc": function (a, b) {
-                return a < b ? 1 : a > b ? -1 : 0;
-            },
-        });
 
         var dt = $("#FaqList").DataTable({
             destroy: true,
