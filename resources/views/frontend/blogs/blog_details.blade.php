@@ -367,16 +367,33 @@
                                             $imageUrl= URL::asset('assets/frontend/images/img/dd1.jpg');
                                         }
                                     @endphp
-                                    <div class="comment-one__single">
-                                        <div class="comment-one__image">
-                                            <img src="{{ $imageUrl }}" alt="" width="100">
-                                        </div>
-                                        <div class="comment-one__content">
-                                            <h3>{{ isset($comment->name) ? $comment->name:'-'}}</h3>
-                                            <p>{{ isset($comment->message) ? $comment->message :'-'}}</p>
-                                            <a href="javascript:void(0)" class="thm-btn comment-one__btn">Reply</a>
-                                        </div>
+                                    <div class="row ">
+                                        <div class="col-md-12 comment-one__single">
+                                            <div class="comment-one__image">
+                                                <img src="{{ $imageUrl }}" alt="" width="100">
+                                            </div>
+                                            <div class="comment-one__content">
+                                                <h3>{{ isset($comment->name) ? $comment->name:'-'}}</h3>
+                                                <p>{{ isset($comment->message) ? $comment->message :'-'}}</p>
+                                                <a href="javascript:void(0)" class="thm-btn comment-one__btn">Reply</a>
+                                            </div>
+                                         </div>
+
+                                         <div class="col-md-12 mb-5 border_bottom1">
+                                            <form action="" class="contact-one__form">
+                                                <div class="input-group">
+                                                    <textarea name="message" placeholder="Type something here......."></textarea>
+                                                </div>
+                                            </form>
+                                        </div> 
+
+
                                     </div>
+                                     
+                                  
+
+
+
                                 @endforeach
                             </div>
                             <div class="comment-form">

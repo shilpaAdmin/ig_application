@@ -89,16 +89,23 @@
                                             class="pl-3 totalLikes" href="#"> {{$forumComment->likes->count() }} Likes</a> </div>
                                 </div>
         
-                                <div class="row">
+                                 
                                     <div class="col-sm-12 ml-3">
                                         {{ ucwords($forumComment->message) }} <br>
         
                                         <a href="#" class="forum__icon mr-3"> <i class="fas fa-reply"></i> Reply </a>
                                         <a href="#" class="forum__icon comment-likes" data-id="{{$forumComment->id}}" data-forumid="{{$forum->id}}"> <i class="far fa-heart"></i> Like </a>
+
+                                        <form class="contact-one__form">
+                                        <div class="input-group mb-4">
+                                    <textarea name="message" placeholder="Type something here......."></textarea>
+                                </div>
+                                </form>
+
                                     </div>
                                 </div>
         
-                            </div>
+                             
         
                             {{-- comment reply --}}
 
@@ -117,15 +124,20 @@
                                                     <a class="pl-3 totalLikes" href="#" > {{$reply->likes->count() }} Likes</a> </div>
                                             </div>
             
-                                            <div class="row">
+                                            
                                                 <div class="col-sm-12 ml-3">
                                                     {{$reply->message}}<br>
             
                                                     <a href="#" class="forum__icon mr-3"> <i class="fas fa-reply"></i> Reply
                                                     </a>
                                                     <a href="#" class="forum__icon comment-likes" data-id="{{$reply->id}}" data-forumid="{{$forum->id}}"> <i class="far fa-heart"></i> Like </a>
+                                                    <form class="contact-one__form">
+                                                        <div class="input-group mb-4">
+                                                            <textarea name="message" placeholder="Type something here......."></textarea>
+                                                        </div>
+                                                     </form>
                                                 </div>
-                                            </div>
+                                            
             
                                         </div>
             

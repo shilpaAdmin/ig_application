@@ -1475,3 +1475,14 @@
 @media (max-width:425px) and (min-width:321px) {   
   .listings_details_main_image_box {    margin-top: 140px; }
 }
+
+
+@media (max-width: 768px) {
+  .forum_box2 .for_profile2 img {
+      width: 35px  ; 
+      height: 35px  ;
+  }
+}
+
+
+
