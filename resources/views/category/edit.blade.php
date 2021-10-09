@@ -245,7 +245,7 @@
         }
     }
 
-    var str_url = '{{route("categoryAutoComplete")}}';
+    var str_url = '{{url("category/autoComplete")}}';
 
     $('#txtSearchCategory').select2({
     ajax: {

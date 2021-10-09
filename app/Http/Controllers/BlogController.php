@@ -143,7 +143,6 @@ class BlogController extends Controller
             <div class="dropdown-menu">
                 <a class="dropdown-item" href=" '.route('blog.edit',$result_obj['id']).' ">Edit Record</a>
                 <a class="dropdown-item" href="javascript:;" onclick="deleteBlog('.$result_obj['id'].')" >Delete Record</a>
-
             </div>';
             return $command;
         })

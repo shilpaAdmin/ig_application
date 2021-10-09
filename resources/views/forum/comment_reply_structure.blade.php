@@ -15,9 +15,6 @@
 @section('content')
 @php 
    $totalData=count($commentReplyArray);
-   /* echo count($commentReplyArray[1]['reply']);
-   print_r($commentReplyArray[1]['reply']);
-   echo '<pre>';print_r($commentReplyArray);exit;*/
    $outer=ceil($totalData/$recordsPerPage);
    $count=0;
    if($totalData > 0)
@@ -25,10 +22,34 @@
 @endphp
         <div class="accordion" id="accordionExample">       
             @foreach($commentReplyArray as $comment)
+                    
+                @php 
+                    $usercommentimage='';
+                    if(!empty($comment['userimage']))
+                    {
+                        $user_image_path=public_path().'/images/user/'.$comment['userimage'];
+
+                        if(file_exists($user_image_path))
+                        {
+                            $usercommentimage=URL::to('/images/user').'/'.$comment['userimage'];
+                        }
+                        else
+                        {
+                            $usercommentimage=URL::to('/images/').'/img_avatar3.png';
+                        }
+                    }
+                    else
+                    {
+                        $usercommentimage=URL::to('/images/').'/img_avatar3.png';
+                    }
+
+                @endphp
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading_{{$comment['id']}}">
-                        <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{$comment['id']}}" aria-expanded="false" aria-controls="collapse_{{$comment['id']}}">                        <img src="{{URL::to('/images/').'/img_avatar3.png'}}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:40px;">
-                         <h5>{{$comment['comment']}}</h5>
+                        <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{$comment['id']}}" aria-expanded="false" aria-controls="collapse_{{$comment['id']}}">                        
+                        <img src="{{$usercommentimage}}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:40px;">
+                         <h5>{{$comment['username']}}</h5>
+                         <p>{{$comment['comment']}}</p>
                         </button>
                     </h2>
                     <div id="collapse_{{$comment['id']}}" class="accordion-collapse collapse" aria-labelledby="heading_{{$comment['id']}}" data-bs-parent="#accordionExample" style="">
@@ -46,10 +67,32 @@
                                 <ul type='ol'>
                                 @for($i=0;$i<$totalReplys;$i++)
                                     <div class="media p-3">
-                                        <img src="{{URL::to('/images/').'/img_avatar3.png'}}" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:35px;">
+                                        @php 
+                                        $userimage='';
+                                        if(!empty($comment['reply'][$i]['userimage']))
+                                        {
+                                            $user_image_path=public_path().'/images/user/'.$comment['reply'][$i]['userimage'];
+
+                                            if(file_exists($user_image_path))
+                                            {
+                                                $userimage=URL::to('/images/user').'/'.$comment['reply'][$i]['userimage'];
+                                            }
+                                            else
+                                            {
+                                                $userimage=URL::to('/images/').'/img_avatar3.png';
+                                            }
+                                        }
+                                        else
+                                        {
+                                            $userimage=URL::to('/images/').'/img_avatar3.png';
+                                        }
+
+                                        @endphp
+                                        <img src="{{$userimage}}" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
                                         <div class="media-body">
                                             <!--<h4>Jane Doe <small><i>Posted on February 20 2016</i></small></h4>
                                                 <p>Lorem ipsum...</p>-->
+                                            <h4>{{$comment['reply'][$i]['username']}}</h4>
                                             <p>{{$comment['reply'][$i]['comment']}}</p>
                                         </div>
                                     </div> 

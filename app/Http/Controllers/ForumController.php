@@ -160,16 +160,25 @@ class ForumController extends Controller
 
         $skip = (($pageNumber - 1) * $recordsPerPage);
 
-        $commentData = ForumCommentReplyModel::where('forum_id',$forum_id)->where('comment_id',0)->orderBy('comment_id','desc')->skip($skip)->take(5)->get()->toArray();
+        $commentData = ForumCommentReplyModel::where('forum_id',$forum_id)->where('comment_id',0)
+        ->leftJoin('user','forum_comment_reply.user_id','user.id')
+        ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
+        ->skip($skip)->take(5)->get()->toArray();
         
         $commentReplyArray = array();
         foreach ($commentData as $comment)
         {
             $commentId = $comment['id'];
-            $replyData =ForumCommentReplyModel::where('comment_id',$commentId)->where('comment_id','!=',0)->orderBy('id','desc')->get()->toArray();
+            $replyData =ForumCommentReplyModel::where('comment_id',$commentId)->where('comment_id','!=',0)
+            ->leftJoin('user','forum_comment_reply.user_id','user.id')
+            ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
+            ->orderBy('id','desc')->get()->toArray();
+            
             $commentReplyArray[$commentId]['id'] = $commentId;
             $commentReplyArray[$commentId]['comment'] = $comment['message'];
             $commentReplyArray[$commentId]['media'] = $comment['media'];
+            $commentReplyArray[$commentId]['username'] = $comment['username'];
+            $commentReplyArray[$commentId]['userimage'] = $comment['userimage'];
             if(count($replyData) > 0)
             {
                 $j = 0;
@@ -178,10 +187,14 @@ class ForumController extends Controller
                     $replyId = $reply['id'];
                     $replyMessage = $reply['message'];
                     $replyMedia = $reply['media'];
-                    
+                    $replyUsername = $reply['username'];
+                    $replyUserimage = $reply['userimage'];
+
                     $commentReplyArray[$commentId]['reply'][$j]['id'] = $replyId;
                     $commentReplyArray[$commentId]['reply'][$j]['comment'] = $replyMessage;
                     $commentReplyArray[$commentId]['reply'][$j]['media'] = $replyMedia;
+                    $commentReplyArray[$commentId]['reply'][$j]['username'] = $replyUsername;
+                    $commentReplyArray[$commentId]['reply'][$j]['userimage'] = $replyUserimage;
                     $j++;
                 }
             }
