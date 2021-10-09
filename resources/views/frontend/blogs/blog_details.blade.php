@@ -330,7 +330,7 @@
                             <div class="blog-detail__content">
                                 <ul class="list-unstyled blog-detail__meta">
                                     <li><a href="javascript:void(0)"><i class="far fa-user-circle"></i>by {{ isset($blog->user) && isset($blog->user->name) ? $blog->user->name : '-' }}</a></li>
-                                    <li><a href="javascript:void(0)"><i class="far fa-comments"></i>{{$blog->blogComments->count()}} Comments</a>
+                                    <li><a href="javascript:void(0)"><i class="far fa-comments"></i>{{ isset($blog->blogComments)  ?$blog->blogComments->count():0  }} Comments</a>
                                     </li>
                                 </ul>
                                 <div class="blog_detail_title">
@@ -359,7 +359,7 @@
                             </div>
 
                             <div class="comment-one" id="comment-data">
-                                <h3 class="comment-one__title">{{ $blog->blogComments->count() }} Comments</h3>
+                                <h3 class="comment-one__title">{{ isset($blog->blogComments) ? $blog->blogComments->count():0  }} Comments</h3>
                                 @php
                                     $blogCommentsData= $blog->blogComments->sortByDesc('id')->take(5);
                                 @endphp
