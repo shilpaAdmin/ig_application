@@ -302,10 +302,10 @@ class MatrimonialController extends Controller
                     $matrimonial_obj->education_json=$educationJson;
                 }
 
-                
-                //$matrimonial_obj->cityid_or_countryid=;
+                if(isset($))
+                $matrimonial_obj->cityid_or_countryid=;
 
-                //$matrimonial_obj->type_city_or_country=;
+                $matrimonial_obj->type_city_or_country=;
 
                 if($matrimonial_obj->save())
                 {

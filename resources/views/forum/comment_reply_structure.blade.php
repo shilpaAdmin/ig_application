@@ -119,7 +119,7 @@ $timeBefore=timeAgo($forumDetail->created_at);
 
                     <div class="col-lg-11">
                         <span> <a class="forum__profilee" href="#">{{!empty($forumDetail->user['name'])?$forumDetail->user['name']:'N/A'}} </a></span>
-                        <div class="for_hour"> <a class="" href=" #">{{$timeBefore .'njnjnjn'}}</a></div>
+                        <div class="for_hour"> <a class="" href=" #">{{$timeBefore}}</a></div>
                     </div>
                 </div>
 
@@ -171,7 +171,7 @@ $timeBefore=timeAgo($forumDetail->created_at);
 
                 <div class="col-sm-1">
 
-                <a href="#"><i class="far fa-trash-alt deleticonnew deletecomment"></i> </a>
+                <a href="javascript:;"  data-id="{{$comment['id']}}" class="deletecomment"><i class="far fa-trash-alt deleticonnew"></i> </a>
 
                 </div>
                 <div class="row">
@@ -180,7 +180,6 @@ $timeBefore=timeAgo($forumDetail->created_at);
 
                         <a href="#" class="forum__icon mr-3 replayall"> <i class="fas fa-reply"></i> Reply </a>
                         <a href="#" class="forum__icon comment-likes mt-3" data-id="{{$comment['id']}}" data-forumid="{{$comment['id']}}"> <i class="far fa-heart"></i> Like </a>
-                        <a href='javascript:;' data-id="{{$comment['id']}}" class="deletecomment">Remove</a>
                     </div>
                 </div>
 
@@ -208,7 +207,7 @@ $timeBefore=timeAgo($forumDetail->created_at);
                                 <div class="for_hour"> <a class="" href=" #"> {{$replyBeforeTime}}</a></div>
                             </div>
                             <div class="col-sm-1s">
-                            <a href="#"><i class="far fa-trash-alt deleticonnew"></i></a>
+                            <a href="javascript:;" data-id="{{$comment['reply'][$i]['id']}}" class="deletereply"><i class="far fa-trash-alt deleticonnew"></i></a>
                             </div>
 
                             <div class="row">
@@ -218,12 +217,9 @@ $timeBefore=timeAgo($forumDetail->created_at);
                                     <a href="#" class="forum__icon mr-3 replayall"> <i class="fas fa-reply"></i> Reply
                                     </a>
                                     <a href="#" class="forum__icon comment-likes" data-id="{{$comment['reply'][$i]['id']}}" data-forumid="{{$forumDetail->id}}"> <i class="far fa-heart"></i> Like </a>
-                                    <a href='javascript:;' data-id="{{$comment['reply'][$i]['id']}}" class="deletereply">Remove</a>
                                 </div>
 
                                 <div class="col-sm-1">
-                                
-
                                 </div>
                             </div>
 
@@ -278,7 +274,7 @@ $timeBefore=timeAgo($forumDetail->created_at);
                     if(obj.status===true)
                     {
                         swal("Deleted!", "Your Reply has been deleted.", "success");
-                        $this.parent().parent().parent().parent().parent().remove();
+                        $this.parent().parent().parent().parent().remove();
                     }
                     else
                     {
@@ -305,12 +301,12 @@ $timeBefore=timeAgo($forumDetail->created_at);
 
                     if(obj.status===true)
                     {
-                        $this.parent().parent().parent().parent().remove();
-                        swal("Deleted!", "Your Reply has been deleted.", "success");
+                        $this.parent().parent().parent().remove();
+                        swal("Deleted!", "Your comment has been deleted.", "success");
                     }
                     else
                     {
-                        swal("Deleted_Error", "Error while deleting reply. :)", "error");
+                        swal("Deleted_Error", "Error while deleting comment. :)", "error");
                     }
                 },
                 error: function (data, status, xhr) {
