@@ -170,7 +170,10 @@ class DashboardController extends Controller
                 
                 $mediaFiles=array();
                 
+                if(!empty($mediaArray))
                 $totalMedias=count($mediaArray);
+                else
+                $totalMedias=0;
 
                 if($totalMedias > 0)
                 {
@@ -267,7 +270,7 @@ class DashboardController extends Controller
                 $forum_id=$forumsData[$i]['id'];
 
                 $forumComment=ForumCommentReplyModel::latest()->where('forum_id',$forum_id)
-                ->where('comment_id',0)->get()->toArray();
+                ->where('comment_id',0)->where('is_deleted',0)->get()->toArray();
 
                 $forumArray['List'][$i]['TotalComments']=strval(count($forumComment));
 
@@ -302,6 +305,7 @@ class DashboardController extends Controller
                     $forumArray['List'][$i]['CommentImage2']='';
                 }
 
+                $forumArray['List'][$i]['TelegramLink']=!empty($forumsData[$i]['telegram_link'])?$forumsData[$i]['telegram_link']:'';
                 $forumArray['List'][$i]['Date']=isset($forumsData[$i]['created_at'])?date('d-m-Y',strtotime($forumsData[$i]['created_at'])):'';
                 $forumArray['List'][$i]['Time']=isset($forumsData[$i]['created_at'])?date('H:i:s',strtotime($forumsData[$i]['created_at'])):'';
             }
@@ -811,7 +815,8 @@ class DashboardController extends Controller
 
                 $forum_id=$fetchAllForumData[$i]['id'];
 
-                $forumComment=ForumCommentReplyModel::latest()->where('forum_id',$forum_id)
+                $forumComment=ForumCommentReplyModel::where('forum_id',$forum_id)
+                ->where('is_deleted',0)
                 ->where('comment_id',0)->get()->toArray();
 
                 $forumArray['List'][$i]['TotalComments']=strval(count($forumComment));
@@ -847,6 +852,7 @@ class DashboardController extends Controller
                     $forumArray['List'][$i]['CommentImage2']='';
                 }
 
+                $forumArray['List'][$i]['TelegramLink']=!empty($fetchAllForumData[$i]['telegram_link'])?$fetchAllForumData[$i]['telegram_link']:'';
                 $forumArray['List'][$i]['Date']=isset($fetchAllForumData[$i]['created_at'])?date('d-m-Y',strtotime($fetchAllForumData[$i]['created_at'])):'';
                 $forumArray['List'][$i]['Time']=isset($fetchAllForumData[$i]['created_at'])?date('H:i:s',strtotime($fetchAllForumData[$i]['created_at'])):'';
             }
@@ -915,7 +921,7 @@ class DashboardController extends Controller
         }
         else
         {
-            $blogsData=FAQModel::all();
+            $blogsData=BlogsModel::all();
         }
 
         $totalBlogs=count($blogsData);

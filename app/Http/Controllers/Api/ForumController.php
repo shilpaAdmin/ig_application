@@ -64,11 +64,21 @@ class ForumController extends Controller
         if(isset($input['Id']) && !empty($input['Id']))
         {
             $forumObject=ForumModel::find($input['Id']);
+
+            if(isset($input['Question']) && !empty($input['Question']))
             $forumObject->question=$input['Question'];
+
+            if(isset($input['Description']) && !empty($input['Description']))
             $forumObject->description=$input['Description'];
+
+            if(isset($input['RegisterId']) && !empty($input['RegisterId']))
             $forumObject->user_id=$input['RegisterId'];
+
+            if(isset($input['URL']) && !empty($input['URL']))
             $forumObject->url=!empty($input['URL'])?$input['URL']:'';
 
+            if(isset($input['TelegramLink']) && !empty($input['TelegramLink']))
+            $forumObject->telegram_link=!empty($input['TelegramLink'])?$input['TelegramLink']:'';
 
             if($forumObject->save())
             {
@@ -82,10 +92,11 @@ class ForumController extends Controller
         else
         {
             $forumObject=new ForumModel;
-            $forumObject->question=$input['Question'];
-            $forumObject->description=$input['Description'];
-            $forumObject->user_id=$input['RegisterId'];
+            $forumObject->question=!empty($input['Question'])?$input['Question']:'';
+            $forumObject->description=!empty($input['Description'])?$input['Description']:'';
+            $forumObject->user_id=!empty($input['RegisterId'])?$input['RegisterId']:'';
             $forumObject->url=!empty($input['URL'])?$input['URL']:'';
+            $forumObject->telegram_link=!empty($input['TelegramLink'])?$input['TelegramLink']:'';
 
             if($forumObject->save())
             {
@@ -200,6 +211,7 @@ class ForumController extends Controller
                     $dataArray['List'][$i]['CommentImage2']='';
                 }
 
+                $dataArray['List'][$i]['TelegramLink']=!empty($fetchAllForumData[$i]['telegram_link'])?$fetchAllForumData[$i]['telegram_link']:'';
                 $dataArray['List'][$i]['Date']=isset($fetchAllForumData[$i]['created_at'])?date('d-m-Y',strtotime($fetchAllForumData[$i]['created_at'])):'';
                 $dataArray['List'][$i]['Time']=isset($fetchAllForumData[$i]['created_at'])?date('H:i:s',strtotime($fetchAllForumData[$i]['created_at'])):'';
             }
@@ -281,6 +293,7 @@ class ForumController extends Controller
             $dataArray['URL']=!empty($forumModel[0]['url'])?$forumModel[0]['url']:'';
             $dataArray['Question']=!empty($forumModel[0]['question'])?$forumModel[0]['question']:'';
             $dataArray['Description']=!empty($forumModel[0]['description'])?$forumModel[0]['description']:'';
+            $dataArray['TelegramLink']=!empty($forumModel[0]['telegram_link'])?$forumModel[0]['telegram_link']:'';
         }
 
         //if data found
@@ -302,7 +315,7 @@ class ForumController extends Controller
                     $dataArray['Comment'][$i]['Media']=!empty($forum[$i]['media'])?URL::to('/images/comment_media').'/'.$forum[$i]['media']:'';
 
                     $total_likes=ForumCommentReplyLikesModel::where('is_like',1)->where('forum_id',$input['ForumId'])
-                    ->where('comment_or_reply_id',$forum[$i]['id'])->count();
+                    ->where('comment_or_reply_id',$forum[$i]['id'])->where('is_deleted',0)->count();
 
                     $no_of_likes=0;
                     if($total_likes!=0)
@@ -323,6 +336,7 @@ class ForumController extends Controller
 
                     $user_like_obj=ForumCommentReplyLikesModel::where('forum_id',$input['ForumId'])
                     ->where('comment_or_reply_id',$forum[$i]['id'])->where('user_id',$userCommentId)
+                    ->where('is_deleted',0)
                     ->select('is_like')->first();
 
                     $is_like='';
@@ -360,7 +374,7 @@ class ForumController extends Controller
                             $dataArray['Comment'][$i]['Reply'][$j]['Media']=!empty($replyData[$j]['media'])?URL::to('/images/reply_media').'/'.$replyData[$j]['media']:'';
 
                             $total_likes_reply=ForumCommentReplyLikesModel::where('is_like',1)->where('forum_id',$input['ForumId'])
-                            ->where('comment_or_reply_id',$replyData[$j]['id'])->count();
+                            ->where('comment_or_reply_id',$replyData[$j]['id'])->where('is_deleted',0)->count();
 
                             $no_of_likes_reply=0;
                             if($total_likes_reply!=0)
@@ -376,7 +390,8 @@ class ForumController extends Controller
                             }
 
                             $user_like_obj=ForumCommentReplyLikesModel::where('forum_id',$input['ForumId'])
-                            ->where('comment_or_reply_id',$replyData[$j]['id'])->where('user_id',$userReplyId)->select('is_like')->first();
+                            ->where('comment_or_reply_id',$replyData[$j]['id'])->where('is_deleted',0)
+                            ->where('user_id',$userReplyId)->select('is_like')->first();
 
                             $is_like='';
 

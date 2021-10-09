@@ -61,7 +61,10 @@ class BlogController extends Controller
                 
                 $mediaFiles=array();
                 
+                if(!empty($mediaArray))
                 $totalMedias=count($mediaArray);
+                else
+                $totalMedias=0;
 
                 if($totalMedias > 0)
                 {
@@ -229,7 +232,7 @@ class BlogController extends Controller
                     $dataArray['Comment'][$i]['Media']=$media_image;
 
                     $total_likes=BlogsCommentReplyLikesModel::where('is_like',1)->where('blog_id',$input['BlogId'])
-                    ->where('comment_or_reply_id',$blog_comments[$i]['id'])->count();
+                    ->where('comment_or_reply_id',$blog_comments[$i]['id'])->where('is_deleted',0)->count();
 
                     $no_of_likes=0;
                     if($total_likes!=0)
@@ -246,7 +249,8 @@ class BlogController extends Controller
                     }
 
                     $user_like_obj=BlogsCommentReplyLikesModel::where('blog_id',$input['BlogId'])
-                            ->where('comment_or_reply_id',$blog_comments[$i]['id'])->where('user_id',$userCommentId)->select('is_like')->first();
+                            ->where('comment_or_reply_id',$blog_comments[$i]['id'])
+                            ->where('is_deleted',0)->where('user_id',$userCommentId)->select('is_like')->first();
                             
                     $is_like='';
                     
@@ -301,7 +305,8 @@ class BlogController extends Controller
                             $dataArray['Comment'][$i]['Reply'][$j]['Media']=!empty($replyData[$j]['media'])?URL::to('/images/blogs/blog_reply_media').'/'.$replyData[$j]['media']:'';
                             
                             $total_likes_reply=BlogsCommentReplyLikesModel::where('is_like',1)->where('blog_id',$input['BlogId'])
-                            ->where('comment_or_reply_id',$replyData[$j]['id'])->count();
+                            ->where('comment_or_reply_id',$replyData[$j]['id'])->where('is_deleted',0)
+                            ->count();
 
                             $no_of_likes_reply=0;
                             if($total_likes_reply!=0)
@@ -317,7 +322,8 @@ class BlogController extends Controller
                             }
 
                             $user_like_obj=BlogsCommentReplyLikesModel::where('blog_id',$input['BlogId'])->where('is_deleted',0)
-                            ->where('comment_or_reply_id',$replyData[$j]['id'])->where('user_id',$userReplyId)->select('is_like')->first();
+                            ->where('comment_or_reply_id',$replyData[$j]['id'])->where('is_deleted',0)
+                            ->where('user_id',$userReplyId)->select('is_like')->first();
                             
                             $is_like='';
 

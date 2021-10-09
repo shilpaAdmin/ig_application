@@ -64,6 +64,8 @@ class AdvertisementController extends Controller
         $obj->start_date=$start_date;
         $obj->end_date=$end_date;
         $obj->url=$input['url'];
+        $obj->cityid_or_countryid=1;
+        $obj->type_city_or_country='country';
 
         if($file = $request->hasFile('media'))
         {

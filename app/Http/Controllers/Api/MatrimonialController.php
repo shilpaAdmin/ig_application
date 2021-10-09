@@ -8,8 +8,9 @@ use App\Http\Model\MatrimonialEducationModel;
 use App\Http\Model\MatrimonialMediaModel;
 use App\Http\Model\CountrysModel;
 use App\Http\Model\ConnectNowModel;
-
 use App\User;
+
+use App\Http\Traits\UserLocationDetailTrait;
 
 use URL;
 use Illuminate\Http\Request;
@@ -17,6 +18,8 @@ use Exception;
 
 class MatrimonialController extends Controller
 {
+    use UserLocationDetailTrait;
+
     public function AddUpdateMatrimonial(Request $request)
     {
         $input=$request->all();
@@ -32,7 +35,6 @@ class MatrimonialController extends Controller
 		}
 
         $status=$statusmessage='';
-
         
         try
         {   
@@ -177,13 +179,10 @@ class MatrimonialController extends Controller
             }
             else
             {
-                //$matrimonial_obj=new MatrimonialModel;
-                $insertArray=array();
                 $matrimonial_obj=new MatrimonialModel;
 
                 if(isset($input['RegisterId']))
                 $matrimonial_obj->user_id=$input['RegisterId'];
-                //$insertArray[]=array('user_id'=>$input['RegisterId']);
 
                 if(isset($input['FullName']))
                 $matrimonial_obj->full_name=$input['FullName'];
@@ -302,6 +301,11 @@ class MatrimonialController extends Controller
                     
                     $matrimonial_obj->education_json=$educationJson;
                 }
+
+                
+                //$matrimonial_obj->cityid_or_countryid=;
+
+                //$matrimonial_obj->type_city_or_country=;
 
                 if($matrimonial_obj->save())
                 {

@@ -118,9 +118,16 @@ class AdvertisementController extends Controller
         else
         {
             $locationData=$this->getUserLocationDetail($input['RegisterId']);
-            
-            $result=AdvertisementModel::create([
-            'name'=>$input['Name'],
+
+            $LocationType=$cityCountryId='';
+
+            if($locationData!==null)
+            {
+                $cityCountryId=$locationData->location_id;
+                $LocationType=$locationData->location_type;
+            }
+
+            $dataArray=['name'=>$input['Name'],
             'user_id'=>$input['RegisterId'],
             'category_id'=>$input['CategoryId'],
             'description'=>!empty($input['Description'])?$input['Description']:NULL,
@@ -128,8 +135,23 @@ class AdvertisementController extends Controller
             'end_date'=>!empty($input['EndDate'])?date('Y-m-d',strtotime($input['EndDate'])):NULL,
             'url'=>!empty($input['URL'])?$input['URL']:NULL,
             'media'=>!empty($imageName)?$imageName:NULL,
-            'continously'=>!empty($input['Continously'])?$input['Continously']:NULL
-            ]);
+            'continously'=>!empty($input['Continously'])?$input['Continously']:NULL];
+            
+            /*if(isset($locationData->location_id))
+            {
+                $dataArray[0]['']=$locationData->location_id;
+            }
+
+            if(isset($locationData->location_id))
+            {
+                $dataArray[0]['']='';
+            }
+            
+            array_push($dataArray,['cityid_or_countryid'=>$cityCountryId,
+            'type_city_or_country'=>$LocationType]);
+            */
+
+            $result=AdvertisementModel::create($dataArray);
             
                 /*$emailBody='<!DOCTYPE html>
                 <html lang="en">
