@@ -10,10 +10,10 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <!-- <li class="menu-title">Menu</li> -->
                 <li>
-                    <a href="{{ url('') }}" class="waves-effect">
+                    <a href="{{ url('/admin/dashboard') }}" class="waves-effect">
                         <i class="bx bx-home-circle"></i>
 
-                        <span>Dashboards</span>
+                        <span>Dashboard</span>
                     </a>
 
                 </li>
@@ -30,13 +30,13 @@
                 <li class="menu-title">Modules</li>
 
                 <li>
-                    {{-- <a href="{{ url('admin/business') }}"
+                        <a href="{{ url('admin/business') }}"
                         class="{{ Request::segment(2) === 'business.create' ? 'active' : '' }} "><i
-                        class="has-arrow waves-effect"></i>Business</a> --}}
+                        class="bx bx-check-double"></i><span>Business</span></a>
 
                         <a href="javascript: void(0);" class="has-arrow waves-effect ">
                             <i class="bx bx-check-double"></i>
-                            <span>Business</span>
+                            <span>Business Sub-Menus</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
                             <?php
@@ -58,7 +58,7 @@
                 <li>
                     <a href="{{ url('admin/matrimonial') }}"
                         class="{{ Request::segment(2) === 'matrimonial.create' ? 'active' : '' }} "><i
-                            class="mdi mdi-music-note-whole"></i>Matrimonial</a>
+                            class="mdi mdi-music-note-whole"></i><span>Matrimonial</span></a>
                 </li>
 
                 {{-- <li>
@@ -74,7 +74,7 @@
             <li>
                <a href="{{ url('admin/forum') }}"
                   class="{{ Request::segment(2) === 'forum.create' ? 'active' : '' }} ">
-				  <i class="bx bx-file"></i><span>Fourm</span></a>
+				  <i class="bx bx-file"></i><span>Forum</span></a>
             </li>
             <li>
                <a href="{{ url('admin/blog') }}"
