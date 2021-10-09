@@ -7,14 +7,14 @@ use App\Http\Requests\CategoryRequest;
 use DataTables;
 
 use App\Http\Model\CategoryModel;
+use App\Http\Model\BusinessModel;
+
 use Auth;
 
 class CategoryController extends Controller
 {
     var $counter = 1;
 
-
-    var $counter = 1;
 
     /**
      * Create a new controller instance.
@@ -103,15 +103,6 @@ class CategoryController extends Controller
     {
         $result_obj = CategoryModel::where('status','!=','deleted')->get();
         return DataTables::of($result_obj)
-<<<<<<< HEAD
-        ->addColumn('id', function ($result_obj) {
-            $counters = $this->counter++;
-            $id = '<div><span>' . $counters . '</span></div>';
-            return $id;
-        })
-=======
-
->>>>>>> frontend_08
         ->addColumn('description_td',function($result_obj){
             $status = '';
             if($result_obj->description=='')
@@ -305,7 +296,7 @@ class CategoryController extends Controller
 
         return DataTables::of($result_obj)->addColumn('applicant',function($result_obj){
             $applicant = '';
-            return '<a href="javascript:;" onclick="openSubCategoryBusinessDetail('.$result_obj['id'].')" class="undar_line desc" id="'.$result_obj['id'].'" data-toggle="modal" data-target=".bs-example-modal-center" class="btn btn-primary waves-effect btn-label waves-light">Applicant</a>';
+            return '<a href="javascript:;" onclick="openSubCategoryBusinessDetail('.$result_obj['id'].')" class="undar_line desc" id="'.$result_obj['id'].'" data-toggle="modal" data-target=".bs-example-modal-center" class="btn btn-primary waves-effect btn-label waves-light">Business Details</a>';
         })
         ->addColumn('id', function ($result_obj)
         {
@@ -350,6 +341,85 @@ class CategoryController extends Controller
 
 
         ->rawColumns(['name','description','resume_cv','media_file','status_td','applicant','id'])
+        ->make(true);
+    }
+
+    public function subCategoryList(Request $request,$id)
+    {
+        $subCategoryData = CategoryModel ::where('status','Active')->where('id',$id)->get()->toArray();
+        // dd($subCategoryData);
+
+        return view('category.subcategory_detail_applicant',compact('subCategoryData'));
+
+    }
+
+    public function businessListapplicant(Request $request)
+    {
+        $input = $request->all();
+        $result_obj = BusinessModel::where('status','!=','deleted')->where('category_id',$input['id'])
+        ->with('categories')->orderBy('id','DESC')->get();
+        return DataTables::of($result_obj)
+
+        ->addColumn('DT_RowId', function ($result_obj)
+        {
+            return 'row_'.$result_obj->id;
+        })
+        ->addColumn('description_td',function($result_obj){
+            $description = '';
+            if($result_obj->description=='')
+            $description.='<span class="badge badge-pill badge-soft-success font-size-12">'.ucwords($result_obj->status).'</span>';
+            else
+            $description.='<span class="badge badge-pill badge-soft-danger font-size-12">'.ucwords($result_obj->status).'</span>';
+            return $description;
+        })
+        ->addColumn('type_td',function($result_obj){
+            $type_td = '';
+            if($result_obj->type=='product')
+            $type_td.='<span class="badge badge-pill badge-soft-success font-size-12"> Product</span>';
+            else
+            $type_td.='<span class="badge badge-pill badge-soft-warning font-size-12"> Service </span>';
+            return $type_td;
+        })
+        ->addColumn('category_td',function($result_obj){
+            $category_td = '';
+            if(!empty($result_obj->categories['name']))
+            $category_td=$result_obj->categories['name'];
+            else
+            $category_td='N/A';
+            return $category_td;
+        })
+        ->addColumn('status_td',function($result_obj){
+            $status = '';
+            if($result_obj->status=='active')
+            $status.='<span class="badge badge-pill badge-soft-success font-size-12">'.ucwords($result_obj->status).'</span>';
+            else
+            $status.='<span class="badge badge-pill badge-soft-danger font-size-12">'.ucwords($result_obj->status).'</span>';
+            return $status;
+        })->addColumn('command',function($result_obj){
+            $command = '';
+
+            $command.='<div class="btn-group dropleft">
+            <button type="button"
+                class="btn dropdown-toggle dropdown-toggle-split btn-sm three_part_saction"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="mdi mdi-dots-vertical"></i>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href=" '.route('business.edit',$result_obj['id']).' ">Edit Record</a>
+
+                <a class="dropdown-item" href="'.route('business.delete',$result_obj['id']).'">Delete Record</a>
+                <a class="dropdown-item" href="'.url('admin/business/detail/'.$result_obj['id']).'">Detail</a>
+            </div>';
+
+            return $command;
+        })->addColumn('name_td',function($result_obj){
+            $name = '';
+
+            $name.='<td><a href=" '.route('business.detailview',$result_obj['id']).' " >'.$result_obj['name'].'</a></td>';
+
+            return $name;
+        })
+        ->rawColumns(['DT_RowId','status_td','command','image_src','type_td','name_td'])
         ->make(true);
     }
 

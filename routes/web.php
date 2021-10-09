@@ -52,7 +52,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('subCategoryData/{id}', 'CategoryController@subCategoryData')->middleware('activity')->name('subCategoryList');
     Route::get('subCategoryList', 'CategoryController@subCategoryDataList')->name('subCategoryDataList');
 
-    Route::get('/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
+    // Route::get('/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
+
+    Route::get('category/subCategoryList/{id}', 'CategoryController@subCategoryList')->name('category.subcategoryList');
+
+    Route::get('business/datatableList_applicant', 'CategoryController@businessListapplicant')->name('businessListapplicant');
+
+
 
 
 
@@ -70,6 +76,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('business/detailview/{id}', 'BusinessController@detailview')->name('business.detailview');
         Route::get('business/detail/{id}', 'BusinessController@businessdetail')->name('businessdetail');
         Route::get('business/approve/{id}', 'BusinessController@approveStatus')->name('business.approve');
+
+
+
 
 
 
@@ -279,7 +288,7 @@ Route::namespace('Frontend')->group(function () {
     // Faq
     Route::get('/faq','FaqController@faqDetails')->name('faq.details');
 
-    // blogs 
+    // blogs
     Route::get('blog','BlogController@viewBlogList')->name('blog.list');
     Route::get('blog/{slug}','BlogController@viewBlogDetails')->name('blog.detail');
     Route::post('save-blog-comments','BlogController@saveBlogComments')->name('save.blog.comments');

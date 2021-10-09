@@ -180,5 +180,10 @@
             });
     }
 
+    function openSubCategoryBusinessDetail(id)
+    {
+        window.location.href = "/admin/category/subCategoryList/" + id;
+    }
+
 </script>
 @endsection
