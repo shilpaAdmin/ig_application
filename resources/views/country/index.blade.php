@@ -105,12 +105,10 @@ $(function() {
             {
                 data: 'name',
                 name: 'name',
-                searchable: false,
             },
             {
                 data: 'contact_number',
                 name: 'contact_number',
-                orderable:false,
             },
             {
                 data: 'status_td',

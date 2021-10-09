@@ -31,6 +31,7 @@
                         <table id="TagsList" class="table">
                             <thead class="thead-light">
                                 <tr>
+                                    {{-- <th>Sequence</th> --}}
                                     <th></th>
                                     <th>#</th>
                                     <th>Id</th>
@@ -89,8 +90,8 @@
                 ajax: {
                     url: "{{ route('datatable.tagsList') }}",
                 },
-
-                columns: [{
+                columns: [
+                    {
                         "data": null,
                         defaultContent: ''
                     },
@@ -128,6 +129,13 @@
                         orderable: false
                     }
                 ],
+            //     rowReorder: {
+            //     dataSrc: 'sequence',
+            // },
+            // columnDefs: [{
+            // type: 'dateNonStandard',
+            // targets: -1
+            // }],
                 "columnDefs": [{
                     "targets": 0,
                     "data": "id",

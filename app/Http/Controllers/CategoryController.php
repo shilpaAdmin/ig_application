@@ -11,6 +11,8 @@ use Auth;
 
 class CategoryController extends Controller
 {
+    var $counter = 1;
+
 
     /**
      * Create a new controller instance.
@@ -18,7 +20,7 @@ class CategoryController extends Controller
      * @return void
      */
 
-   
+
     /**
      * Show the application dashboard.
      *
@@ -28,18 +30,18 @@ class CategoryController extends Controller
     {
         return view('category.index');
     }
-    
+
     public function create()
     {
         return view('category.create');
     }
-    
+
     public function store(CategoryRequest $request)
     {
         $input=$request->all();
 
         $category=new CategoryModel;
-        
+
         if($input['type']=='category')
         {
             $parent_category_id=0;
@@ -59,8 +61,8 @@ class CategoryController extends Controller
         $category->status=$input['status'];
         else
         $category->status='inactive';
-        
-        if($file = $request->hasFile('media_file')) 
+
+        if($file = $request->hasFile('media_file'))
         {
             $file = $request->file('media_file') ;
 
@@ -80,7 +82,7 @@ class CategoryController extends Controller
             return redirect( 'setting/category' )->with('error','Category has not been added!');
         }
     }
-    
+
     public function categoryAutoComplete(Request $request)
     {
         $input = $request->all();
@@ -91,15 +93,19 @@ class CategoryController extends Controller
             $category_qry = CategoryModel::where('id', '>', 0);
         }
         $result = $category_qry->select('id', 'name')->where('parent_category_id',0)->get()->toArray();
-        
+
         return response()->json($result);
     }
-    
+
     public function categoryList()
     {
         $result_obj = CategoryModel::where('status','!=','deleted')->get();
         return DataTables::of($result_obj)
-        
+        ->addColumn('id', function ($result_obj) {
+            $counters = $this->counter++;
+            $id = '<div><span>' . $counters . '</span></div>';
+            return $id;
+        })
         ->addColumn('description_td',function($result_obj){
             $status = '';
             if($result_obj->description=='')
@@ -132,7 +138,7 @@ class CategoryController extends Controller
                 $url2=asset("images/categories/image-placeholder.jpg");
                 //$media_file .= '<img src='.$url.' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
 
-                $media_file .='<img src='.$url.' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" 
+                $media_file .='<img src='.$url.' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center"
                 onerror="this.onerror=null;this.src="'.$url2.'";" >';
                 return $media_file;
             }
@@ -160,17 +166,17 @@ class CategoryController extends Controller
 
             return $command;
         })
-        ->rawColumns(['status_td','command','image_src','type_td'])
+        ->rawColumns(['id','status_td','command','image_src','type_td'])
         ->make(true);
     }
-    
+
     public function delete($id)
     {
        // $delete = $this->CountryModel->where('id', $id)->delete();
         $delete = CategoryModel::where('id', $id)->update([
             'status' => 'deleted',
         ]);
-        
+
         if ($delete) {
             return redirect()->route('category');
         } else {
@@ -204,7 +210,7 @@ class CategoryController extends Controller
         {
             $status='inactive';
         }
-        
+
         $updateArray=[
             'name'=>$input['name'],
             'description'=>$input['description'],
@@ -221,8 +227,8 @@ class CategoryController extends Controller
         {
             $updateArray['parent_category_id']=$input['hdnSearchCategoryId'];
         }
-        
-        if($file = $request->hasFile('media_file')) 
+
+        if($file = $request->hasFile('media_file'))
         {
             $file = $request->file('media_file') ;
 
@@ -230,7 +236,7 @@ class CategoryController extends Controller
             $destinationPath = public_path().'/images/categories/' ;
             $file->move($destinationPath,$fileName);
             $updateArray['media_file']= $fileName ;
-        }        
+        }
 
         $updateArray['last_updated_by']=Auth::user()->id;
         // print_r($updateArray);
@@ -238,7 +244,7 @@ class CategoryController extends Controller
         $create = CategoryModel::where('id',$id)->update(
             $updateArray
         );
-        
+
         if($create)
         {
             return redirect()->route('category');
@@ -256,18 +262,18 @@ class CategoryController extends Controller
         $sub_category_data=CategoryModel::where('parent_category_id',$input['categoryId'])->select('id','name')->get()->toArray();
 
         if(count($sub_category_data) > 0 && !empty($sub_category_data))
-        {    
+        {
             return response()->json([
                 'status' => true,
                 'data' => $sub_category_data,
-            ]); 
+            ]);
         }
         else
         {
             return response()->json([
                 'status' => false,
                 'data' => [],
-            ]); 
-        }   
+            ]);
+        }
     }
 }

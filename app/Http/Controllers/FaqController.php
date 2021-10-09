@@ -12,6 +12,7 @@ use Auth;
 
 class FaqController extends Controller
 {
+    var $counter = 1;
 
     /**
      * Create a new controller instance.
@@ -32,40 +33,37 @@ class FaqController extends Controller
 
     public function create()
     {
-        $users=UserModel::where('status','!=','deleted')->pluck('name','id');
+        $users = UserModel::where('status', '!=', 'deleted')->pluck('name', 'id');
 
-        return view('faq.create',compact('users'));
+        return view('faq.create', compact('users'));
     }
 
     public function store(Request $request)
     {
-        $input=$request->all();
+        $input = $request->all();
 
 
         $userID = $request->user_id;
 
-        $obj=new FAQModel();
+        $obj = new FAQModel();
 
-        if(!empty($input['txtSearchTag']))
-        $obj->tags=$input['txtSearchTag'];
+        if (!empty($input['txtSearchTag']))
+            $obj->tags = $input['txtSearchTag'];
 
-        $obj->question=$input['question'];
-        $obj->answer=$input['answer'];
-        $obj->user_id=$userID;
-        if(!empty($input['status']))
-        $obj->status=$input['status'];
+        $obj->question = $input['question'];
+        $obj->answer = $input['answer'];
+        $obj->user_id = $userID;
+        if (!empty($input['status']))
+            $obj->status = $input['status'];
         else
-        $obj->status='inactive';
+            $obj->status = 'inactive';
         $obj->save();
 
-        if($obj)
-        {
-            return redirect('admin/faq')->with('success','Forum has been added successfully!');
-        }
-        else
-        {
-            return redirect( 'admin/faq/create' )->with('error','Forum has not been added!');
-        }
+        if ($obj) {
+                return redirect('admin/faq')->with('success', 'Forum has been added successfully!');
+            } else {
+                return redirect('admin/faq/create')->with('error', 'Forum has not been added!');
+            }
     }
 
 
@@ -86,66 +84,66 @@ class FaqController extends Controller
     public function faqlist()
     {
 
-        $result_obj = FAQModel::where('faq.status', '!=', 'deleted')->leftJoin('user',function ($join)
-        {
+        $result_obj = FAQModel::where('faq.status', '!=', 'deleted')->leftJoin('user', function ($join) {
             $join->on('faq.user_id', '=', 'user.id');
+        })->leftjoin('tag_master', function ($join) {
 
-        })->leftjoin('tag_master',function($join)
-        {
-
-        $join->on('faq.tags', '=', 'tag_master.id');
-
-        })->select('faq.*','tag_master.name as tags')->get();
+            $join->on('faq.tags', '=', 'tag_master.id');
+        })->select('faq.*','user.name as user_id', 'tag_master.name as tags')->get();
 
         return DataTables::of($result_obj)
 
-        ->addColumn('user_id',function($result_obj){
-            $user_id = '';
-            $user_id = $result_obj->user_id;
-            return $user_id;
-        })
-        ->addColumn('question', function ($result_obj)
-        {
-            $question = '';
-            $question = ucwords($result_obj->question);
-            return $question;
-        })
-        ->addColumn('answer',function($result_obj){
-            $answer = '';
-            $answer = $result_obj->answer;
-            return $answer;
-        })
-        ->addColumn('tags',function($result_obj){
-            $tags = '';
-            $tags = $result_obj->tags;
-            return $tags;
-        })
-        ->addColumn('status_td',function($result_obj){
-            $status = '';
-            if($result_obj->status=='active')
-            $status.='<span class="badge badge-pill badge-soft-success font-size-12">'.ucwords($result_obj->status).'</span>';
-            else
-            $status.='<span class="badge badge-pill badge-soft-danger font-size-12">'.ucwords($result_obj->status).'</span>';
-            return $status;
-        })
-        ->addColumn('command',function($result_obj){
-            $command = '';
+            ->addColumn('id', function ($result_obj) {
+                $counters = $this->counter++;
+                $id = '<div><span>' . $counters . '</span></div>';
+                return $id;
+            })
+            ->addColumn('user_id', function ($result_obj) {
+                $user_id = '';
+                $user_id = ucwords($result_obj->user_id);
+                return $user_id;
+            })
+            ->addColumn('question', function ($result_obj) {
+                $question = '';
+                $question = ucwords($result_obj->question);
+                return $question;
+            })
+            ->addColumn('answer', function ($result_obj) {
+                $answer = '';
+                $answer = $result_obj->answer;
+                return $answer;
+            })
+            ->addColumn('tags', function ($result_obj) {
+                $tags = '';
+                $tags = $result_obj->tags;
+                return $tags;
+            })
+            ->addColumn('status_td', function ($result_obj) {
+                $status = '';
+                if ($result_obj->status == 'active')
+                    $status .= '<span class="badge badge-pill badge-soft-success font-size-12">' . ucwords($result_obj->status) . '</span>';
+                else
+                    $status .= '<span class="badge badge-pill badge-soft-danger font-size-12">' . ucwords($result_obj->status) . '</span>';
+                return $status;
+            })
+            ->addColumn('command', function ($result_obj) {
+                $command = '';
 
-            $command.='<div class="btn-group dropleft">
+                $command .= '<div class="btn-group dropleft">
             <button type="button"
                 class="btn dropdown-toggle dropdown-toggle-split btn-sm three_part_saction"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="mdi mdi-dots-vertical"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href=" '.route('faq.edit',$result_obj['id']).' ">Edit Record</a>
-                <a class="dropdown-item" href="javascript:;" onclick="deleteFaq('.$result_obj['id'].')" >Delete Record</a>
+                <a class="dropdown-item" href=" ' . route('faq.edit', $result_obj['id']) . ' ">Edit Record</a>
+                <a class="dropdown-item" href="javascript:;" onclick="deleteFaq(' . $result_obj['id'] . ')" >Delete Record</a>
 
             </div>';
-            return $command;
-        })
-        ->rawColumns(['user_id','question','answer','tags','status_td','command'])
-        ->make(true);
+                return $command;
+            })
+            ->rawColumns(['id', 'user_id', 'question', 'answer', 'tags', 'status_td', 'command'])
+            ->make(true);
     }
 
 
@@ -157,56 +155,50 @@ class FaqController extends Controller
         // $tag_data = TagMasterModel::where('id',$row['tags'])->select('id','name')->first();
         // else
         // $tag_data='';
-        $tagsData = TagMasterModel::where('id',$row['tags'])->select('id','name')->get();
+        $tagsData = TagMasterModel::where('id', $row['tags'])->select('id', 'name')->get();
 
 
-        $users=UserModel::where('status','!=','deleted')->pluck('name','id');
+        $users = UserModel::where('status', '!=', 'deleted')->pluck('name', 'id');
 
-        return view('faq.edit', compact('row','users','tagsData'));
-
+        return view('faq.edit', compact('row', 'users', 'tagsData'));
     }
 
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
 
-        $input=$request->all();
+        $input = $request->all();
 
         $userID = $request->user_id;
 
-        $obj=FAQModel::find($id);
+        $obj = FAQModel::find($id);
 
-        if(!empty($input['txtSearchTag']))
-        $obj->tags=$input['txtSearchTag'];
+        if (!empty($input['txtSearchTag']))
+            $obj->tags = $input['txtSearchTag'];
 
-        $obj->question=$input['question'];
-        $obj->answer=$input['answer'];
-        $obj->user_id=$userID;
-        if(!empty($input['status']))
-        $obj->status=$input['status'];
+        $obj->question = $input['question'];
+        $obj->answer = $input['answer'];
+        $obj->user_id = $userID;
+        if (!empty($input['status']))
+            $obj->status = $input['status'];
         else
-        $obj->status='inactive';
+            $obj->status = 'inactive';
         $obj->save();
 
-        if($obj)
-        {
-            return redirect('admin/faq')->with('success','Forum has been updated successfully!');
-        }
-        else
-        {
-            return redirect( 'admin/faq/create' )->with('error','Forum has not been UPDATE!');
-        }
-
+        if ($obj) {
+                return redirect('admin/faq')->with('success', 'Forum has been updated successfully!');
+            } else {
+                return redirect('admin/faq/create')->with('error', 'Forum has not been UPDATE!');
+            }
     }
 
-    public function delete($id){
-        $delete = FAQModel::where('id',$id)->update(['status'=>'deleted']);
-        if($delete){
+    public function delete($id)
+    {
+        $delete = FAQModel::where('id', $id)->update(['status' => 'deleted']);
+        if ($delete) {
             return redirect()->route('faq');
-        }else{
+        } else {
             return redirect()->route('faq');
         }
     }
-
-
 }

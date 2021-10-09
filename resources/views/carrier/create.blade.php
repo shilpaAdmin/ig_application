@@ -109,7 +109,7 @@
                     <table id="carrierCardList" class="table">
                         <thead class="thead-light">
                             <tr>
-                                <th>#</th>
+                                <th>Sequance</th>
                                 <th>#</th>
                                 <th>Type</th>
                                 <th>Name</th>
@@ -258,14 +258,11 @@
                 },
                 {
                     data: 'name',
-                    name: 'name',
-                    orderable: false,
+                    name: 'name'
                 },
                 {
                     data: 'description',
                     name: 'description',
-                    searchable: false,
-                    orderable: false,
                 },
                 {
                     data: 'applicant',

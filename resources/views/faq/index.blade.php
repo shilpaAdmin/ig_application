@@ -27,8 +27,8 @@
                             <table id="FaqList" class="table">
                         <thead class="thead-light">
                             <tr>
+                                <th>Sequence</th>
                                 <th>#</th>
-                                <th>Id</th>
                                 <th>User</th>
                                 <th>Question</th>
                                 <th>Answer</th>
@@ -102,7 +102,8 @@ $(function() {
                 name: 'id',
                 orderable:false,
                 searchable: false,
-                targets: 1
+                targets: 1,
+
             },
             {
                 data: 'user_id',
@@ -113,7 +114,6 @@ $(function() {
             {
                 data: 'question',
                 name: 'question',
-
             },
             {
                 data: 'answer',
