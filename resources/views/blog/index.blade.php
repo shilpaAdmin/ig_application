@@ -27,8 +27,9 @@
                             <table id="ForumList" class="table">
                         <thead class="thead-light">
                             <tr>
+                                <th>Sequence</th>
                                 <th>#</th>
-                                <th>Id</th>
+                                {{-- <th>Id</th> --}}
                                 <th>User</th>
                                 <th>Name</th>
                                 <th>Description</th>
@@ -38,7 +39,6 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-
 
                         <tbody>
 
@@ -118,7 +118,6 @@ $(function() {
             {
                 data: 'description',
                 name: 'description',
-                orderable:false,
             },
             {
                 data: 'tagged',

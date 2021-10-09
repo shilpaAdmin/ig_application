@@ -14,6 +14,7 @@ use Auth;
 
 class ForumController extends Controller
 {
+    var $counter = 1;
 
     /**
      * Create a new controller instance.
@@ -156,7 +157,7 @@ class ForumController extends Controller
         $forum_id=$id;
 
         $forumDetail=ForumModel::with(['user'])->where('id',$forum_id)->first();
-        
+
         $sortBy = isset($input['sort_by']) ? $input['sort_by'] : 'DESC';
         $recordsPerPage = isset($input['recordsPerPage']) ? $input['recordsPerPage'] : 5;
         $pageNumber = isset($input['pageNumber']) ? $input['pageNumber'] : 1;
@@ -170,7 +171,7 @@ class ForumController extends Controller
         ->where('forum_comment_reply.is_deleted',0)
         //->skip($skip)->take(5)
         ->get()->toArray();
-        
+
         $commentReplyArray = array();
         foreach ($commentData as $comment)
         {
@@ -312,7 +313,7 @@ class ForumController extends Controller
             echo json_encode(array('status'=>false,'message'=>'Reply not Deleted'));
         }
     }
-    
+
     public function deleteComment(Request $request)
     {
         $input=$request->all();

@@ -33,7 +33,7 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>Id</th>
+                                    {{-- <th>Id</th> --}}
                                     <th>Question</th>
                                     <th>Description</th>
                                     <th>URL</th>
@@ -106,24 +106,24 @@
                         orderable: false,
                         searchable: false,
                         targets: 0,
-                        visible: false
+                        visible: true
                     },
-                    {
-                        data: 'id',
-                        name: 'id',
-                        orderable: false,
-                        searchable: false,
-                        targets: 1
-                    },
+                    // {
+                    //     data: 'id',
+                    //     name: 'id',
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     visible: false,
+                    //     targets: 1
+                    // },
                     {
                         data: 'question_td',
                         name: 'question_td',
-                        searchable: false,
+                        searchable: true,
                     },
                     {
                         data: 'description',
                         name: 'description',
-                        orderable: false,
                     },
                     {
                         data: 'url',

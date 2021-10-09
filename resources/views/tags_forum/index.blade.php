@@ -8,22 +8,42 @@
 
 @section('content')
 
-    @component('common-components.breadcrumb')
-        @slot('title') Tags Forum List @endslot
-        @slot('li_1') <a href="{{ route('tagsforum') }}" class=''>Tags forum</a> @endslot
-        @slot('li_2') List @endslot
+   
 
-    @endcomponent
+    <div class="row mb-3" id="">
+        <div class="col-md-12">
+            <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-12">
+                        <div class="card-body newheadcontanty">
+                            <h5 class="m-0 textforhedermaster">Tags Forum</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-12">
+
+                    <div class="card-body newheadcontanty">
+                    <h4 class="card-title addfourm" style="text-align:right;"><a href="{{ route('tagsforum.create') }}"
+                                class="btn addbtnforall  waves-effect btn-label waves-light"><i
+                                    class="bx bx-plus label-icon"></i>ADD&nbsp;Tags&nbsp;Forum </a></h4>
+                        </div>
+                    
+                           
+                    
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
-                        <h4 class="card-title" style="text-align:right;"><a href="{{ route('tagsforum.create') }}"
-                                class="btn addbtnforall waves-effect btn-label waves-light"><i
-                                    class="bx bx-plus label-icon"></i>ADD
-                                Tags Forum </a></h4><br><br><br>
+                    
 
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">
@@ -33,7 +53,7 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>Id</th>
+                                    {{-- <th>Id</th> --}}
                                     <th>Name</th>
                                     <th>Approve Status</th>
                                     <th>Status</th>
@@ -100,15 +120,15 @@
                         orderable: false,
                         searchable: false,
                         targets: 0,
-                        visible: false
+                        visible: true
                     },
-                    {
+                    /*{
                         data: 'id',
                         name: 'id',
                         orderable: false,
                         searchable: false,
                         targets: 1
-                    },
+                    },*/
                     {
                         data: 'name',
                         name: 'name',
@@ -116,10 +136,14 @@
                     {
                         data: 'is_approve',
                         name: 'is_approve',
+                        orderable: false,
+                        searchable: false,
                     },
                     {
                         data: 'status_td',
-                        name: 'status_td'
+                        name: 'status_td',
+                        orderable: false,
+                        searchable: false,
                     },
                     {
                         data: 'command',

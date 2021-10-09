@@ -10,6 +10,8 @@ use Auth;
 
 class TagsforumController extends Controller
 {
+    var $counter = 1;
+
     public function index(Request $request)
     {
         return view('tags_forum.index');

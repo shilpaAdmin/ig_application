@@ -7,10 +7,14 @@ use App\Http\Requests\CategoryRequest;
 use DataTables;
 
 use App\Http\Model\CategoryModel;
+use App\Http\Model\BusinessModel;
+
 use Auth;
 
 class CategoryController extends Controller
 {
+    var $counter = 1;
+
 
     /**
      * Create a new controller instance.
@@ -18,7 +22,7 @@ class CategoryController extends Controller
      * @return void
      */
 
-   
+
     /**
      * Show the application dashboard.
      *
@@ -28,18 +32,18 @@ class CategoryController extends Controller
     {
         return view('category.index');
     }
-    
+
     public function create()
     {
         return view('category.create');
     }
-    
+
     public function store(CategoryRequest $request)
     {
         $input=$request->all();
 
         $category=new CategoryModel;
-        
+
         if($input['type']=='category')
         {
             $parent_category_id=0;
@@ -59,8 +63,8 @@ class CategoryController extends Controller
         $category->status=$input['status'];
         else
         $category->status='inactive';
-        
-        if($file = $request->hasFile('media_file')) 
+
+        if($file = $request->hasFile('media_file'))
         {
             $file = $request->file('media_file') ;
 
@@ -80,7 +84,7 @@ class CategoryController extends Controller
             return redirect( 'setting/category' )->with('error','Category has not been added!');
         }
     }
-    
+
     public function categoryAutoComplete(Request $request)
     {
         $input = $request->all();
@@ -91,15 +95,14 @@ class CategoryController extends Controller
             $category_qry = CategoryModel::where('id', '>', 0);
         }
         $result = $category_qry->select('id', 'name')->where('parent_category_id',0)->get()->toArray();
-        
+
         return response()->json($result);
     }
-    
+
     public function categoryList()
     {
         $result_obj = CategoryModel::where('status','!=','deleted')->get();
         return DataTables::of($result_obj)
-        
         ->addColumn('description_td',function($result_obj){
             $status = '';
             if($result_obj->description=='')
@@ -132,7 +135,7 @@ class CategoryController extends Controller
                 $url2=asset("images/categories/image-placeholder.jpg");
                 //$media_file .= '<img src='.$url.' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
 
-                $media_file .='<img src='.$url.' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" 
+                $media_file .='<img src='.$url.' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center"
                 onerror="this.onerror=null;this.src="'.$url2.'";" >';
                 return $media_file;
             }
@@ -160,17 +163,17 @@ class CategoryController extends Controller
 
             return $command;
         })
-        ->rawColumns(['status_td','command','image_src','type_td'])
+        ->rawColumns(['id','status_td','command','image_src','type_td'])
         ->make(true);
     }
-    
+
     public function delete($id)
     {
        // $delete = $this->CountryModel->where('id', $id)->delete();
         $delete = CategoryModel::where('id', $id)->update([
             'status' => 'deleted',
         ]);
-        
+
         if ($delete) {
             return redirect()->route('category');
         } else {
@@ -204,7 +207,7 @@ class CategoryController extends Controller
         {
             $status='inactive';
         }
-        
+
         $updateArray=[
             'name'=>$input['name'],
             'description'=>$input['description'],
@@ -221,8 +224,8 @@ class CategoryController extends Controller
         {
             $updateArray['parent_category_id']=$input['hdnSearchCategoryId'];
         }
-        
-        if($file = $request->hasFile('media_file')) 
+
+        if($file = $request->hasFile('media_file'))
         {
             $file = $request->file('media_file') ;
 
@@ -230,7 +233,7 @@ class CategoryController extends Controller
             $destinationPath = public_path().'/images/categories/' ;
             $file->move($destinationPath,$fileName);
             $updateArray['media_file']= $fileName ;
-        }        
+        }
 
         $updateArray['last_updated_by']=Auth::user()->id;
         // print_r($updateArray);
@@ -238,7 +241,7 @@ class CategoryController extends Controller
         $create = CategoryModel::where('id',$id)->update(
             $updateArray
         );
-        
+
         if($create)
         {
             return redirect()->route('category');
@@ -256,18 +259,170 @@ class CategoryController extends Controller
         $sub_category_data=CategoryModel::where('parent_category_id',$input['categoryId'])->select('id','name')->get()->toArray();
 
         if(count($sub_category_data) > 0 && !empty($sub_category_data))
-        {    
+        {
             return response()->json([
                 'status' => true,
                 'data' => $sub_category_data,
-            ]); 
+            ]);
         }
         else
         {
             return response()->json([
                 'status' => false,
                 'data' => [],
-            ]); 
-        }   
+            ]);
+        }
     }
+
+
+    public function subCategoryData($id)
+    {
+       $subCategoryData=CategoryModel::where('id',$id)->get();
+    //    dd($subCategoryData);
+
+        return view('category.sub_category_list',compact('subCategoryData'));
+    }
+
+
+    public function subCategoryDataList(Request $request)
+    {
+
+        $input=$request->all();
+        $result_obj = CategoryModel::where('category.status','!=','Deleted')->where('parent_category_id',$input['id'])->get();
+
+        // echo "<pre>";
+        // print_r($result_obj);
+        // exit;
+
+        return DataTables::of($result_obj)->addColumn('applicant',function($result_obj){
+            $applicant = '';
+            return '<a href="javascript:;" onclick="openSubCategoryBusinessDetail('.$result_obj['id'].')" class="undar_line desc" id="'.$result_obj['id'].'" data-toggle="modal" data-target=".bs-example-modal-center" class="btn btn-primary waves-effect btn-label waves-light">Business Details</a>';
+        })
+        ->addColumn('id', function ($result_obj)
+        {
+            $counters = $this->counter++;
+            $id = '<div><span>'.$counters.'</span></div>';
+            return $id;
+        })->addColumn('name', function ($result_obj)
+        {
+            $name = '';
+            // $full_name = ucwords($result_obj->full_name);
+            $name = ucwords($result_obj->name);
+            return $name;
+        })->addColumn('description', function ($result_obj)
+        {
+            $description = '';
+            $description = ucwords($result_obj->description);
+            return $description;
+        })
+       ->addColumn('media_file', function ($result_obj) {
+                $media_file = '';
+                if ($result_obj->media_file != '' && file_exists(public_path() . '/images/categories/' . $result_obj->media_file)) {
+                        $url = asset("images/categories/$result_obj->media_file");
+
+                        $media_file .= '<img src=' . $url . ' border="0" width="100" height="100" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center">';
+
+                        return $media_file;
+                    } else {
+                        $url2 = asset("images/image-placeholder.jpg");
+                        $media_file .= '<img src=' . $url2 . ' border="0" width="100" height="100" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
+                    }
+                return $media_file;
+            })
+
+        ->addColumn('status_td',function($result_obj){
+            $status = '';
+            if($result_obj->status=='active')
+            $status.='<span class="badge badge-pill badge-soft-success font-size-12">'.ucwords($result_obj->status).'</span>';
+            else
+            $status.='<span class="badge badge-pill badge-soft-danger font-size-12">'.ucwords($result_obj->status).'</span>';
+            return $status;
+        })
+
+
+        ->rawColumns(['name','description','resume_cv','media_file','status_td','applicant','id'])
+        ->make(true);
+    }
+
+    public function subCategoryList(Request $request,$id)
+    {
+        $subCategoryData = CategoryModel ::where('status','Active')->where('id',$id)->get()->toArray();
+        // dd($subCategoryData);
+
+        return view('category.subcategory_detail_applicant',compact('subCategoryData'));
+
+    }
+
+    public function businessListapplicant(Request $request)
+    {
+        $input = $request->all();
+        $result_obj = BusinessModel::where('status','!=','deleted')->where('category_id',$input['id'])
+        ->with('categories')->orderBy('id','DESC')->get();
+        return DataTables::of($result_obj)
+
+        ->addColumn('DT_RowId', function ($result_obj)
+        {
+            return 'row_'.$result_obj->id;
+        })
+        ->addColumn('description_td',function($result_obj){
+            $description = '';
+            if($result_obj->description=='')
+            $description.='<span class="badge badge-pill badge-soft-success font-size-12">'.ucwords($result_obj->status).'</span>';
+            else
+            $description.='<span class="badge badge-pill badge-soft-danger font-size-12">'.ucwords($result_obj->status).'</span>';
+            return $description;
+        })
+        ->addColumn('type_td',function($result_obj){
+            $type_td = '';
+            if($result_obj->type=='product')
+            $type_td.='<span class="badge badge-pill badge-soft-success font-size-12"> Product</span>';
+            else
+            $type_td.='<span class="badge badge-pill badge-soft-warning font-size-12"> Service </span>';
+            return $type_td;
+        })
+        ->addColumn('category_td',function($result_obj){
+            $category_td = '';
+            if(!empty($result_obj->categories['name']))
+            $category_td=$result_obj->categories['name'];
+            else
+            $category_td='N/A';
+            return $category_td;
+        })
+        ->addColumn('status_td',function($result_obj){
+            $status = '';
+            if($result_obj->status=='active')
+            $status.='<span class="badge badge-pill badge-soft-success font-size-12">'.ucwords($result_obj->status).'</span>';
+            else
+            $status.='<span class="badge badge-pill badge-soft-danger font-size-12">'.ucwords($result_obj->status).'</span>';
+            return $status;
+        })->addColumn('command',function($result_obj){
+            $command = '';
+
+            $command.='<div class="btn-group dropleft">
+            <button type="button"
+                class="btn dropdown-toggle dropdown-toggle-split btn-sm three_part_saction"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="mdi mdi-dots-vertical"></i>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href=" '.route('business.edit',$result_obj['id']).' ">Edit Record</a>
+
+                <a class="dropdown-item" href="'.route('business.delete',$result_obj['id']).'">Delete Record</a>
+                <a class="dropdown-item" href="'.url('admin/business/detail/'.$result_obj['id']).'">Detail</a>
+            </div>';
+
+            return $command;
+        })->addColumn('name_td',function($result_obj){
+            $name = '';
+
+            $name.='<td><a href=" '.route('business.detailview',$result_obj['id']).' " >'.$result_obj['name'].'</a></td>';
+
+            return $name;
+        })
+        ->rawColumns(['DT_RowId','status_td','command','image_src','type_td','name_td'])
+        ->make(true);
+    }
+
+
+
 }

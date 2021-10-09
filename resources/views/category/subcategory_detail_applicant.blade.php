@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Matrimonial @endsection
+@section('title') Business @endsection
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css') }}">
@@ -9,8 +9,8 @@
 @section('content')
 
     @component('common-components.breadcrumb')
-        @slot('title') Matrimonial List @endslot
-        @slot('li_1') Matrimonial @endslot
+        @slot('title') Business List @endslot
+        @slot('li_1') <a href="{{ route('business') }}" class=''>Business</a> @endslot
         @slot('li_2') List @endslot
 
     @endcomponent
@@ -20,24 +20,24 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
-                        <h4 class="card-title" style="text-align:right;"><a href="{{ route('matrimonial.create') }}"
+                        <h4 class="card-title" style="text-align:right;"><a href="{{ route('business.create') }}"
                                 class="btn btn-primary waves-effect btn-label waves-light"><i
                                     class="bx bx-plus label-icon"></i>ADD
-                                Matrimonial </a></h4><br><br><br>
+                                Business </a></h4><br><br><br>
 
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">
                         </div>
-                        <table id="matrimonialList" class="table">
+                        <table id="BusinessDataList" class="table">
                             <thead class="thead-light">
                                 <tr>
+                                    {{-- <th>Sequence</th> --}}
                                     <th></th>
                                     <th>#</th>
-                                    {{-- <th>Id</th> --}}
-                                    <th>Full Name</th>
-                                    <th>City</th>
-                                    <th>Married</th>
-                                    <th>Caste</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <th>About</th>
                                     <th>Approve Status</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -45,6 +45,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                             </tbody>
                         </table>
                     </div>
@@ -79,7 +80,9 @@
                 }
             });
 
-            dt = $('#matrimonialList').DataTable({
+            var subCategoryData = {{$subCategoryData[0]['id']}}
+
+            dt = $('#BusinessDataList').DataTable({
                 destroy: true,
                 processing: true,
                 //serverSide: true,
@@ -89,7 +92,9 @@
                 "aaSorting": [],
                 rowReorder: true,
                 ajax: {
-                    url: "{{ url('admin/matrimonial/matrimonialList') }}",
+                    url: "{{ route('businessListapplicant') }}",
+                    data:{id:subCategoryData},
+
                 },
 
                 columns: [{
@@ -102,47 +107,41 @@
                         orderable: false,
                         searchable: false,
                         targets: 0,
-                        // visible: false
+                        visible: true
                     },
-                    // {
-                    //     data: 'id',
-                    //     name: 'id',
-                    //     orderable: false,
-                    //     searchable: false,
-                    //     targets: 1
-                    // },
-                    {
-                        data: 'full_name',
-                        name: 'full_name',
-                    },
-                    {
-                        data: 'city',
-                        name: 'city',
-                        orderable: false,
-                    },
-                    {
-                        data: 'married',
-                        name: 'married',
+                    /*{
+                        data: 'id',
+                        name: 'id',
                         orderable: false,
                         searchable: false,
+                        targets: 1
+                    },*/
+                    {
+                        data: 'name_td',
+                        name: 'name_td',
+                        orderable: false,
                     },
                     {
-                        data: 'caste',
-                        name: 'caste',
-                        orderable: false,
+                        data: 'category_td',
+                        name: 'category_td',
                         searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'type_td',
+                        name: 'type_td'
+                    },
+                    {
+                        data: 'about',
+                        name: 'about',
                     },
                     {
                         data: 'is_approve',
                         name: 'is_approve',
-                        orderable: false,
-                        searchable: false,
                     },
                     {
                         data: 'status_td',
-                        name: 'status_td',
-                        orderable: false,
-                        searchable: false,
+                        name: 'status_td'
                     },
                     {
                         data: 'command',
@@ -151,6 +150,7 @@
                         orderable: false
                     }
                 ],
+
                 "columnDefs": [{
                     "targets": 0,
                     "data": "id",
@@ -177,7 +177,7 @@
                 }
             });
             var data = '';
-            $('#matrimonialList tbody').on('click', 'tr', function() {
+            $('#BusinessDataList tbody').on('click', 'tr', function() {
                 var allCheckboxLength = $('input[name="id[]"]').length;
                 var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
 
@@ -186,18 +186,18 @@
                 } else {
                     $('#selectAllCheckboxes').prop('checked', false);
                 }
-                $('#matrimonialList tbody tr').removeClass('selected');
+                $('#BusinessDataList tbody tr').removeClass('selected');
                 /*get checked checkbox value and check full row from table*/
                 $('input[name="id[]"]:checked').map(function() {
                     var checkedCheckBoxVal = $(this).val();
                     // alert("aa >> "+checkedCheckBoxVal);
-                    $('#matrimonialList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                    $('#BusinessDataList tbody #row_' + checkedCheckBoxVal).addClass('selected');
                     //console.log();
                     data = checkedCheckBoxVal;
                 });
 
                 /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#matrimonialList .selected').length;
+                var checkedRecordCount = $('#BusinessDataList .selected').length;
                 // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
                 if (checkedRecordCount > 0) {
@@ -211,20 +211,20 @@
             $('#selectAllCheckboxes').on('click', function() {
                 if ($('#selectAllCheckboxes').prop('checked')) {
                     // alert("In side if");
-                    $('#matrimonialList input[type="checkbox"]').prop('checked', true);
+                    $('#BusinessDataList input[type="checkbox"]').prop('checked', true);
                 } else {
 
-                    $('#matrimonialList input[type="checkbox"]').prop('checked', false);
+                    $('#BusinessDataList input[type="checkbox"]').prop('checked', false);
                 }
-                $('#matrimonialList tbody tr').removeClass('selected');
+                $('#BusinessDataList tbody tr').removeClass('selected');
                 $('input[name="id[]"]:checked').map(function() {
                     var checkedCheckBoxVal = $(this).val();
                     // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
-                    $('#matrimonialList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                    $('#BusinessDataList tbody #row_' + checkedCheckBoxVal).addClass('selected');
                 });
 
                 /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#matrimonialList .selected').length;
+                var checkedRecordCount = $('#BusinessDataList .selected').length;
                 // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
                 if (checkedRecordCount > 0) {
@@ -234,6 +234,7 @@
                     $("#approveStatusButton").attr("disabled", "disabled");
                 } //end here
             });
+
             $('.dataTables_filter input[type="search"]').css({
                 'width': '350px',
                 'display': 'inline-block'
@@ -257,37 +258,13 @@
                     cell.innerHTML = i + 1;
                 });
             });
-
         });
-
-        function deleteMatrimonial(id) {
-            swal({
-                    title: "Are you sure?",
-                    text: "Delete Matrimonial",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, Delete it!",
-                    cancelButtonText: "No, cancel please!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function(isConfirm) {
-                    if (isConfirm) {
-                        window.location.href = "/matrimonial/delete/" + id;
-
-                    } else {
-                        swal("Cancelled", "Don't worry your data is safe :)", "error");
-                    }
-                });
-        }
-
         $('#approveStatusButton').click(function() {
 
 
             var multipleId = getListIdList();
             var reomveId = multipleId;
-            // alert('inisde');
+            // alert(reomveId);
             swal({
                     title: "Are you sure?",
                     text: "Approve Record",
@@ -301,7 +278,7 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
-                        window.location.href = "/admin/matrimonial/approve/" + reomveId;
+                        window.location.href = "/admin/business/approve/" + reomveId;
                     }
                 });
         });
@@ -321,6 +298,34 @@
             // alert("listId >> "+listId);
             return listId;
         }
+
+
+function deleteBusiness(id)
+{
+    swal({
+        title: "Are you sure?",
+        text: "Delete Business",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Yes, Delete it!",
+        cancelButtonText: "No, cancel please!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+    function(isConfirm)
+    {
+        if (isConfirm)
+        {
+            window.location.href = "admin/business/delete/" + id;
+
+        } else {
+                swal("Cancelled", "Don't worry your data is safe :)", "error");
+        }
+    });
+}
+
+
     </script>
 
 @endsection

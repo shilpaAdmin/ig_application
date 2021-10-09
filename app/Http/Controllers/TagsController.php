@@ -12,6 +12,7 @@ use Auth;
 
 class TagsController extends Controller
 {
+    var $counter = 1;
     public function index(Request $request)
     {
         return view('tags.index');

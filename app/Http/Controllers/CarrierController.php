@@ -78,6 +78,11 @@ class CarrierController extends Controller
 
         return DataTables::of($result_obj)
 
+        ->addColumn('id', function ($result_obj) {
+            $counters = $this->counter++;
+            $id = '<div><span>' . $counters . '</span></div>';
+            return $id;
+        })
         ->addColumn('type', function ($result_obj)
         {
             $type = '';
@@ -151,13 +156,7 @@ class CarrierController extends Controller
 
     public function jobDetail(Request $request,$id)
     {
-
-        // $jobApplyData = JobApplyModel::where('status','Active')->where('career_id',$id)->get()->toArray();
-        // // dd($jobApplyData);
-
         $careerData = CarrierModel ::where('status','Active')->where('id',$id)->get()->toArray();
-        // dd($careerData);
-
         return view('carrier.job_detail_applicant',compact('careerData'));
 
     }
