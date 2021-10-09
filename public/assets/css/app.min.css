@@ -5936,8 +5936,8 @@ z-index: 1;
 {
   background-color: #298541;
   color: white;
- margin-top: 12px;
- margin-right: 20px;
+ 
+
 }
 .addbtnforall:hover
 {
@@ -5966,23 +5966,23 @@ z-index: 1;
 
 
 input#approveStatusButton {
-  color: white;
-  background-color: #298541;
-  border: 1px solid;
+  /* color: white; */
+  /* background-color: #298541; */
+  /* border: 1px solid; */
   padding: 5px 10px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 .tableAction {
   position: absolute;
  
-  margin-top: 19px;
+  margin-top: 8px;
   
 }
 
 div.dataTables_wrapper div.dataTables_filter {
   text-align: right;
-  margin-bottom: 34px;
-  margin-top: 20px;
+  margin-bottom: 16px;
+  margin-top: 5px;
   position: relative;
 }
 
@@ -6000,18 +6000,62 @@ select.custom-select.custom-select-sm.form-control.form-control-sm {
 @media (min-width: 320px) and (max-width: 604px) 
 {
   input.jigar.form-control.form-control-sm {
-    width: 100px !important;
+    width: 149px !important;
     margin-left: -22px !important;
     position: absolute;
-    margin-top: -17px !important;
+    margin-top: -13px !important;
 }
 .bx-search-alt
 {
   display: none;
 }
-div#TagsList_length {
+div#TagsList_lengt {
 
   float: left;
+  margin-top: 26px;
+}
+div#TagforumList_length
+{
+  float: left;
+  margin-top: 26px;
+}
+
+div#TagsList_length
+{
+  float: left;
+  margin-top: 26px;
+}
+
+div#carrierCardList_length
+{
+  float: left;
+  margin-top: 26px;
+}
+
+div#CategoryList_length
+{
+  float: left;
+  margin-top: 26px;
+}
+div#testmonialList_length
+{
+  float: left;
+  margin-top: 26px;
+}
+div#countryList_length
+{
+  float: left;
+  margin-top: 26px;
+}
+div#cityList_length
+{
+  float: left;
+  margin-top: 26px;
+}
+div#AdvertismentList_length 
+{
+  float: left;
+  margin-top: 26px;
 }
 .custom_tabal_saction_part h4.card-title a.btn {
   position: absolute;
@@ -6054,3 +6098,113 @@ div.dataTables_wrapper div.dataTables_filter {
 
 
 /* Hiren css End 08/10/2021 */
+
+
+
+/* HIren css start 09/10/2021 */
+.page-content
+{
+  padding: 86px 0px !important;
+}
+
+.card-title {
+  font-size: 15px;
+  margin: 0 0 0px 0 !important;
+  font-weight: 600;
+}
+
+.mainhedformaster
+{
+  background-color: #c8dfce !important;
+}
+
+.newheadcontanty
+{
+  padding: 10px !important;
+}
+
+.textforhedermaster
+
+{
+  font-size: 22px;
+  margin-top: 5px !important; 
+  
+}
+
+
+@media (min-width: 320px) and (max-width: 604px)
+{
+  .addfourm
+{
+  text-align: center !important;
+}
+.textforhedermaster
+{
+  text-align: center;
+}
+}
+
+table.dataTable td {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  vertical-align: middle;
+}
+
+/*  HIren css end 09/10/2021 */
+
+
+/* / Nehal css start 09/10/2021 / */
+
+.card-title {
+  font-size: 15px;
+  margin: 0 0 0px 0 !important;
+  font-weight: 600;
+}
+.mainhedformaster
+{
+  background-color: #c8dfce !important;
+}
+.newheadcontanty
+{
+  padding: 10px !important;
+}
+.textforhedermaster
+{
+  font-size: 22px;
+  margin-top: 5px !important; 
+  
+}
+.addbtnforall:hover
+{
+  background-color: #298541;
+  color: white;
+  border-color: #298541;
+}
+.addbtnforall:focus
+{
+  background-color: #298541;
+  color: white;
+  border-color: #298541;
+  box-shadow: none;
+}
+.addbtnforall:not(:disabled):not(.disabled):active,
+.addbtnforall:not(:disabled):not(.disabled).active,
+.show > .addbtnforall.dropdown-toggle {
+  background-color: #298541;
+  color: white;
+  border-color: #298541;
+  box-shadow: none !important;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #298541;
+  background-color: #298541;
+}
+
+
+@media (max-width:768px) {
+  .business-btn {
+    margin-bottom: 7px !important;
+  }
+}
+/* / Nehal css end 09/10/2021 / */

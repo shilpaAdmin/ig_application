@@ -85,11 +85,11 @@
                         </li>
                      </ul>
                   </li>
-                  <!-- <li>
+                  <li>
                      <a href="{{ url('admin/legalpages') }}"
                         class="{{ Request::segment(2) === 'legalpages.create' ? 'active' : '' }} ">
 						<i class="mdi mdi-music-note-whole"></i><span>Legal Pages</span></a>
-                  </li> -->
+                  </li>
                </ul>
             </li>
             <li>
@@ -97,15 +97,15 @@
                   class="{{ Request::segment(2) === 'advertisement.create' ? 'active' : '' }} ">
 				  <i class="bx bx-bolt-circle"></i><span>Advertisment</span></a>
             </li>
-            <!-- <li>
+            <li>
                <a href="{{ url('admin/notifications') }}"
                   class="{{ Request::segment(2) === 'notifications.create' ? 'active' : '' }} ">
 				  <i class="bx bx-notification"></i><span>Notifications</span></a>
-            </li> -->
+            </li>
             <li>
-               <a href="{{ url('admin/testimonial') }}"
-                  class="{{ Request::segment(2) === 'testimonial.create' ? 'active' : '' }} ">
-				  <i class="bx bx-user-circle"></i><span>Testimonial</span></a>
+               <a href="{{ url('admin/testmonial') }}"
+                  class="{{ Request::segment(2) === 'testmonial.create' ? 'active' : '' }} ">
+				  <i class="bx bx-user-circle"></i><span>Testmonial</span></a>
             </li>
             <!--<li>
                <a href="javascript: void(0);" class="has-arrow waves-effect">
