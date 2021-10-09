@@ -4,29 +4,34 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/select2/select2.min.css') }}">
 @endsection
-{{-- @section('content')
+<!-- @section('content')
 @component('common-components.breadcrumb')
-@slot('title')  Carrier @endslot
+@slot('title') Carrier @endslot
 @slot('li_1') Carrier @endslot
 @slot('li_2') Add @endslot
-@endcomponent --}}
+@endcomponent -->
 @section('content')
-    <div class="row mb-3" id="" style="background-color: rgb(74, 148, 74)">
+
+
+
+
+    <div class="row mb-3" id="">
         <div class="col-md-12">
-            <div class="card  bg-gray-bg text-white-50 m-0">
+            <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 col-6" style="background-color: rgb(143, 221, 143)">
-                        <div class="card-body card-body-py-3" >
-                            <h5 class="m-0">Carrier List</h5>
+                    <div class="col-md-6 col-sm-6 col-12">
+                        <div class="card-body newheadcontanty">
+                            <h5 class="m-0 textforhedermaster">Carrier List</h5>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-6" style="background-color: rgb(138, 223, 138)">
-                        <div>
-                            <h4 class="card-title" style="text-align:right;"><a href="javascript:void(0);"
-                                    id="addnewsFeedBtn"
-                                    class="btn addbtnforall2 waves-effect btn-label waves-light resetFrom"><i
-                                        class="bx bx-plus label-icon"></i>ADD Carrier</a></h4>
+                    <div class="col-md-6 col-sm-6 col-12">
+
+                    <div class="card-body newheadcontanty">
+                    <h4 class="card-title addfourm" style="text-align:right; padding:0px"><a href="javascript:void(0);" id="addnewsFeedBtn" class="btn addbtnforall waves-effect btn-label waves-light resetFrom"><i class="bx bx-plus label-icon"></i>ADD Carrier</a></h4>
                         </div>
+
+
+
                     </div>
 
                 </div>
@@ -40,8 +45,7 @@
         <div class="col-12">
             <!-- Form start here-->
             <div class="form-group" id="addUpdateFormDivId" style="display: none;">
-                <form class="needs-validation" id="restFrom" action="{{ route('carrierStore') }}" method="post"
-                    novalidate="novalidate">
+                <form class="needs-validation" id="restFrom" action="{{ route('carrierStore')}}" method="post" novalidate="novalidate">
                     @csrf
                     <div class="card">
                         <div class="card-body">
@@ -49,106 +53,102 @@
                             </div>
                             <!--<div class="form-row">-->
                             <div class="">
-                            <div class=" row">
-                                <div class="col-md-8 col-lg-9">
-                                    <div class="row">
+                                <div class="row">
+                                    <div class="col-md-8 col-lg-9">
+                                        <div class="row">
 
-                                        <div class="col-md-4 mb-3">
+                                            <div class="col-md-4 mb-3">
 
-                                            <label for="formrow-firstname-input">Type</label>
-                                            <input type="text" name="type" class="form-control" id="type"
-                                                placeholder="Type" required>
-                                            <div class="invalid-feedback">
-                                                Please provide a Type.
+                                                <label for="formrow-firstname-input">Type</label>
+                                                <input type="text" name="type" class="form-control" id="type" placeholder="Type" required>
+                                                <div class="invalid-feedback">
+                                                    Please provide a Type.
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="formrow-firstname-input">Name</label>
-                                            <input type="text" name="name" class="form-control" id="name"
-                                                placeholder="Name" required>
-                                            <div class="invalid-feedback">
-                                                Please provide a Name.
+                                            <div class="col-md-4 mb-3">
+                                                <label for="formrow-firstname-input">Name</label>
+                                                <input type="text" name="name" class="form-control" id="name" placeholder="Name" required>
+                                                <div class="invalid-feedback">
+                                                    Please provide a Name.
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4 mb-3">
-                                            <label for="formrow-firstname-input">Description</label>
-                                            <input type="text" id="description" name="description"
-                                                class="form-control input-mask countryCodeClass" required
-                                                placeholder="Description">
-                                            <div class="invalid-feedback">
-                                                Please provide a Description.
+                                            <div class="col-md-4 mb-3">
+                                                <label for="formrow-firstname-input">Description</label>
+                                                <input type="text" id="description" name="description" class="form-control input-mask countryCodeClass" required placeholder="Description">
+                                                <div class="invalid-feedback">
+                                                    Please provide a Description.
+                                                </div>
                                             </div>
-                                        </div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="invalidCheck" name="status" value="active" checked>
+                                    <label class="custom-control-label" for="invalidCheck">Active</label>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    <div class="btn_set" style="margin-bottom: 10px;">
+                                        <input type="hidden" id="hdnCarrierId" name="hdnCarrierId">
+                                        <button type="submit" class="btn btn-success waves-effect waves-light">Submit</button>
+                                        {{-- <a href="{{route('identity_card')}}" class="btn btn-danger waves-effect waves-light">CANCEL</a> --}}
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="invalidCheck" name="status"
-                                    value="active" checked>
-                                <label class="custom-control-label" for="invalidCheck">Active</label>
-                            </div>
-                        </div>
-
-                        <div class="row mt-4">
-                            <div class="col-md-3">
-                                <div class="btn_set" style="margin-bottom: 10px;">
-                                    <input type="hidden" id="hdnCarrierId" name="hdnCarrierId">
-                                    <button type="submit" class="btn btn-success waves-effect waves-light">Submit</button>
-                                    {{-- <a href="{{route('identity_card')}}" class="btn btn-danger waves-effect waves-light">CANCEL</a> --}}
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                </form>
             </div>
-            </form>
-        </div>
-        <!-- Form end here-->
+            <!-- Form end here-->
 
 
-        <!-- listing start here-->
-        <div class="card">
+            <!-- listing start here-->
+            <div class="card">
 
-            <div class="card-body custom_tab_part">
-                <div class="table-responsive custom_tabal_saction_part">
+                <div class="card-body custom_tab_part">
+                    <div class="table-responsive custom_tabal_saction_part">
 
-                    <table id="carrierCardList" class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Sequance</th>
-                                <th>#</th>
-                                <th>Type</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Applicant</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                        <table id="carrierCardList" class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>#</th>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Applicant</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            <!-- listing end here-->
         </div>
-        <!-- listing end here-->
     </div>
-    </div>
-@endsection
-@section('script')
 
-    <script src="{{ URL::asset('assets/libs/select2/select2.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/libs/parsleyjs/parsleyjs.min.js') }}"></script>
+    @endsection
+    @section('script')
+
+    <script src="{{ URL::asset('assets/libs/select2/select2.min.js')}}"></script>
+    <script src="{{ URL::asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
 
     <!-- Plugins js -->
-    <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
-    <!--<script src="{{ URL::asset('assets/js/pages/form-advanced.init.js') }}"></script>-->
+    <script src="{{ URL::asset('assets/js/pages/form-validation.init.js')}}"></script>
+    <!--<script src="{{ URL::asset('assets/js/pages/form-advanced.init.js')}}"></script>-->
     <script src="{{ URL::asset('assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
     <!-- form mask init -->
-    <script src="{{ URL::asset('assets/js/pages/form-repeater.int.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/pages/form-repeater.int.js')}}"></script>
 
     <script>
         var assignAspectRatio = 1;
@@ -178,7 +178,7 @@
         //     $(".countryCodeClass").intlTelInput({
         //         preferredCountries: ["IN", "CA"],
         //         separateDialCode: true,
-        //         utilsScript: "{{ URL::asset('assets/js/pages/country_code_source.js') }}",
+        //         utilsScript: "{{ URL::asset('assets/js/pages/country_code_source.js')}}",
         //         geoIpLookup: function(callback) {
         //             $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
         //                 var countryCode = (resp && resp.country) ? resp.country : "";
@@ -266,11 +266,14 @@
                     },
                     {
                         data: 'name',
-                        name: 'name'
+                        name: 'name',
+                        orderable: false,
                     },
                     {
                         data: 'description',
                         name: 'description',
+                        searchable: false,
+                        orderable: false,
                     },
                     {
                         data: 'applicant',
@@ -340,7 +343,7 @@
 
 
         function getEditData(id) {
-            var url = "{{ route('carrieEdit', ':id') }}";
+            var url = "{{route('carrieEdit', ':id')}}";
             $("#hdnCarrierId").val(id);
 
             url = url.replace(":id", id);
@@ -367,7 +370,6 @@
                     $(window).scrollTop(0);
                     $("#addUpdateFormDivId").show();
                     // $("#hdnCarrierId").val(fetchedId);
-
 
                 },
                 error: function(data) {
@@ -412,4 +414,4 @@
             window.location.href = "/admin/carrier/detail/" + id;
         }
     </script>
-@endsection
+    @endsection
