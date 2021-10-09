@@ -10,7 +10,7 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <!-- <li class="menu-title">Menu</li> -->
                 <li>
-                    <a href="{{ url('') }}" class="waves-effect">
+                    <a href="{{ url('/admin/dashboard') }}" class="waves-effect">
                         <i class="bx bx-home-circle"></i>
 
                         <span>Dashboards</span>
@@ -34,8 +34,8 @@
                         class="{{ Request::segment(2) === 'business.create' ? 'active' : '' }} "><i
                         class="has-arrow waves-effect"></i>Business</a> --}}
 
-                        <a href="javascript: void(0);" class="has-arrow waves-effect ">
-                            <i class="bx bx-check-double"></i>
+                        <a href="javascript: void(0);" class="waves-effect ">
+                            <i class="bx bx-briefcase-alt-2"></i>
                             <span>Business</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
@@ -57,8 +57,7 @@
                 </li>
                 <li>
                     <a href="{{ url('admin/matrimonial') }}"
-                        class="{{ Request::segment(2) === 'matrimonial.create' ? 'active' : '' }} "><i
-                            class="mdi mdi-music-note-whole"></i>Matrimonial</a>
+                        class="{{ Request::segment(2) === 'matrimonial.create' ? 'active' : '' }} "><i class="bx bx-doughnut-chart"></i><span>Matrimonial</span></a>
                 </li>
 
                 {{-- <li>
