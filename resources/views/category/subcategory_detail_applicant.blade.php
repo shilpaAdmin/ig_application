@@ -28,13 +28,12 @@
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">
                         </div>
-                        <table id="BusinessList" class="table">
+                        <table id="BusinessDataList" class="table">
                             <thead class="thead-light">
                                 <tr>
-
+                                    {{-- <th>Sequence</th> --}}
                                     <th></th>
                                     <th>#</th>
-                                    {{-- <th>#</th> --}}
                                     <th>Name</th>
                                     <th>Category</th>
                                     <th>Type</th>
@@ -81,7 +80,9 @@
                 }
             });
 
-            dt = $('#BusinessList').DataTable({
+            var subCategoryData = {{$subCategoryData[0]['id']}}
+
+            dt = $('#BusinessDataList').DataTable({
                 destroy: true,
                 processing: true,
                 //serverSide: true,
@@ -91,11 +92,12 @@
                 "aaSorting": [],
                 rowReorder: true,
                 ajax: {
-                    url: "{{ route('datatable.businessList') }}",
+                    url: "{{ route('businessListapplicant') }}",
+                    data:{id:subCategoryData},
+
                 },
 
-                columns: [
-                    {
+                columns: [{
                         "data": null,
                         defaultContent: ''
                     },
@@ -117,6 +119,7 @@
                     {
                         data: 'name_td',
                         name: 'name_td',
+                        orderable: false,
                     },
                     {
                         data: 'category_td',
@@ -166,7 +169,7 @@
                 retrieve: true
             });
             $('table [type="checkbox"]').each(function(i, chk) {
-                // alert(1);
+                //alert(1);
                 if (chk.checked) {
                     alert("Checked!", i, chk);
                 } else {
@@ -174,7 +177,7 @@
                 }
             });
             var data = '';
-            $('#BusinessList tbody').on('click', 'tr', function() {
+            $('#BusinessDataList tbody').on('click', 'tr', function() {
                 var allCheckboxLength = $('input[name="id[]"]').length;
                 var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
 
@@ -183,18 +186,18 @@
                 } else {
                     $('#selectAllCheckboxes').prop('checked', false);
                 }
-                $('#BusinessList tbody tr').removeClass('selected');
+                $('#BusinessDataList tbody tr').removeClass('selected');
                 /*get checked checkbox value and check full row from table*/
                 $('input[name="id[]"]:checked').map(function() {
                     var checkedCheckBoxVal = $(this).val();
                     // alert("aa >> "+checkedCheckBoxVal);
-                    $('#BusinessList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                    $('#BusinessDataList tbody #row_' + checkedCheckBoxVal).addClass('selected');
                     //console.log();
                     data = checkedCheckBoxVal;
                 });
 
                 /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#BusinessList .selected').length;
+                var checkedRecordCount = $('#BusinessDataList .selected').length;
                 // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
                 if (checkedRecordCount > 0) {
@@ -208,20 +211,20 @@
             $('#selectAllCheckboxes').on('click', function() {
                 if ($('#selectAllCheckboxes').prop('checked')) {
                     // alert("In side if");
-                    $('#BusinessList input[type="checkbox"]').prop('checked', true);
+                    $('#BusinessDataList input[type="checkbox"]').prop('checked', true);
                 } else {
 
-                    $('#BusinessList input[type="checkbox"]').prop('checked', false);
+                    $('#BusinessDataList input[type="checkbox"]').prop('checked', false);
                 }
-                $('#BusinessList tbody tr').removeClass('selected');
+                $('#BusinessDataList tbody tr').removeClass('selected');
                 $('input[name="id[]"]:checked').map(function() {
                     var checkedCheckBoxVal = $(this).val();
                     // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
-                    $('#BusinessList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                    $('#BusinessDataList tbody #row_' + checkedCheckBoxVal).addClass('selected');
                 });
 
                 /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#BusinessList .selected').length;
+                var checkedRecordCount = $('#BusinessDataList .selected').length;
                 // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
                 if (checkedRecordCount > 0) {
@@ -257,7 +260,6 @@
             });
         });
         $('#approveStatusButton').click(function() {
-            alert('abc');
 
 
             var multipleId = getListIdList();
@@ -296,6 +298,34 @@
             // alert("listId >> "+listId);
             return listId;
         }
+
+
+function deleteBusiness(id)
+{
+    swal({
+        title: "Are you sure?",
+        text: "Delete Business",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Yes, Delete it!",
+        cancelButtonText: "No, cancel please!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+    function(isConfirm)
+    {
+        if (isConfirm)
+        {
+            window.location.href = "admin/business/delete/" + id;
+
+        } else {
+                swal("Cancelled", "Don't worry your data is safe :)", "error");
+        }
+    });
+}
+
+
     </script>
 
 @endsection

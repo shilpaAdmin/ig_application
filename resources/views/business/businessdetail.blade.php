@@ -412,7 +412,7 @@
                                                         <div>
                                                             {{-- <img src="../../../assets/images/welcome.png" class="imgmedia img-fluid" alt=""> --}}
                                                             @if(isset($attachmentArray) && !empty($attachmentArray))
-                                                            <img  src="{{ URL::asset('images/business_related_person/'.$attachmentArray[$k]['RelatedPersonImage1'])}}"class="imgmedia img-fluid" alt=""/>
+                                                             <img  src="{{ URL::asset('images/business_related_person/'.$attachmentArray[$k]['RelatedPersonImage1'])}}"class="imgmedia img-fluid" alt=""/>
                                                             @endif
                                                         </div>
                                                     </div>

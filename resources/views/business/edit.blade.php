@@ -12,42 +12,37 @@
 @endsection
 
 @section('content')
-    @component('common-components.breadcrumb')
-        @slot('title') Update Business @endslot
-        @slot('li_1') Business @endslot
-        @slot('li_2') Update @endslot
-    @endcomponent
+@component('common-components.breadcrumb')
+@slot('title') Update Business @endslot
+@slot('li_1') Business @endslot
+@slot('li_2') Update @endslot
+@endcomponent
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-2">
-                <div class="card-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    <form class="needs-validation" method="post" enctype="multipart/form-data"
-                        action="{{ route('business.update', $row['id']) }}" onsubmit="checkSubCategoriesChecked()"
-                        novalidate>
-                        @csrf
+<style>
+    @media (max-width:768px) {
+  .business-btn {
+    margin-bottom: 7px !important;
+  }
+}
+    </style>
 
-                        <input type="hidden" value="{{ $row['id'] }}" name="id">
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-2">
+            <div class="card-body">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+                <form class="needs-validation" method="post" enctype="multipart/form-data" action="{{ route('business.update',$row['id']) }}" onsubmit="checkSubCategoriesChecked()" novalidate>
+                    @csrf
 
-                        <div class="form-group">
-                            <div class="row m-0">
-
-                                <div class="form-check mr-2">
-                                    <input class="form-check-input" name="type" type="radio" id="serviceRadio"
-                                        value="service" @if ($row['type'] == 'service') checked @endif>
-                                    <label class="form-check-label" for="serviceRadio">
-                                        Service
-                                    </label>
-                                </div>
+                    <input type="hidden" value="{{ $row['id'] }}" name="id">
 
                                 <div class="form-check mr-2">
                                     <input class="form-check-input" type="radio" name="type" id="productRadio"
@@ -581,11 +576,45 @@
                                     </div>
 
                                 </div>
+                                <div class="col-lg-1 align-self-center">
+                                    <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger business-btn mt-2">
+                                        <i class="bx bx-trash d-block font-size-16"></i>
+                                    </button>
+                                </div>
                             </div>
+                            @endif
+                            @endforeach
+                            @endif
+                        </div>
+                        <button type="button" onclick="addHoursFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light">
+                            <i class="bx bx-plus label-icon"></i>Add New</button>
+                    </div>
 
-                            <div class="col-md-4">
+                    <div class="row mt-3">
+                        <label for="example-text-input" class="col-md-12 col-form-label">
+                            <h4 class="card-title">Related Person Detail : </h4>
+                        </label>
+                    </div>
 
-                                <div>
+                    <div class="repeater">
+                        <div data-repeater-list="related_personal_repeater">
+                            @php
+                            if(!empty($row['related_person_detail_arr']))
+                            $count_person_detail=count($row['related_person_detail_arr']);
+                            else
+                            $count_person_detail=0;
+                            @endphp
+
+                            @if(!empty($row['related_person_detail_arr']) && $count_person_detail > 0)
+
+                            @for($i=0;$i < $count_person_detail;$i++) <div class="row align-items-center">
+                                <div class="col-lg-4">
+                                    <input type="file" class="custom-file-input related_person form-control" name="related_person_old_image[]" id="related_person_image" accept="image/*">
+                                    <input type="hidden" name="related_person_image_files[]" value="{{$row['related_person_detail_arr'][$i]['RelatedPersonImage'.($i+1)]}}">
+                                    <input type="hidden" name="related_person_image_deleted[]">
+                                    <label class="custom-file-label" for="customFile">Image</label>
+                                </div>
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="formrow-firstname-input">Email Id</label>
 
@@ -595,13 +624,97 @@
                                             Please provide a Email Id.
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-lg-3 text-center">
+                                    <img class="imagePreview mb-2" alt="" width="100" height="100" src="{{URL::asset('images/business_related_person/'.$row['related_person_detail_arr'][$i]['RelatedPersonImage'.($i+1)])}}" />
+                                </div>
+                                <div class="col-lg-1 align-self-center">
+                                    <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger business-btn mt-2">
+                                        <i class="bx bx-trash d-block font-size-16"></i>
+                                    </button>
+                                </div>
+                        </div>
+                        @endfor
+                        @endif
+                    </div>
+                    <button type="button" onclick="addRelatedPersonFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
+                        Add New</button>
+            </div>
 
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                    $q = 1;
+                    @endphp
+                    @if (count($attachmentArray) > 0)
 
-                                <div>
+                    @for ($k = 0; $k < count($attachmentArray); $k++) <div class="row align-items-center">
+                        <div class="col-lg-4">
+
+                            <input type="file" class="custom-file-input form-control" id="attachment_files_json" name="group-a[0][media_file_json]" />
+
+                            {{-- <input type="hidden" name="media_file_json_db" value="{{ $attachmentArray[$k] }}"> --}}
+                    {{-- @dd($attachmentArray); --}}
+
+                            <label class="custom-file-label" for="customFile">Image</label>
+                        </div>
+                        <div class="col-lg-2"></div>
+                       <div class="col-lg-4">
+                        <img class="imagePreview2 imgdisplay-blog" width="100" height="100" alt=""
+                                                src=" {{ URL::asset('images/business/' . $attachmentArray[$k]['Media'.($k+1)]) }}" />
+                       </div>
+
+                        <!-- <div class="col-sm-4"></div> -->
+
+                        <div class="col-lg-1 align-self-center">
+                            <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger business-btn mt-2">
+                                <i class="bx bx-trash d-block font-size-16"></i>
+                            </button>
+                        </div>
+                </div>
+                @endfor
+                @endif
+            </div>
+            {{-- <button type="button" onclick="addMediaFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
+                Add New</button> --}}
+        </div>
+            <button type="button" onclick="addMediaFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
+                Add New</button>
+        </div>
+        <div class="row mt-3">
+            <label for="example-text-input" class="col-md-12 col-form-label">
+                <h4 class="card-title">Job Detail : </h4>
+            </label>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="formrow-firstname-input">Job Salary</label>
+                    <textarea name="job_salary" class="form-control" value="" id="job_salary" placeholder="Job Salary" required>{{$job_detail_obj['JobSalary']}}</textarea>
+                    <div class="invalid-feedback">
+                        Please provide a Job Salary.
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="formrow-firstname-input">Job Experiance</label>
+                    <input type="number" class="form-control" value="{{$job_detail_obj['JobExperience']}}" id="job_experiance" placeholder="Job Experiance" min="0" max="50" name="job_experiance" required></textarea>
+                    <div class="invalid-feedback">
+                        Please provide a Job Experiance.
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="formrow-firstname-input">Job Qualification</label>
+                    <textarea name="job_qualification" class="form-control" value="" id="job_qualification" placeholder="Job Qualification" required>{{$job_detail_obj['JobQualification']}}</textarea>
+                    <div class="invalid-feedback">
+                        Please provide a Job Qualification.
+                    </div>
+                </div>
+            </div>
+        </div>
 
                                     <div class="form-group">
                                         <label for="formrow-firstname-input">Unit Option</label>
@@ -1148,5 +1261,74 @@
                         reader.readAsDataURL(input.files[0]);
                     }
                 }
-            </script>
-        @endsection
+            });
+        }
+    });
+
+    function checkSubCategoriesChecked() {
+        if ($('input[name="subcategory[]"]').length > 0) {
+            // Exists.
+            if ($("input[name='subcategory[]']:checked").length == 0) {
+                $("[name='subcategory[]']").attr('required', true);
+                $('#subcategoryError').show();
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 1200);
+                return false;
+            } else {
+                $("[name='subcategory[]']").attr('required', false);
+                $('#subcategoryError').hide();
+                return true;
+            }
+        }
+    }
+
+    function showHide() {
+        if ($("input[name='subcategory[]']:checked").length != 0) {
+            $("[name='subcategory[]']").attr('required', false);
+            $('#subcategoryError').hide();
+        } else {
+            $("[name='subcategory[]']").attr('required', true);
+            $('#subcategoryError').show();
+        }
+    }
+
+    function addHoursFunction() {
+        $str = '<div data-repeater-item class="row"><div class="form-group col-lg-3"><label for="formrow-firstname-input">Day</label><select class="form-select form-control" name="txtDay" id="txtDay" required><option value="">Select Day</option>@foreach($days as $name=>$Name)<option value={{$name}}>{{$Name}}</option>@endforeach</select><div class="invalid-feedback">Please provide a Day.</div></div><div class="form-group col-lg-4"><label for="formrow-firstname-input">Start Time</label><div class="input-group"><input id="timepicker" type="text" class="form-control start_time" name="time" data-provide="timepicker"  required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span></div><div class="invalid-feedback">Please provide a Start Time.</div></div></div><div class="form-group col-lg-4"><label for="formrow-firstname-input">End Time</label><div class="input-group"><input id="timepicker" type="text" class="form-control end_time" name="time"data-provide="timepicker" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span></div><div class="invalid-feedback">Please provide a End Time.</div></div></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top"title="Delete" class="btn btn-danger business-btn mt-2"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
+        console.log($str);
+        $('div[data-repeater-list="hours_repeater"]').append($str);
+    }
+
+    // function addMediaFunction() {
+    //     $str = '<div data-repeater-item class="row"><div class="col-lg-4"> <input type="file" class="custom-file-input media_file form-control" name="media_detail[]" id="media_file" accept="image/*" required=""><label class="custom-file-label" for="customFile">Image</label><div class="invalid-feedback invalid-feedback-pic">Media File is required !</div></div><div class="col-lg-3"><img class="imagePreview2" alt="" width="100" height="100" src="{{URL::asset('
+    //     images / image - placeholder.jpg ')}}"></div><div class="col-sm-4"></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete="" data-toggle="tooltip" data-placement="top" title="" class="btn btn-danger business-btn mt-2" data-original-title="Delete"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
+    //     $('div[data-repeater-list="media_detail"]').append($str);
+    // }
+
+    // function addRelatedPersonFunction() {
+    //     $str = '<div data-repeater-item class="row"><div class="col-lg-4"> <input type="file" class="custom-file-input related_person form-control" name="related_person_image[]" id="related_person_image" accept="image/*" required=""><label class="custom-file-label" for="customFile">Image</label><div class="invalid-feedback invalid-feedback-pic">Related Person Image is required !</div></div><div class="col-lg-4"><div class="form-group"><label for="formrow-firstname-input">Related Person Details</label><textarea name="related_person_details[]" class="form-control" value="" id="related_person_details" placeholder="Related Person Details" required></textarea><div class="invalid-feedback">Please provide a Related Person Details.</div></div></div><div class="col-lg-3"><img class="imagePreview" alt="" width="100" height="100" src="{{URL::asset('
+    //     images / image - placeholder.jpg ')}}" /></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete="" data-toggle="tooltip" data-placement="top" title="" class="btn btn-danger business-btn mt-2" data-original-title="Delete"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
+    //     $('div[data-repeater-list="related_personal_repeater"]').append($str);
+    // }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $(input).parent().next().next().children().attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $(input).parent().next().children().attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+@endsection
