@@ -14,6 +14,7 @@ use Auth;
 
 class ForumController extends Controller
 {
+    var $counter = 1;
 
     /**
      * Create a new controller instance.
@@ -156,7 +157,7 @@ class ForumController extends Controller
         $forum_id=$id;
 
         $forumDetail=ForumModel::with(['user'])->where('id',$forum_id)->first();
-        
+
         $sortBy = isset($input['sort_by']) ? $input['sort_by'] : 'DESC';
         $recordsPerPage = isset($input['recordsPerPage']) ? $input['recordsPerPage'] : 5;
         $pageNumber = isset($input['pageNumber']) ? $input['pageNumber'] : 1;
@@ -166,11 +167,12 @@ class ForumController extends Controller
         $commentData = ForumCommentReplyModel::where('forum_comment_reply.forum_id',$forum_id)
         ->where('forum_comment_reply.comment_id',0)
         ->leftJoin('user','forum_comment_reply.user_id','user.id')
-        ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
+        ->select('forum_comment_reply.id','forum_comment_reply.message','forum_comment_reply.media','forum_comment_reply.created_at',
+        'user.name as username','user.user_image as userimage')
         ->where('forum_comment_reply.is_deleted',0)
         //->skip($skip)->take(5)
         ->get()->toArray();
-        
+
         $commentReplyArray = array();
         foreach ($commentData as $comment)
         {
@@ -187,6 +189,7 @@ class ForumController extends Controller
             $commentReplyArray[$commentId]['media'] = $comment['media'];
             $commentReplyArray[$commentId]['username'] = $comment['username'];
             $commentReplyArray[$commentId]['userimage'] = $comment['userimage'];
+            $commentReplyArray[$commentId]['created_at'] = $comment['created_at'];
             if(count($replyData) > 0)
             {
                 $j = 0;
@@ -197,12 +200,14 @@ class ForumController extends Controller
                     $replyMedia = $reply['media'];
                     $replyUsername = $reply['username'];
                     $replyUserimage = $reply['userimage'];
+                    $replyCreatedAt = $reply['created_at'];
 
                     $commentReplyArray[$commentId]['reply'][$j]['id'] = $replyId;
                     $commentReplyArray[$commentId]['reply'][$j]['comment'] = $replyMessage;
                     $commentReplyArray[$commentId]['reply'][$j]['media'] = $replyMedia;
                     $commentReplyArray[$commentId]['reply'][$j]['username'] = $replyUsername;
                     $commentReplyArray[$commentId]['reply'][$j]['userimage'] = $replyUserimage;
+                    $commentReplyArray[$commentId]['reply'][$j]['created_at'] = $replyCreatedAt;
                     $j++;
                 }
             }
@@ -312,14 +317,14 @@ class ForumController extends Controller
             echo json_encode(array('status'=>false,'message'=>'Reply not Deleted'));
         }
     }
-    
+
     public function deleteComment(Request $request)
     {
         $input=$request->all();
 
-        ForumCommentReplyModel::where('id',$input['CommentId'])->update(['is_deleted'=>1]);
-
-        if(ForumCommentReplyModel::where('comment_id',$input['CommentId'])->update(['is_deleted'=>1]))
+        $result1=ForumCommentReplyModel::where('id',$input['CommentId'])->update(['is_deleted'=>1]);
+        $result2=ForumCommentReplyModel::where('comment_id',$input['CommentId'])->update(['is_deleted'=>1]);
+        if($result1 || $result2)
         {
             echo json_encode(array('status'=>true,'message'=>'Comment Deleted Successfully'));
         }

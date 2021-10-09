@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Tags Forum @endsection
+@section('title') Business @endsection
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css') }}">
@@ -8,53 +8,36 @@
 
 @section('content')
 
-   
+    @component('common-components.breadcrumb')
+        @slot('title') Business List @endslot
+        @slot('li_1') <a href="{{ route('business') }}" class=''>Business</a> @endslot
+        @slot('li_2') List @endslot
 
-    <div class="row mb-3" id="">
-        <div class="col-md-12">
-            <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-12">
-                        <div class="card-body newheadcontanty">
-                            <h5 class="m-0 textforhedermaster">Tags Forum</h5>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-12">
-
-                    <div class="card-body newheadcontanty">
-                    <h4 class="card-title addfourm" style="text-align:right;"><a href="{{ route('tagsforum.create') }}"
-                                class="btn addbtnforall  waves-effect btn-label waves-light"><i
-                                    class="bx bx-plus label-icon"></i>ADD&nbsp;Tags&nbsp;Forum </a></h4>
-                        </div>
-                    
-                           
-                    
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
+    @endcomponent
 
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
-                    
+                        <h4 class="card-title" style="text-align:right;"><a href="{{ route('business.create') }}"
+                                class="btn btn-primary waves-effect btn-label waves-light"><i
+                                    class="bx bx-plus label-icon"></i>ADD
+                                Business </a></h4><br><br><br>
 
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">
                         </div>
-                        <table id="TagforumList" class="table">
+                        <table id="BusinessDataList" class="table">
                             <thead class="thead-light">
                                 <tr>
+                                    {{-- <th>Sequence</th> --}}
                                     <th></th>
                                     <th>#</th>
-                                    {{-- <th>Id</th> --}}
                                     <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <th>About</th>
                                     <th>Approve Status</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -97,7 +80,9 @@
                 }
             });
 
-            dt = $('#TagforumList').DataTable({
+            var subCategoryData = {{$subCategoryData[0]['id']}}
+
+            dt = $('#BusinessDataList').DataTable({
                 destroy: true,
                 processing: true,
                 //serverSide: true,
@@ -107,7 +92,9 @@
                 "aaSorting": [],
                 rowReorder: true,
                 ajax: {
-                    url: "{{ route('datatable.tagsforumList') }}",
+                    url: "{{ route('businessListapplicant') }}",
+                    data:{id:subCategoryData},
+
                 },
 
                 columns: [{
@@ -130,20 +117,31 @@
                         targets: 1
                     },*/
                     {
-                        data: 'name',
-                        name: 'name',
+                        data: 'name_td',
+                        name: 'name_td',
+                        orderable: false,
+                    },
+                    {
+                        data: 'category_td',
+                        name: 'category_td',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'type_td',
+                        name: 'type_td'
+                    },
+                    {
+                        data: 'about',
+                        name: 'about',
                     },
                     {
                         data: 'is_approve',
                         name: 'is_approve',
-                        orderable: false,
-                        searchable: false,
                     },
                     {
                         data: 'status_td',
-                        name: 'status_td',
-                        orderable: false,
-                        searchable: false,
+                        name: 'status_td'
                     },
                     {
                         data: 'command',
@@ -152,6 +150,7 @@
                         orderable: false
                     }
                 ],
+
                 "columnDefs": [{
                     "targets": 0,
                     "data": "id",
@@ -178,7 +177,7 @@
                 }
             });
             var data = '';
-            $('#TagforumList tbody').on('click', 'tr', function() {
+            $('#BusinessDataList tbody').on('click', 'tr', function() {
                 var allCheckboxLength = $('input[name="id[]"]').length;
                 var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
 
@@ -187,18 +186,18 @@
                 } else {
                     $('#selectAllCheckboxes').prop('checked', false);
                 }
-                $('#TagforumList tbody tr').removeClass('selected');
+                $('#BusinessDataList tbody tr').removeClass('selected');
                 /*get checked checkbox value and check full row from table*/
                 $('input[name="id[]"]:checked').map(function() {
                     var checkedCheckBoxVal = $(this).val();
                     // alert("aa >> "+checkedCheckBoxVal);
-                    $('#TagforumList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                    $('#BusinessDataList tbody #row_' + checkedCheckBoxVal).addClass('selected');
                     //console.log();
                     data = checkedCheckBoxVal;
                 });
 
                 /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#TagforumList .selected').length;
+                var checkedRecordCount = $('#BusinessDataList .selected').length;
                 // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
                 if (checkedRecordCount > 0) {
@@ -212,20 +211,20 @@
             $('#selectAllCheckboxes').on('click', function() {
                 if ($('#selectAllCheckboxes').prop('checked')) {
                     // alert("In side if");
-                    $('#TagforumList input[type="checkbox"]').prop('checked', true);
+                    $('#BusinessDataList input[type="checkbox"]').prop('checked', true);
                 } else {
 
-                    $('#TagforumList input[type="checkbox"]').prop('checked', false);
+                    $('#BusinessDataList input[type="checkbox"]').prop('checked', false);
                 }
-                $('#TagforumList tbody tr').removeClass('selected');
+                $('#BusinessDataList tbody tr').removeClass('selected');
                 $('input[name="id[]"]:checked').map(function() {
                     var checkedCheckBoxVal = $(this).val();
                     // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
-                    $('#TagforumList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                    $('#BusinessDataList tbody #row_' + checkedCheckBoxVal).addClass('selected');
                 });
 
                 /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#TagforumList .selected').length;
+                var checkedRecordCount = $('#BusinessDataList .selected').length;
                 // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
                 if (checkedRecordCount > 0) {
@@ -259,15 +258,13 @@
                     cell.innerHTML = i + 1;
                 });
             });
-
         });
-
         $('#approveStatusButton').click(function() {
 
 
             var multipleId = getListIdList();
             var reomveId = multipleId;
-            // alert('inisde');
+            // alert(reomveId);
             swal({
                     title: "Are you sure?",
                     text: "Approve Record",
@@ -281,7 +278,7 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
-                        window.location.href = "/admin/tagsforum/approve/" + reomveId;
+                        window.location.href = "/admin/business/approve/" + reomveId;
                     }
                 });
         });
@@ -301,6 +298,34 @@
             // alert("listId >> "+listId);
             return listId;
         }
+
+
+function deleteBusiness(id)
+{
+    swal({
+        title: "Are you sure?",
+        text: "Delete Business",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: "Yes, Delete it!",
+        cancelButtonText: "No, cancel please!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+    function(isConfirm)
+    {
+        if (isConfirm)
+        {
+            window.location.href = "admin/business/delete/" + id;
+
+        } else {
+                swal("Cancelled", "Don't worry your data is safe :)", "error");
+        }
+    });
+}
+
+
     </script>
 
 @endsection

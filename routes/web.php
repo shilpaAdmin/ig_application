@@ -49,6 +49,20 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('category/update/{id}', 'CategoryController@update')->name('category.update');
         Route::post('category/getSubCategories', 'CategoryController@getSubCategories')->name('category.getSubCategories');
 
+    Route::get('subCategoryData/{id}', 'CategoryController@subCategoryData')->middleware('activity')->name('subCategoryList');
+    Route::get('subCategoryList', 'CategoryController@subCategoryDataList')->name('subCategoryDataList');
+
+    // Route::get('/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
+
+    Route::get('category/subCategoryList/{id}', 'CategoryController@subCategoryList')->name('category.subcategoryList');
+
+    Route::get('business/datatableList_applicant', 'CategoryController@businessListapplicant')->name('businessListapplicant');
+
+
+
+
+
+
         //business routes
         Route::get('business', 'BusinessController@index')->name('business');
         Route::get('business/create', 'BusinessController@create')->name('business.create');
@@ -62,6 +76,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('business/detailview/{id}', 'BusinessController@detailview')->name('business.detailview');
         Route::get('business/detail/{id}', 'BusinessController@businessdetail')->name('businessdetail');
         Route::get('business/approve/{id}', 'BusinessController@approveStatus')->name('business.approve');
+
+
+
+
+
 
         //tags routes
         Route::get('tags', 'TagsController@index')->name('tags');
@@ -142,6 +161,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('carrier/detail/{id}', 'CarrierController@jobDetail')->name('job.detail');
 
     Route::get('job/datatableList_applicant', 'CarrierController@jobapplyListapplicant')->name('jobapplyListapplicant');
+
 
 
 
@@ -243,9 +263,14 @@ Route::get('/terms/condition','HomeController@termscondition')->name('Termscondi
 Route::get('/disclaimer','HomeController@disclaimer')->name('Disclaimer');
 Route::get('/gdrp/notice','HomeController@gdrpnotice')->name('Gdrpnotice');
 
+
+
 // new developement
 Route::namespace('Frontend')->group(function () {
 
+    // login
+    Route::get('/login','LoginController@viewLogin')->name('login');
+    
     // forum
     Route::get('/forum','ForumController@index')->name('ForumList');
     Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');
@@ -268,7 +293,7 @@ Route::namespace('Frontend')->group(function () {
     // Faq
     Route::get('/faq','FaqController@faqDetails')->name('faq.details');
 
-    // blogs 
+    // blogs
     Route::get('blog','BlogController@viewBlogList')->name('blog.list');
     Route::get('blog/{slug}','BlogController@viewBlogDetails')->name('blog.detail');
     Route::post('save-blog-comments','BlogController@saveBlogComments')->name('save.blog.comments');
@@ -286,7 +311,7 @@ Route::get('/matrimoney/list/grid','HomeController@matrimoneylistGrid')->name('M
 Route::get('/matrimoney/details','HomeController@matrimoneydetails')->name('Matrimoneydetails');
 
 //Login
-Route::get('/login','HomeController@login')->name('Login');
+// Route::get('/login','HomeController@login')->name('Login');
 Route::get('/forgot/password','HomeController@forgotpassword')->name('Forgotpassword');
 Route::get('signup','HomeController@signup')->name('Signup');
 

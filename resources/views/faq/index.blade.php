@@ -58,14 +58,58 @@
 <!-- Init js-->
 <script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
 <script>
-    $(function () {
-        var table_html = "";
-        var table_html_td = "";
-        var i = 1;
+$(function() {
+    var table_html = '';
+    var table_html_td = '';
+    var i = 1;
 
-        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
-            "dom-date-pre": function (a) {
-                return moment(a, "DD MMMM YYYY");
+    jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+        "dom-date-pre": function(a) {
+            return moment(a, "DD MMMM YYYY")
+        },
+        "dom-date-asc": function(a, b) {
+            return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+        },
+        "dom-date-desc": function(a, b) {
+            return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+        }
+    });
+
+    var dt = $('#FaqList').DataTable({
+        destroy: true,
+        processing: true,
+        //serverSide: true,
+        responsive: true,
+        autoWidth: false,
+        "order": [], //Initial no order.
+        "aaSorting": [],
+        rowReorder: true,
+        ajax: {
+            url: "{{ url('/admin/faq/faqList') }}",
+        },
+
+        columns: [
+            {
+                data: 'id',
+                name: 'sequence',
+                orderable:false,
+                searchable: false,
+                targets: 0,
+                visible: false
+            },
+            {
+                data: 'id',
+                name: 'id',
+                orderable:false,
+                searchable: false,
+                targets: 1,
+
+            },
+            {
+                data: 'user_id',
+                name: 'user_id',
+                orderable:true,
+                searchable: true,
             },
             "dom-date-asc": function (a, b) {
                 return a < b ? -1 : a > b ? 1 : 0;

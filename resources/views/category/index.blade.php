@@ -8,46 +8,67 @@
 
 @section('content')
 
-@component('common-components.breadcrumb')
-@slot('title') Category List @endslot
-@slot('li_1') <a href="{{route('category')}}" class=''>Category</a> @endslot
-@slot('li_2') List @endslot
-
-@endcomponent
-
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive custom_tabal_saction_part">
-                    <h4 class="card-title" style="text-align:right;"><a href="{{route('category.create')}}"
-                            class="btn btn-primary waves-effect btn-label waves-light"><i
-                                class="bx bx-plus label-icon"></i>ADD
-                            CATEGORY </a></h4>
-                            <table id="CategoryList" class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <!--
-                                <th>Type</th>
-                                <th>Category</th>-->
-                                <th>Sequance</th>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Description</th>
-                                <th>Image</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                                <th>
-
-                            </tr>
-                        </thead>
 
 
-                        <tbody>
+    <div class="row mb-3" id="">
+        <div class="col-md-12">
+            <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-12">
+                        <div class="card-body newheadcontanty">
+                            <h5 class="m-0 textforhedermaster">Category</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-12">
 
-                        </tbody>
-                    </table>
+                    <div class="card-body newheadcontanty">
+                    <h4 class="card-title addfourm" style="text-align:right;"><a href="{{ route('category.create') }}"
+                                class="btn addbtnforall2 waves-effect btn-label waves-light"><i
+                                    class="bx bx-plus label-icon"></i>ADD
+                                CATEGORY </a></h4>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive custom_tabal_saction_part">
+
+
+
+                        <table id="CategoryList" class="table">
+                            <thead class="thead-light">
+                                <tr>
+
+
+                                    <th>#</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                    <th>
+
+                                </tr>
+                            </thead>
+
+
+
+                        </table>
+                    </div>
                 </div>
             </div>
         </div> <!-- end col -->
@@ -102,7 +123,7 @@ $(function() {
             },
 
             {
-                
+
                 data: 'id',
                 name: 'id',
                 orderable:false,

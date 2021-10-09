@@ -203,43 +203,43 @@ class AddToActivityLog
         $userInfoJson = json_encode($userInfoArray, JSON_FORCE_OBJECT);
         if(auth()->user())
         {
-            if(isset($routeName) && !empty($routeName))
-            {
-                $activityLogId = '';
-                $activityLogData = DB::table('activity_log')->where('end_time', '=', '')->orWhereNull('end_time')->orderBy('id','DESC')->limit(1)->get()->toArray();
-                //echo "<pre>"; print_r($activityLogData);
-                if(count($activityLogData) > 0)
-                {
-                    $startTime = $activityLogData[0]->start_time;
-                    $activityLogId = $activityLogData[0]->id;
-                }
-                if(isset($activityLogId) && !empty($activityLogId))
-                {
-                    ActivityLogModel::where('id',$activityLogId)->update([
-                        'end_time' => date('H:i:s'),
-                    ]);
-                    $date1 = strtotime($startTime);
-                    $date2 = strtotime(date('H:i:s'));
-                    $diff = date('s', $date2-$date1);
-                }
+            // if(isset($routeName) && !empty($routeName))
+            // {
+            //     $activityLogId = '';
+            //     $activityLogData = DB::table('activity_log')->where('end_time', '=', '')->orWhereNull('end_time')->orderBy('id','DESC')->limit(1)->get()->toArray();
+            //     //echo "<pre>"; print_r($activityLogData);
+            //     if(count($activityLogData) > 0)
+            //     {
+            //         $startTime = $activityLogData[0]->start_time;
+            //         $activityLogId = $activityLogData[0]->id;
+            //     }
+            //     if(isset($activityLogId) && !empty($activityLogId))
+            //     {
+            //         ActivityLogModel::where('id',$activityLogId)->update([
+            //             'end_time' => date('H:i:s'),
+            //         ]);
+            //         $date1 = strtotime($startTime);
+            //         $date2 = strtotime(date('H:i:s'));
+            //         $diff = date('s', $date2-$date1);
+            //     }
 
-                $lastInsertedLogId = ActivityLogModel::create([
-                    'user_id' => Auth::id(),
-                    'page' => $finalPageName,
-                    'start_time' => date('H:i:s'),
-                    'date' => date('Y-m-d'),
-                    'user_info_json' => $userInfoJson,
-                ])->id;
+            //     $lastInsertedLogId = ActivityLogModel::create([
+            //         'user_id' => Auth::id(),
+            //         'page' => $finalPageName,
+            //         'start_time' => date('H:i:s'),
+            //         'date' => date('Y-m-d'),
+            //         'user_info_json' => $userInfoJson,
+            //     ])->id;
 
-                ActivityLogDetailModel::create([
-                    'activity_log_id' => $lastInsertedLogId,
-                    'user_id' => Auth::id(),
-                    'page_name' => $finalPageName,
-                    'functionality' => $functionalityName,
-                    'activity_status' => $activityStatus,
-                ]);
-                Session::put('session_activity_log_id', $lastInsertedLogId);
-            }
+            //     ActivityLogDetailModel::create([
+            //         'activity_log_id' => $lastInsertedLogId,
+            //         'user_id' => Auth::id(),
+            //         'page_name' => $finalPageName,
+            //         'functionality' => $functionalityName,
+            //         'activity_status' => $activityStatus,
+            //     ]);
+            //     Session::put('session_activity_log_id', $lastInsertedLogId);
+            // }
         }
         return $next($request);
     }

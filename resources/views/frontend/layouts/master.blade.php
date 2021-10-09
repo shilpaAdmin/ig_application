@@ -38,10 +38,10 @@
         <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content" style="padding-bottom: 0px !important;">
-                <div class="container-fluid">
+                <!-- <div class="container-fluid"> -->
                     @yield('content')
 
-                </div>
+               <!--  </div> -->
                 <!-- container-fluid -->
             </div>
             <!-- End Page-content -->

@@ -22,7 +22,7 @@
         <div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms"
             data-wow-duration="1200ms"
             style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
-            <div class="listings_three-page_image">
+            <div class="listings_three-page_image height_200px">
                 <img src="{{ $imageUrl }}" alt="">
 
                 <div class="heart_icon">

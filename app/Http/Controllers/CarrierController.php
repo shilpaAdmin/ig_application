@@ -156,13 +156,7 @@ class CarrierController extends Controller
 
     public function jobDetail(Request $request,$id)
     {
-
-        // $jobApplyData = JobApplyModel::where('status','Active')->where('career_id',$id)->get()->toArray();
-        // // dd($jobApplyData);
-
         $careerData = CarrierModel ::where('status','Active')->where('id',$id)->get()->toArray();
-        // dd($careerData);
-
         return view('carrier.job_detail_applicant',compact('careerData'));
 
     }

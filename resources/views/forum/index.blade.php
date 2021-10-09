@@ -117,6 +117,92 @@
                     searchable: false,
                     targets: 1,
                 },
+                columns: [{
+                        "data": null,
+                        defaultContent: ''
+                    },
+                    {
+                        data: 'id',
+                        name: 'sequence',
+                        orderable: false,
+                        searchable: false,
+                        targets: 0,
+                        visible: true
+                    },
+                    // {
+                    //     data: 'id',
+                    //     name: 'id',
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     visible: false,
+                    //     targets: 1
+                    // },
+                    {
+                        data: 'question_td',
+                        name: 'question_td',
+                        searchable: true,
+                    },
+                    {
+                        data: 'description',
+                        name: 'description',
+                    },
+                    {
+                        data: 'url',
+                        name: 'url',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        data: 'user_id',
+                        name: 'user_id',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        data: 'is_approve',
+                        name: 'is_approve',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        data: 'status_td',
+                        name: 'status_td',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        data: 'command',
+                        name: 'command',
+                        searchable: false,
+                        orderable: false
+                    }
+                ],
+
+                "columnDefs":
+            [
+            {
+            "targets" : 0,
+            "data" : "id",
+            "title": "<input type='checkbox' name='select_all' value='1' id='selectAllCheckboxes'>",
+            "visible": true,
+            "width" : "5%",	//https://datatables.net/reference/option/columns.width
+            "searchable" : false,
+            "orderable" : false,
+            "orderData" : "",
+            "className" : "",
+            "render": function (data, type, full, meta)
+            {
+                return '<input type="checkbox" id="id_'+data.id+'" name="id[]" value="' + data.id + '">';
+            }
+        },
+    ],
+                retrieve: true
+            });
+            $('table [type="checkbox"]').each(function(i, chk) {
+                //alert(1);
+                if (chk.checked) {
+                    alert("Checked!", i, chk);
+                } else
                 {
                     data: "question_td",
                     name: "question_td",

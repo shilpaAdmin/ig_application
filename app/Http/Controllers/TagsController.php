@@ -12,7 +12,7 @@ use Auth;
 
 class TagsController extends Controller
 {
-    // var $counter = 1;
+    var $counter = 1;
     public function index(Request $request)
     {
         return view('tags.index');
@@ -46,12 +46,6 @@ class TagsController extends Controller
         {
             return 'row_'.$result_obj->id;
         })
-        // ->addColumn('id', function ($result_obj)
-        // {
-        //     $counters = $this->counter++;
-        //     $id = '<div><span>'.$counters.'</span></div>';
-        //     return $id;
-        // })
         ->addColumn('is_approve',function($result_obj)
         {
             $is_approve = '';

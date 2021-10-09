@@ -64,6 +64,8 @@ class AdvertisementController extends Controller
         $obj->start_date=$start_date;
         $obj->end_date=$end_date;
         $obj->url=$input['url'];
+        $obj->cityid_or_countryid=1;
+        $obj->type_city_or_country='country';
 
         if($file = $request->hasFile('media'))
         {
@@ -103,15 +105,15 @@ class AdvertisementController extends Controller
         })->select('advertisement.*','user.name as user_id','category.name as category_id')->get();
 
         return DataTables::of($result_obj)
-        ->addColumn('id', function ($result_obj) {
-            $counters = $this->counter++;
-            $id = '<div><span>' . $counters . '</span></div>';
-            return 'row_'.$id;
-        })
-        // ->addColumn('DT_RowId', function ($result_obj)
-        // {
-        //     return 'row_'.$result_obj->id;
+        // ->addColumn('id', function ($result_obj) {
+        //     $counters = $this->counter++;
+        //     $id = '<div><span>' . $counters . '</span></div>';
+        //     return 'row_'.$id;
         // })
+        ->addColumn('DT_RowId', function ($result_obj)
+        {
+            return 'row_'.$result_obj->id;
+        })
 
         ->addColumn('name', function ($result_obj)
         {

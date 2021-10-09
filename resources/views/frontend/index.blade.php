@@ -1,7 +1,9 @@
 @extends('frontend.layouts.master')
 @section('title') Homepage @endsection
 @section('content')
-
+    @php
+        $user = auth()->user();
+    @endphp
     <!-- Modal listing-->
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png') }}" class="preloader__image" alt="">
@@ -226,6 +228,7 @@
         <section class="explore_categories">
             <div class="container">
                 <div class="food_lovers2">
+
                     <div class="food_lover_inner_shape-2"
                         style="background-image: url({{ URL::asset('assets/frontend/images/shapes/food-lovers-shape-small2.png') }})">
                     </div>
@@ -235,14 +238,16 @@
                         <h2>Our Services</h2>
                         <p>Lorem ipsum dolor sit amet, cibo mundi ea duo, vim exerci phaedrum</p>
                     </div>
-                </div>
-            </div>
+
+                </div> <!-- food_lovers2 -->
+            </div> <!-- container -->
+
             <div class="container-full-width">
                 <div class="row catagorimain">
 
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
-                    <form >
+                    
                     <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -272,14 +277,14 @@
                                 <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Sign Board Agencies</a> </div>
                                 <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Mixer Grinder Dealers</a> </div>
 
-                            </div>
-                        </div>
-                    </div>
+                            </div> <!-- modal-body -->
+                        </div> <!-- modal-content -->
+                    </div> <!-- modal-dialog -->
                     {{-- <input type="hidden" id="hdnCategoryId" name="hdnCategoryId" value="{{ $categoryId->id }}"> --}}
-                </div>
-            </div>
-                </div>
-            </div>
+                </div> <!-- modal -->
+            </div> <!-- catagorimain -->
+                </div> <!-- container-full-width -->
+            
             <ul class="circles">
                 <li></li>
                 <li></li>
@@ -876,12 +881,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6  wow slideInRight animated animated">
+                    <div class="col-xl-6  wow slideInRight animated animated align-self-center">
                         <div class="faq_one_image">
                             <img src="{{ URL::asset('assets/frontend/images/resources/faq-1-img-1.jpg') }}" alt="">
                         </div>
                     </div>
-                    <div class="col-xl-6 wow slideInLeft animated animated">
+                    <div class="col-xl-6 wow slideInLeft animated animated align-self-center">
                         <div class="faq_one_right">
                             <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
                                 @foreach ($faqs as $key=>$faq)
@@ -1201,7 +1206,7 @@
                     </div>
 
                     <div class="block-title text-center color__white" style="position:relative;">
-                        <h4>Let�s Find out</h4>
+                        <h4>Let's Find out</h4>
                         <h2>How It Works</h2>
                         <p>Lorem ipsum dolor sit amet, cibo mundi ea duo, vim exerci phaedrum</p>
                     </div>
@@ -1280,7 +1285,7 @@
                     </div>
                 </div>
                 <div class="four_boxes_bottom">
-                    <p>Don�t hesitate, contact us for better business. <a href="#" data-toggle="modal"
+                    <p>Don't hesitate, contact us for better business. <a href="#" data-toggle="modal"
                             data-target="#exampleModallisting">Start a New Lisiting</a></p>
                 </div>
             </div>
@@ -1312,6 +1317,7 @@
                             </div>
                         </div>
                     </div>
+                   
                     <div class="col-xl-4 col-lg-4">
                         <div class="download_screen wow slideInRight animated" data-wow-delay="100ms"
                             style="visibility: visible; animation-delay: 100ms; animation-name: slideInRight;">
@@ -1321,6 +1327,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -1330,7 +1337,8 @@
         <script>
 
             $(document).ready(function(){
-
+                
+               
                 // category list (when page load)
                 $.ajax({
                     type:'GET',
@@ -1359,7 +1367,7 @@
 
                             html+='<div class="col-xl-2 col-lg-4 col-md-6">'
                                     +'<div class="explore_categories_single wow fadeInUp animated" data-wow-delay="0ms"data-wow-duration="1200ms"style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">'
-                                        +'<div class="explore_categories_image">\
+                                        +'<div class="explore_categories_image exp_cat_img">\
                                             <img src='+icon+' alt="">\
                                         </div>\
                                         <div class="explore_categories_content">\
@@ -1467,7 +1475,80 @@
                         },
                     });
                 });
+                loadLocation();
+                $(document).on('click','.logout',function(e){
+                    e.preventDefault();
+                    alert("helloo");
+                    var url ="{{url('/')}}"+"/api/Logout";
+                    $.ajax({
+                        type:'POST',
+                        url:url,
+                        dataType:'json',
+                        async:true,
+                        headers: {
+                            Authorization: 'Bearer '+$.cookie('token')
+                        },
+                        success:function(data)
+                        {
+                            var redirectUrl="{{route('/')}}";
+                            // location.assign(redirectUrl);
+                        },
+                        error:function(XMLHttpRequest, errorStatus, errorThrown)
+                        {
+                            console.log("XHR :: "+JSON.stringify(XMLHttpRequest));
+                            console.log("Status :: "+errorStatus);
+                            console.log("error :: "+errorThrown);
+                            $("#fullImageDivError").text('There is something wrong. Please try again');
+                            $("#fullImageDivError").show();
+                            $(".preloader").hide();
+                        }
+                    });
+                })
+
+
             });
+
+            function loadLocation()
+            {
+                var url ="{{url('/')}}"+"/api/LocationData";
+                $.ajax({
+                        type: 'get',
+                        url: url,
+                        dataType: 'json',
+                        async: true,
+                        beforeSend: function() {
+                            $('#loader').show(); // Show loader
+                        },
+                        success: function(data)
+                        {
+                           
+                           console.log(data.Result);
+                           var html='';
+                           $.each(data.Result, function (i){
+                                var id = data.Result[i]['Id'];
+                                var name = data.Result[i]['Name'];
+                                var type = data.Result[i]['Type'];
+                                var number = data.Result[i]['Number'];
+                                html+='<div>'+ name +'<a href="#" class="float-right d-inline-block location_a" data-id="'+id+'" data-type="'+type+'"> Select Location</a>  </div>';
+                           });
+                           $('.select_location').html(html);
+
+                        },
+                        error: function(XMLHttpRequest, errorStatus, errorThrown) {
+                            console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
+                            console.log("Status :: " + errorStatus);
+                            console.log("error :: " + errorThrown);
+                            $("#fullImageDivError").text(
+                                'There is something wrong. Please try again');
+                            $("#fullImageDivError").show();
+                        },
+                        complete: function() {
+                            setTimeout(() => {
+                                $('#loader').hide();
+                            }, 1000);
+                        },
+                    });
+            }
 
             function setCategoryHtml(data)
             {

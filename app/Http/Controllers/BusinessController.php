@@ -16,7 +16,6 @@ use Auth;
 class BusinessController extends Controller
 {
     var $counter = 1;
-
     public function index(Request $request)
     {
         return view('business.index');
@@ -40,10 +39,16 @@ class BusinessController extends Controller
         ]);
 
         if ($delete) {
-            return redirect()->route('business');
+            return redirect()->back();
         } else {
-            return redirect()->route('business');
+            return redirect()->back();
         }
+
+        // if ($delete) {
+        //     return redirect()->route('business');
+        // } else {
+        //     return redirect()->route('business');
+        // }
     }
 
     public function businessList()
@@ -55,11 +60,6 @@ class BusinessController extends Controller
         {
             return 'row_'.$result_obj->id;
         })
-        // ->addColumn('DT_RowId', function ($result_obj) {
-        //     $counters = $this->counter++;
-        //     $id = '<div><span>' . $counters . '</span></div>';
-        //     return 'row_'.$result_obj->id.$id;
-        // })
         ->addColumn('description_td',function($result_obj){
             $description = '';
             if($result_obj->description=='')
@@ -84,17 +84,6 @@ class BusinessController extends Controller
             $category_td='N/A';
             return $category_td;
         })
-        ->addColumn('is_approve',function($result_obj)
-        {
-            $is_approve = '';
-            if($result_obj->is_approve==1)
-            $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
-            else
-            $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
-            return $is_approve;
-            //$is_approve = $result_obj->is_approve;
-            //return $is_approve;
-        })
         ->addColumn('status_td',function($result_obj){
             $status = '';
             if($result_obj->status=='active')
@@ -114,8 +103,7 @@ class BusinessController extends Controller
             <div class="dropdown-menu">
                 <a class="dropdown-item" href=" '.route('business.edit',$result_obj['id']).' ">Edit Record</a>
                 <a class="dropdown-item" href="'.route('business.delete',$result_obj['id']).'">Delete Record</a>
-                <a class="dropdown-item" href="'.url('admin/business/detail/'.$result_obj['id']).'">Business Detail</a>
-
+                <a class="dropdown-item" href="'.url('admin/business/detail/'.$result_obj['id']).'">Detail</a>
             </div>';
 
             return $command;
@@ -126,7 +114,7 @@ class BusinessController extends Controller
 
             return $name;
         })
-        ->rawColumns(['DT_RowId','status_td','command','image_src','type_td','name_td','is_approve'])
+        ->rawColumns(['DT_RowId','status_td','command','image_src','type_td','name_td'])
         ->make(true);
     }
 
@@ -134,27 +122,12 @@ class BusinessController extends Controller
     {
         $input = $request->all();
 
-
         if (isset($input['search']) && !empty($input['search'])) {
-            $tags_qry = TagMasterModel::where('name', 'LIKE', '%' . $input['search'] . '%');
+            $category_qry = TagMasterModel::where('name', 'LIKE', '%' . $input['search'] . '%');
         } else {
-            $tags_qry = TagMasterModel::where('id', '>', 0);
+            $category_qry = TagMasterModel::where('id', '>', 0);
         }
-        $result = $tags_qry->select('id', 'name')->get()->toArray();
-
-        return response()->json($result);
-    }
-
-    public function BusinessCategoryAutoComplete(Request $request)
-    {
-        $input = $request->all();
-
-        if (isset($input['search']) && !empty($input['search'])) {
-            $category_qry = CategoryModel::where('name', 'LIKE', '%' . $input['search'] . '%');
-        } else {
-            $category_qry = CategoryModel::where('id', '>', 0);
-        }
-        $result = $category_qry->where('category.status','!=','deleted')->select('id', 'name')->get()->toArray();
+        $result = $category_qry->select('id', 'name')->get()->toArray();
 
         return response()->json($result);
     }
@@ -361,8 +334,8 @@ class BusinessController extends Controller
         $business->job_detail_json=json_encode(array('JobSalary'=>$input['job_salary'],
         'JobExperience'=>$input['job_experiance'],'JobQualification'=>$input['job_qualification']));
         // print_r($business->job_detail_json);
-        // $business->created_by=Auth::user()->id;
-        // $business->last_updated_by=Auth::user()->id;
+        $business->created_by=Auth::user()->id;
+        $business->last_updated_by=Auth::user()->id;
         $business->payment_mode=$input['payment_mode'];
         $business->website=$input['website'];
 
@@ -377,12 +350,12 @@ class BusinessController extends Controller
 
         if($business->save())
         {
-            return redirect('admin/business');
+            return redirect()->route('home');
         }
-        else
-        {
-            return redirect('admin/business');
-        }
+        // else
+        // {
+        //     return redirect('admin/business');
+        // }
     }
 
 
@@ -708,6 +681,28 @@ class BusinessController extends Controller
 
                     $update = BusinessModel::where('id', '=', $record['id'])->update(['is_approve'=> 1]);
 
+
+                }
+            }
+        }
+        return redirect()->back()->withSuccess('Data recovered successfully!');
+    }
+
+    public function BusinessCategoryAutoComplete(Request $request)
+    {
+        $input = $request->all();
+
+        if (isset($input['search']) && !empty($input['search'])) {
+            $category_qry = CategoryModel::where('name', 'LIKE', '%' . $input['search'] . '%');
+        } else {
+            $category_qry = CategoryModel::where('id', '>', 0);
+        }
+        $result = $category_qry->where('category.status','!=','deleted')->select('id', 'name')->get()->toArray();
+
+        return response()->json($result);
+    }
+
+}
 
                 }
             }

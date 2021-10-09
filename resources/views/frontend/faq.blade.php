@@ -328,7 +328,7 @@
                                     <div class="header_topmenu_1">
                                         <ul class="list-unstyled">
 
-                                            <li><a href="{{ route('Login') }}"><i class="fas fa-user"></i>Log in </a></li>
+                                            <li><a href="{{ route('login') }}"><i class="fas fa-user"></i>Log in </a></li>
 
                                             <li><a href="#" data-toggle="modal" data-target="#exampleModallisting">Add <i
                                                         class="fas fa-plus"></i></a></li>
