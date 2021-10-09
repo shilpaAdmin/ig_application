@@ -27,6 +27,10 @@ a.forum__icon.mr-3.replayall {
     margin-top: 10px !important;
     display: inline-block;
 }
+
+i.far.fa-trash-alt.deleticonnew {
+    color: red;
+}
 </style>
 @endsection
 
@@ -115,7 +119,7 @@ $timeBefore=timeAgo($forumDetail->created_at);
 
                     <div class="col-lg-11">
                         <span> <a class="forum__profilee" href="#">{{!empty($forumDetail->user['name'])?$forumDetail->user['name']:'N/A'}} </a></span>
-                        <div class="for_hour"> <a class="" href=" #">{{$timeBefore}}</a></div>
+                        <div class="for_hour"> <a class="" href=" #">{{$timeBefore .'njnjnjn'}}</a></div>
                     </div>
                 </div>
 
@@ -160,10 +164,16 @@ $timeBefore=timeAgo($forumDetail->created_at);
                     <img src="{{  URL::asset('images/user/'.$comment['userimage'])}}" class="f__img_lef" width="100%">
                 </div>
 
-                <div class="col-sm-11 likes-box">
+                <div class="col-sm-10 likes-box">
                     <span> <a class="forum__profilee" href="#"> {{  ucwords($comment['username']) }}</a></span>
-                    <div class="for_hour"> <a class="" href=" #"> {{$commentBeforeTime}}</a></div>
-                </div>  
+                    <div class="for_hour"> <a class=""  href=" #"> {{$commentBeforeTime}}</a></div>
+                </div>
+
+                <div class="col-sm-1">
+
+                <a href="#"><i class="far fa-trash-alt deleticonnew deletecomment"></i> </a>
+
+                </div>
                 <div class="row">
                     <div class="col-sm-12 ml-3 mt-3 mb-3">
                         {{ ucwords($comment['comment']) }} <br>
@@ -193,19 +203,27 @@ $timeBefore=timeAgo($forumDetail->created_at);
                             <div class="col-sm-1  for_profile2 ">
                                 <img src="{{  URL::asset('images/user/'.$comment['reply'][$i]['userimage'])}}" class="f__img_lef" width="100%">
                             </div>
-                            <div class="col-sm-11 likes-box">
+                            <div class="col-sm-10 likes-box">
                                 <span> <a class="forum__profilee" href="#"> {{  ucwords($comment['reply'][$i]['username']) }}</a></span>
                                 <div class="for_hour"> <a class="" href=" #"> {{$replyBeforeTime}}</a></div>
                             </div>
+                            <div class="col-sm-1s">
+                            <a href="#"><i class="far fa-trash-alt deleticonnew"></i></a>
+                            </div>
 
                             <div class="row">
-                                <div class="col-sm-12 ml-3 mt-3">
+                                <div class="col-sm-11 ml-3 mt-3">
                                     {{$comment['reply'][$i]['comment']}}<br>
 
                                     <a href="#" class="forum__icon mr-3 replayall"> <i class="fas fa-reply"></i> Reply
                                     </a>
                                     <a href="#" class="forum__icon comment-likes" data-id="{{$comment['reply'][$i]['id']}}" data-forumid="{{$forumDetail->id}}"> <i class="far fa-heart"></i> Like </a>
                                     <a href='javascript:;' data-id="{{$comment['reply'][$i]['id']}}" class="deletereply">Remove</a>
+                                </div>
+
+                                <div class="col-sm-1">
+                                
+
                                 </div>
                             </div>
 

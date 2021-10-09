@@ -7,7 +7,7 @@ use App\Http\Model\MatrimonialModel;
 use App\Http\Model\MatrimonialEducationModel;
 use App\Http\Model\MatrimonialMediaModel;
 use App\Http\Model\JobApplyModel;
-
+use App\Http\Model\BusinessModel;
 
 use App\User;
 
@@ -55,10 +55,27 @@ class ApplyForJobController extends Controller
         {
             $error[] = 'Resume Must be Required!';
 		}
+        
+        if(!isset($input['JobId']) || empty($input['JobId']))
+        {
+            $error[] = 'JobId Must be Required!';
+		}
+
         if(!empty($error))
         {
-            return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+            return response()->json(['Status'=>false,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
 		}
+
+        if(isset($request->JobId) && !empty($request->JobId))
+        {
+            $obj=BusinessModel::where('id',$request->JobId)->first();
+            
+            if($obj===null)
+            {
+                return response()->json(['Status'=>false,'StatusMessage'=>'Job not exist!'
+                ,'Result'=>array()]);
+            }
+        }
 
         $imageName = '';
         $destinationPath = public_path().'/images/job_apply/';
@@ -93,10 +110,17 @@ class ApplyForJobController extends Controller
         $data->message =!empty($request->message) ? $request->message : "";
         $data->cover_letter	 =!empty($imageName) ? $imageName : "";
         $data->resume = !empty($resumeName) ? $resumeName : "";
+        $data->job_id= !empty($request->JobId) ? $request->JobId : "";
         $data->status = 'active';
-        $data->save();
-
-        return response()->json(['Status'=>True,'StatusMessage'=>'Job Apply add successfully']);
+        
+        if($data->save())
+        {
+            return response()->json(['Status'=>true,'StatusMessage'=>'Job applied successfully!','Result'=>array()]);
+        }
+        else
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>'Job applied not successful!','Result'=>array()]);
+        }
 
 
     }
@@ -133,7 +157,8 @@ class ApplyForJobController extends Controller
         $applyForJob_count=count($applyForJob_Obj);
 
         $ApplyForJobArray=array();
-        if($applyForJob_count > 0) {
+        if($applyForJob_count > 0) 
+        {
             for($i=0;$i<$applyForJob_count;$i++)
             {
                 $ApplyForJobArray[$i]['Id']=strval($applyForJob_Obj[$i]['id']);
@@ -145,17 +170,24 @@ class ApplyForJobController extends Controller
 
                 $ApplyForJobArray[$i]['UserImage']='';
                 $userImage=strval($applyForJob_Obj[$i]['user_image']);
-                if( isset( $userImage)) {
+                if( isset( $userImage) && !empty($userImage)) {
+                    //added by chaitany
+                    $user_img_path=public_path().'/images/user/'.$applyForJob_Obj[$i]['user_image'];
+
+                    if(file_exists($user_img_path))
                     $ApplyForJobArray[$i]['UserImage'] = URL::to('/images/user').'/'.strval($applyForJob_Obj[$i]['user_image']);
                 }
                
                 $cover=strval($applyForJob_Obj[$i]['cover_letter']);
-                if( isset( $cover)) {
+                //added by chaitany
+                if( isset($cover) && !empty($cover)) {
+                    
                     $ApplyForJobArray[$i]['CoverLetter'] = URL::to('/images/job_apply').'/'.strval($applyForJob_Obj[$i]['cover_letter']);
                 }
 
                 $resume=strval($applyForJob_Obj[$i]['resume']);
-                if( isset( $resume)) {
+                if( isset($resume) && !empty($resume)) {
+                    //added by chaitany
                     $ApplyForJobArray[$i]['Resume'] = URL::to('/images/job_apply').'/'.strval($applyForJob_Obj[$i]['resume']);
                 }
 
@@ -166,7 +198,25 @@ class ApplyForJobController extends Controller
                 $ApplyForJobArray[$i]['Skill']=strval($applyForJob_Obj[$i]['skill']);
                 $ApplyForJobArray[$i]['Subject']=strval($applyForJob_Obj[$i]['subject']);
                 $ApplyForJobArray[$i]['Message']=strval($applyForJob_Obj[$i]['message']);
+                
+                $mediaFileArray='';
+                if(isset($applyForJob_Obj[$i]['media_file_json']) && !empty($applyForJob_Obj[$i]['media_file_json']))
+                $mediaFileArray = json_decode($applyForJob_Obj[$i]['media_file_json'], true);
 
+                $count_medias=!empty($mediaFileArray)?$mediaFileArray:0;
+
+                $urlArray['URL'] = array();
+
+                if($count_medias > 0 )
+                {
+                    $m = 1;
+                    foreach($mediaFileArray as $mediaData)
+                    {
+                        $urlArray['URL'][] = !empty($mediaData['Media'.$m]) ? URL::to('/images/business').'/'.$mediaData['Media'.$m] : '';
+                        $m++;
+                    }
+                }
+                /*
                 $applyjob_media_arr=json_decode($applyForJob_Obj[$i]['media_file_json'],true);
                 $media1='';
                 if(!empty($applyjob_media_arr))
@@ -175,8 +225,11 @@ class ApplyForJobController extends Controller
                     $media1=$applyjob_media_arr[0]['Media1'];
                 }
                 $ApplyForJobArray[$i]['JobImage']=!empty($media1)?URL::to('/images/business').'/'.$media1:'';
+                */
+                $ApplyForJobArray[$i]['JobImage']=$urlArray['URL'];
+
             }
-            return response()->json(['Status'=>true,'StatusMessage'=>'Apply Job  List successfully !','Result'=>[$ApplyForJobArray]]);
+            return response()->json(['Status'=>true,'StatusMessage'=>'Apply Job  List successfully !','Result'=>$ApplyForJobArray]);
         }
         else
         {
