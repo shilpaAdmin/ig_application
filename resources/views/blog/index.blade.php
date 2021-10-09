@@ -40,7 +40,6 @@
                             </tr>
                         </thead>
 
-
                         <tbody>
 
                         </tbody>
@@ -119,7 +118,6 @@ $(function() {
             {
                 data: 'description',
                 name: 'description',
-                orderable:false,
             },
             {
                 data: 'tagged',

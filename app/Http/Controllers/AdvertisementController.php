@@ -103,15 +103,15 @@ class AdvertisementController extends Controller
         })->select('advertisement.*','user.name as user_id','category.name as category_id')->get();
 
         return DataTables::of($result_obj)
-        ->addColumn('id', function ($result_obj) {
-            $counters = $this->counter++;
-            $id = '<div><span>' . $counters . '</span></div>';
-            return 'row_'.$id;
-        })
-        // ->addColumn('DT_RowId', function ($result_obj)
-        // {
-        //     return 'row_'.$result_obj->id;
+        // ->addColumn('id', function ($result_obj) {
+        //     $counters = $this->counter++;
+        //     $id = '<div><span>' . $counters . '</span></div>';
+        //     return 'row_'.$id;
         // })
+        ->addColumn('DT_RowId', function ($result_obj)
+        {
+            return 'row_'.$result_obj->id;
+        })
 
         ->addColumn('name', function ($result_obj)
         {

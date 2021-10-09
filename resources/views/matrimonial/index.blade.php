@@ -33,7 +33,7 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>Id</th>
+                                    {{-- <th>Id</th> --}}
                                     <th>Full Name</th>
                                     <th>City</th>
                                     <th>Married</th>
@@ -102,19 +102,18 @@
                         orderable: false,
                         searchable: false,
                         targets: 0,
-                        visible: false
+                        // visible: false
                     },
-                    {
-                        data: 'id',
-                        name: 'id',
-                        orderable: false,
-                        searchable: false,
-                        targets: 1
-                    },
+                    // {
+                    //     data: 'id',
+                    //     name: 'id',
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     targets: 1
+                    // },
                     {
                         data: 'full_name',
                         name: 'full_name',
-                        searchable: false,
                     },
                     {
                         data: 'city',

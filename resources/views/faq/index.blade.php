@@ -108,8 +108,8 @@ $(function() {
             {
                 data: 'user_id',
                 name: 'user_id',
-                orderable:false,
-                searchable: false,
+                orderable:true,
+                searchable: true,
             },
             {
                 data: 'question',

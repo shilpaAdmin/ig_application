@@ -31,9 +31,10 @@
                         <table id="BusinessList" class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Sequence</th>
+
                                     <th></th>
                                     <th>#</th>
+                                    {{-- <th>#</th> --}}
                                     <th>Name</th>
                                     <th>Category</th>
                                     <th>Type</th>
@@ -93,7 +94,8 @@
                     url: "{{ route('datatable.businessList') }}",
                 },
 
-                columns: [{
+                columns: [
+                    {
                         "data": null,
                         defaultContent: ''
                     },
@@ -103,19 +105,18 @@
                         orderable: false,
                         searchable: false,
                         targets: 0,
-                        visible: false
+                        // visible: false
                     },
-                    {
-                        data: 'id',
-                        name: 'id',
-                        orderable: false,
-                        searchable: false,
-                        targets: 1
-                    },
+                    // {
+                    //     data: 'id',
+                    //     name: 'id',
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     targets: 1
+                    // },
                     {
                         data: 'name_td',
                         name: 'name_td',
-                        orderable: false,
                     },
                     {
                         data: 'category_td',

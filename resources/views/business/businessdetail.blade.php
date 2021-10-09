@@ -411,8 +411,9 @@
                                                     <div class="col-xl-4 col-lg-12 col-md-12">
                                                         <div>
                                                             {{-- <img src="../../../assets/images/welcome.png" class="imgmedia img-fluid" alt=""> --}}
-                                                             <img  src="{{ URL::asset('images/business_related_person/'.$attachmentArray[$k]['RelatedPersonImage1'])}}"class="imgmedia img-fluid" alt=""/>
-
+                                                            @if(isset($attachmentArray) && !empty($attachmentArray))
+                                                            <img  src="{{ URL::asset('images/business_related_person/'.$attachmentArray[$k]['RelatedPersonImage1'])}}"class="imgmedia img-fluid" alt=""/>
+                                                            @endif
                                                         </div>
                                                     </div>
 

@@ -17,6 +17,8 @@ use Auth;
 
 class MatrimonialController extends Controller
 {
+    var $counter = 1;
+
 
     /**
      * Create a new controller instance.
@@ -428,7 +430,7 @@ class MatrimonialController extends Controller
 
         return view('matrimonial-detail.create',compact('row'));
     }
-    
+
     public function delete($id){
         $delete = MatrimonialModel::where('id',$id)->update(['status'=>'deleted']);
         if($delete){

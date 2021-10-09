@@ -105,11 +105,11 @@
                         </li>
 
 
-                        <li>
+                        {{-- <li>
                             <a href="{{ url('admin/legalpages') }}"
                                 class="{{ Request::segment(2) === 'legalpages.create' ? 'active' : '' }} "><i
                                     class="mdi mdi-music-note-whole"></i>Legal Pages</a>
-                        </li>
+                        </li> --}}
 
                     </ul>
                 </li>
@@ -127,11 +127,11 @@
                             class="mdi mdi-music-note-whole"></i>Testimonial</a>
                 </li>
 
-                <li>
+                {{-- <li>
                     <a href="{{ url('admin/notifications') }}"
                         class="{{ Request::segment(2) === 'notifications.create' ? 'active' : '' }} "><i
                             class="mdi mdi-music-note-whole"></i>Notifications</a>
-                </li>
+                </li> --}}
 
                 <!-- Setting Sidebar Start -->
 

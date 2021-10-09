@@ -105,6 +105,7 @@ $(function() {
                 data: 'user_image',
                 name: 'user_image',
                 searchable: false,
+                orderable:false
             },
             {
                 data: 'location_id',
@@ -114,7 +115,7 @@ $(function() {
             {
                 data: 'name',
                 name: 'name',
-                orderable:false,
+                orderable:true,
             },
             {
                 data: 'email',

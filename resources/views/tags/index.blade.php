@@ -34,7 +34,7 @@
                                     {{-- <th>Sequence</th> --}}
                                     <th></th>
                                     <th>#</th>
-                                    <th>Id</th>
+                                    {{-- <th>Id</th> --}}
                                     <th>Name</th>
                                     <th>Approve Status</th>
                                     <th>Status</th>
@@ -101,15 +101,15 @@
                         orderable: false,
                         searchable: false,
                         targets: 0,
-                        visible: false
+                        visible: true
                     },
-                    {
+                   /* {
                         data: 'id',
                         name: 'id',
                         orderable: false,
                         searchable: false,
                         targets: 1
-                    },
+                    },*/
                     {
                         data: 'name',
                         name: 'name',
@@ -117,10 +117,14 @@
                     {
                         data: 'is_approve',
                         name: 'is_approve',
+                        orderable: false,
+                        searchable: false,
                     },
                     {
                         data: 'status_td',
-                        name: 'status_td'
+                        name: 'status_td',
+                        orderable: false,
+                        searchable: false,
                     },
                     {
                         data: 'command',
