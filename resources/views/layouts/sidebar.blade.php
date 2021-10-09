@@ -112,15 +112,15 @@
                      </a>
                      <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{ url('admin/tags') }}"
-                                class="{{ Request::segment(2) === 'tags.create' ? 'active' : '' }} "><i
-                                    class="mdi mdi-music-note-whole"></i>Tags</a>
+                            <a href="{{ url('admin/city') }}"
+                                class="{{ Request::segment(2) === 'city.create' ? 'active' : '' }} "><i
+                                    class="mdi mdi-music-note-whole"></i>City</a>
                         </li>
 
                         <li>
-                            <a href="{{ url('admin/tagsforum') }}"
-                                class="{{ Request::segment(2) === 'tagsforum.create' ? 'active' : '' }} "><i
-                                    class="mdi mdi-music-note-whole"></i>Tags Forum</a>
+                            <a href="{{ url('admin/country') }}"
+                                class="{{ Request::segment(2) === 'country.create' ? 'active' : '' }} "><i
+                                    class="mdi mdi-music-note-whole"></i>Country</a>
                         </li>
                      </ul>
                   </li>

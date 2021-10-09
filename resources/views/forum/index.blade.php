@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-6">
                     <div class="card-body newheadcontanty">
-                        <h5 class="m-0 textforhedermaster">FAQ</h5>
+                        <h5 class="m-0 textforhedermaster">Forum</h5>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-6">
