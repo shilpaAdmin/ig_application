@@ -422,6 +422,13 @@ class MatrimonialController extends Controller
         }
     }
 
+    public function matrimonialDetail($id){
+
+        $row = MatrimonialModel::where('id', $id)->toArray();
+
+        return view('matrimonial-detail.create',compact('row'));
+    }
+    
     public function delete($id){
         $delete = MatrimonialModel::where('id',$id)->update(['status'=>'deleted']);
         if($delete){

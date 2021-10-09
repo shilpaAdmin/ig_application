@@ -54,10 +54,6 @@
                     </h2>
                     <div id="collapse_{{$comment['id']}}" class="accordion-collapse collapse" aria-labelledby="heading_{{$comment['id']}}" data-bs-parent="#accordionExample" style="">
                         <div class="accordion-body">
-
-                            {{--<div class="text-muted">
-                                <strong class="text-dark">This is the first item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                            </div>--}}
                             
                             @php 
                             $totalReplys=count($comment['reply']);
@@ -126,14 +122,3 @@
     <script src="{{ URL::asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>  
     <!-- JAVASCRIPT -->
 @endsection
-{{--@section('script')
-<!-- JAVASCRIPT -->
-<script src="assets/libs/jquery/jquery.min.js"></script>
-        <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-        <script src="assets/libs/simplebar/simplebar.min.js"></script>
-        <script src="assets/libs/node-waves/waves.min.js"></script>
-
-        <!-- App js -->
-        <script src="assets/js/app.js"></script>
-@endsection--}}

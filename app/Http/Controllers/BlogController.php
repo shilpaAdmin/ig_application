@@ -225,7 +225,14 @@ class BlogController extends Controller
         }
     }
 
-    public function delete($id){
+    public function getCommentReplyList(Request $request)
+    {
+        $input=$request->all();
+        
+    }
+
+    public function delete($id)
+    {
         $delete = BlogsModel::where('id',$id)->update(['status'=>'deleted']);
         if($delete){
             return redirect()->route('blog');

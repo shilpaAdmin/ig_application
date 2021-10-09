@@ -154,6 +154,8 @@ class ForumController extends Controller
     {
         $forum_id=$id;
 
+        $forumDetail=ForumDetail::where('id',$forum_id)->get()->toArray();
+
         $sortBy = isset($input['sort_by']) ? $input['sort_by'] : 'DESC';
         $recordsPerPage = isset($input['recordsPerPage']) ? $input['recordsPerPage'] : 5;
         $pageNumber = isset($input['pageNumber']) ? $input['pageNumber'] : 1;
@@ -173,7 +175,7 @@ class ForumController extends Controller
             ->leftJoin('user','forum_comment_reply.user_id','user.id')
             ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
             ->orderBy('id','desc')->get()->toArray();
-            
+
             $commentReplyArray[$commentId]['id'] = $commentId;
             $commentReplyArray[$commentId]['comment'] = $comment['message'];
             $commentReplyArray[$commentId]['media'] = $comment['media'];
@@ -201,7 +203,7 @@ class ForumController extends Controller
         }
         // echo '<pre>';
         // print_r($commentReplyArray);exit;
-        return view('forum.comment_reply_structure', compact('commentReplyArray','recordsPerPage'));
+        return view('forum.comment_reply_structure', compact('commentReplyArray','recordsPerPage','forumDetail'));
     }
 
     public function edit($id)
