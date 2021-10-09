@@ -57,8 +57,7 @@
                 </li>
                 <li>
                     <a href="{{ url('admin/matrimonial') }}"
-                        class="{{ Request::segment(2) === 'matrimonial.create' ? 'active' : '' }} "><i
-                            class="mdi mdi-music-note-whole"></i><span>Matrimonial</span></a>
+                        class="{{ Request::segment(2) === 'matrimonial.create' ? 'active' : '' }} "><i class="bx bx-doughnut-chart"></i><span>Matrimonial</span></a>
                 </li>
 
                 {{-- <li>

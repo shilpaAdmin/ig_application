@@ -426,7 +426,8 @@ class MatrimonialController extends Controller
 
     public function matrimonialDetail($id){
 
-        $row = MatrimonialModel::where('id', $id)->toArray();
+        $row = MatrimonialModel::where('id', $id)->get();
+
 
         return view('matrimonial-detail.create',compact('row'));
     }
