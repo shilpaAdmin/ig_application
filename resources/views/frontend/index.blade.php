@@ -228,6 +228,7 @@
         <section class="explore_categories">
             <div class="container">
                 <div class="food_lovers2">
+
                     <div class="food_lover_inner_shape-2"
                         style="background-image: url({{ URL::asset('assets/frontend/images/shapes/food-lovers-shape-small2.png') }})">
                     </div>
@@ -237,14 +238,16 @@
                         <h2>Our Services</h2>
                         <p>Lorem ipsum dolor sit amet, cibo mundi ea duo, vim exerci phaedrum</p>
                     </div>
-                </div>
-            </div>
+
+                </div> <!-- food_lovers2 -->
+            </div> <!-- container -->
+
             <div class="container-full-width">
                 <div class="row catagorimain">
 
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
-                    <form >
+                    
                     <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -274,14 +277,14 @@
                                 <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Sign Board Agencies</a> </div>
                                 <div class="w-50 float-left "> <a class=" a_cat_color" href="#"><i class="fas fa-angle-right"></i> Mixer Grinder Dealers</a> </div>
 
-                            </div>
-                        </div>
-                    </div>
+                            </div> <!-- modal-body -->
+                        </div> <!-- modal-content -->
+                    </div> <!-- modal-dialog -->
                     {{-- <input type="hidden" id="hdnCategoryId" name="hdnCategoryId" value="{{ $categoryId->id }}"> --}}
-                </div>
-            </div>
-                </div>
-            </div>
+                </div> <!-- modal -->
+            </div> <!-- catagorimain -->
+                </div> <!-- container-full-width -->
+            
             <ul class="circles">
                 <li></li>
                 <li></li>
@@ -878,12 +881,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6  wow slideInRight animated animated">
+                    <div class="col-xl-6  wow slideInRight animated animated align-self-center">
                         <div class="faq_one_image">
                             <img src="{{ URL::asset('assets/frontend/images/resources/faq-1-img-1.jpg') }}" alt="">
                         </div>
                     </div>
-                    <div class="col-xl-6 wow slideInLeft animated animated">
+                    <div class="col-xl-6 wow slideInLeft animated animated align-self-center">
                         <div class="faq_one_right">
                             <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
                                 @foreach ($faqs as $key=>$faq)
@@ -1203,7 +1206,7 @@
                     </div>
 
                     <div class="block-title text-center color__white" style="position:relative;">
-                        <h4>Let�s Find out</h4>
+                        <h4>Let's Find out</h4>
                         <h2>How It Works</h2>
                         <p>Lorem ipsum dolor sit amet, cibo mundi ea duo, vim exerci phaedrum</p>
                     </div>
@@ -1282,7 +1285,7 @@
                     </div>
                 </div>
                 <div class="four_boxes_bottom">
-                    <p>Don�t hesitate, contact us for better business. <a href="#" data-toggle="modal"
+                    <p>Don't hesitate, contact us for better business. <a href="#" data-toggle="modal"
                             data-target="#exampleModallisting">Start a New Lisiting</a></p>
                 </div>
             </div>
@@ -1324,6 +1327,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -1363,7 +1367,7 @@
 
                             html+='<div class="col-xl-2 col-lg-4 col-md-6">'
                                     +'<div class="explore_categories_single wow fadeInUp animated" data-wow-delay="0ms"data-wow-duration="1200ms"style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">'
-                                        +'<div class="explore_categories_image">\
+                                        +'<div class="explore_categories_image exp_cat_img">\
                                             <img src='+icon+' alt="">\
                                         </div>\
                                         <div class="explore_categories_content">\

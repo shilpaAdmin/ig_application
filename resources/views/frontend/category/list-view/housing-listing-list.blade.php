@@ -21,10 +21,10 @@
     <div class="col-xl-6 col-md-12 col-sm-12">
         <div class="listings_two_page_content">
             <div class="listings_two_page_single">
-                <div class="listings_two_page_img">
+                <div class="listings_two_page_img ">
                     <img src="{{ $imageUrl }}" alt="">
 
-                    <div class="heart_icon">
+                    <div class="heart_icon pos_rght_15">
                         <i class="icon-heart"></i>
                     </div>
                 </div>
