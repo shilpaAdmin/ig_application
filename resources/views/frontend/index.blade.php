@@ -954,7 +954,11 @@
                     @php
                         $images=json_decode($blog->media_file_json, true);
                         if(count($images)){
-                            $imageUrl= URL::to('/images/blogs').'/'.$images[0]['Media1'] ;
+                            if(isset($images[0][0])){
+                                $imageUrl= URL::to('/images/blogs').'/'.$images[0][0] ;
+                            }else {
+                                $imageUrl= URL::asset('assets/frontend/images/blog/blog-1-img-1.jpg');
+                            }
                         } else {
                             $imageUrl= URL::asset('assets/frontend/images/blog/blog-1-img-1.jpg');
                         }

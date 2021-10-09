@@ -23,8 +23,8 @@
                             <table id="cityList" class="table">
                         <thead class="thead-light">
                             <tr>
+                                <th>Sequence</th>
                                 <th>#</th>
-                                <th>Id</th>
                                 <th>Image</th>
                                 <th>Location</th>
                                 <th>Location type</th>

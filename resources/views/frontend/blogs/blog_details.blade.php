@@ -306,13 +306,20 @@
             </div>
         </section>
 
+        
         @php
-            $images=json_decode($blog->media_file_json, true);
-            if(count($images)){
-                $imageUrl= URL::to('/images/blogs').'/'.$images[0]['Media1'] ;
+            if(isset($blog->media_file_json)){
+                $images=json_decode($blog->media_file_json, true);
+
+                if(count($images) > 0 && isset($images[0][0]) ){
+                    $imageUrl= URL::to('/images/blogs').'/'.$images[0][0] ;
+                } else {
+                    $imageUrl= URL::asset('assets/frontend/images/img/blogdetails.jpg');
+                }
             } else {
                 $imageUrl= URL::asset('assets/frontend/images/img/blogdetails.jpg');
             }
+                
         @endphp
 
         <section class="blog_detail">
@@ -326,7 +333,7 @@
                             <div class="blog-detail__content">
                                 <ul class="list-unstyled blog-detail__meta">
                                     <li><a href="javascript:void(0)"><i class="far fa-user-circle"></i>by {{ isset($blog->user) && isset($blog->user->name) ? $blog->user->name : '-' }}</a></li>
-                                    <li><a href="javascript:void(0)"><i class="far fa-comments"></i>{{$blog->blogComments->count()}} Comments</a>
+                                    <li><a href="javascript:void(0)"><i class="far fa-comments"></i>{{isset($blog->blogComments) ? $blog->blogComments->count():'0'}} Comments</a>
                                     </li>
                                 </ul>
                                 <div class="blog_detail_title">
@@ -336,7 +343,7 @@
                                     <p class="blog_detail_text_1">{{ isset($blog->description) ? $blog->description : '-' }}</p>
                                 </div>
                                 <div class="blog_detail_date">
-                                    <p>{{ $blog->created_at->format('d') }}<br>{{ $blog->created_at->format('M') }}</p>
+                                    <p>{{ isset($blog->created_at)?$blog->created_at->format('d') :'-' }}<br>{{ isset($blog->created_at) ? $blog->created_at->format('M') :'-' }}</p>
                                 </div>
                             </div>
                             <div class="blog_detail__bottom">
@@ -354,37 +361,40 @@
                                 </div>
                             </div>
 
-                            <div class="comment-one" id="comment-data">
-                                <h3 class="comment-one__title">{{ $blog->blogComments->count() }} Comments</h3>
-                                @php
-                                    $blogCommentsData= $blog->blogComments->sortByDesc('id')->take(5);
-                                @endphp
-                                @foreach ($blogCommentsData as $comment)
+                            @if (isset($blog->blogComments))
+                                
+                                <div class="comment-one" id="comment-data">
+                                    <h3 class="comment-one__title">{{ $blog->blogComments->count() }} Comments</h3>
                                     @php
-                                        if(isset($comment->user_image)) {
-                                            $imageUrl= URL::to('/images/user').'/'.$comment->user_image ;
-                                        } else {
-                                            $imageUrl= URL::asset('assets/frontend/images/img/dd1.jpg');
-                                        }
+                                        $blogCommentsData= $blog->blogComments->sortByDesc('id')->take(5);
                                     @endphp
-                                    <div class="comment-one__single">
-                                        <div class="comment-one__image">
-                                            <img src="{{ $imageUrl }}" alt="" width="100">
+                                    @foreach ($blogCommentsData as $comment)
+                                        @php
+                                            if(isset($comment->user_image)) {
+                                                $imageUrl= URL::to('/images/user').'/'.$comment->user_image ;
+                                            } else {
+                                                $imageUrl= URL::asset('assets/frontend/images/img/dd1.jpg');
+                                            }
+                                        @endphp
+                                        <div class="comment-one__single">
+                                            <div class="comment-one__image">
+                                                <img src="{{ $imageUrl }}" alt="" width="100">
+                                            </div>
+                                            <div class="comment-one__content">
+                                                <h3>{{ isset($comment->name) ? $comment->name:'-'}}</h3>
+                                                <p>{{ isset($comment->message) ? $comment->message :'-'}}</p>
+                                                <a href="javascript:void(0)" class="thm-btn comment-one__btn">Reply</a>
+                                            </div>
                                         </div>
-                                        <div class="comment-one__content">
-                                            <h3>{{ isset($comment->name) ? $comment->name:'-'}}</h3>
-                                            <p>{{ isset($comment->message) ? $comment->message :'-'}}</p>
-                                            <a href="javascript:void(0)" class="thm-btn comment-one__btn">Reply</a>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
+                                    @endforeach
+                                </div>
+                            @endif
                             <div class="comment-form">
                                 <h3 class="comment-form__title">Leave a Comment</h3>
                                 <form action="{{route('save.blog.comments')}}" class="comment-one__form" method="post">
                                     @csrf
                                     <input type="hidden" name="type" value="comment">
-                                    <input type="hidden" name="blog_id" value="{{$blog->id}}">
+                                    <input type="hidden" name="blog_id" value="{{isset($blog) ? $blog->id:1}}">
                                     <input type="hidden" name="comment_id" value="0">
                                     <div class="row">
                                         <div class="col-xl-6">
@@ -437,9 +447,14 @@
                                 <ul class="sidebar__post-list list-unstyled">
                                     @foreach ($latestPost as $post)
                                         @php
-                                            $images=json_decode($post->media_file_json, true);
-                                            if(count($images)){
-                                                $imageUrl= URL::to('/images/blogs').'/'.$images[0]['Media1'] ;
+                                            if(isset($post->media_file_json)){
+                                                
+                                                $images=json_decode($post->media_file_json, true);
+                                                if(count($images) > 0 && isset($images[0][0]) ){
+                                                    $imageUrl= URL::to('/images/blogs').'/'.$images[0][0] ;
+                                                } else {
+                                                    $imageUrl= URL::asset('assets/frontend/images/img/br1.jpg');
+                                                }
                                             } else {
                                                 $imageUrl= URL::asset('assets/frontend/images/img/br1.jpg');
                                             }

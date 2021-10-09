@@ -15,6 +15,7 @@ use Auth;
 
 class AdvertisementController extends Controller
 {
+    var $counter = 1;
 
     /**
      * Create a new controller instance.
@@ -102,10 +103,16 @@ class AdvertisementController extends Controller
         })->select('advertisement.*','user.name as user_id','category.name as category_id')->get();
 
         return DataTables::of($result_obj)
-        ->addColumn('DT_RowId', function ($result_obj)
-        {
-            return 'row_'.$result_obj->id;
+        ->addColumn('id', function ($result_obj) {
+            $counters = $this->counter++;
+            $id = '<div><span>' . $counters . '</span></div>';
+            return 'row_'.$id;
         })
+        // ->addColumn('DT_RowId', function ($result_obj)
+        // {
+        //     return 'row_'.$result_obj->id;
+        // })
+
         ->addColumn('name', function ($result_obj)
         {
             $name = '';
@@ -206,7 +213,7 @@ class AdvertisementController extends Controller
 
             return $command;
         })
-        ->rawColumns(['is_approve','name','user_id','category_id','description','continously','start_date','url','image_src','type','is_approve','status_td','command'])
+        ->rawColumns(['id','is_approve','name','user_id','category_id','description','continously','start_date','url','image_src','type','is_approve','status_td','command'])
         ->make(true);
     }
 

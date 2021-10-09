@@ -14,6 +14,8 @@ use Auth;
 
 class TestimonialController extends Controller
 {
+    var $counter = 1;
+
     public function index(Request $request)
     {
         return view('testimonial.index');
@@ -109,6 +111,11 @@ class TestimonialController extends Controller
 
         return DataTables::of($result_obj)
 
+        ->addColumn('id', function ($result_obj) {
+            $counters = $this->counter++;
+            $id = '<div><span>' . $counters . '</span></div>';
+            return $id;
+        })
         ->addColumn('user_id',function($result_obj){
             $user_id = '';
             $user_id = $result_obj->user_id;

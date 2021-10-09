@@ -78,6 +78,11 @@ class CarrierController extends Controller
 
         return DataTables::of($result_obj)
 
+        ->addColumn('id', function ($result_obj) {
+            $counters = $this->counter++;
+            $id = '<div><span>' . $counters . '</span></div>';
+            return $id;
+        })
         ->addColumn('type', function ($result_obj)
         {
             $type = '';

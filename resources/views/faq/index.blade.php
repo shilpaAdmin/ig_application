@@ -31,8 +31,8 @@
                     <table id="FaqList" class="table">
                         <thead class="thead-light">
                             <tr>
+                                <th>Sequence</th>
                                 <th>#</th>
-                                <th>Id</th>
                                 <th>User</th>
                                 <th>Question</th>
                                 <th>Answer</th>
