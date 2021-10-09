@@ -4,27 +4,36 @@
 <!-- App Css-->
         <!--<link href="https://themesbrand.com/skote/layouts/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />--
 
-<!-- ========== Left Sidebar Start ========== -->
-<div class="vertical-menu">
-   <div data-simplebar class="h-100">
-      <!--- Sidemenu -->
-      <div id="sidebar-menu">
-         <!-- Left Menu Start -->
-         <ul class="metismenu list-unstyled" id="side-menu">
-	
-            <li>
-               <a href="{{ url('admin/dashboard') }}" class="waves-effect">
-               <i class="bx bx-home-circle"></i>
-               <span key="t-dashboards">Dashboards</span>
-               </a>
-            </li>
-            <li class="menu-title">Modules</li>
-             <li>
-                    <a href="{{ url('admin/business') }}"
-                        class="{{ Request::segment(2) === 'business.create' ? 'active' : '' }} ">
-						<i class="bx bx-briefcase-alt-2"></i><span>Business</span></a>
                 </li>
 
+                <li class="menu-title">Modules</li>
+
+                <li>
+                    {{-- <a href="{{ url('admin/business') }}"
+                        class="{{ Request::segment(2) === 'business.create' ? 'active' : '' }} "><i
+                        class="has-arrow waves-effect"></i>Business</a> --}}
+
+                        <a href="javascript: void(0);" class="has-arrow waves-effect ">
+                            <i class="bx bx-check-double"></i>
+                            <span>Business</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <?php
+                                if(isset($subCategoryData) && !empty($subCategoryData))
+                                {
+                                        if(count($subCategoryData) > 0)
+                                        {
+                                                foreach($subCategoryData as $dynamicData)
+                                                {
+                                        ?>
+                                                <li><a href="{{ route('subCategoryList',$dynamicData->id) }}"><i class="mdi mdi-music-note-whole"></i>{{ $dynamicData->name }}</a></li>
+                                        <?php
+                                                }
+                                        }
+                                }
+                                ?>
+                        </ul>
+                </li>
                 <li>
                     <a href="{{ url('admin/matrimonial') }}"
                         class="{{ Request::segment(2) === 'matrimonial.create' ? 'active' : '' }} ">
