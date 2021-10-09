@@ -8,22 +8,34 @@
 
 @section('content')
 
-@component('common-components.breadcrumb')
-@slot('title') Blog List @endslot
-@slot('li_1') Blog @endslot
-@slot('li_2') List @endslot
+<div class="row mb-3" id="">
+    <div class="col-md-12">
+        <div class="card bg-gray-bg text-white-50 m-0 mainhedformaster">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-6">
+                    <div class="card-body newheadcontanty">
+                        <h5 class="m-0 textforhedermaster">Blog</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-6">
+                    <div class="card-body newheadcontanty">
+                    <h4 class="card-title" style="text-align:right;"><a href="{{route('blog.create')}}"
+                            class="btn btn-primary waves-effect btn-label waves-light addbtnforall"><i
+                                class="bx bx-plus label-icon"></i>ADD
+                                Blog </a></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-@endcomponent
 
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive custom_tabal_saction_part">
-                    <h4 class="card-title" style="text-align:right;"><a href="{{route('blog.create')}}"
-                            class="btn btn-primary waves-effect btn-label waves-light"><i
-                                class="bx bx-plus label-icon"></i>ADD
-                                Blog </a></h4>
                             <table id="ForumList" class="table">
                         <thead class="thead-light">
                             <tr>

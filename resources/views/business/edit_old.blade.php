@@ -343,7 +343,7 @@
 
                                 </div>
                                 <div class="col-lg-1 align-self-center">
-                                    <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger business-btn mt-2">
+                                    <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger mt-2">
                                         <i class="bx bx-trash d-block font-size-16"></i>
                                     </button>
                                 </div>
@@ -352,7 +352,7 @@
                             @endforeach
                             @endif
                         </div>
-                        <button type="button" onclick="addHoursFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light">
+                        <button type="button" onclick="addHoursFunction()" class="btn btn-primary waves-effect btn-label waves-light">
                             <i class="bx bx-plus label-icon"></i>Add New</button>
                     </div>
 
@@ -373,7 +373,7 @@
 
                             @if(!empty($row['related_person_detail_arr']) && $count_person_detail > 0)
 
-                            @for($i=0;$i < $count_person_detail;$i++) <div class="row align-items-center">
+                            @for($i=0;$i < $count_person_detail;$i++) <div class="row">
                                 <div class="col-lg-4">
                                     <input type="file" class="custom-file-input related_person form-control" name="related_person_old_image[]" id="related_person_image" accept="image/*">
                                     <input type="hidden" name="related_person_image_files[]" value="{{$row['related_person_detail_arr'][$i]['RelatedPersonImage'.($i+1)]}}">
@@ -389,11 +389,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 text-center">
-                                    <img class="imagePreview mb-2" alt="" width="100" height="100" src="{{URL::asset('images/business_related_person/'.$row['related_person_detail_arr'][$i]['RelatedPersonImage'.($i+1)])}}" />
+                                <div class="col-lg-3">
+                                    <img class="imagePreview" alt="" width="100" height="100" src="{{URL::asset('images/business_related_person/'.$row['related_person_detail_arr'][$i]['RelatedPersonImage'.($i+1)])}}" />
                                 </div>
                                 <div class="col-lg-1 align-self-center">
-                                    <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger business-btn mt-2">
+                                    <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger mt-2">
                                         <i class="bx bx-trash d-block font-size-16"></i>
                                     </button>
                                 </div>
@@ -401,7 +401,7 @@
                         @endfor
                         @endif
                     </div>
-                    <button type="button" onclick="addRelatedPersonFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
+                    <button type="button" onclick="addRelatedPersonFunction()" class="btn btn-primary waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
                         Add New</button>
             </div>
 
@@ -422,27 +422,20 @@
                     $q = 1;
                     @endphp
                     @if (count($attachmentArray) > 0)
-
-                    @for ($k = 0; $k < count($attachmentArray); $k++) <div class="row align-items-center">
+                    @for ($k = 0; $k < count($attachmentArray); $k++) <div class="row">
                         <div class="col-lg-4">
 
                             <input type="file" class="custom-file-input form-control" id="attachment_files_json" name="group-a[0][media_file_json]" />
-
-                            {{-- <input type="hidden" name="media_file_json_db" value="{{ $attachmentArray[$k] }}"> --}}
-                    {{-- @dd($attachmentArray); --}}
-
+                            <input type="hidden" name="media_file_json_db" value="{{ $attachmentArray[$k] }}">
                             <label class="custom-file-label" for="customFile">Image</label>
                         </div>
-                        <div class="col-lg-2"></div>
-                       <div class="col-lg-4">
-                        <img class="imagePreview2 imgdisplay-blog" width="100" height="100" alt=""
-                                                src=" {{ URL::asset('images/business/' . $attachmentArray[$k]['Media'.($k+1)]) }}" />
-                       </div>
-
-                        <!-- <div class="col-sm-4"></div> -->
+                        <!-- <div class="col-lg-3">
+                            <img class="imagePreview2" alt="" width="100" height="100" src="{{URL::asset('images/business/'.$row['media_file_arr'][$j]['Media'.($j+1)])}}" />
+                        </div> -->
+                        <div class="col-sm-4"></div>
 
                         <div class="col-lg-1 align-self-center">
-                            <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger business-btn mt-2">
+                            <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger mt-2">
                                 <i class="bx bx-trash d-block font-size-16"></i>
                             </button>
                         </div>
@@ -450,10 +443,7 @@
                 @endfor
                 @endif
             </div>
-            {{-- <button type="button" onclick="addMediaFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
-                Add New</button> --}}
-        </div>
-            <button type="button" onclick="addMediaFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
+            <button type="button" onclick="addMediaFunction()" class="btn btn-primary waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
                 Add New</button>
         </div>
         <div class="row mt-3">
@@ -1030,20 +1020,20 @@ $('#txtSearchTag').on('select2:unselect', function(e) {
     }
 
     function addHoursFunction() {
-        $str = '<div data-repeater-item class="row"><div class="form-group col-lg-3"><label for="formrow-firstname-input">Day</label><select class="form-select form-control" name="txtDay" id="txtDay" required><option value="">Select Day</option>@foreach($days as $name=>$Name)<option value={{$name}}>{{$Name}}</option>@endforeach</select><div class="invalid-feedback">Please provide a Day.</div></div><div class="form-group col-lg-4"><label for="formrow-firstname-input">Start Time</label><div class="input-group"><input id="timepicker" type="text" class="form-control start_time" name="time" data-provide="timepicker"  required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span></div><div class="invalid-feedback">Please provide a Start Time.</div></div></div><div class="form-group col-lg-4"><label for="formrow-firstname-input">End Time</label><div class="input-group"><input id="timepicker" type="text" class="form-control end_time" name="time"data-provide="timepicker" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span></div><div class="invalid-feedback">Please provide a End Time.</div></div></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top"title="Delete" class="btn btn-danger business-btn mt-2"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
+        $str = '<div data-repeater-item class="row"><div class="form-group col-lg-3"><label for="formrow-firstname-input">Day</label><select class="form-select form-control" name="txtDay" id="txtDay" required><option value="">Select Day</option>@foreach($days as $name=>$Name)<option value={{$name}}>{{$Name}}</option>@endforeach</select><div class="invalid-feedback">Please provide a Day.</div></div><div class="form-group col-lg-4"><label for="formrow-firstname-input">Start Time</label><div class="input-group"><input id="timepicker" type="text" class="form-control start_time" name="time" data-provide="timepicker"  required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span></div><div class="invalid-feedback">Please provide a Start Time.</div></div></div><div class="form-group col-lg-4"><label for="formrow-firstname-input">End Time</label><div class="input-group"><input id="timepicker" type="text" class="form-control end_time" name="time"data-provide="timepicker" required><div class="input-group-append"><span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span></div><div class="invalid-feedback">Please provide a End Time.</div></div></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top"title="Delete" class="btn btn-danger mt-2"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
         console.log($str);
         $('div[data-repeater-list="hours_repeater"]').append($str);
     }
 
     // function addMediaFunction() {
     //     $str = '<div data-repeater-item class="row"><div class="col-lg-4"> <input type="file" class="custom-file-input media_file form-control" name="media_detail[]" id="media_file" accept="image/*" required=""><label class="custom-file-label" for="customFile">Image</label><div class="invalid-feedback invalid-feedback-pic">Media File is required !</div></div><div class="col-lg-3"><img class="imagePreview2" alt="" width="100" height="100" src="{{URL::asset('
-    //     images / image - placeholder.jpg ')}}"></div><div class="col-sm-4"></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete="" data-toggle="tooltip" data-placement="top" title="" class="btn btn-danger business-btn mt-2" data-original-title="Delete"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
+    //     images / image - placeholder.jpg ')}}"></div><div class="col-sm-4"></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete="" data-toggle="tooltip" data-placement="top" title="" class="btn btn-danger mt-2" data-original-title="Delete"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
     //     $('div[data-repeater-list="media_detail"]').append($str);
     // }
 
     // function addRelatedPersonFunction() {
     //     $str = '<div data-repeater-item class="row"><div class="col-lg-4"> <input type="file" class="custom-file-input related_person form-control" name="related_person_image[]" id="related_person_image" accept="image/*" required=""><label class="custom-file-label" for="customFile">Image</label><div class="invalid-feedback invalid-feedback-pic">Related Person Image is required !</div></div><div class="col-lg-4"><div class="form-group"><label for="formrow-firstname-input">Related Person Details</label><textarea name="related_person_details[]" class="form-control" value="" id="related_person_details" placeholder="Related Person Details" required></textarea><div class="invalid-feedback">Please provide a Related Person Details.</div></div></div><div class="col-lg-3"><img class="imagePreview" alt="" width="100" height="100" src="{{URL::asset('
-    //     images / image - placeholder.jpg ')}}" /></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete="" data-toggle="tooltip" data-placement="top" title="" class="btn btn-danger business-btn mt-2" data-original-title="Delete"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
+    //     images / image - placeholder.jpg ')}}" /></div><div class="col-lg-1 align-self-center"><button type="button" data-repeater-delete="" data-toggle="tooltip" data-placement="top" title="" class="btn btn-danger mt-2" data-original-title="Delete"><i class="bx bx-trash d-block font-size-16"></i></button></div></div>';
     //     $('div[data-repeater-list="related_personal_repeater"]').append($str);
     // }
 

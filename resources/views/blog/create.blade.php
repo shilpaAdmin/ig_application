@@ -116,7 +116,7 @@
                             </div>
                         </div>
                         <button type="button" data-repeater-create
-                            class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn mt-2"><i
+                            class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn mt-2 addbtnforall"><i
                                 class="bx bx-plus label-icon"></i> Add New</button>
                     </div>
                     <br />

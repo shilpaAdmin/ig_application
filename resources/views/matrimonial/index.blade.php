@@ -7,24 +7,42 @@
 @endsection
 
 @section('content')
+    <div class="row mb-3" id="">
+    <div class="col-md-12">
+        <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-6">
+                    <div class="card-body newheadcontanty">
+                        <h5 class="m-0 textforhedermaster">Matrimonial</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-6">
 
-    @component('common-components.breadcrumb')
-        @slot('title') Matrimonial List @endslot
-        @slot('li_1') Matrimonial @endslot
-        @slot('li_2') List @endslot
+                    <div class="card-body newheadcontanty">
+                    <h4 class="card-title" style="text-align:right;"><a href="{{ route('matrimonial.create') }}"
+                                class="btn btn-primary waves-effect btn-label waves-light addbtnforall"><i
+                                    class="bx bx-plus label-icon"></i>ADD
+                                Matrimonial </a></h4>
+                        </h4>
+                    </div>
 
-    @endcomponent
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
 
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
-                        <h4 class="card-title" style="text-align:right;"><a href="{{ route('matrimonial.create') }}"
-                                class="btn btn-primary waves-effect btn-label waves-light"><i
-                                    class="bx bx-plus label-icon"></i>ADD
-                                Matrimonial </a></h4><br><br><br>
-
+                        
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">
                         </div>

@@ -6,24 +6,37 @@
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css') }}">
 @endsection
 
+
+
+
 @section('content')
-
-    @component('common-components.breadcrumb')
-        @slot('title') Business List @endslot
-        @slot('li_1') <a href="{{ route('business') }}" class=''>Business</a> @endslot
-        @slot('li_2') List @endslot
-
-    @endcomponent
-
+<div class="row mb-3" id="">
+    <div class="col-md-12">
+        <div class="card bg-gray-bg text-white-50 m-0 mainhedformaster">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-6">
+                    <div class="card-body newheadcontanty">
+                        <h5 class="m-0 textforhedermaster">Business List</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-6">
+                    <div class="card-body newheadcontanty">
+                    <h4 class="card-title" style="text-align:right;"><a href="{{ route('business.create') }}"
+                                class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i
+                                    class="bx bx-plus label-icon"></i>ADD
+                                Business </a></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
-                        <h4 class="card-title" style="text-align:right;"><a href="{{ route('business.create') }}"
-                                class="btn btn-primary waves-effect btn-label waves-light"><i
-                                    class="bx bx-plus label-icon"></i>ADD
-                                Business </a></h4><br><br><br>
+                        
 
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">
