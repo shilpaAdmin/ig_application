@@ -154,27 +154,32 @@ class ForumController extends Controller
     {
         $forum_id=$id;
 
-        $forumDetail=ForumDetail::where('id',$forum_id)->get()->toArray();
-
+        $forumDetail=ForumModel::with(['user'])->where('id',$forum_id)->first();
+        
         $sortBy = isset($input['sort_by']) ? $input['sort_by'] : 'DESC';
         $recordsPerPage = isset($input['recordsPerPage']) ? $input['recordsPerPage'] : 5;
         $pageNumber = isset($input['pageNumber']) ? $input['pageNumber'] : 1;
 
         $skip = (($pageNumber - 1) * $recordsPerPage);
 
-        $commentData = ForumCommentReplyModel::where('forum_id',$forum_id)->where('comment_id',0)
+        $commentData = ForumCommentReplyModel::where('forum_comment_reply.forum_id',$forum_id)
+        ->where('forum_comment_reply.comment_id',0)
         ->leftJoin('user','forum_comment_reply.user_id','user.id')
         ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
-        ->skip($skip)->take(5)->get()->toArray();
+        ->where('forum_comment_reply.is_deleted',0)
+        //->skip($skip)->take(5)
+        ->get()->toArray();
         
         $commentReplyArray = array();
         foreach ($commentData as $comment)
         {
             $commentId = $comment['id'];
-            $replyData =ForumCommentReplyModel::where('comment_id',$commentId)->where('comment_id','!=',0)
+            $replyData =ForumCommentReplyModel::where('forum_comment_reply.comment_id',$commentId)
+            ->where('forum_comment_reply.comment_id','!=',0)
             ->leftJoin('user','forum_comment_reply.user_id','user.id')
             ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
-            ->orderBy('id','desc')->get()->toArray();
+            ->where('forum_comment_reply.is_deleted',0)
+            ->orderBy('forum_comment_reply.id','desc')->get()->toArray();
 
             $commentReplyArray[$commentId]['id'] = $commentId;
             $commentReplyArray[$commentId]['comment'] = $comment['message'];
@@ -288,4 +293,38 @@ class ForumController extends Controller
         return redirect()->back()->withSuccess('Data recovered successfully!');
     }
 
+    public function deleteReply(Request $request)
+    {
+        $input=$request->all();
+
+        $form=ForumCommentReplyModel::find($input['ReplyId']);
+        $form->is_deleted=1;
+        $result=$form->save();
+
+        if($result)
+        {
+            echo json_encode(array('status'=>true,'message'=>'Reply Deleted Successfully'));
+        }
+        else
+        {
+            echo json_encode(array('status'=>false,'message'=>'Reply not Deleted'));
+        }
+    }
+    
+    public function deleteComment(Request $request)
+    {
+        $input=$request->all();
+
+        ForumCommentReplyModel::where('id',$input['CommentId'])->update(['is_deleted'=>1]);
+
+        if(ForumCommentReplyModel::where('comment_id',$input['CommentId'])->update(['is_deleted'=>1]))
+        {
+            echo json_encode(array('status'=>true,'message'=>'Comment Deleted Successfully'));
+        }
+        else
+        {
+            echo json_encode(array('status'=>false,'message'=>'Comment not Deleted'));
+        }
+    }
 }
+

@@ -3,13 +3,31 @@
 @section('title') Fourm @endsection
 
 @section('css')
-<!-- Bootstrap Css -->
-        <link href="https://themesbrand.com/skote/layouts/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <!-- Icons Css -->
-        <link href="https://themesbrand.com/skote/layouts/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <!-- App Css-->
-        <link href="https://themesbrand.com/skote/layouts/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css') }}">
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/style.css')}}">
+<link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/responsive.css')}}">
+
+<style>
+    .forum_box2 .for_profile2 img {
+    
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    object-fit: cover;
+    width: 80px;
+    object-position: top;
+    height: 80px;
+}
+.bgforcoomreply {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+a.forum__icon.mr-3.replayall {
+    margin-top: 10px !important;
+    display: inline-block;
+}
+</style>
 @endsection
 
 @section('content')
@@ -20,87 +38,91 @@
    if($totalData > 0)
    {
 @endphp
-        <div class="accordion" id="accordionExample">       
-            @foreach($commentReplyArray as $comment)
-                    
-                @php 
-                    $usercommentimage='';
-                    if(!empty($comment['userimage']))
-                    {
-                        $user_image_path=public_path().'/images/user/'.$comment['userimage'];
+        <table class="table table-bordered mb-0">
+            <thead ><h1>Forum Detail</h1></thead>
+            <tbody>
+                <tr><th>Id</th><td>{{$forumDetail->id}}</td></tr>
+                <tr><th>Question</th><td>{{!empty($forumDetail->question)?$forumDetail->question:'N/A'}}</td></tr>
+                <tr><th>Description</th><td>{{!empty($forumDetail->description)?$forumDetail->description:'N/A'}}</td></tr>
+                <tr><th>URL</th><td>{{!empty($forumDetail->url)?$forumDetail->url:'N/A'}}</td></tr>
+                <tr><th>Approved Status</th><td>{{!empty($forumDetail->is_approve==0)?'Approved':'Not-Approved'}}</td></tr>
+                <tr><th>Created User</th><td>{{!empty($forumDetail->user['name'])?$forumDetail->user['name']:'N/A'}}</td></tr>
+                <tr><th>Created User</th><td>{{!empty($forumDetail->created_at)?date('d-m-Y',strtotime($forumDetail->created_at)):'N/A'}}</td></tr>
+                <tr><th>Created User</th><td>{{!empty($forumDetail->created_at)?date('g:i A',strtotime($forumDetail->created_at)):'N/A'}}</td></tr>
+            </tbody>
+        </table>
+        <br>
+        @foreach($commentReplyArray as $comment)	
+        
+        
+        <div class="bgforcoomreply">
 
-                        if(file_exists($user_image_path))
-                        {
-                            $usercommentimage=URL::to('/images/user').'/'.$comment['userimage'];
-                        }
-                        else
-                        {
-                            $usercommentimage=URL::to('/images/').'/img_avatar3.png';
-                        }
-                    }
-                    else
-                    {
-                        $usercommentimage=URL::to('/images/').'/img_avatar3.png';
-                    }
+        <div class="forum_box2">
 
-                @endphp
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_{{$comment['id']}}">
-                        <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{$comment['id']}}" aria-expanded="false" aria-controls="collapse_{{$comment['id']}}">                        
-                        <img src="{{$usercommentimage}}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:40px;">
-                         <h5>{{$comment['username']}}</h5>
-                         <p>{{$comment['comment']}}</p>
-                        </button>
-                    </h2>
-                    <div id="collapse_{{$comment['id']}}" class="accordion-collapse collapse" aria-labelledby="heading_{{$comment['id']}}" data-bs-parent="#accordionExample" style="">
-                        <div class="accordion-body">
-                            
-                            @php 
-                            $totalReplys=count($comment['reply']);
-                            @endphp
+            <div class="row">
+                <div class="col-sm-1  for_profile2 ">
+                    <img src="{{  URL::asset('images/user/'.$comment['userimage'])}}" class="f__img_lef" width="100%">
+                </div>
 
-                            @if($totalReplys > 0)
-                                <ul type='ol'>
-                                @for($i=0;$i<$totalReplys;$i++)
-                                    <div class="media p-3">
-                                        @php 
-                                        $userimage='';
-                                        if(!empty($comment['reply'][$i]['userimage']))
-                                        {
-                                            $user_image_path=public_path().'/images/user/'.$comment['reply'][$i]['userimage'];
+                <div class="col-sm-11 likes-box">
+                    <span> <a class="forum__profilee" href="#"> {{  ucwords($comment['username']) }}</a></span>
+                </div>
 
-                                            if(file_exists($user_image_path))
-                                            {
-                                                $userimage=URL::to('/images/user').'/'.$comment['reply'][$i]['userimage'];
-                                            }
-                                            else
-                                            {
-                                                $userimage=URL::to('/images/').'/img_avatar3.png';
-                                            }
-                                        }
-                                        else
-                                        {
-                                            $userimage=URL::to('/images/').'/img_avatar3.png';
-                                        }
+                <div class="row">
+                    <div class="col-sm-12 ml-3 mt-3 mb-3">
+                        {{ ucwords($comment['comment']) }} <br>
 
-                                        @endphp
-                                        <img src="{{$userimage}}" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
-                                        <div class="media-body">
-                                            <!--<h4>Jane Doe <small><i>Posted on February 20 2016</i></small></h4>
-                                                <p>Lorem ipsum...</p>-->
-                                            <h4>{{$comment['reply'][$i]['username']}}</h4>
-                                            <p>{{$comment['reply'][$i]['comment']}}</p>
-                                        </div>
-                                    </div> 
-                                @endfor
-                                </ul>
-                            @endif
-
-                        </div>
+                        <a href="#" class="forum__icon mr-3 replayall"> <i class="fas fa-reply"></i> Reply </a>
+                        <a href="#" class="forum__icon comment-likes mt-3" data-id="{{$comment['id']}}" data-forumid="{{$comment['id']}}"> <i class="far fa-heart"></i> Like </a>
+                        <a href='javascript:;' data-id="{{$comment['id']}}" class="deletecomment">Remove</a>
                     </div>
                 </div>
-            @endforeach
+
+            </div>
+            
+            @php 
+                $totalReplys=isset($comment['reply'])?count($comment['reply']):0;
+            @endphp
+
+            {{-- comment reply --}}
+            @if($totalReplys > 0)
+            @for($i=0;$i<$totalReplys;$i++)
+                <div class="row mt-5">
+                    <div class="col-1"></div>
+                    <div class="col-11 border-leftt pl-5">
+                        <div class="row">
+                            <div class="col-sm-1  for_profile2 ">
+                                <img src="{{  URL::asset('images/user/'.$comment['reply'][$i]['userimage'])}}" class="f__img_lef" width="100%">
+                            </div>
+
+                            <div class="col-sm-11 likes-box">
+                                <span> <a class="forum__profilee" href="#"> {{  ucwords($comment['reply'][$i]['username']) }}</a></span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 ml-3 mt-3">
+                                    {{$comment['reply'][$i]['comment']}}<br>
+
+                                    <a href="#" class="forum__icon mr-3 replayall"> <i class="fas fa-reply"></i> Reply
+                                    </a>
+                                    <a href="#" class="forum__icon comment-likes" data-id="{{$comment['reply'][$i]['id']}}" data-forumid="{{$forumDetail->id}}"> <i class="far fa-heart"></i> Like </a>
+                                    <a href='javascript:;' data-id="{{$comment['reply'][$i]['id']}}" class="deletereply">Remove</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            @endfor
+            @endif
+            </div><!--  forum_box2 -->
+
         </div>
+
+            
+        
+            @endforeach
 @php 
    }
    else
@@ -121,4 +143,60 @@
     <script src="{{ URL::asset('assets/libs/node-waves/node-waves.min.js')}}"></script>  
     <script src="{{ URL::asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>  
     <!-- JAVASCRIPT -->
+    <script>
+    $(document).ready(function(){
+        
+    $.ajaxSetup({
+        headers:{'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+    });
+        
+        $(document).on('click','.deletereply',function(){
+
+            $.ajax({
+                url:'{{route("forum.deleteReply")}}',
+                data:'ReplyId='+$(this).attr('data-id'),
+                type:'post',
+                success:function(html){
+                    console.log(html);
+
+                    if(html.status===true)
+                    {
+                        swal("Deleted!", "Your Reply has been deleted.", "success");
+                        window.location.reload();
+                    }
+                    else
+                    {
+                        swal("Deleted_Error", "Error while deleting reply. :)", "error");
+                    }
+                },
+                error: function (data, status, xhr) {
+                    console.log(data);
+                }
+            });
+        });
+        $(document).on('click','.deletecomment',function(){
+            //alert('in delete comment'+$(this).attr('data-id'));
+            $.ajax({
+                url:'{{route("forum.deleteComment")}}',
+                data:'CommentId='+$(this).attr('data-id'),
+                type:'post',
+                success:function(html){
+                    console.log(html);
+                    if(html.status===true)
+                    {
+                        swal("Deleted!", "Your Reply has been deleted.", "success");
+                        window.location.reload();
+                    }
+                    else
+                    {
+                        swal("Deleted_Error", "Error while deleting reply. :)", "error");
+                    }
+                },
+                error: function (data, status, xhr) {
+                    console.log(data);
+                }
+            });
+        });
+    });
+    </script>
 @endsection

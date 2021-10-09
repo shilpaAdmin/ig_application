@@ -106,6 +106,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('forum/delete/{id}', 'ForumController@delete')->name('forum.delete');
         Route::get('forum/approve/{id}', 'ForumController@approveStatus')->name('forum.approve');
         Route::get('forum/getcommentreplylist/{id}', 'ForumController@getCommentReplyList')->name('forum.getCommentReplyList');
+        Route::post('forum/deleteReply', 'ForumController@deleteReply')->name('forum.deleteReply');
+        Route::post('forum/deleteComment', 'ForumController@deleteComment')->name('forum.deleteComment');
 
         //faq routes
         Route::get('faq', 'FaqController@index')->name('faq');
