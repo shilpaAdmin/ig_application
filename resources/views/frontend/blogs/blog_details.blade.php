@@ -306,6 +306,7 @@
             </div>
         </section>
 
+        
         @php
             if(isset($blog->media_file_json)){
                 $images=json_decode($blog->media_file_json, true);
