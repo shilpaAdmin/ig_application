@@ -120,3 +120,7 @@ Route::post('MyFavouriteList', 'Api\DashboardController@myFavouriteList')->middl
 Route::post('getCategoryWiseBusinessData', 'Api\BusinessController@getCategoryWiseBusinessData')->name('getCategoryWiseBusinessData');
 
 Route::post('getApplyJobList', 'Api\ApplyForJobController@getApplyJobList');
+
+
+// froend login api
+Route::post('login', 'Frontend\LoginController@loginAuthentication')->name('api.login');

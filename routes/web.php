@@ -243,9 +243,14 @@ Route::get('/terms/condition','HomeController@termscondition')->name('Termscondi
 Route::get('/disclaimer','HomeController@disclaimer')->name('Disclaimer');
 Route::get('/gdrp/notice','HomeController@gdrpnotice')->name('Gdrpnotice');
 
+
+
 // new developement
 Route::namespace('Frontend')->group(function () {
 
+    // login
+    Route::get('/login','LoginController@viewLogin')->name('login');
+    
     // forum
     Route::get('/forum','ForumController@index')->name('ForumList');
     Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');
@@ -286,7 +291,7 @@ Route::get('/matrimoney/list/grid','HomeController@matrimoneylistGrid')->name('M
 Route::get('/matrimoney/details','HomeController@matrimoneydetails')->name('Matrimoneydetails');
 
 //Login
-Route::get('/login','HomeController@login')->name('Login');
+// Route::get('/login','HomeController@login')->name('Login');
 Route::get('/forgot/password','HomeController@forgotpassword')->name('Forgotpassword');
 Route::get('signup','HomeController@signup')->name('Signup');
 

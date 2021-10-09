@@ -1,7 +1,9 @@
 @extends('frontend.layouts.master')
 @section('title') Homepage @endsection
 @section('content')
-
+    @php
+        $user = auth()->user();
+    @endphp
     <!-- Modal listing-->
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png') }}" class="preloader__image" alt="">
@@ -1312,6 +1314,7 @@
                             </div>
                         </div>
                     </div>
+                   
                     <div class="col-xl-4 col-lg-4">
                         <div class="download_screen wow slideInRight animated" data-wow-delay="100ms"
                             style="visibility: visible; animation-delay: 100ms; animation-name: slideInRight;">
@@ -1330,7 +1333,8 @@
         <script>
 
             $(document).ready(function(){
-
+                
+               
                 // category list (when page load)
                 $.ajax({
                     type:'GET',
@@ -1467,7 +1471,80 @@
                         },
                     });
                 });
+                loadLocation();
+                $(document).on('click','.logout',function(e){
+                    e.preventDefault();
+                    alert("helloo");
+                    var url ="{{url('/')}}"+"/api/Logout";
+                    $.ajax({
+                        type:'POST',
+                        url:url,
+                        dataType:'json',
+                        async:true,
+                        headers: {
+                            Authorization: 'Bearer '+$.cookie('token')
+                        },
+                        success:function(data)
+                        {
+                            var redirectUrl="{{route('/')}}";
+                            // location.assign(redirectUrl);
+                        },
+                        error:function(XMLHttpRequest, errorStatus, errorThrown)
+                        {
+                            console.log("XHR :: "+JSON.stringify(XMLHttpRequest));
+                            console.log("Status :: "+errorStatus);
+                            console.log("error :: "+errorThrown);
+                            $("#fullImageDivError").text('There is something wrong. Please try again');
+                            $("#fullImageDivError").show();
+                            $(".preloader").hide();
+                        }
+                    });
+                })
+
+
             });
+
+            function loadLocation()
+            {
+                var url ="{{url('/')}}"+"/api/LocationData";
+                $.ajax({
+                        type: 'get',
+                        url: url,
+                        dataType: 'json',
+                        async: true,
+                        beforeSend: function() {
+                            $('#loader').show(); // Show loader
+                        },
+                        success: function(data)
+                        {
+                           
+                           console.log(data.Result);
+                           var html='';
+                           $.each(data.Result, function (i){
+                                var id = data.Result[i]['Id'];
+                                var name = data.Result[i]['Name'];
+                                var type = data.Result[i]['Type'];
+                                var number = data.Result[i]['Number'];
+                                html+='<div>'+ name +'<a href="#" class="float-right d-inline-block location_a" data-id="'+id+'" data-type="'+type+'"> Select Location</a>  </div>';
+                           });
+                           $('.select_location').html(html);
+
+                        },
+                        error: function(XMLHttpRequest, errorStatus, errorThrown) {
+                            console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
+                            console.log("Status :: " + errorStatus);
+                            console.log("error :: " + errorThrown);
+                            $("#fullImageDivError").text(
+                                'There is something wrong. Please try again');
+                            $("#fullImageDivError").show();
+                        },
+                        complete: function() {
+                            setTimeout(() => {
+                                $('#loader').hide();
+                            }, 1000);
+                        },
+                    });
+            }
 
             function setCategoryHtml(data)
             {
