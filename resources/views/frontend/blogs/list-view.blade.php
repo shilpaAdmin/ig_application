@@ -2,8 +2,8 @@
 @foreach ($blogs as $blog)
     @php
         $images=json_decode($blog->media_file_json, true);
-        if(count($images)){
-            $imageUrl= URL::to('/images/blogs').'/'.$images[0]['Media1'] ;
+        if(count($images) && isset($images[0][0])){
+            $imageUrl= URL::to('/images/blogs').'/'.$images[0][0] ;
         } else {
             $imageUrl= URL::asset('assets/frontend/images/img/j1.jpg');
         }
@@ -19,7 +19,7 @@
             <div class="blog-one__content">
                 <ul class="list-unstyled blog-one__meta">
                     <li><a href=""><i class="far fa-user-circle"></i>by {{ isset($blog->user) && isset($blog->user->name) ? $blog->user->name : '-' }}</a></li>
-                    <li><a href=""><i class="far fa-comments"></i>{{ $blog->blogComments->count() }} Comments</a>
+                    <li><a href=""><i class="far fa-comments"></i>{{ isset($blog->blogComments) ?$blog->blogComments->count():0 }} Comments</a>
                     </li>
                 </ul>
                 <div class="blog_one_title">

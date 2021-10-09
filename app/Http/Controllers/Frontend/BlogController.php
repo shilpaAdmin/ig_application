@@ -47,11 +47,16 @@ class BlogController extends Controller
                         ->where('status','=','active')
                         ->where('name','=',str_replace('-', ' ', $slug))
                         ->first();
-
-        $categories = CategoryModel::where('parent_category_id','=',0)->where('status','=','active')->get();
-        $latestPost = BlogsModel::where('status','=','active')->orderBy('id','desc')->take(4)->get();
-
-        return view('frontend.blogs.blog_details',compact('blog','categories','latestPost'));
+       
+        if(isset($blog)){
+        
+            $categories = CategoryModel::where('parent_category_id','=',0)->where('status','=','active')->get();
+            $latestPost = BlogsModel::where('status','=','active')->orderBy('id','desc')->take(4)->get();
+           
+            return view('frontend.blogs.blog_details',compact('blog','categories','latestPost'));
+        } else {
+            return back();
+        }
     }
 
     public function saveBlogComments(Request $request) {

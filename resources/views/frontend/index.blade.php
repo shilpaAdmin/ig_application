@@ -1491,7 +1491,7 @@
                         success:function(data)
                         {
                             var redirectUrl="{{route('/')}}";
-                            // location.assign(redirectUrl);
+                            location.assign(redirectUrl);
                         },
                         error:function(XMLHttpRequest, errorStatus, errorThrown)
                         {
