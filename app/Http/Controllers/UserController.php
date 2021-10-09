@@ -14,6 +14,8 @@ use phpDocumentor\Reflection\Location;
 
 class UserController extends Controller
 {
+    var $counter = 1;
+
 
     public function index(Request $request)
     {
@@ -24,42 +26,43 @@ class UserController extends Controller
     public function userlist()
     {
 
-        $result_obj = UserModel::where('user.status', '!=', 'deleted')->leftJoin('city', function ($join)
-        {
+        $result_obj = UserModel::where('user.status', '!=', 'deleted')->leftJoin('city', function ($join) {
             $join->on('user.location_id', '=', 'city.id');
-        })->leftJoin('country', function ($join)
-        {
+        })->leftJoin('country', function ($join) {
             $join->on('user.location_id', '=', 'country.id');
-        })->select('user.*','city.name as city_name','country.name as country_name' )->get();
-       // dd($result_obj);
+        })->select('user.*', 'city.name as city_name', 'country.name as country_name')->get();
+        // dd($result_obj);
 
         return DataTables::of($result_obj)
+            ->addColumn('id', function ($result_obj) {
+                $counters = $this->counter++;
+                $id = '<div><span>' . $counters . '</span></div>';
+                return $id;
+            })
             ->addColumn('user_image', function ($result_obj) {
                 $user_image = '';
                 if ($result_obj->user_image != '' && file_exists(public_path() . '/images/user/' . $result_obj->user_image)) {
-                        $url = asset("images/user/$result_obj->user_image");
+                    $url = asset("images/user/$result_obj->user_image");
 
-                        $user_image .= '<img src=' . $url . ' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center">';
+                    $user_image .= '<img src=' . $url . ' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center">';
 
-                        return $user_image;
-                    } else {
-                        $url2 = asset("images/image-placeholder.jpg");
-                        $user_image .= '<img src=' . $url2 . ' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
-                    }
+                    return $user_image;
+                } else {
+                    $url2 = asset("images/image-placeholder.jpg");
+                    $user_image .= '<img src=' . $url2 . ' border="0" width="60" height="60" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
+                }
 
                 return $user_image;
             })
-            ->addColumn('location_id', function ($result_obj)
-            {
+            ->addColumn('location_id', function ($result_obj) {
                 $location_id = '';
                 $locationName = 'N/A';
-                if(isset($result_obj->location_type) && !empty($result_obj->location_type))
-                {
-                    if($result_obj->location_type == 'city')
-                        $locationName = $result_obj->city_name;
-                    else if($result_obj->location_type == 'country')
-                        $locationName = $result_obj->country_name;
-                }
+                if (isset($result_obj->location_type) && !empty($result_obj->location_type)) {
+                        if ($result_obj->location_type == 'city')
+                            $locationName = $result_obj->city_name;
+                        else if ($result_obj->location_type == 'country')
+                            $locationName = $result_obj->country_name;
+                    }
                 $location_id = ucwords($locationName);
                 return $location_id;
             })
@@ -67,14 +70,11 @@ class UserController extends Controller
             ->addColumn('location_type', function ($result_obj) {
                 $location_type = '';
                 $locationName = 'N/A';
-                if (!empty($result_obj->location_type))
-                {
-                    $location_type = ucwords($result_obj->location_type);
-
-                } else
-                {
-                   $location_type = ($locationName);
-                }
+                if (!empty($result_obj->location_type)) {
+                        $location_type = ucwords($result_obj->location_type);
+                    } else {
+                        $location_type = ($locationName);
+                    }
 
 
                 return $location_type;
@@ -108,7 +108,7 @@ class UserController extends Controller
                 <i class="mdi mdi-dots-vertical"></i>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="deleteUser('.$result_obj->id.')">Delete Record</a>
+                <a class="dropdown-item" onclick="deleteUser(' . $result_obj->id . ')">Delete Record</a>
             </div>';
                 return $command;
             })
@@ -123,6 +123,5 @@ class UserController extends Controller
         $delete = UserModel::where('id', $id)->update(['status' => 'deleted']);
 
         return redirect()->route('user');
-
     }
 }

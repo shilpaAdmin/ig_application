@@ -14,6 +14,7 @@ use Auth;
 
 class BlogController extends Controller
 {
+    var $counter = 1;
 
     /**
      * Create a new controller instance.
@@ -112,6 +113,11 @@ class BlogController extends Controller
 
         return DataTables::of($result_obj)
 
+        ->addColumn('id', function ($result_obj) {
+            $counters = $this->counter++;
+            $id = '<div><span>' . $counters . '</span></div>';
+            return $id;
+        })
         ->addColumn('user_id',function($result_obj){
             $user_id = '';
             $user_id = $result_obj->user_id;
@@ -152,7 +158,7 @@ class BlogController extends Controller
             </div>';
             return $command;
         })
-        ->rawColumns(['user_id','name','description','media_file','tagged','url','status_td','command'])
+        ->rawColumns(['id','user_id','name','description','media_file','tagged','url','status_td','command'])
         ->make(true);
     }
 

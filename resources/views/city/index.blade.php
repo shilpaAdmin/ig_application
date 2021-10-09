@@ -107,7 +107,6 @@ $(function() {
             {
                 data: 'name',
                 name: 'name',
-                searchable: false,
             },
             {
                 data: 'country',

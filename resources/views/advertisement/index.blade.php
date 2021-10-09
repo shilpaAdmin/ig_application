@@ -30,9 +30,9 @@
                         <table id="AdvertismentList" class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th></th>
+                                    <th>sequence</th>
                                     <th>#</th>
-                                    <th>Id</th>
+                                    {{-- <th>Id</th> --}}
                                     <th>Name</th>
                                     <th>User</th>
                                     <th>Category</th>
@@ -99,7 +99,8 @@
                     url: "{{ route('datatable.advertisementlist') }}",
                 },
 
-                columns: [{
+                columns: [
+                    {
                         "data": null,
                         defaultContent: ''
                     },
@@ -109,16 +110,15 @@
                         orderable: false,
                         searchable: false,
                         targets: 0,
-                        visible: false
+                        // visible: false
                     },
-
-                    {
-                        data: 'id',
-                        name: 'id',
-                        orderable: false,
-                        searchable: false,
-                        targets: 1
-                    },
+                    // {
+                    //     data: 'id',
+                    //     name: 'id',
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     targets: 1
+                    // },
                     {
                         data: 'name',
                         name: 'name',
@@ -188,6 +188,9 @@
                         orderable: false
                     }
                 ],
+                rowReorder: {
+                dataSrc: 'sequence',
+            },
                 "columnDefs": [{
                     "targets": 0,
                     "data": "id",
@@ -229,7 +232,7 @@
                     var checkedCheckBoxVal = $(this).val();
                     // alert("aa >> "+checkedCheckBoxVal);
                     $('#AdvertismentList tbody #row_' + checkedCheckBoxVal).addClass('selected');
-                    //console.log();
+                    console.log();
                     data = checkedCheckBoxVal;
                 });
 

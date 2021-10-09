@@ -30,9 +30,8 @@
                                 <!--
                                 <th>Type</th>
                                 <th>Category</th>-->
-                                
+                                <th>Sequance</th>
                                 <th>#</th>
-                                <th>Id</th>
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Description</th>
@@ -94,7 +93,7 @@ $(function() {
         },
 
         columns: [
-            { 
+            {
                 data: 'id',
                 name: 'sequence',
                 orderable:false,
@@ -102,7 +101,7 @@ $(function() {
                 targets: 0,
                 visible: false
             },
-                  
+
             {
                 data: 'id',
                 name: 'id',
@@ -134,7 +133,8 @@ $(function() {
             {
                 data: 'status_td',
                 name: 'status_td',
-                searchable: false
+                searchable: false,
+                orderable:false
             },
             {
                 data: 'command',
