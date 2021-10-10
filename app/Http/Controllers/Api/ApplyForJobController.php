@@ -105,9 +105,18 @@ class ApplyForJobController extends Controller
     {
         
         $input=$request->all();
-
-        $jobId = isset($input['JobID']) ? $input['JobID'] : '';
-
+        
+        if(!isset($input['JobID']) || empty($input['JobID']))
+        {
+            $error[] = 'JobID Must be Required!';
+		}
+        if(!empty($error))
+        {
+            return response()->json(['Status'=>False,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+		}
+        
+        $jobId = $input['JobID'];
+    
         if(isset($jobId) && !empty($jobId)) {
             $applyForJob =JobApplyModel::select('apply_for_job.*','business.name as business_name','business.media_file_json','user.user_image','user.name as user_name')
                                 ->leftJoin('user','user.id','=','apply_for_job.user_id')

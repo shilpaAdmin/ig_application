@@ -31,13 +31,65 @@ a.forum__icon.mr-3.replayall {
 @endsection
 
 @section('content')
-@php 
+@php
    $totalData=count($commentReplyArray);
    $outer=ceil($totalData/$recordsPerPage);
    $count=0;
    if($totalData > 0)
    {
+       $img_file='';
+
+       if(!empty($forumDetail['user_image']))
+       {
+            
+            if(file_exists($img_path))
+            {
+                $img_file=URL::to('/images/user').'/'.$forumDetail->user['user_image'];
+            }
+            else
+            {
+                $img_file=URL::to('/images').'/img_avatar3.png';
+            }
+       }
+       else
+       {
+            $img_file=URL::to('/images').'/img_avatar3.png';
+       }
+
+function timeAgo($time_ago) {
+    $time_ago =  strtotime($time_ago) ? strtotime($time_ago) : $time_ago;
+    $time  = time() - $time_ago;
+
+switch($time):
+// seconds
+case $time <= 60;
+return 'lessthan a minute ago';
+// minutes
+case $time >= 60 && $time < 3600;
+return (round($time/60) == 1) ? 'a minute' : round($time/60).' minutes ago';
+// hours
+case $time >= 3600 && $time < 86400;
+return (round($time/3600) == 1) ? 'a hour ago' : round($time/3600).' hours ago';
+// days
+case $time >= 86400 && $time < 604800;
+return (round($time/86400) == 1) ? 'a day ago' : round($time/86400).' days ago';
+// weeks
+case $time >= 604800 && $time < 2600640;
+return (round($time/604800) == 1) ? 'a week ago' : round($time/604800).' weeks ago';
+// months
+case $time >= 2600640 && $time < 31207680;
+return (round($time/2600640) == 1) ? 'a month ago' : round($time/2600640).' months ago';
+// years
+case $time >= 31207680;
+return (round($time/31207680) == 1) ? 'a year ago' : round($time/31207680).' years ago' ;
+
+endswitch;
+}
+
+$timeBefore=timeAgo($forumDetail->created_at);
 @endphp
+        
+        {{--
         <table class="table table-bordered mb-0">
             <thead ><h1>Forum Detail</h1></thead>
             <tbody>
@@ -51,12 +103,56 @@ a.forum__icon.mr-3.replayall {
                 <tr><th>Created User</th><td>{{!empty($forumDetail->created_at)?date('g:i A',strtotime($forumDetail->created_at)):'N/A'}}</td></tr>
             </tbody>
         </table>
+        --}}
         <br>
-        @foreach($commentReplyArray as $comment)	
-        
         
         <div class="bgforcoomreply">
+            <div class="forum__box mb-5">
+                <div class="row ">
+                    <div class="col-lg-1  for_profile">
+                        <img src="{{$img_file}}" class="f__img_left">
+                    </div>
 
+                    <div class="col-lg-11">
+                        <span> <a class="forum__profilee" href="#">{{!empty($forumDetail->user['name'])?$forumDetail->user['name']:'N/A'}} </a></span>
+                        <div class="for_hour"> <a class="" href=" #">{{$timeBefore}}</a></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12  forum_que">
+                        <p class="forum_que">{{!empty($forumDetail->question)?$forumDetail->question:'N/A'}}</p>
+                        <span class="forum_ans">{{!empty($forumDetail->description)?$forumDetail->description:'N/A'}}</span>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-lg-1  for_profile mb-3">
+                        <img src="https://ig.testingbeta.in/assets/frontend/images/img/d2.jpg" class="f__img_left">
+                    </div>
+
+                    <div class="col-lg-11">
+                        <form action="https://ig.testingbeta.in/save-comments" method="post" class="contact-one__form">
+                            <input type="hidden" name="_token" value="LfFWFylLMmUipq6KsCMQWedNrniEFTssKSNHhXJu">                                <input type="hidden" name="forum_id" value="1">
+                            <input type="hidden" name="type" value="Comment">
+                            <input type="hidden" name="comment_id" value="0">
+                            <div class="input-group">
+                                <textarea name="message" placeholder="Type something here......."></textarea>
+                            </div>
+                            <div class="input-group contact__btn msg__btnforum">
+                                <button type="submit" class="thm-btn contact-one__btn"> Comment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!--<div class="pt-5 forum_que"> 1 Replies</div>-->
+            </div>
+        @foreach($commentReplyArray as $comment)	
+        
+        @php 
+            $commentBeforeTime=timeAgo($comment['created_at']);
+        @endphp
         <div class="forum_box2">
 
             <div class="row">
@@ -66,8 +162,8 @@ a.forum__icon.mr-3.replayall {
 
                 <div class="col-sm-11 likes-box">
                     <span> <a class="forum__profilee" href="#"> {{  ucwords($comment['username']) }}</a></span>
-                </div>
-
+                    <div class="for_hour"> <a class="" href=" #"> {{$commentBeforeTime}}</a></div>
+                </div>  
                 <div class="row">
                     <div class="col-sm-12 ml-3 mt-3 mb-3">
                         {{ ucwords($comment['comment']) }} <br>
@@ -87,6 +183,9 @@ a.forum__icon.mr-3.replayall {
             {{-- comment reply --}}
             @if($totalReplys > 0)
             @for($i=0;$i<$totalReplys;$i++)
+                @php 
+                    $replyBeforeTime=timeAgo($comment['created_at']);
+                @endphp
                 <div class="row mt-5">
                     <div class="col-1"></div>
                     <div class="col-11 border-leftt pl-5">
@@ -94,9 +193,9 @@ a.forum__icon.mr-3.replayall {
                             <div class="col-sm-1  for_profile2 ">
                                 <img src="{{  URL::asset('images/user/'.$comment['reply'][$i]['userimage'])}}" class="f__img_lef" width="100%">
                             </div>
-
                             <div class="col-sm-11 likes-box">
                                 <span> <a class="forum__profilee" href="#"> {{  ucwords($comment['reply'][$i]['username']) }}</a></span>
+                                <div class="for_hour"> <a class="" href=" #"> {{$replyBeforeTime}}</a></div>
                             </div>
 
                             <div class="row">
@@ -117,12 +216,9 @@ a.forum__icon.mr-3.replayall {
             @endfor
             @endif
             </div><!--  forum_box2 -->
-
-        </div>
-
-            
-        
             @endforeach
+            
+        </div>
 @php 
    }
    else
@@ -151,18 +247,20 @@ a.forum__icon.mr-3.replayall {
     });
         
         $(document).on('click','.deletereply',function(){
+            $this=$(this);
 
             $.ajax({
                 url:'{{route("forum.deleteReply")}}',
                 data:'ReplyId='+$(this).attr('data-id'),
                 type:'post',
                 success:function(html){
-                    console.log(html);
+                    //console.log(html);
+                    var obj=JSON.parse(html);
 
-                    if(html.status===true)
+                    if(obj.status===true)
                     {
                         swal("Deleted!", "Your Reply has been deleted.", "success");
-                        window.location.reload();
+                        $this.parent().parent().parent().parent().parent().remove();
                     }
                     else
                     {
@@ -174,18 +272,23 @@ a.forum__icon.mr-3.replayall {
                 }
             });
         });
+
         $(document).on('click','.deletecomment',function(){
             //alert('in delete comment'+$(this).attr('data-id'));
+            $this=$(this);
+            console.log($(this));
             $.ajax({
                 url:'{{route("forum.deleteComment")}}',
                 data:'CommentId='+$(this).attr('data-id'),
                 type:'post',
                 success:function(html){
                     console.log(html);
-                    if(html.status===true)
+                    var obj=JSON.parse(html);
+
+                    if(obj.status===true)
                     {
+                        $this.parent().parent().parent().parent().remove();
                         swal("Deleted!", "Your Reply has been deleted.", "success");
-                        window.location.reload();
                     }
                     else
                     {
