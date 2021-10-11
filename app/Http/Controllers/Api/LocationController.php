@@ -60,6 +60,7 @@ class LocationController extends Controller
     public function updateLocation(Request $request)
     {
         $input=$request->all();
+       
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';

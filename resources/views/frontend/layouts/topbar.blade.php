@@ -77,46 +77,25 @@
                     <div class="header_topmenu_1">
                         <ul class="list-unstyled">
 
-                            @if( isset($user))
+                            {{-- @if( isset($user))
                                 <li><a href="javascript:void(0);" class=""><i class="fas fa-user"></i>{{ isset($user->name) ? $user->name : ''}} </a></li>
                             @else
                                 <li><a href="{{ route('login') }}"><i class="fas fa-user"></i>Log in </a></li>
-                            @endif
-                            
+                            @endif --}}
+
+                            <li id="userName">
+
+                            </li>
 
                             <li><a href="#" data-toggle="modal" data-target="#exampleModallisting">Add <i class="fas fa-plus"></i></a></li>
 
-                            <li>
-                                @php
-                                    $userLocation="-";
-                                    if (isset($user)) {
-                                        if($user->location_type=='city')
-                                        {
-                                            $locationData=App\User::where('location_id',$user->location_id)
-                                            ->leftjoin('city as city','user.location_id','=','city.id')
-                                            ->select('user.*','city.name as city_name','city.contact_number as contact_number')->first();
-                                        }
-                                        else if($user->location_type=='country')
-                                        {
-                                            $locationData=App\User::where('location_id',$user->location_id)
-                                            ->leftjoin('country as country','user.location_id','=','country.id')
-                                            ->select('user.*','country.name as country_name','country.contact_number as contact_number')->first();
-                                        }
-                                        if($user->location_type=='country')
-                                        {
-                                            $userLocation = isset($locationData->country_name)?$locationData->country_name:'';
-                                        }
-                                        elseif($user->location_type=='city')
-                                        {
-                                            $userLocation = isset($locationData->city_name)?$locationData->city_name:'';
-                                        }
-                                    }
-                                @endphp
-                                @if (isset($user))
+                            <li id="setLocationName">
+                              
+                                {{-- @if (isset($user))
                                 <a href="#" data-toggle="modal" data-target="#exampleModallocation">{{$userLocation}} <i class="fas fa-caret-down"></i> </a>
                                 @else
                                 <a href="#" data-toggle="modal" data-target="#exampleModallocation">Select Location <i class="fas fa-caret-down"></i> </a>
-                                @endif
+                                @endif --}}
                                 
                             </li>
 

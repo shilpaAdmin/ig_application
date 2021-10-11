@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Model\BlogsModel;
 use App\Http\Model\CategoryModel;
 use App\Http\Model\BlogsCommentReplyModel;
+use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller
 {
@@ -45,7 +46,7 @@ class BlogController extends Controller
                             ->join('user','user.id','=','blogs_comment_reply.user_id');
                         }])
                         ->where('status','=','active')
-                        ->where('name','=',str_replace('-', ' ', $slug))
+                        ->where(DB::raw("LOWER(name)"),'=',str_replace('-', ' ', $slug))
                         ->first();
        
         if(isset($blog)){

@@ -64,7 +64,7 @@
                             </div>
 
                             <div class="form-check w-50 float-left text-right forgot-pwd-link mb-3">
-                                <a href="{{ route('Login') }}"> Already have an account? Login </a>
+                                <a href="{{ route('login') }}"> Already have an account? Login </a>
                             </div>
 
                             <div class="text-center mt-3 mb-3"> OR <br> Signup with </div>
@@ -84,7 +84,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                         </div>
                     </div>

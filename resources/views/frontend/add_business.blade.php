@@ -1,12 +1,12 @@
 @extends('frontend.layouts.master')
 @section('title') add business @endsection
 @section('content')
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 
-<body>
+<body> --}}
 
-    <!-- Modal location-->
+    {{-- <!-- Modal location-->
     <div class="modal fade" id="exampleModallocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document">
@@ -293,7 +293,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
 
@@ -800,7 +800,7 @@
 
     </section>
 
-
+{{-- 
 </body>
-</html>
+</html> --}}
 @endsection

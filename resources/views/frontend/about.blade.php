@@ -1,10 +1,8 @@
 @extends('frontend.layouts.master')
 @section('title') About @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
 
+{{-- 
 <!-- Modal location-->
 <div class="modal fade" id="exampleModallocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document">
@@ -248,7 +246,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
@@ -410,262 +408,261 @@
         </section>
 
 
-<section class="faq_one background__grey mb-5">
-<div class="container">
+    <section class="faq_one background__grey mb-5">
+    <div class="container">
+            <div class="block-title text-center">
+                <h2>Meet Our Team</h2>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                            <div class="top_authors_single">
+                                <div class="top_authors_single_inner">
+                                    <div class="top_authors_image">
+                                        <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-1.jpg')}}" alt="">
+                                    </div>
+                                    <div class="top_authors_content">
+                                        <h3>Mike Hardson</h3>
+                                        <h4>Designation</h4>
+                                        <div class="about_team_social">
+
+                                            <ul class="list-unstyled">
+                                                <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                            <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
+                                            </ul>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="top_authors_single">
+                                <div class="top_authors_single_inner">
+                                    <div class="top_authors_image">
+                                        <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-2.jpg')}}" alt="">
+                                    </div>
+                                    <div class="top_authors_content">
+                                        <h3>Jessica Brown</h3>
+                                        <h4>Designation</h4>
+                                    <div class="about_team_social">
+
+                                            <ul class="list-unstyled">
+                                                <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                            <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="top_authors_single">
+                                <div class="top_authors_single_inner">
+                                    <div class="top_authors_image">
+                                        <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-3.jpg')}}" alt="">
+                                    </div>
+                                    <div class="top_authors_content">
+                                        <h3>Christine Eve</h3>
+                                        <h4>Designation</h4>
+                                        <div class="about_team_social">
+
+                                            <ul class="list-unstyled">
+                                                <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                            <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="top_authors_single">
+                                <div class="top_authors_single_inner">
+                                    <div class="top_authors_image">
+                                        <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-4.jpg')}}" alt="">
+                                    </div>
+                                    <div class="top_authors_content">
+                                        <h3>Kevin Martin</h3>
+                                        <h4>Designation</h4>
+                                        <div class="about_team_social">
+
+                                            <ul class="list-unstyled">
+                                                <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                            <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="top_authors_single">
+                                <div class="top_authors_single_inner">
+                                    <div class="top_authors_image">
+                                        <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-2.jpg')}}" alt="">
+                                    </div>
+                                    <div class="top_authors_content">
+                                        <h3>Mike Hardson</h3>
+                                        <h4>Designation</h4>
+                                        <div class="about_team_social">
+
+                                            <ul class="list-unstyled">
+                                                <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                            <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="top_authors_single">
+                                <div class="top_authors_single_inner">
+                                    <div class="top_authors_image">
+                                        <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-3.jpg')}}" alt="">
+                                    </div>
+                                    <div class="top_authors_content">
+                                        <h3>Sarah Albert</h3>
+                                        <h4>Designation</h4>
+                                        <div class="about_team_social">
+
+                                            <ul class="list-unstyled">
+                                                <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
+                                                <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                            <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+    </section>
+
+
+
+    <section class="vision_mission_sec">
+
+    <div class="container">
         <div class="block-title text-center">
-            <h2>Meet Our Team</h2>
+            <h2>Our Vision & Mission</h2>
         </div>
-        <div class="row">
-            <div class="col-xl-6 col-lg-6">
-                        <div class="top_authors_single">
-                            <div class="top_authors_single_inner">
-                                <div class="top_authors_image">
-                                    <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-1.jpg')}}" alt="">
-                                </div>
-                                <div class="top_authors_content">
-                                    <h3>Mike Hardson</h3>
-                                    <h4>Designation</h4>
-                                    <div class="about_team_social">
 
-                                        <ul class="list-unstyled">
-                                            <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                                           <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
-                                          <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
-                                        </ul>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="top_authors_single">
-                            <div class="top_authors_single_inner">
-                                <div class="top_authors_image">
-                                    <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-2.jpg')}}" alt="">
-                                </div>
-                                <div class="top_authors_content">
-                                    <h3>Jessica Brown</h3>
-                                    <h4>Designation</h4>
-                                   <div class="about_team_social">
-
-                                        <ul class="list-unstyled">
-                                            <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                                           <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
-                                          <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
+            <div class="row">
+                    <div class="col-xl-4 col-lg-4 text-center">
+                        <img class="img-fluid" src="{{ URL::asset('assets/frontend/images/backgrounds/mission.jpg')}}">
                     </div>
 
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="top_authors_single">
-                            <div class="top_authors_single_inner">
-                                <div class="top_authors_image">
-                                    <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-3.jpg')}}" alt="">
-                                </div>
-                                <div class="top_authors_content">
-                                    <h3>Christine Eve</h3>
-                                    <h4>Designation</h4>
-                                    <div class="about_team_social">
+                    <div class="col-xl-8 col-lg-8 ">
 
-                                        <ul class="list-unstyled">
-                                            <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                                           <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
-                                          <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
-                                        </ul>
-                                    </div>
+                        <div class="mb-5">
+                            Lorem ipsum dolor sit amet consectetur adipisicing, elit. Quasi, numquam quaerat libero totam dolor obcaecati reiciendis doloremque quidem optio, id laudantium sunt, doloribus eaque, corrupti cupiditate. Impedit fugiat adipisci dignissimos.
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <div class="vision_main">
+                                    <h2 class="vision_h2"> Vision </h2>
+                                    <p class="vision_p"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cumque a tenetur et atque aliquid.</p>
+
+                                    <div> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cumque a tenetur et atque aliquid voluptas ea, non reiciendis ipsam recusandae optio eveniet perspiciatis voluptate fugiat quisquam neque repudiandae quibusdam. </div>
+
                                 </div>
                             </div>
 
+                            <div class="col-lg-6">
+                                <div class="vision_main mission_light_bg">
+                                    <h2 class="vision_h2 color_black"> Mission </h2>
+                                    <p class="vision_p"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cumque a tenetur et atque aliquid. </p>
 
-                        </div>
-                    </div>
+                                    <div> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cumque a tenetur et atque aliquid voluptas ea, non reiciendis ipsam recusandae optio eveniet perspiciatis voluptate fugiat quisquam neque repudiandae quibusdam. </div>
 
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="top_authors_single">
-                            <div class="top_authors_single_inner">
-                                <div class="top_authors_image">
-                                    <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-4.jpg')}}" alt="">
-                                </div>
-                                <div class="top_authors_content">
-                                    <h3>Kevin Martin</h3>
-                                    <h4>Designation</h4>
-                                    <div class="about_team_social">
-
-                                        <ul class="list-unstyled">
-                                            <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                                           <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
-                                          <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
 
-
                         </div>
+
                     </div>
-
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="top_authors_single">
-                            <div class="top_authors_single_inner">
-                                <div class="top_authors_image">
-                                    <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-2.jpg')}}" alt="">
-                                </div>
-                                <div class="top_authors_content">
-                                    <h3>Mike Hardson</h3>
-                                    <h4>Designation</h4>
-                                    <div class="about_team_social">
-
-                                        <ul class="list-unstyled">
-                                            <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                                           <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
-                                          <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="top_authors_single">
-                            <div class="top_authors_single_inner">
-                                <div class="top_authors_image">
-                                    <img src="{{ URL::asset('assets/frontend/images/resources/top-authors-img-3.jpg')}}" alt="">
-                                </div>
-                                <div class="top_authors_content">
-                                    <h3>Sarah Albert</h3>
-                                    <h4>Designation</h4>
-                                    <div class="about_team_social">
-
-                                        <ul class="list-unstyled">
-                                            <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-instagram"></i></a></li>
-                                            <li> <a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                                           <li> <a href="#"><i class="fab fa-twitter"></i></a></li>
-                                          <li><a href="#"> <i class="fab fa-youtube"></i> </a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-
             </div>
-        </div>
-</section>
+    </div>
+    </section>
 
 
-
-<section class="vision_mission_sec">
-
- <div class="container">
-     <div class="block-title text-center">
-        <h2>Our Vision & Mission</h2>
-     </div>
-
-        <div class="row">
-                <div class="col-xl-4 col-lg-4 text-center">
-                    <img class="img-fluid" src="{{ URL::asset('assets/frontend/images/backgrounds/mission.jpg')}}">
-                </div>
-
-                 <div class="col-xl-8 col-lg-8 ">
-
-                     <div class="mb-5">
-                         Lorem ipsum dolor sit amet consectetur adipisicing, elit. Quasi, numquam quaerat libero totam dolor obcaecati reiciendis doloremque quidem optio, id laudantium sunt, doloribus eaque, corrupti cupiditate. Impedit fugiat adipisci dignissimos.
-                     </div>
-
-
-                     <div class="row">
-
-                        <div class="col-lg-6">
-                            <div class="vision_main">
-                                <h2 class="vision_h2"> Vision </h2>
-                                <p class="vision_p"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cumque a tenetur et atque aliquid.</p>
-
-                                <div> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cumque a tenetur et atque aliquid voluptas ea, non reiciendis ipsam recusandae optio eveniet perspiciatis voluptate fugiat quisquam neque repudiandae quibusdam. </div>
-
+    <section class="download" style="background-image: url({{ URL::asset('assets/frontend/images/backgrounds/download-bg.jpg')}})">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-8">
+                    <div class="download_textabout">
+                        <h2>Download Our IG App</h2>
+                        <h6>Our goal is to create a community to help you feel like home. So, download the app now and get connected to the life of your dreams in Germany.</h6>
+                        <div class="download_2-btn">
+                            <div class="download_btn-1">
+                                <a href="#">
+                                    <img src="{{ URL::asset('assets/frontend/images/img/googleplaystore.png')}}" width="30">
+                                    <p>GET IT ON<br>Google Play</p>
+                                </a>
                             </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                             <div class="vision_main mission_light_bg">
-                                <h2 class="vision_h2 color_black"> Mission </h2>
-                                <p class="vision_p"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cumque a tenetur et atque aliquid. </p>
-
-                                <div> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cumque a tenetur et atque aliquid voluptas ea, non reiciendis ipsam recusandae optio eveniet perspiciatis voluptate fugiat quisquam neque repudiandae quibusdam. </div>
-
-                            </div>
-                        </div>
-
-                     </div>
-
-                 </div>
-        </div>
-</div>
-</section>
-
-
-        <section class="download" style="background-image: url({{ URL::asset('assets/frontend/images/backgrounds/download-bg.jpg')}})">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-8 col-lg-8">
-                        <div class="download_textabout">
-                            <h2>Download Our IG App</h2>
-                            <h6>Our goal is to create a community to help you feel like home. So, download the app now and get connected to the life of your dreams in Germany.</h6>
-                            <div class="download_2-btn">
-                                <div class="download_btn-1">
-                                    <a href="#">
-                                        <img src="{{ URL::asset('assets/frontend/images/img/googleplaystore.png')}}" width="30">
-                                        <p>GET IT ON<br>Google Play</p>
-                                    </a>
-                                </div>
-                                <div class="download_btn-1 two">
-                                    <a href="#">
-                                        <i class="fab fa-apple"></i>
-                                        <p>Download on the<br>App store</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4">
-                        <div class="download_screen wow slideInRight animated" data-wow-delay="100ms" style="visibility: visible; animation-delay: 100ms; animation-name: slideInRight;">
-                            <div class="download_screen_image">
-                                <img src="{{ URL::asset('assets/frontend/images/resources/download-screen-img.png')}}" alt="">
+                            <div class="download_btn-1 two">
+                                <a href="#">
+                                    <i class="fab fa-apple"></i>
+                                    <p>Download on the<br>App store</p>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-4 col-lg-4">
+                    <div class="download_screen wow slideInRight animated" data-wow-delay="100ms" style="visibility: visible; animation-delay: 100ms; animation-name: slideInRight;">
+                        <div class="download_screen_image">
+                            <img src="{{ URL::asset('assets/frontend/images/resources/download-screen-img.png')}}" alt="">
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-</body>
-</html>
+        </div>
+    </section>
+
 @endsection

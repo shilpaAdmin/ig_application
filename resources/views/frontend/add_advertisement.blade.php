@@ -1,11 +1,9 @@
 @extends('frontend.layouts.master')
 @section('title') Add Advertisment @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
 
-    <!-- Modal location-->
+
+    {{-- <!-- Modal location-->
     <div class="modal fade" id="exampleModallocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document">
@@ -292,7 +290,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="preloader">
         <img src="assets/images/loader.png" class="preloader__image" alt="">
@@ -415,6 +413,5 @@
         </section>
 
     </div><!-- /.page-wrapper -->
-</body>
-</html>
+
 @endsection
