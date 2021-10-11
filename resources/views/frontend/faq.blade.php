@@ -504,12 +504,9 @@ function callFaqTagWise(tagId)
             var faqTagIdArray = faqDivTagId.split(',');
 
             // console.log(faqTagIdArray);
-            if(jQuery.inArray(tagId.toString(), faqTagIdArray) != -1)
-            {
+            if(jQuery.inArray(tagId.toString(), faqTagIdArray) != -1) {
                 $("#faqDiv"+j).show();
-            }
-            else
-            {
+            } else {
                 $("#faqDiv"+j).hide();
             }
         }

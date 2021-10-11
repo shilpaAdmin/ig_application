@@ -2,13 +2,17 @@
     $(document).ready(function(){
        
         var page = 1;
+        var hasMoreBlog=true;
         loadMore(page,id,search);
 
         // scroll events
         $(window).scroll(function() { 
             if($(window).scrollTop() + $(window).height() >= ( $(document).height() - $('.site-footer').height() )) { 
                 page++; 
-                loadMore(page,id,search); 
+                if(hasMoreBlog){
+                    loadMore(page,id,search); 
+                }
+                
             }
         });  
 
@@ -36,6 +40,7 @@
                     
                         if(data.html.length == 0){
                             $('.ajax-loading').html("No More Blogs..!!!");
+                            hasMoreBlog=false;
                             return;
                         }
                         $("#results").append(data.html);          

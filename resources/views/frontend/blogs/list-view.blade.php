@@ -18,16 +18,16 @@
             </div>
             <div class="blog-one__content">
                 <ul class="list-unstyled blog-one__meta">
-                    <li><a href=""><i class="far fa-user-circle"></i>by {{ isset($blog->user) && isset($blog->user->name) ? $blog->user->name : '-' }}</a></li>
+                    <li><a href=""><i class="far fa-user-circle"></i>by {{ isset($blog->user) && isset($blog->user->name) ? ucwords($blog->user->name) : '-' }}</a></li>
                     <li><a href=""><i class="far fa-comments"></i>{{ isset($blog->blogComments) ?$blog->blogComments->count():0 }} Comments</a>
                     </li>
                 </ul>
                 <div class="blog_one_title">
-                    <h3><a href="{{ route('blog.detail',['slug'=>$slug]) }}">{{ isset($blog->name) ? $blog->name :'-'}}</a>
+                    <h3><a href="{{ route('blog.detail',['slug'=>$slug]) }}">{{ isset($blog->name) ? ucwords($blog->name) :'-'}}</a>
                     </h3>
                 </div>
                 <div class="blog_one_text">
-                    <p> {{ isset($blog->description) ? $blog->description : '-' }} </p>
+                    <p> {{ isset($blog->description) ? ucwords($blog->description) : '-' }} </p>
                 </div>
                 <div class="blog_one_date">
                     <p>{{ $blog->created_at->format('d') }}<br>{{ $blog->created_at->format('M') }}</p>

@@ -71,39 +71,41 @@
                         </div>
                     </div>
 
-                    <div class="pt-5 forum_que"> {{ $forum->forumComments->count() }} Replies</div>
+                    <div class="pt-5 forum_que" id="total-comments-count"> {{ $forum->forumComments->count() }} Replies</div>
                 </div>
-              
+                
                 @if ($forum->forumComments->count() > 0 )
                     @foreach ($forum->forumComments as $forumComment)
                         <div class="forum_box2">
 
-                            <div class="row">
+                            <div class="row main-comment">
                                 <div class="col-sm-1  for_profile2 ">
                                     <img src="{{  URL::asset('images/user/'.$forumComment->user_image)}}" class="f__img_lef">
                                 </div>
         
                                 <div class="col-sm-11 likes-box">
                                     <span> <a class="forum__profilee" href="#"> {{  ucwords($forumComment->name) }}</a></span>
-                                    <div class="for_hour"> <a class="pr-3" href="#"> {{ $forumComment->created_at->diffForHumans() }}</a> | <a
-                                            class="pl-3 totalLikes" href="#"> {{$forumComment->likes->count() }} Likes</a> </div>
-                                </div>
-        
-                                 
-                                    <div class="col-sm-12 ml-3">
-                                        {{ ucwords($forumComment->message) }} <br>
-        
-                                        <a href="#" class="forum__icon mr-3"> <i class="fas fa-reply"></i> Reply </a>
-                                        <a href="#" class="forum__icon comment-likes" data-id="{{$forumComment->id}}" data-forumid="{{$forum->id}}"> <i class="far fa-heart"></i> Like </a>
-
-                                        <form class="contact-one__form">
-                                        <div class="input-group mb-4">
-                                    <textarea name="message" placeholder="Type something here......."></textarea>
-                                </div>
-                                </form>
-
+                                    <div class="for_hour"> 
+                                        <a class="pr-3" href="#"> {{ $forumComment->created_at->diffForHumans() }}</a> | <a
+                                            class="pl-3 totalLikes" href="#"> {{$forumComment->likes->count() }} Likes</a> 
                                     </div>
                                 </div>
+                                 
+                                <div class="col-sm-12 ml-3 comment-div">
+                                    {{ ucwords($forumComment->message) }} <br>
+    
+                                    <a href="#" class="forum__icon mr-3 comment-replay"> <i class="fas fa-reply"></i> Reply </a>
+                                    <a href="#" class="forum__icon comment-likes" data-id="{{$forumComment->id}}" data-forumid="{{$forum->id}}"> <i class="far fa-heart"></i> Like </a>
+
+                                    <form class="contact-one__form" >
+                                        <div class="input-group mb-4 replyComment">
+                                            <textarea name="message" placeholder="Type something here......."></textarea>
+                                            <a href="javascript:void(0)" class="thm-btn comment-one__btn comments-reply-btn" data-id="{{$forumComment->id}}" data-forumid="{{$forum->id}}">Reply</a>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
         
                              
         
@@ -125,15 +127,16 @@
                                             </div>
             
                                             
-                                                <div class="col-sm-12 ml-3">
-                                                    {{$reply->message}}<br>
+                                                <div class="col-sm-12 ml-3  comment-div">
+                                                    {{ ucwords($reply->message) }}<br>
             
-                                                    <a href="#" class="forum__icon mr-3"> <i class="fas fa-reply"></i> Reply
+                                                    <a href="#" class="forum__icon mr-3 comment-replay"> <i class="fas fa-reply"></i> Reply
                                                     </a>
                                                     <a href="#" class="forum__icon comment-likes" data-id="{{$reply->id}}" data-forumid="{{$forum->id}}"> <i class="far fa-heart"></i> Like </a>
-                                                    <form class="contact-one__form">
-                                                        <div class="input-group mb-4">
+                                                    <form class="contact-one__form" >
+                                                        <div class="input-group mb-4 replyComment">
                                                             <textarea name="message" placeholder="Type something here......."></textarea>
+                                                            <a href="javascript:void(0)" class="thm-btn comment-one__btn comments-reply-btn" data-id="{{$reply->id}}" data-forumid="{{$forum->id}}">Reply</a>
                                                         </div>
                                                      </form>
                                                 </div>
@@ -407,7 +410,21 @@
     @section('script')
         <script>
             $(document).ready(function () {
-                
+                if (typeof userObj === "undefined") {
+                    user=null;
+                } else {
+                    user =JSON.parse( $.cookie('user') );
+                    console.log( "script" );
+                    console.log( token );
+                    console.log( user );
+                    console.log(user['SelectedLocationID']);
+                    console.log(user['Email']);
+                    console.log(user['Name']);
+                }
+
+
+                $(".replyComment").hide();
+                // $(".main-comment").after("<p>Hello world!</p>");
                 $(document).on('click','.comment-likes',function(e){
                     e.preventDefault();
                     var id = $(this).attr("data-id");
@@ -431,6 +448,62 @@
                         success: function(data) {
                             var totalLikes=data.totalLikes ? data.totalLikes : 0;
                             $this.parent().parent().parent().find('.totalLikes').text(totalLikes+" Likes");
+
+                        },
+                        error: function(XMLHttpRequest, errorStatus, errorThrown) {
+                            console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
+                            console.log("Status :: " + errorStatus);
+                            console.log("error :: " + errorThrown);
+                        },
+                        complete: function() {
+                        },
+                    });
+                });
+
+                $(document).on('click','.comment-replay',function(e){
+                    e.preventDefault();
+                    $(this).parent().find('.replyComment').toggle();
+                });
+
+
+                // comment replay submit
+                $(document).on('click','.comments-reply-btn',function(e){
+                    e.preventDefault();
+                    
+                    var id = $(this).attr("data-id");
+                    var forum_id = $(this).attr("data-forumid");
+                    var message= $(this).prev('textarea').val();
+                    var $this =$(this);
+                    console.log("replay");
+                    console.log(id);
+                    console.log(forum_id);
+                    console.log(message);
+                    // return false;
+
+                    $.ajax({
+                        type: 'post',
+                        data:{
+                            'comment_id':id,
+                            'forum_id':forum_id,
+                            'message':message,
+                            'type':"Reply",
+                            'user_id': user ? user['ID']:'1',
+                            '_token':$('input[name=_token]').val()
+                        },
+                        url: "{{ route('comment.replys') }}",
+                        dataType: 'json',
+                        async: true,
+                        beforeSend: function() {
+                            
+                        },
+                        success: function(data) {
+                            console.log("result");
+                            console.log(data);
+                            $this.parent().parent().parent().parent().after(data.html);
+                            $(".replyComment").hide();
+                            $("body").find('textarea').val('');
+                            // var totalLikes=data.totalLikes ? data.totalLikes : 0;
+                            // $this.parent().parent().parent().find('.totalLikes').text(totalLikes+" Likes");
 
                         },
                         error: function(XMLHttpRequest, errorStatus, errorThrown) {

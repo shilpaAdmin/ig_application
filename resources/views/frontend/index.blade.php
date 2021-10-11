@@ -978,15 +978,15 @@
                                 </div>
                                 <div class="blog-one__content">
                                     <ul class="list-unstyled blog-one__meta">
-                                        <li><a href=""><i class="far fa-user-circle"></i>by {{ isset($blog->user) && isset($blog->user->name) ? $blog->user->name : '-' }}</a></li>
+                                        <li><a href=""><i class="far fa-user-circle"></i>by {{ isset($blog->user) && isset($blog->user->name) ? ucwords($blog->user->name) : '-' }}</a></li>
                                         <li><a href=""><i class="far fa-comments"></i>{{$blog->blogComments->count()}} Comments</a></li>
                                     </ul>
                                     <div class="blog_one_title">
-                                        <h3><a href="{{ route('blog.detail',['slug'=>$slug]) }}">{{ isset($blog->name) ? $blog->name :'-'}}</a>
+                                        <h3><a href="{{ route('blog.detail',['slug'=>$slug]) }}">{{ isset($blog->name) ? ucwords($blog->name) :'-'}}</a>
                                         </h3>
                                     </div>
                                     <div class="blog_one_text">
-                                        <p>{{ isset($blog->description) ? $blog->description : '-' }}</p>
+                                        <p>{{ isset($blog->description) ? ucwords($blog->description) : '-' }}</p>
                                     </div>
                                     <div class="blog_one_date">
                                         <p>{{ $blog->created_at->format('d') }}<br>{{ $blog->created_at->format('M') }}</p>
@@ -1521,6 +1521,7 @@
                     var redirectStatus = data.Result[i]['redirect_status'];
                     var categoryPageRedirect = data.Result[i]['CategoryPageRedirect'];
                   
+                  
 
                     if(data.Result[i].Subcategories != undefined)
                     {
@@ -1546,6 +1547,9 @@
                                 var subcatName = data.Result[i].Subcategories[j]['Name'];
                                 var subcatIcon = data.Result[i].Subcategories[j]['Icon'];
                                 var Description = data.Result[i].Subcategories[j]['Description'];
+                                var slug = data.Result[i].Subcategories[j]['Slug'];
+                                console.log(subcatName)
+                                console.log(slug)
                                // console.log('sub cat name ::: '+subcatName+'sub cat id ::: '+subcatId);
 
                                 catSubcatHtml += '<div class="weekly_single">';
@@ -1555,7 +1559,8 @@
                                         catSubcatHtml += '<img src="'+icon+'" alt="">';
                                         catSubcatHtml += '</div>';
                                         catSubcatHtml += '<div class="weekly_content">';
-                                            catSubcatHtml += '<h3><a href="/category/'+subcatId+'">'+Description+'</a></h3>';
+                                            // catSubcatHtml += '<h3><a href="/category/'+subcatId+'">'+Description+'</a></h3>';
+                                            catSubcatHtml += '<h3><a href="/category/'+slug+'">'+Description+'</a></h3>';
                                            // catSubcatHtml += '<p>'+Description+'</p>';
                                             catSubcatHtml += '<div class="shopping_rating">';
                                                 catSubcatHtml += '<div class="weekly_content_shopping">';
@@ -1569,7 +1574,8 @@
                                             catSubcatHtml += '</div>';
                                         catSubcatHtml += '</div>';
                                         catSubcatHtml += '<div class="weekly_hover_content">';
-                                            catSubcatHtml += '<h3><a href="/category/'+subcatId+'">'+Description+'</a></h3>';
+                                            // catSubcatHtml += '<h3><a href="/category/'+subcatId+'">'+Description+'</a></h3>';
+                                            catSubcatHtml += '<h3><a href="/category/'+slug+'">'+Description+'</a></h3>';
                                             //catSubcatHtml += '<p>'+Description+'</p>';
                                             catSubcatHtml += '<div class="weekly_hover_content_restuarant_rating">';
                                                 catSubcatHtml += '<div class="weekly_hover_content_restuarant">';

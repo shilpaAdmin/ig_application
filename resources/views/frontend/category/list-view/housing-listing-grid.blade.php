@@ -3,9 +3,9 @@
 
     @php
 
-        $name= $business->name ? $business->name :'-';
-        $address= $business->address ? $business->address :'-';
-        $description= $business->description ? $business->description :'-';
+        $name= $business->name ? ucwords( $business->name) :'-';
+        $address= $business->address ? ucwords($business->address) :'-';
+        $description= $business->description ? ucwords($business->description) :'-';
         $date=$business->created_at->diffForHumans();
 
         $images=json_decode($business->media_file_json, true);
@@ -15,7 +15,7 @@
             $imageUrl=URL::asset('assets/frontend/images/listings/education1.jpg');
         }
 
-        $detailsPageUrl= route('housing.details',['id'=>$id,'bid'=>$business->id]);
+        $detailsPageUrl= route('housing.details',['slug'=>$slug,'bid'=>$business->id]);
     @endphp
 
     <div class="col-xl-4 col-md-6 col-sm-12">

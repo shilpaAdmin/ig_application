@@ -271,24 +271,29 @@ Route::namespace('Frontend')->group(function () {
     // login
     Route::get('/login','LoginController@viewLogin')->name('login');
     
-    // forum
+    // forum & comments - likes
     Route::get('/forum','ForumController@index')->name('ForumList');
-    Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');
+    Route::get('/forum/{slug}','ForumController@forumDetails')->name('forumdetail');
+    // Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');
     Route::post('/save-comments','ForumController@saveForumComment')->name('save.comments');
     Route::post('/like-dislike','ForumController@saveLikeDislike')->name('like-dislike');
+    Route::post('/comment-replys','ForumController@saveCommentReplys')->name('comment.replys');
 
     // Matrimoney
     Route::get('/matrimoney','MatrimoneyController@viewMatrimoney')->name('matrimoney');
 
     //category wise business listinng
-    Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
+    // Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
+    // Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
+ 
+    Route::get('/category/{slug}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
+    Route::get('/category/{slug}/{bid}','HousingController@housingDetails')->name('housing.details');
 
     //category career details
     Route::get('/careers','CareerController@careerList')->name('category.career-list');
 
 
-    //category business details
-    Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
+   
 
     // Faq
     Route::get('/faq','FaqController@faqDetails')->name('faq.details');

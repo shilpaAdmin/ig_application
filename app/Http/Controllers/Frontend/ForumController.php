@@ -23,10 +23,9 @@ class ForumController extends Controller
         return view('frontend.forum_listing',compact('forums'));
     }
 
-    public function forumDetails(Request $request){
-        $input= $request->all();
-        $id=$input['id'];
+    public function forumDetails(Request $request,$slug) {
 
+        $input= $request->all();
         $forum=ForumModel::select('forum.*','user.name','user.user_image')
                         ->with(['forumComments'=>function($q){
                             $q->select('forum_comment_reply.*','user.name','user.user_image')
@@ -39,20 +38,20 @@ class ForumController extends Controller
                                 ->orderBy('forum_comment_reply.id','desc');
                         }])
                         ->leftJoin('user','user.id','=','forum.user_id')
-                        ->find($id);
+                        ->where('slug','=',$slug)
+                        ->first();
 
         return view('frontend.forum_detail',compact('forum'));
     }
 
     public function saveForumComment(Request $request) {
 
-         // Form validation
+        // Form validation
         $this->validate($request, [
             'forum_id' => 'required',
             'type' => 'required',
             'comment_id' => 'required',
             'message'=>'required',
-
         ]);
 
         $input=$request->all();
@@ -60,7 +59,8 @@ class ForumController extends Controller
         $input['user_id'] = isset($user) ? $user->id : 1;
         $comment=ForumCommentReplyModel::create($input);
 
-        return redirect()->route('forumdetail', ['id'=>$input['forum_id']])->with('message', 'Comment saved sucessfully!!!');
+        $forum =ForumModel::find($input['forum_id']);
+        return redirect()->route('forumdetail', ['slug'=>$forum->slug])->with('message', 'Comment saved sucessfully!!!');
     }
 
     public function saveLikeDislike(Request $request) {
@@ -88,5 +88,31 @@ class ForumController extends Controller
                                             ->count();
 
         return response()->json(['totalLikes'=>$totalLikes]);
+    }
+
+    public function saveCommentReplys(Request $request) {
+
+        $this->validate($request, [
+            'comment_id' => 'required',
+            'forum_id' => 'required',
+            'type' => 'required',
+            'message'=>'required',
+            'user_id'=>'required',
+        ]);
+
+        $input=$request->all();
+        $reply=ForumCommentReplyModel::create($input);
+        
+        $reply= ForumCommentReplyModel::select('forum_comment_reply.*','user.name','user.user_image')
+                            ->with(['likes'])
+                            ->leftJoin('user','user.id','=','forum_comment_reply.user_id')
+                           ->find($reply->id);
+
+        if($request->ajax()) {
+
+            $view = view("frontend.forum.comment-replay",compact('reply'))->render();
+
+            return response()->json(['html'=>$view]);
+        }
     }
 }

@@ -36,6 +36,7 @@ class CategoryController extends Controller
                     $categoryData[$j]['paramLink']= !empty($data['param_link'])?trim($data['param_link']):'';
                     $categoryData[$j]['redirect_status']= !empty($data['redirect_status'])?trim($data['redirect_status']):'';
                     $categoryData[$j]['CategoryPageRedirect']= !empty($data['category_page_redirect'])?trim($data['category_page_redirect']):'';
+                    $categoryData[$j]['slug']= !empty($data['slug'])?trim($data['slug']):'';
                     $categoryData[$j]['Icon']= URL::to('images/categories').'/'.$data['media_file'];
 
                     // $categoryData[$j]['parent_category_id'] = (string)$data['parent_category_id'];
@@ -51,10 +52,11 @@ class CategoryController extends Controller
                         {
                             $categoryData[$j]['Subcategories'][$k]['Id'] = (string)$data['id'];
                             // $categoryData[$j]['Subcategories'][$k]['parent_category_id'] = (string)$data['parent_category_id'];
-                            $categoryData[$j]['Subcategories'][$k]['Name'] = trim($data['name']);
+                            $categoryData[$j]['Subcategories'][$k]['Name'] = ucwords(trim($data['name']));
                             $categoryData[$j]['Subcategories'][$k]['Icon'] = URL::to('images/categories').'/'.$data['media_file'];
 
-                            $categoryData[$j]['Subcategories'][$k]['Description'] = $data['description'];
+                            $categoryData[$j]['Subcategories'][$k]['Slug'] = $data['slug'];
+                            $categoryData[$j]['Subcategories'][$k]['Description'] = ucwords($data['description']);
                             $k++;
                         }
                     }

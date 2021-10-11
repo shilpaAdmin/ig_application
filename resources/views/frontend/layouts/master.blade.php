@@ -86,9 +86,7 @@
                     var userId= $(this).data('userid');
                     var locationId= $(this).data('locationid');
                     var type= $(this).data('type');
-                  
-                  
-                    alert("dfdf" );
+                   
                     console.log(userId);
                     console.log(locationId);
                     console.log(type);

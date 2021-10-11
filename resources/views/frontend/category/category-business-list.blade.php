@@ -1,9 +1,7 @@
 @extends('frontend.layouts.master')
 @section('title') Housing Grid @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
+
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
     </div><!-- /.preloader -->
@@ -485,13 +483,6 @@
         </section>
     </div><!-- /.page-wrapper -->
 
-    {{-- <script>
-        $(document).ready(function() {
-            $(".filter_by_tagstitile").click(function() {
-                $(".filter_by_tagsall").toggle();
-            });
-        });
-    </script> --}}
 
     @section('script')
 
@@ -500,20 +491,23 @@
             
             var page = 1;
             var viewData=1;
+            var hasLoadMore=true;
             loadMore(page,viewData);
 
             // scroll events
             $(window).scroll(function() { 
                 if($(window).scrollTop() + $(window).height() >= ( $(document).height() - $('.site-footer').height() )) { 
                     page++; 
-                    loadMore(page,viewData); 
+                    if(hasLoadMore){
+                        loadMore(page,viewData); 
+                    } 
                 }
             });  
 
             // load more data
             function loadMore(page,viewData){
-                
-                var url="{{route('category.business-list',['id'=>$id])}}";
+                // console.log("{!!$slug!!}");
+                var url="{!!route('category.business-list',['slug'=>$slug])!!}";
                     url+='?page='+page+'&viewData='+viewData;
 
                 $.ajax({
@@ -528,6 +522,7 @@
                           
                             if(data.html.length == 0){
                                 $('.ajax-loading').html("No more records!");
+                                hasLoadMore=false;
                                 return;
                             }
                             $("#results").append(data.html);          
@@ -553,10 +548,14 @@
                 $("#results").html('');
                 loadMore(page,viewData);
             });
+            
+            // filter 
+            $("body .filter_by_tagstitile").click(function() {
+                $(".filter_by_tagsall").toggle();
+            });
         });
     </script>
     @endsection
 
-</body>
-</html>
+
 @endsection
