@@ -8,41 +8,42 @@
 
 @section('content')
     <div class="row mb-3" id="">
-    <div class="col-md-12">
-        <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-6">
-                    <div class="card-body newheadcontanty">
-                        <h5 class="m-0 textforhedermaster">Matrimonial</h5>
+        <div class="col-md-12">
+            <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <div class="card-body newheadcontanty">
+                            <h5 class="m-0 textforhedermaster">Matrimonial</h5>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-6">
+                    <div class="col-md-6 col-sm-6 col-6">
 
-                    <div class="card-body newheadcontanty">
-                    <h4 class="card-title" style="text-align:right;"><a href="{{ route('matrimonial.create') }}"
-                                class="btn btn-primary waves-effect btn-label waves-light addbtnforall"><i
-                                    class="bx bx-plus label-icon"></i>ADD
-                                Matrimonial </a></h4>
-                        </h4>
+                        <div class="card-body newheadcontanty">
+                            <h4 class="card-title" style="text-align:right;"><a
+                                    href="{{ route('matrimonial.create') }}"
+                                    class="btn btn-primary waves-effect btn-label waves-light addbtnforall"><i
+                                        class="bx bx-plus label-icon"></i>ADD
+                                    Matrimonial </a></h4>
+                            </h4>
+                        </div>
+
+
+
                     </div>
-
-
 
                 </div>
 
             </div>
 
         </div>
-
     </div>
-</div>
 
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
-                        
+
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">
                         </div>
@@ -71,6 +72,49 @@
         </div> <!-- end col -->
     </div> <!-- end row -->
     <!-- end row -->
+    <div id="custom_saction_filter">
+        <button type="button" style="height: 47px; line-height:10px;"
+            class="btn custom_main_saction header-item noti-icon fil_ waves-effect" onclick="openNav()">
+            <i class="bx bx-filter-alt"></i>
+        </button>
+
+        <div data-simplebar class="h-100">
+            <div class="rightbar-title p-3">
+                <a href="javascript:void(0);" class="custom_saction_filter float-right" onclick="closeNav()">
+                    <i class="mdi mdi-close noti-icon" style="color:#fff;"></i>
+                </a>
+                <h5 class="m-0 text-cutom1">Filter</h5>
+            </div>
+            <!-- custom_form -->
+            <div class="p-3">
+                <div class="form-group">
+                    <label class="control-label text-cutom">Status</label>
+                    <select class="form-control select2" id="txtStatusType" name="txtStatusType">
+                        <option value="">--Select--</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label text-cutom">Approve Status</label>
+                    <select class="form-control select2" id="txtApproveStatus" name="txtApproveStatus">
+                        <option value="">--Select--</option>
+                        <option value="1">Approve</option>
+                        <option value="0">Disapprove</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" onclick="getListData(),closeNav()"
+                        class="btn btn-outline-success waves-effect waves-light">Search</button>
+                    <button type="button" onclick="clearListData(),closeNav()"
+                        class="btn btn-outline-danger waves-effect waves-light">Clear</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 @endsection
 
 @section('script')
@@ -79,12 +123,13 @@
     <!-- Init js-->
     <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
-        var dt = '';
-        $(function() {
-            var table_html = '';
-            var table_html_td = '';
-            var i = 1;
 
+        var dt = '';
+        // $(function() {
+        var table_html = '';
+        var table_html_td = '';
+        var i = 1;
+        $(function() {
             jQuery.extend(jQuery.fn.dataTableExt.oSort, {
                 "dom-date-pre": function(a) {
                     return moment(a, "DD MMMM YYYY")
@@ -96,7 +141,16 @@
                     return ((a < b) ? 1 : ((a > b) ? -1 : 0));
                 }
             });
+            dataTableAjaxCall();
+        });
+        var txtStatusType = '';
+        var txtApproveStatus = '';
 
+        function dataTableAjaxCall() {
+
+            console.log("txtStatusType");
+            console.log(txtStatusType);
+            console.log(txtApproveStatus);
             dt = $('#matrimonialList').DataTable({
                 destroy: true,
                 processing: true,
@@ -107,7 +161,11 @@
                 "aaSorting": [],
                 rowReorder: true,
                 ajax: {
-                    url: "{{ url('admin/matrimonial/matrimonialList') }}",
+                    url: "{{ route('datatable.matrimoniallist') }}",
+                    data: function(data){
+                        data.status = txtStatusType,
+                        data.approved = txtApproveStatus
+                    }
                 },
 
                 columns: [{
@@ -275,8 +333,27 @@
                     cell.innerHTML = i + 1;
                 });
             });
+            // dt.ajax.reload();
+        }
 
-        });
+        // });
+
+        function getListData() {
+
+            txtStatusType = $("#txtStatusType").val();
+            txtApproveStatus = $("#txtApproveStatus").val();
+            var str = '?txtStatusType='+txtStatusType+'&txtApproveStatus='+txtApproveStatus;
+            dataTableAjaxCall();
+            dt.ajax.reload();
+        }
+
+        function clearListData() {
+
+            $("#txtStatusType").val('');
+            $("#txtApproveStatus").val('');
+            dataTableAjaxCall();
+        }
+
 
         function deleteMatrimonial(id) {
             swal({

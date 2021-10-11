@@ -30,9 +30,9 @@
                 <li class="menu-title">Modules</li>
 
                 <li>
-                        <a href="{{ url('admin/business') }}"
+                        {{-- <a href="{{ url('admin/business') }}"
                         class="{{ Request::segment(2) === 'business.create' ? 'active' : '' }} "><i
-                        class="bx bx-check-double"></i><span>Business</span></a>
+                        class="bx bx-check-double"></i><span>Business</span></a> --}}
 
                         <a href="javascript: void(0);" class="has-arrow waves-effect ">
                             <i class="bx bx-check-double"></i>
@@ -80,6 +80,11 @@
                   class="{{ Request::segment(2) === 'blog.create' ? 'active' : '' }} ">
 				 <i class="bx bx-detail"></i><span>Blog</span></a>
             </li>
+            <li>
+                <a href="{{ url('admin/user') }}"
+                   class="{{ Request::segment(2) === 'user' ? 'active' : '' }} ">
+                  <i class="bx bx-detail"></i><span>Users </span></a>
+             </li>
             <li>
                <a href="javascript: void(0);" class="has-arrow waves-effect ">
                <i class="bx bx-book-open"></i>

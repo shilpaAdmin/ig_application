@@ -69,13 +69,30 @@ class ForumController extends Controller
         }
     }
 
-    public function forumList()
+    public function forumList(Request $request)
     {
-        $result_obj = ForumModel::where('forum.status', '!=', 'deleted')->leftJoin('user',function ($join)
+        $input=$request->all();
+
+        $txtStatusType = isset($request->status) ? $request->status : '';
+        $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+
+        $preQuery = ForumModel::where('forum.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
             $join->on('forum.user_id', '=', 'user.id');
 
-        })->select('forum.*','user.name as user_id')->get();
+        })->select('forum.*','user.name as user_id');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('forum.status',$txtStatusType);
+
+        }
+        if(isset($txtApproveStatus) && !empty($txtApproveStatus))
+        {
+            $result_obj= $preQuery->where('forum.is_approve',$txtApproveStatus);
+
+        }
+        $result_obj = $preQuery->get();
 
         return DataTables::of($result_obj)
         ->addColumn('DT_RowId', function ($result_obj)
@@ -154,6 +171,7 @@ class ForumController extends Controller
 
     public function getCommentReplyList($id)
     {
+        $input = $request->all();
         $forum_id=$id;
 
         $forumDetail=ForumModel::with(['user'])->where('id',$forum_id)->first();

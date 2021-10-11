@@ -1,5 +1,5 @@
 @extends('layouts.master') @section('title') FAQ @endsection @section('css')
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css') }}" />
 @endsection @section('content')
 
 <div class="row mb-3" id="">
@@ -14,7 +14,9 @@
                 <div class="col-md-6 col-sm-6 col-6">
                     <div class="card-body newheadcontanty">
                         <h4 class="card-title" style="text-align: right;">
-                            <a href="{{route('faq.create')}}" class="btn btn-primary waves-effect btn-label waves-light addbtnforall"><i class="bx bx-plus label-icon"></i>ADD FAQ </a>
+                            <a href="{{ route('faq.create') }}"
+                                class="btn btn-primary waves-effect btn-label waves-light addbtnforall"><i
+                                    class="bx bx-plus label-icon"></i>ADD FAQ </a>
                         </h4>
                     </div>
                 </div>
@@ -52,31 +54,68 @@
 </div>
 <!-- end row -->
 <!-- end row -->
-@endsection @section('script')
+<div id="custom_saction_filter">
+    <button type="button" style="height: 47px; line-height:10px;"
+        class="btn custom_main_saction header-item noti-icon fil_ waves-effect" onclick="openNav()">
+        <i class="bx bx-filter-alt"></i>
+    </button>
+
+    <div data-simplebar class="h-100">
+        <div class="rightbar-title p-3">
+            <a href="javascript:void(0);" class="custom_saction_filter float-right" onclick="closeNav()">
+                <i class="mdi mdi-close noti-icon" style="color:#fff;"></i>
+            </a>
+            <h5 class="m-0 text-cutom1">Filter</h5>
+        </div>
+        <!-- custom_form -->
+        <div class="p-3">
+            <div class="form-group">
+                <label class="control-label text-cutom">Status</label>
+                <select class="form-control select2" id="txtStatusType" name="txtStatusType">
+                    <option value="">--Select--</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="button" onclick="getListData(),closeNav()"
+                    class="btn btn-outline-success waves-effect waves-light">Search</button>
+                <button type="button" onclick="clearListData(),closeNav()"
+                    class="btn btn-outline-danger waves-effect waves-light">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+@section('script')
 <!-- Plugins js -->
-<script src="{{ URL::asset('assets/libs/datatables/datatables.min.js')}}"></script>
+<script src="{{ URL::asset('assets/libs/datatables/datatables.min.js') }}"></script>
 <!-- Init js-->
-<script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
+<script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
 <script>
-$(function() {
+    // $(function() {
     var table_html = '';
     var table_html_td = '';
     var i = 1;
-
-    jQuery.extend(jQuery.fn.dataTableExt.oSort, {
-        "dom-date-pre": function(a) {
-            return moment(a, "DD MMMM YYYY")
-        },
-        "dom-date-asc": function(a, b) {
-            return ((a < b) ? -1 : ((a > b) ? 1 : 0));
-        },
-        "dom-date-desc": function(a, b) {
-            return ((a < b) ? 1 : ((a > b) ? -1 : 0));
-        }
+    $(function() {
+        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+            "dom-date-pre": function(a) {
+                return moment(a, "DD MMMM YYYY")
+            },
+            "dom-date-asc": function(a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+            "dom-date-desc": function(a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+        dataTableAjaxCall();
     });
 
 
-
+    function dataTableAjaxCall(filter = '')
+    {
         var dt = $("#FaqList").DataTable({
             destroy: true,
             processing: true,
@@ -87,11 +126,10 @@ $(function() {
             aaSorting: [],
             rowReorder: true,
             ajax: {
-                url: "{{ url('/admin/faq/faqList') }}",
+                url: "{{ url('/admin/faq/faqList') }}?"+filter,
             },
 
-            columns: [
-                {
+            columns: [{
                     data: "id",
                     name: "sequence",
                     orderable: false,
@@ -143,40 +181,61 @@ $(function() {
             rowReorder: {
                 dataSrc: "sequence",
             },
-            columnDefs: [
-                {
-                    type: "dateNonStandard",
-                    targets: -1,
-                },
-            ],
+            columnDefs: [{
+                type: "dateNonStandard",
+                targets: -1,
+            }, ],
         });
 
-        $('.dataTables_filter input[type="search"]').css({ width: "350px", display: "inline-block" });
+        $('.dataTables_filter input[type="search"]').css({
+            width: "350px",
+            display: "inline-block"
+        });
         $(".dataTables_filter input").attr("type", "text");
-        dt.on("row-reordered", function (e, diff, edit) {
+        dt.on("row-reordered", function(e, diff, edit) {
             dt.order([0, "asc"]);
         });
 
-        dt.on("order.dt search.dt", function () {
-            dt.column(1, { search: "applied", order: "applied" })
+        dt.on("order.dt search.dt", function() {
+            dt.column(1, {
+                    search: "applied",
+                    order: "applied"
+                })
                 .nodes()
-                .each(function (cell, i) {
+                .each(function(cell, i) {
                     cell.innerHTML = i + 1;
                 });
         });
 
-        dt.on("row-reorder", function (e, details, edit) {
+        dt.on("row-reorder", function(e, details, edit) {
             dt.column(1)
                 .nodes()
-                .each(function (cell, i) {
+                .each(function(cell, i) {
                     cell.innerHTML = i + 1;
                 });
         });
-    });
+        // });
+    }
+
+    function getListData() {
+            var search = '';
+            var txtStatusType = $("#txtStatusType").val();
+
+            var str ='status='+txtStatusType;
+
+            dataTableAjaxCall(str);
+        }
+
+        function clearListData()
+    {
+
+        $("#txtStatusType").val('');
+
+        dataTableAjaxCall();
+    }
 
     function deleteFaq(id) {
-        swal(
-            {
+        swal({
                 title: "Are you sure?",
                 text: "Delete FAQ",
                 type: "warning",
@@ -187,7 +246,7 @@ $(function() {
                 closeOnConfirm: false,
                 closeOnCancel: false,
             },
-            function (isConfirm) {
+            function(isConfirm) {
                 if (isConfirm) {
                     window.location.href = "/admin/faq/delete/" + id;
                 } else {

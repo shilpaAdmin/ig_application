@@ -287,12 +287,18 @@ class CategoryController extends Controller
     public function subCategoryDataList(Request $request)
     {
 
-        $input=$request->all();
-        $result_obj = CategoryModel::where('category.status','!=','Deleted')->where('parent_category_id',$input['id'])->get();
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
 
-        // echo "<pre>";
-        // print_r($result_obj);
-        // exit;
+        
+        $preQuery = CategoryModel::where('category.status','!=','Deleted')->where('parent_category_id',$input['id']);
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('category.status',$txtStatusType);
+
+        }
+        $result_obj = $preQuery->get();
 
         return DataTables::of($result_obj)->addColumn('applicant',function($result_obj){
             $applicant = '';

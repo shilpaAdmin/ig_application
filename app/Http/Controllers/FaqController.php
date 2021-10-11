@@ -81,15 +81,25 @@ class FaqController extends Controller
         return response()->json($result);
     }
 
-    public function faqlist()
+    public function faqlist(Request $request)
     {
+// dd($request->all());
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
 
-        $result_obj = FAQModel::where('faq.status', '!=', 'deleted')->leftJoin('user', function ($join) {
+        $preQuery = FAQModel::where('faq.status', '!=', 'deleted')->leftJoin('user', function ($join) {
             $join->on('faq.user_id', '=', 'user.id');
         })->leftjoin('tag_master', function ($join) {
 
             $join->on('faq.tags', '=', 'tag_master.id');
-        })->select('faq.*','user.name as user_id', 'tag_master.name as tags')->get();
+        })->select('faq.*','user.name as user_id', 'tag_master.name as tags');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('faq.status',$txtStatusType);
+
+        }
+        $result_obj= $preQuery->get();
 
         return DataTables::of($result_obj)
 

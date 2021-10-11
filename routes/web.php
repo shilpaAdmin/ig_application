@@ -241,6 +241,7 @@ Route::group(['prefix' => 'admin'], function () {
         //user list
         Route::get('user', 'UserController@index')->name('user');
         Route::get('user/userList', 'UserController@userlist')->name('datatable.userList');
+        Route::get('user/userFilter', 'UserController@userfilter')->name('user.filter');
         Route::get('user/delete/{id}', 'UserController@delete')->name('user.delete');
 
     });
@@ -270,7 +271,7 @@ Route::namespace('Frontend')->group(function () {
 
     // login
     Route::get('/login','LoginController@viewLogin')->name('login');
-    
+
     // forum
     Route::get('/forum','ForumController@index')->name('ForumList');
     Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');

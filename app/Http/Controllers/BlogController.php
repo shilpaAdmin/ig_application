@@ -103,13 +103,23 @@ class BlogController extends Controller
         }
     }
 
-    public function bloglist()
+    public function bloglist(Request $request)
     {
-        $result_obj = BlogsModel::where('blogs.status', '!=', 'deleted')->leftJoin('user',function ($join)
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+
+        $preQuery = BlogsModel::where('blogs.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
             $join->on('blogs.user_id', '=', 'user.id');
 
-        })->select('blogs.*','user.name as user_id')->get();
+        })->select('blogs.*','user.name as user_id');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('blogs.status',$txtStatusType);
+
+        }
+        $result_obj= $preQuery->get();
 
         return DataTables::of($result_obj)
 
@@ -243,7 +253,7 @@ class BlogController extends Controller
     public function getCommentReplyList(Request $request)
     {
         $input=$request->all();
-        
+
     }
 
     public function delete($id)

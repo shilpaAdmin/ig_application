@@ -23,15 +23,41 @@ class UserController extends Controller
     }
 
 
-    public function userlist()
+    public function userlist(Request $request)
     {
+        // dd($request->all());
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+        $txtlocationType = isset($request->locationSearch) ? $request->locationSearch : '';
+        $txtUsername = isset($request->userName) ? $request->userName : '';
 
-        $result_obj = UserModel::where('user.status', '!=', 'deleted')->leftJoin('city', function ($join) {
-            $join->on('user.location_id', '=', 'city.id');
-        })->leftJoin('country', function ($join) {
-            $join->on('user.location_id', '=', 'country.id');
-        })->select('user.*', 'city.name as city_name', 'country.name as country_name')->get();
-        // dd($result_obj);
+
+        $preQuery = UserModel::where('user.status', '!=', 'deleted')
+                            ->leftJoin('city', function ($join) {
+                                $join->on('user.location_id', '=', 'city.id')
+                                    ->where('user.location_type','=','city');
+                            })->leftJoin('country', function ($join) {
+                                $join->on('user.location_id', '=', 'country.id');
+                            })->select('user.*', 'city.name as city_name', 'country.name as country_name');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('user.status',$txtStatusType);
+
+        }
+        if(isset($txtUsername) && !empty($txtUsername))
+        {
+            $result_obj= $preQuery->where('user.name',$txtUsername);
+
+        }
+        if(isset($txtlocationType) && !empty($txtlocationType))
+        {
+           $result_obj= $preQuery->where('city.name', 'like', '%'.$txtlocationType.'%')
+                                ->orWhere('country.name', 'like', '%'.$txtlocationType.'%');
+        }
+
+        $result_obj = $preQuery->orderBy('user.created_at', 'DESC')->get();
+
 
         return DataTables::of($result_obj)
             ->addColumn('id', function ($result_obj) {
@@ -116,7 +142,12 @@ class UserController extends Controller
             ->make(true);
     }
 
-
+    // public function userfilter()
+    // {
+    //     $userData = UserModel::where('status','=','active')->pluck('status','id');
+    //     dd($userData);
+    //     return view('users.index',compact('userData'));
+    // }
 
     public function delete($id)
     {

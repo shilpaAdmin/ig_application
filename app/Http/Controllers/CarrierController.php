@@ -72,9 +72,19 @@ class CarrierController extends Controller
         return redirect()->action('CarrierController@index');
      }
 
-    public function carrierList()
+    public function carrierList(Request $request)
     {
-        $result_obj = CarrierModel::where('carrier.status', '!=', 'deleted')->get();
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+
+        $preQuery = CarrierModel::where('carrier.status', '!=', 'deleted');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('carrier.status',$txtStatusType);
+
+        }
+        $result_obj= $preQuery->get();
 
         return DataTables::of($result_obj)
 

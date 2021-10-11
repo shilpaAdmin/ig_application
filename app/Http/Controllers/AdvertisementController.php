@@ -94,15 +94,31 @@ class AdvertisementController extends Controller
         }
     }
 
-    public function advertisementList()
+    public function advertisementList(Request $request)
     {
-        $result_obj = AdvertisementModel::where('advertisement.status', '!=', 'deleted')->leftJoin('user',function ($join)
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+        $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+
+        $preQuery = AdvertisementModel::where('advertisement.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
             $join->on('advertisement.user_id', '=', 'user.id');
         })->leftJoin('category', function ($join)
         {
             $join->on('advertisement.category_id', '=', 'category.id');
-        })->select('advertisement.*','user.name as user_id','category.name as category_id')->get();
+        })->select('advertisement.*','user.name as user_id','category.name as category_id');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('advertisement.status',$txtStatusType);
+
+        }
+        if(isset($txtApproveStatus) && !empty($txtApproveStatus))
+        {
+            $result_obj= $preQuery->where('advertisement.is_approve',$txtApproveStatus);
+
+        }
+        $result_obj= $preQuery->get();
 
         return DataTables::of($result_obj)
         // ->addColumn('id', function ($result_obj) {

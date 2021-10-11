@@ -80,6 +80,7 @@ class TestimonialController extends Controller
 
     public function testmonialdetails($id)
     {
+
         $testmonial_details = TestimonialModel::leftJoin('user',function ($join)
         {
             $join->on('testimonial.user_id', '=', 'user.id');
@@ -102,13 +103,22 @@ class TestimonialController extends Controller
         }
     }
 
-    public function testmonialList()
+    public function testmonialList(Request $request)
     {
-        $result_obj = TestimonialModel::where('testimonial.is_deleted', '=', 0)->leftJoin('user',function ($join)
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+
+        $preQuery = TestimonialModel::where('testimonial.is_deleted', '=', 0)->leftJoin('user',function ($join)
         {
             $join->on('testimonial.user_id', '=', 'user.id');
-        })->select('testimonial.*','user.name as user_id')->orderBy('id', 'DESC')->get();
+        })->select('testimonial.*','user.name as user_id')->orderBy('id', 'DESC');
 
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('testimonial.status',$txtStatusType);
+
+        }
+        $result_obj= $preQuery->get();
         return DataTables::of($result_obj)
 
         ->addColumn('id', function ($result_obj) {

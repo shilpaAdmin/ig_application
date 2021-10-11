@@ -174,9 +174,28 @@ class MatrimonialController extends Controller
         }
     }
 
-    public function matrimonialList()
+    public function matrimonialList(Request $request)
     {
-        $result_obj = MatrimonialModel::where('matrimonial.status', '!=', 'deleted')->get();
+
+        $input=$request->all();
+
+        $txtStatusType = isset($request->txtStatusType) ? $request->txtStatusType : '';
+        $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+
+        $preQuery = MatrimonialModel::where('matrimonial.status', '!=', 'deleted');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('matrimonial.status',$txtStatusType);
+
+        }
+        if(isset($txtApproveStatus) && !empty($txtApproveStatus))
+        {
+            $result_obj= $preQuery->where('matrimonial.is_approve',$txtApproveStatus);
+
+        }
+        $result_obj = $preQuery->get();
+
 
         return DataTables::of($result_obj)
         ->addColumn('DT_RowId', function ($result_obj)

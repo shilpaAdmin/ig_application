@@ -110,9 +110,19 @@ class CountryController extends Controller
         }
     }
 
-    public function countryList()
+    public function countryList(Request $request)
     {
-        $result_obj = CountrysModel::where('country.status', '!=', 'deleted')->get();
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+
+        $preQuery = CountrysModel::where('country.status', '!=', 'deleted');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('country.status',$txtStatusType);
+
+        }
+        $result_obj= $preQuery->get();
 
         return DataTables::of($result_obj)
 
