@@ -207,6 +207,8 @@ class MatrimonialController extends Controller
 
         $txtStatusType = isset($request->txtStatusType) ? $request->txtStatusType : '';
         $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 
         $preQuery = MatrimonialModel::where('matrimonial.status', '!=', 'deleted');
 
@@ -218,6 +220,11 @@ class MatrimonialController extends Controller
         if(isset($txtApproveStatus) && !empty($txtApproveStatus))
         {
             $result_obj= $preQuery->where('matrimonial.is_approve',$txtApproveStatus);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('matrimonial.created_at',[$storyStartDate,$storyEndDate]);
 
         }
         $result_obj = $preQuery->get();

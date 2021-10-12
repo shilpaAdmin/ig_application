@@ -289,13 +289,20 @@ class CategoryController extends Controller
 
         $input = $request->all();
         $txtStatusType = isset($request->status) ? $request->status : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 
-        
+
         $preQuery = CategoryModel::where('category.status','!=','Deleted')->where('parent_category_id',$input['id']);
 
         if(isset($txtStatusType) && !empty($txtStatusType))
         {
             $result_obj= $preQuery->where('category.status',$txtStatusType);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('category.created_at',[$storyStartDate,$storyEndDate]);
 
         }
         $result_obj = $preQuery->get();

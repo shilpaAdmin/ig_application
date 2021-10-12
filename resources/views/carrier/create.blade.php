@@ -147,7 +147,7 @@
     </div>
 
     <div id="custom_saction_filter">
-        <button type="button" 
+        <button type="button"
             class="btn custom_main_saction header-item noti-icon fil_ waves-effect  filterbtnmsain " onclick="openNav()">
             <i class="bx bx-filter-alt filterbtnicon"></i>
         </button>
@@ -168,6 +168,17 @@
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                     </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group dategroup d-inline-flex" id="dateFilterDivId">
+                        <input type="text" id="storyDate" class="form-control datearea" name="storyDate" placeholder=""
+                            required="" data-provide="" data-date-autoclose="true">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -195,6 +206,36 @@
     <script src="{{ URL::asset('assets/js/pages/form-repeater.int.js') }}"></script>
 
     <script>
+
+var start = moment().subtract(29, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        console.log('start :: ' + start + ' end ::: ' + end);
+        $('#storyDate span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
+    }
+
+    $(document).ready(function() {
+        $('#storyDate').daterangepicker({
+            startDate: start,
+            endDate: end,
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                    'month').endOf(
+                    'month')]
+            }
+        }, cb);
+        cb(start, end);
+    });
+
         var assignAspectRatio = 1;
         var imageCallTypeForCrop = '';
         var addOrEditMode = 'add';
@@ -227,6 +268,7 @@
             });
             dataTableAjaxCall();
         });
+
 
         var table_html = '';
         var table_html_td = '';
@@ -343,9 +385,11 @@
         function getListData() {
             var search = '';
             var txtStatusType = $("#txtStatusType").val();
+            var startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
+            var endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
 
 
-            var str ='status='+txtStatusType;
+            var str ='status='+txtStatusType+'&startDate='+startDate+'&endDate='+endDate;
 
             dataTableAjaxCall(str);
         }

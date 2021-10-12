@@ -37,7 +37,7 @@ class TestimonialController extends Controller
         $userID = $request->user_id;
 
         $obj=new TestimonialModel();
-        
+
         $LocationType=$cityCountryId='';
 
         if(isset($userID) && !empty($userID))
@@ -132,6 +132,8 @@ class TestimonialController extends Controller
     {
         $input = $request->all();
         $txtStatusType = isset($request->status) ? $request->status : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 
         $preQuery = TestimonialModel::where('testimonial.is_deleted', '=', 0)->leftJoin('user',function ($join)
         {
@@ -141,6 +143,11 @@ class TestimonialController extends Controller
         if(isset($txtStatusType) && !empty($txtStatusType))
         {
             $result_obj= $preQuery->where('testimonial.status',$txtStatusType);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('testimonial.created_at',[$storyStartDate,$storyEndDate]);
 
         }
         $result_obj= $preQuery->get();

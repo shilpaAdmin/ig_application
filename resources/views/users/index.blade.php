@@ -8,7 +8,7 @@
 
 @section('content')
 
-<div class="row mb-3" id="">
+    <div class="row mb-3" id="">
         <div class="col-md-12">
             <div class="card bg-gray-bg text-white-50 m-0 mainhedformaster">
                 <div class="row">
@@ -17,7 +17,7 @@
                             <h5 class="m-0 textforhedermaster">Users</h5>
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -57,8 +57,8 @@
     <!-- end row -->
 
     <div id="custom_saction_filter">
-        <button type="button"
-            class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain" onclick="openNav()">
+        <button type="button" class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain"
+            onclick="openNav()">
             <i class="bx bx-filter-alt filterbtnicon"></i>
         </button>
 
@@ -91,6 +91,16 @@
                     <input type="text" class="form-control" name="userName" id="userName" placeholder="User Name" />
                 </div>
 
+                <div class="form-group">
+                    <div class="input-group dategroup d-inline-flex" id="dateFilterDivId">
+                        <input type="text" id="storyDate" class="form-control datearea" name="storyDate" placeholder=""
+                            required="" data-provide="" data-date-autoclose="true">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <button type="button" onclick="getListData(),closeNav()"
@@ -110,6 +120,36 @@
     <!-- Init js-->
     <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        function cb(start, end) {
+            console.log('start :: ' + start + ' end ::: ' + end);
+            $('#storyDate span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
+        }
+
+        $(document).ready(function() {
+            $('#storyDate').daterangepicker({
+                startDate: start,
+                endDate: end,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                        'month').endOf(
+                        'month')]
+                }
+            }, cb);
+            cb(start, end);
+        });
+
+
         var table_html = '';
         var table_html_td = '';
         var i = 1;
@@ -239,8 +279,10 @@
             var txtStatusType = $("#txtStatusType").val();
             var locationSearch = $("#locationSearch").val();
             var userName = $("#userName").val();
+            var startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
+            var endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
 
-            var str = 'status='+txtStatusType+'&locationSearch='+locationSearch+'&userName='+userName;
+            var str = 'status='+txtStatusType+'&locationSearch='+locationSearch+'&userName='+userName+'&startDate='+startDate+'&endDate='+endDate;
 
             dataTableAjaxCall(str);
         }

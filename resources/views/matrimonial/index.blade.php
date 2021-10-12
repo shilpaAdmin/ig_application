@@ -73,7 +73,7 @@
     </div> <!-- end row -->
     <!-- end row -->
     <div id="custom_saction_filter">
-        <button type="button" 
+        <button type="button"
             class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain" onclick="openNav()">
             <i class="bx bx-filter-alt filterbtnicon"></i>
         </button>
@@ -106,6 +106,17 @@
                 </div>
 
                 <div class="form-group">
+                    <div class="input-group dategroup d-inline-flex" id="dateFilterDivId">
+                        <input type="text" id="storyDate" class="form-control datearea" name="storyDate" placeholder=""
+                            required="" data-provide="" data-date-autoclose="true">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <button type="button" onclick="getListData(),closeNav()"
                         class="btn btn-outline-success waves-effect waves-light">Search</button>
                     <button type="button" onclick="clearListData(),closeNav()"
@@ -123,6 +134,36 @@
     <!-- Init js-->
     <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
+         var start = moment().subtract(29, 'days');
+        var end = moment();
+
+    function cb(start, end) {
+        console.log('start :: ' + start + ' end ::: ' + end);
+        $('#storyDate span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
+    }
+
+    $(document).ready(function() {
+        $('#storyDate').daterangepicker({
+            startDate: start,
+            endDate: end,
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                    'month').endOf(
+                    'month')]
+            }
+        }, cb);
+        cb(start, end);
+    });
+
+
 
         var dt = '';
         // $(function() {
@@ -145,6 +186,8 @@
         });
         var txtStatusType = '';
         var txtApproveStatus = '';
+        var startDate = '';
+        var endDate = '';
 
         function dataTableAjaxCall() {
 
@@ -165,6 +208,8 @@
                     data: function(data){
                         data.status = txtStatusType,
                         data.approved = txtApproveStatus
+                        data.startDate = startDate
+                        data.endDate = endDate
                     }
                 },
 
@@ -342,7 +387,10 @@
 
             txtStatusType = $("#txtStatusType").val();
             txtApproveStatus = $("#txtApproveStatus").val();
-            var str = '?txtStatusType='+txtStatusType+'&txtApproveStatus='+txtApproveStatus;
+            startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
+            endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
+
+            var str = '?txtStatusType='+txtStatusType+'&txtApproveStatus='+txtApproveStatus+'&startDate='+startDate+'&endDate='+endDate;
             dataTableAjaxCall();
             dt.ajax.reload();
         }

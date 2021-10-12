@@ -403,8 +403,8 @@
 
         txtStatusType = $("#txtStatusType").val();
         txtApproveStatus = $("#txtApproveStatus").val();
-         startDate = $('#storyDate').data('daterangepicker').startDate.format('MM/DD/YYYY');
-         endDate =  $('#storyDate').data('daterangepicker').endDate.format('MM/DD/YYYY');
+         startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
+         endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
          str = '?txtStatusType='+txtStatusType+'&txtApproveStatus='+txtApproveStatus+'&startDate='+startDate+'&endDate='+endDate;
         dataTableAjaxCall();
         dt.ajax.reload();

@@ -135,6 +135,8 @@ class BlogController extends Controller
     {
         $input = $request->all();
         $txtStatusType = isset($request->status) ? $request->status : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 
         $preQuery = BlogsModel::where('blogs.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
@@ -146,6 +148,10 @@ class BlogController extends Controller
         {
             $result_obj= $preQuery->where('blogs.status',$txtStatusType);
 
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('blogs.created_at',[$storyStartDate,$storyEndDate]);
         }
         $result_obj= $preQuery->get();
 

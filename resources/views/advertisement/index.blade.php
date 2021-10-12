@@ -82,8 +82,8 @@
     </div> <!-- end row -->
     <!-- end row -->
     <div id="custom_saction_filter">
-        <button type="button" 
-            class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain" onclick="openNav()">
+        <button type="button" class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain"
+            onclick="openNav()">
             <i class="bx bx-filter-alt filterbtnicon"></i>
         </button>
 
@@ -105,6 +105,25 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label class="control-label text-cutom">Approve Status</label>
+                    <select class="form-control select2" id="txtApproveStatus" name="txtApproveStatus">
+                        <option value="">--Select--</option>
+                        <option value="1">Approve</option>
+                        <option value="0">Disapprove</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group dategroup d-inline-flex" id="dateFilterDivId">
+                        <input type="text" id="storyDate" class="form-control datearea" name="storyDate" placeholder=""
+                            required="" data-provide="" data-date-autoclose="true">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <button type="button" onclick="getListData(),closeNav()"
@@ -124,6 +143,35 @@
     <!-- Init js-->
     <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        function cb(start, end) {
+            console.log('start :: ' + start + ' end ::: ' + end);
+            $('#storyDate span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
+        }
+
+        $(document).ready(function() {
+            $('#storyDate').daterangepicker({
+                startDate: start,
+                endDate: end,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                        'month').endOf(
+                        'month')]
+                }
+            }, cb);
+            cb(start, end);
+        });
+
         var dt = '';
         var table_html = '';
         var table_html_td = '';
@@ -145,19 +193,28 @@
 
         var txtStatusType = '';
         var txtApproveStatus = '';
+        var startDate = '';
+        var endDate = '';
 
         function dataTableAjaxCall() {
             dt = $('#AdvertismentList').DataTable({
-                destroy: true,
-                processing: true,
-                //serverSide: true,
-                responsive: true,
-                autoWidth: false,
-                "order": [], //Initial no order.
-                "aaSorting": [],
-                rowReorder: true,
-                ajax: {
-                    url: "{{ route('datatable.advertisementlist') }}",
+                    destroy: true,
+                    processing: true,
+                    //serverSide: true,
+                    responsive: true,
+                    autoWidth: false,
+                    "order": [], //Initial no order.
+                    "aaSorting": [],
+                    rowReorder: true,
+                    ajax: {
+                        url: "{{ route('datatable.advertisementlist') }}",
+                        data: function(data) {
+                            data.status = txtStatusType,
+                            data.approved = txtApproveStatus
+                            data.startDate = startDate
+                            data.endDate = endDate
+                        }
+
                 },
 
                 columns: [{
@@ -266,96 +323,96 @@
                 }, ],
                 retrieve: true
             });
-            $('table [type="checkbox"]').each(function(i, chk) {
-                //alert(1);
-                if (chk.checked) {
-                    alert("Checked!", i, chk);
-                } else {
-                    $("#approveStatusButton").attr("disabled", "disabled");
-                }
-            });
-            var data = '';
-            $('#AdvertismentList tbody').on('click', 'tr', function() {
-                var allCheckboxLength = $('input[name="id[]"]').length;
-                var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
+        $('table [type="checkbox"]').each(function(i, chk) {
+            //alert(1);
+            if (chk.checked) {
+                alert("Checked!", i, chk);
+            } else {
+                $("#approveStatusButton").attr("disabled", "disabled");
+            }
+        });
+        var data = '';
+        $('#AdvertismentList tbody').on('click', 'tr', function() {
+            var allCheckboxLength = $('input[name="id[]"]').length;
+            var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
 
-                if (allCheckboxLength == checkedCheckboxLen) {
-                    $('#selectAllCheckboxes').prop('checked', true);
-                } else {
-                    $('#selectAllCheckboxes').prop('checked', false);
-                }
-                $('#AdvertismentList tbody tr').removeClass('selected');
-                /*get checked checkbox value and check full row from table*/
-                $('input[name="id[]"]:checked').map(function() {
-                    var checkedCheckBoxVal = $(this).val();
-                    // alert("aa >> "+checkedCheckBoxVal);
-                    $('#AdvertismentList tbody #row_' + checkedCheckBoxVal).addClass('selected');
-                    //console.log();
-                    data = checkedCheckBoxVal;
-                });
-
-                /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#AdvertismentList .selected').length;
-                // alert(" individual checkedRecordCount >> "+checkedRecordCount);
-
-                if (checkedRecordCount > 0) {
-                    $("#approveStatusButton").removeAttr("disabled");
-                }
-                if (checkedRecordCount == 0) {
-                    $("#approveStatusButton").attr("disabled", "disabled");
-                } //end here
-            });
-            // Handle click on "Select all" control
-            $('#selectAllCheckboxes').on('click', function() {
-                if ($('#selectAllCheckboxes').prop('checked')) {
-                    // alert("In side if");
-                    $('#AdvertismentList input[type="checkbox"]').prop('checked', true);
-                } else {
-
-                    $('#AdvertismentList input[type="checkbox"]').prop('checked', false);
-                }
-                $('#AdvertismentList tbody tr').removeClass('selected');
-                $('input[name="id[]"]:checked').map(function() {
-                    var checkedCheckBoxVal = $(this).val();
-                    // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
-                    $('#AdvertismentList tbody #row_' + checkedCheckBoxVal).addClass('selected');
-                });
-
-                /* Code for edit button(action) enable/disable */
-                var checkedRecordCount = $('#AdvertismentList .selected').length;
-                // alert(" individual checkedRecordCount >> "+checkedRecordCount);
-
-                if (checkedRecordCount > 0) {
-                    $("#approveStatusButton").removeAttr("disabled");
-                }
-                if (checkedRecordCount == 0) {
-                    $("#approveStatusButton").attr("disabled", "disabled");
-                } //end here
+            if (allCheckboxLength == checkedCheckboxLen) {
+                $('#selectAllCheckboxes').prop('checked', true);
+            } else {
+                $('#selectAllCheckboxes').prop('checked', false);
+            }
+            $('#AdvertismentList tbody tr').removeClass('selected');
+            /*get checked checkbox value and check full row from table*/
+            $('input[name="id[]"]:checked').map(function() {
+                var checkedCheckBoxVal = $(this).val();
+                // alert("aa >> "+checkedCheckBoxVal);
+                $('#AdvertismentList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                //console.log();
+                data = checkedCheckBoxVal;
             });
 
-            $('.dataTables_filter input[type="search"]').css({
-                'width': '350px',
-                'display': 'inline-block'
-            });
-            $('.dataTables_filter input').attr('type', 'text');
-            dt.on('row-reordered', function(e, diff, edit) {
-                dt.order([0, 'asc']);
+            /* Code for edit button(action) enable/disable */
+            var checkedRecordCount = $('#AdvertismentList .selected').length;
+            // alert(" individual checkedRecordCount >> "+checkedRecordCount);
+
+            if (checkedRecordCount > 0) {
+                $("#approveStatusButton").removeAttr("disabled");
+            }
+            if (checkedRecordCount == 0) {
+                $("#approveStatusButton").attr("disabled", "disabled");
+            } //end here
+        });
+        // Handle click on "Select all" control
+        $('#selectAllCheckboxes').on('click', function() {
+            if ($('#selectAllCheckboxes').prop('checked')) {
+                // alert("In side if");
+                $('#AdvertismentList input[type="checkbox"]').prop('checked', true);
+            } else {
+
+                $('#AdvertismentList input[type="checkbox"]').prop('checked', false);
+            }
+            $('#AdvertismentList tbody tr').removeClass('selected');
+            $('input[name="id[]"]:checked').map(function() {
+                var checkedCheckBoxVal = $(this).val();
+                // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
+                $('#AdvertismentList tbody #row_' + checkedCheckBoxVal).addClass('selected');
             });
 
-            dt.on('order.dt search.dt', function() {
-                dt.column(1, {
-                    search: 'applied',
-                    order: 'applied'
-                }).nodes().each(function(cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            });
+            /* Code for edit button(action) enable/disable */
+            var checkedRecordCount = $('#AdvertismentList .selected').length;
+            // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
-            dt.on('row-reorder', function(e, details, edit) {
-                dt.column(1).nodes().each(function(cell, i) {
-                    cell.innerHTML = i + 1;
-                });
+            if (checkedRecordCount > 0) {
+                $("#approveStatusButton").removeAttr("disabled");
+            }
+            if (checkedRecordCount == 0) {
+                $("#approveStatusButton").attr("disabled", "disabled");
+            } //end here
+        });
+
+        $('.dataTables_filter input[type="search"]').css({
+            'width': '350px',
+            'display': 'inline-block'
+        });
+        $('.dataTables_filter input').attr('type', 'text');
+        dt.on('row-reordered', function(e, diff, edit) {
+            dt.order([0, 'asc']);
+        });
+
+        dt.on('order.dt search.dt', function() {
+            dt.column(1, {
+                search: 'applied',
+                order: 'applied'
+            }).nodes().each(function(cell, i) {
+                cell.innerHTML = i + 1;
             });
+        });
+
+        dt.on('row-reorder', function(e, details, edit) {
+            dt.column(1).nodes().each(function(cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        });
 
 
         }
@@ -364,7 +421,12 @@
 
             txtStatusType = $("#txtStatusType").val();
             txtApproveStatus = $("#txtApproveStatus").val();
-            var str = '?txtStatusType=' + txtStatusType + '&txtApproveStatus=' + txtApproveStatus;
+            startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
+            endDate = $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
+
+            var str = '?txtStatusType=' + txtStatusType + '&txtApproveStatus=' + txtApproveStatus + '&startDate=' +
+                startDate + '&endDate=' + endDate;
+
             dataTableAjaxCall();
             dt.ajax.reload();
         }
