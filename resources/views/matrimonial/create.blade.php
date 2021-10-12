@@ -381,7 +381,7 @@
                                 <div data-repeater-list="group-a">
                                     <div data-repeater-item class="row">
                                         <div class="col-lg-2 col-md-4">
-                                            <div class="small-pic">
+                                            <div class="small-pic newsmallpic2">
                                                 <img class="imagePreview2 imgdisplay" alt="" width="100" height="100"
                                                     src="{{ URL::asset('images/image-placeholder.jpg') }}" />
                                             </div>
@@ -400,15 +400,18 @@
                                         <div class="col-lg-6 col-md-2">
                                             <button type="button" data-repeater-delete data-toggle="tooltip"
                                                 data-placement="top" title="Delete"
-                                                class="btn btn-sm btn-danger margin-10 mt-2">
+                                                class="btn btn-sm btn-danger margin-10 mt-2 mb-2">
                                                 <i class="bx bx-trash d-block font-size-16"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" data-repeater-create
-                                    class="btn btn-primary addbtnforall waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn"><i
-                                        class="bx bx-plus label-icon"></i> Add New</button>
+                               
+                             <button type="button" data-repeater-create
+                                        class="btn btn-primary addbtnforall waves-effect btn-sm btn-label-btn-sm btn-label waves-light "><i
+                                            class="bx bx-plus label-icon"></i>Add New</button>
+
+
                             </div>
 
                             <div class="col-md-12">
@@ -433,7 +436,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 email-form-margin pl-0">
-                                                <div class="form-group">
+                                                <div class="form-group neweduca">
                                                     <div class="custom-file">
                                                         <input type="text" placeholder="Enter Description" id="description"
                                                             name="description" class="form-control" required />
@@ -453,7 +456,7 @@
 
                                     </div>
                                     <button type="button" data-repeater-create
-                                        class="btn btn-primary addbtnforall waves-effect btn-sm btn-label-btn-sm btn-label waves-light"><i
+                                        class="btn btn-primary addbtnforall waves-effect btn-sm btn-label-btn-sm btn-label waves-light newsmallpic2a"><i
                                             class="bx bx-plus label-icon"></i>Add New</button>
 
 

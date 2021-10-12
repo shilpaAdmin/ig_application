@@ -12,6 +12,13 @@
 <script src="{{ URL::asset('assets/js/pages/jquery.nestable.min.js')}}"></script>
 <!-- Init js-->
 <script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{ URL::asset('assets/js/pages/daterangepicker.min.js')}}"></script>
+
+
 @yield('script')
 <!-- App js -->
 <script src="{{ URL::asset('assets/js/app.min.js')}}"></script>
