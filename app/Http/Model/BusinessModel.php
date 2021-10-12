@@ -41,7 +41,8 @@ class BusinessModel extends Model
         'declined_by_user_id',
         'created_by	',
         'last_updated_by',
-        'status'
+        'status',
+        'slug'
     ];
 
     public function categories()

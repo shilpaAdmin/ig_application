@@ -225,27 +225,30 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <?php
-                                $desiredCountryId = $row['desired_country_id'];
-                                ?>
-                                <label for="formrow-firstname-input">Desired Country</label>
-                                <select class="form-control" name="desired_country">
-                                    <option value=''>--Select Desired Country-- </option>
-                                    @foreach ($countryData as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
 
-                                        {{-- <option @if ($value->id,'=',$desiredCountryId) selected="selected" @endif value="{{ $value->id }}">{{ $value->name }}</option> --}}
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <?php
+                                    $desiredCountryId = $row['desired_country_id'];
+                                    ?>
+                                    <label for="formrow-firstname-input">Desired Country</label>
+                                    <select class="form-control" name="desired_country">
+                                        <option value=''>--Select Desired Country-- </option>
+                                        @foreach ($countryData as $value)
+                                            <option value="{{ $value->id }}">{{ $value->name }}</option>
 
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide a Desired Country.
+                                            {{-- <option @if ($value->id,'=',$desiredCountryId) selected="selected" @endif value="{{ $value->id }}">{{ $value->name }}</option> --}}
+
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please provide a Desired Country.
+                                    </div>
                                 </div>
                             </div>
 
-                        </div>
+
+
 
                     </div>
 
@@ -264,6 +267,22 @@
                                 </select>
                                 <div class="invalid-feedback">
                                     Please provide a Country.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="formrow-firstname-input">User</label>
+                                <select class="form-select form-control" name="user_id" id="user_id" required disabled>
+                                    <option value="">Select User</option>
+                                    @foreach ($users as $userid => $username)
+                                        <option value="{{ $userid }}" @if($row['user_id'] == $userid) selected @endif>{{ ucwords($username) }}</option>
+                                    @endforeach
+                                </select>
+
+                                <div class="invalid-feedback">
+                                    Please provide a User.
                                 </div>
                             </div>
                         </div>

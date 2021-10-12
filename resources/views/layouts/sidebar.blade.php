@@ -104,7 +104,7 @@
                   <li>
                      <a href="{{ url('admin/carrier') }}"
                         class="{{ Request::segment(2) === 'carrier.create' ? 'active' : '' }} "><i
-                        class="mdi mdi-music-note-whole"></i><span>Carrier</span></a>
+                        class="mdi mdi-music-note-whole"></i><span>Career</span></a>
                   </li>
                   <li><a href="{{ url('admin/category') }}"
                      class="{{ Request::segment(2) === 'category.create' ? 'active' : '' }} "><i

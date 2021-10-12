@@ -10,6 +10,7 @@ class FAQModel extends Model
     protected $fillable = [
         'question',
         'answer',
-        'tags'
+        'tags',
+        'slug'
     ];
 }

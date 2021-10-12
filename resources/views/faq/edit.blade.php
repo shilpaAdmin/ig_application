@@ -62,7 +62,7 @@
 
                         <div class="form-group">
                             <label for="formrow-firstname-input">User</label>
-                            <select class="form-select form-control" name="user_id" id="user_id" required>
+                            <select class="form-select form-control" name="user_id" id="user_id" required disabled>
                                 <option value="">Select User</option>
                                 @foreach($users as $userid=>$username)
                                 <option value="{{$userid}}" @if($row['user_id'] == $userid) selected @endif>{{ucwords($username)}}</option>

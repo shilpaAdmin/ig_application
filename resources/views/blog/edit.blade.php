@@ -70,7 +70,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="formrow-firstname-input">User</label>
-                                    <select class="form-select form-control" name="user_id" id="user_id" required>
+                                    <select class="form-select form-control" name="user_id" id="user_id" required disabled>
                                         <option value="">Select User</option>
                                         @foreach ($users as $userid => $username)
                                             <option value="{{ $userid }}" @if ($row['user_id'] == $userid) selected @endif>
@@ -117,20 +117,20 @@
                                 <div data-repeater-item class="row">
                                     <div class="col-lg-3">
                                         <div class="small-pic">
-                                            @if(isset($attachmentArray[$k]) && !@empty($attachmentArray[$k]))
-                                            <img class="imagePreview2 imgdisplay-blog" alt=""
-                                                src="{{ URL::asset('images/blogs/' . $attachmentArray[$k]) }}" />
-                                                @else
-                                              No Images 
+                                            @if (isset($attachmentArray[$k]) && !@empty($attachmentArray[$k]))
+                                                <img class="imagePreview2 imgdisplay-blog" alt=""
+                                                    src="{{ URL::asset('images/blogs/' . $attachmentArray[$k]) }}" />
+                                            @else
+                                                No Images
                                             @endif
                                         </div><br>
                                     </div>
                                     <div class="col-lg-4 ">
                                         <input type="file" class="custom-file-input media_file form-control"
                                             name="group-a[0][media_file_json]" id="media_file" accept="image/*" required>
-                                            <div class="invalid-feedback">
-                                                Media File is required !
-                                            </div>
+                                        <div class="invalid-feedback">
+                                            Media File is required !
+                                        </div>
                                         <input type="hidden" name="group-a[0][media_file_json_from_db]"
                                             value="{{ $attachmentArray[$k] }}">
                                         <label class="custom-file-label" for="customFile">Image</label>

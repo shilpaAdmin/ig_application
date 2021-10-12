@@ -7,13 +7,15 @@ use App\Http\Requests\TagsRequest;
 use App\Http\Model\UserModel;
 
 use DataTables;
-
+use App\Http\Traits\UserLocationDetailTrait;
+use Illuminate\Support\Str;
 use App\Http\Model\TagMasterModel;
 use App\Http\Model\TestimonialModel;
 use Auth;
 
 class TestimonialController extends Controller
 {
+    use UserLocationDetailTrait;
     var $counter = 1;
 
     public function index(Request $request)
@@ -35,6 +37,29 @@ class TestimonialController extends Controller
         $userID = $request->user_id;
 
         $obj=new TestimonialModel();
+        
+        $LocationType=$cityCountryId='';
+
+        if(isset($userID) && !empty($userID))
+        {
+            $locationData=$this->getUserLocationDetail($userID);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+        }
+
+        $obj->cityid_or_countryid=$cityCountryId;
+        $obj->type_city_or_country=$LocationType;
 
         $obj->name=$input['name'];
         $obj->designation=$input['designation'];

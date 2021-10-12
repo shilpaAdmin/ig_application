@@ -9,11 +9,15 @@ use DataTables;
 use App\Http\Model\UserModel;
 use App\Http\Model\ForumModel;
 use App\Http\Model\ForumCommentReplyModel;
+use Illuminate\Support\Str;
+use App\Http\Traits\UserLocationDetailTrait;
 
 use Auth;
 
 class ForumController extends Controller
 {
+    use UserLocationDetailTrait;
+
     var $counter = 1;
 
     /**
@@ -44,13 +48,39 @@ class ForumController extends Controller
     {
         $input=$request->all();
 
+
+
         $userID = $request->user_id;
 
         $obj=new ForumModel();
+        $LocationType=$cityCountryId='';
+
+        if(isset($userID) && !empty($userID))
+        {
+            $locationData=$this->getUserLocationDetail($userID);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+        }
+
+        $obj->cityid_or_countryid=$cityCountryId;
+        $obj->type_city_or_country=$LocationType;
+
         $obj->question=$input['question'];
         $obj->description=$input['description'];
         $obj->url=$input['url'];
         $obj->telegram_link=$input['telegram_link'];
+        $obj->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->question)).'-'.Str::random(5);
         $obj->user_id=$userID;
 
         if(!empty($input['status']))

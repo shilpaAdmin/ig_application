@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Carrier @endsection
+@section('title') Career @endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/select2/select2.min.css') }}">
 @endsection
@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-12">
                         <div class="card-body newheadcontanty">
-                            <h5 class="m-0 textforhedermaster">Carrier List</h5>
+                            <h5 class="m-0 textforhedermaster">Career List</h5>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-12">
@@ -30,7 +30,7 @@
                             <h4 class="card-title addfourm" style="text-align:right; padding:0px"><a
                                     href="javascript:void(0);" id="addnewsFeedBtn"
                                     class="btn addbtnforall waves-effect btn-label waves-light resetFrom"><i
-                                        class="bx bx-plus label-icon"></i>ADD Carrier</a></h4>
+                                        class="bx bx-plus label-icon"></i>ADD Career</a></h4>
                         </div>
 
 

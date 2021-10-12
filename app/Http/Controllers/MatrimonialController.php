@@ -10,13 +10,14 @@ use App\Http\Model\UserModel;
 use App\Http\Model\ForumModel;
 use App\Http\Model\MatrimonialModel;
 use App\Http\Model\CountrysModel;
-
-
-
+use App\Http\Traits\UserLocationDetailTrait;
+use Illuminate\Support\Str;
 use Auth;
 
 class MatrimonialController extends Controller
 {
+    use UserLocationDetailTrait;
+
     var $counter = 1;
 
 
@@ -40,18 +41,17 @@ class MatrimonialController extends Controller
     public function create()
     {
 
-         $country=CountrysModel::where('status','!=','deleted')->get();
+        $country=CountrysModel::where('status','!=','deleted')->get();
 
-        return view('matrimonial.create',compact('country'));
+        $users = UserModel::where('status', '!=', 'deleted')->pluck('name', 'id');
+
+
+        return view('matrimonial.create',compact('country','users'));
     }
 
     public function store(Request $request)
     {
         $input=$request->all();
-
-        // echo "<pre>";
-        // print_r($input);
-        // exit;
 
         $finalData = array();
         if(isset($input['group-c']) && !empty($input['group-c']))
@@ -124,9 +124,33 @@ class MatrimonialController extends Controller
         {
             $status = 'inactive';
         }
-        // $userID = $request->user_id;
+        $userID = $request->user_id;
 
         $obj=new MatrimonialModel();
+
+        $LocationType=$cityCountryId='';
+
+        if(isset($userID) && !empty($userID))
+        {
+            $locationData=$this->getUserLocationDetail($userID);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+        }
+
+        $obj->cityid_or_countryid=$cityCountryId;
+        $obj->type_city_or_country=$LocationType;
+
         $obj->full_name = $input['full_name'];
         $obj->city = $input['city'];
         $obj->address = $input['address'];
@@ -145,6 +169,8 @@ class MatrimonialController extends Controller
 
         $obj->annual_income = $input['annual_income'];
         $obj->country_id = $input['country'];
+        $obj->user_id = $userID;
+
         $obj->desired_age = $input['desired_age'];
 
         $obj->desired_height = $input['desired_height'];
@@ -155,7 +181,7 @@ class MatrimonialController extends Controller
         $obj->desired_country_id = $input['desired_country'];
         $obj->desired_annual_income = $input['desired_annual_income'];
         $obj->private = $input['private'];
-
+        $obj->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->full_name)).'-'.Str::random(5);
         $obj->media_json = $multipleImageJson;
         $obj->education_json = $multipleDataJson;
         $obj->status = $status;
@@ -301,8 +327,10 @@ class MatrimonialController extends Controller
     {
         $row = MatrimonialModel::where('id', $id)->first()->toArray();
         $countryData=CountrysModel::select('id','name')->get();
+        $users = UserModel::where('status', '!=', 'deleted')->pluck('name', 'id');
 
-        return view('matrimonial.edit', compact('row','countryData'));
+
+        return view('matrimonial.edit', compact('row','countryData','users'));
 
     }
 

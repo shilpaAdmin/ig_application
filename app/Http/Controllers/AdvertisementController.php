@@ -8,6 +8,8 @@ use DataTables;
 use App\Http\Model\UserModel;
 use App\Http\Model\AdvertisementModel;
 use Illuminate\Support\Carbon;
+use App\Http\Traits\UserLocationDetailTrait;
+use Illuminate\Support\Str;
 
 use App\Http\Model\CategoryModel;
 use Auth;
@@ -15,6 +17,7 @@ use Auth;
 
 class AdvertisementController extends Controller
 {
+    use UserLocationDetailTrait;
     var $counter = 1;
 
     /**
@@ -56,6 +59,29 @@ class AdvertisementController extends Controller
 
         $obj=new AdvertisementModel();
 
+        $LocationType=$cityCountryId='';
+
+        if(isset($userID) && !empty($userID))
+        {
+            $locationData=$this->getUserLocationDetail($userID);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+        }
+
+        $obj->cityid_or_countryid=$cityCountryId;
+        $obj->type_city_or_country=$LocationType;
+
         $obj->name=$input['name'];
         $obj->user_id=$userID;
         $obj->category_id=$categoryId;
@@ -64,9 +90,7 @@ class AdvertisementController extends Controller
         $obj->start_date=$start_date;
         $obj->end_date=$end_date;
         $obj->url=$input['url'];
-        $obj->cityid_or_countryid=1;
-        $obj->type_city_or_country='country';
-
+        $obj->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.Str::random(5);
         if($file = $request->hasFile('media'))
         {
             $file = $request->file('media');

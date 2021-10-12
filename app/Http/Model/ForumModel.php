@@ -14,7 +14,8 @@ class ForumModel extends Model
         'telegram_link',
         'user_id',
         'status',
-        'is_approve'
+        'is_approve',
+        'slug'
     ];
 
     public function user()
