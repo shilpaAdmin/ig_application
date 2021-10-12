@@ -121,6 +121,7 @@ Route::post('getCategoryWiseBusinessData', 'Api\BusinessController@getCategoryWi
 
 Route::post('getApplyJobList', 'Api\ApplyForJobController@getApplyJobList');
 
+Route::post('BusinessProfile', 'Api\BusinessController@getBusinessProfile');
 
 // froend login api
 Route::post('login', 'Frontend\LoginController@loginAuthentication')->name('api.login');

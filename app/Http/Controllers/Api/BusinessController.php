@@ -8,6 +8,10 @@ use App\Http\Model\BusinessModel;
 use App\Http\Model\CategoryModel;
 use App\Http\Model\TagMasterModel;
 use App\Http\Model\BusinessFavouriteModel;
+use App\Http\Model\ForumCommentReplyModel;
+use App\Http\Model\ForumModel;
+use App\Http\Model\FAQModel;
+use App\Http\Model\TagFAQMasterModel;
 use App\User;
 
 use App\Http\Model\BusinessUserEnquiryModel;
@@ -1341,8 +1345,346 @@ class BusinessController extends Controller
     public function getBusinessProfile(Request $request)
     {
         $input=$request->all();
-        $business=BusinessModel::where('business.status','active')->get();
+        
+        if(!isset($input['UserId']) || empty($input['UserId']))
+        {
+            $error[] = 'UserId Must be Required!';
+        }
 
+        if(!empty($error))
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
+		}
+
+        $user='';
+
+        if(isset($input['UserId']) && !empty($input['UserId']))
+        {
+            $user=User::where('user.id',$input['UserId'])
+            ->leftjoin('city as city','user.location_id','=','city.id')
+            ->where('user.status','active')
+            ->select('user.*','city.name as cityname')->first();
+
+            if($user===null)
+            {
+                return response()->json(['Status'=>false,'StatusMessage'=>'User record not exist!','Result'=>array()]);
+            }
+        }
+        $dataArray=array();
+
+        $dataArray['Id']=strval($user->id);
+        $dataArray['Name']=!empty($user->name)?$user->name:'';
+        $dataArray['MobileNumber']=!empty($user->mobile_number)?$user->mobile_number:'';
+        $dataArray['Email']=!empty($user->email)?$user->email:'';
+
+        $userImage='';
+        if(!empty($user->user_image))
+        {
+            $userImagedestinationPath = public_path().'/images/user/'.$user->user_image;
+                    
+            if(file_exists($userImagedestinationPath))
+            $userImage=URL::to('/images/user').'/'.$user->user_image;
+        }
+
+        $coverImage='';
+        if(!empty($user->cover_image))
+        {
+            $coverImagedestinationPath = public_path().'/images/user/coverimage/'.$user->cover_image;
+                    
+            if(file_exists($coverImagedestinationPath))
+            $coverImage=URL::to('/images/user/coverimage').'/'.$user->cover_image;
+        }
+
+        $dataArray['UserImage']=$userImage;
+        $dataArray['CoverImage']=$coverImage;
+        $dataArray['Bio']=!empty($user->bio)?$user->bio:'';
+        $dataArray['Address']=!empty($user->address)?$user->address:'';
+
+        $location='';
+
+        if(!empty($user->location_type) && $user->location_type=='city')
+        {
+            $location=$user->cityname;
+        }
+        else
+        {
+            $location='Germany';
+        }
+
+        $dataArray['LocationName']=$location;
+
+        $forumData=ForumModel::with('user')->where('user_id',$input['UserId'])->get()->toArray();
+        $countForum=count($forumData);
+
+        if($countForum > 0)
+        {       
+            for($i=0;$i<$countForum;$i++)
+            {
+                $dataArray['Forum'][$i]['Id']=strval($forumData[$i]['id']);
+                $dataArray['Forum'][$i]['Id']=!empty($forumData[$i]['question'])?$forumData[$i]['question']:'';
+                $dataArray['Forum'][$i]['ByUser']=!empty($forumData[$i]['user']['name'])?$forumData[$i]['user']['name']:'';
+
+                $user_image='';
+                if($forumData[$i]['user']['user_image'])
+                {
+                    $user_image_path=public_path().'/images/user/'.$forumData[$i]['user']['user_image'];
+
+                    if(file_exists($user_image_path))
+                    $user_image=URL::to('/images/user').'/'.$forumData[$i]['user']['user_image'];
+                }
+                $dataArray['Forum'][$i]['ByUserImage']=$user_image;
+                
+                $forum_id=$forumData[$i]['id'];
+
+                $forumComment=ForumCommentReplyModel::latest()->where('forum_id',$forum_id)
+                ->where('is_deleted',0)
+                ->where('comment_id',0)->get()->toArray();
+
+                $dataArray['Forum'][$i]['TotalComments']=strval(count($forumComment));
+
+                $userIdArray=array();
+
+                if(count($forumComment) > 0 && isset($forumComment) && !empty($forumComment))
+                {
+                    for($l=0;$l< 2; $l++)
+                    {
+                        if(isset($forumComment[$l]['user_id']))
+                        $userIdArray[]=$forumComment[$l]['user_id'];
+                    }
+
+                    $userCommentImages=User::whereIn('id',$userIdArray)->select('user_image')->get()->toArray();
+
+                    for($m=0;$m<2;$m++)
+                    {
+                        if(isset($userCommentImages[$m]['user_image']))
+                        $dataArray['Forum'][$i]['CommentImage'.($m+1)]=URL::to('/images/user').'/'.$userCommentImages[$m]['user_image'];
+                        else
+                        $dataArray['Forum'][$i]['CommentImage'.($m+1)]='';
+                    }
+
+                    if(!empty($userIdArray) && count($userIdArray)==2 && $userIdArray[0]==$userIdArray[1])
+                    {
+                        $dataArray['Forum'][$i]['CommentImage2']=$dataArray['Forum'][$i]['CommentImage1'];
+                    }
+                }
+                else
+                {
+                    $dataArray['Forum'][$i]['CommentImage1']='';
+                    $dataArray['Forum'][$i]['CommentImage2']='';
+                }
+
+                $dataArray['Forum'][$i]['Date']=date('d-m-Y',strtotime($forumData[$i]['created_at']));
+                $dataArray['Forum'][$i]['Time']=date('H:i:s',strtotime($forumData[$i]['created_at']));
+            }
+        }
+        else
+        {
+            $dataArray['Forum']=array();
+        }
+
+        $faqData=FAQModel::where('user_id',$input['UserId'])->get()->toArray();
+
+        
+        if(count($faqData) > 0)
+        {
+            $faq_count=count($faqData);
+            for($i=0;$i<$faq_count;$i++)
+            {
+                $dataArray['FAQ']['List'][$i]['Id']=$faqData[$i]['id'];
+                $dataArray['FAQ']['List'][$i]['Tags']=$faqData[$i]['tags'];
+                $dataArray['FAQ']['List'][$i]['Question']=$faqData[$i]['question'];
+                $dataArray['FAQ']['List'][$i]['Answer']=$faqData[$i]['answer'];
+                $dataArray['FAQ']['List'][$i]['Date']=date('d-m-Y',strtotime($faqData[$i]['created_at']));
+                $dataArray['FAQ']['List'][$i]['Time']=date('H:i:s',strtotime($faqData[$i]['created_at']));
+            }
+        }
+        else
+        {
+            $dataArray['FAQ']['List']=array();
+        }
+
+        $tagsData=TagFAQMasterModel::get()->toArray();
+        
+        $tag_count=count($tagsData);
+
+        if($tag_count > 0)
+        {
+            for($j=0;$j<$tag_count;$j++)
+            {
+                $dataArray['FAQ']['Tags'][$j]['Id']=$tagsData[$j]['id'];
+                $dataArray['FAQ']['Tags'][$j]['Name']=$tagsData[$j]['name'];
+            }
+        }
+        else
+        {
+            $dataArray['FAQ']['Tags']=array();
+        }
+
+        $userId=$input['UserId'];
+
+        $Pagination = isset($input['Pagination']) ? $input['Pagination'] : 1;
+    	$skip = (($Pagination - 1) * 30) ;
+
+        $totalCount = BusinessModel::where('status','active')->count();
+
+        $preQuery = BusinessModel::where('business.status','active')
+        ->leftJoin('tag_master', function ($join) {
+            $join->on('tag_master.id', '=', 'business.tag_id');
+        })
+        ->leftJoin('category', function ($join) {
+            $join->on('category.id', '=', 'business.category_id');
+        })
+        ->where(function($query) use ($request)
+        {
+            $UserId = isset($request->UserId) ? $request->UserId : '';
+
+            if(isset($UserId) && !empty($UserId))
+            {
+                $query->where('business.user_id', $UserId);
+            }
+        })->select('business.*','category.name as category_name');
+        
+        $totalFilteredCount = $preQuery->count();
+
+        /* fetch data*/
+
+        if($Pagination==0)
+        $listBusiness = $preQuery->get()->toArray();
+        else
+        $listBusiness = $preQuery->skip($skip)->take(30)->get()->toArray();
+
+        $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
+        $j = 0;
+        $locationData = array();
+        $tagIdArray = array();
+
+        $dataArray['Service']['TotalCount'] = $totalCount;
+        $dataArray['Service']['FilteredCount'] = $totalFilteredCount;
+
+        if(count($fetchAllTag) > 0)
+        {
+            $t = 0;
+            foreach($fetchAllTag as $tagData)
+            {
+                $dataArray['Service']['ApprovedFeaturesOrTags'][$t]['id'] = $tagData['id'];
+                $dataArray['Service']['ApprovedFeaturesOrTags'][$t]['name'] = $tagData['name'];
+                $t++;
+            }
+        }
+        else
+        {
+            $dataArray['Service']['ApprovedFeaturesOrTags'] = array();
+        }
+        if(count($listBusiness) > 0)
+        {
+            foreach($listBusiness as $businessData)
+            {
+                $finalTagData = '';
+                if(isset($businessData['tag_id']) && !empty($businessData['tag_id']))
+                {
+                    if(strpos($businessData['tag_id'], ',') !== false )
+                    {
+                        $arr = explode(',',  $businessData['tag_id']);
+                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                    }
+                    else
+                    {
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                    }
+                    $tagNameArray = array();
+                    if(count($tagData) > 0)
+                    {
+                        foreach($tagData as $data)
+                        {
+                            array_push($tagNameArray, $data['name']);
+                        }
+                    }
+
+                    if(count($tagNameArray) > 0)
+                    {
+                        $finalTagData = implode(',',$tagNameArray);
+                    }
+                }
+                $finalCategoryData = '';
+                if(isset($businessData['multiple_subcategory_id']) && !empty($businessData['multiple_subcategory_id']))
+                {
+                    if(strpos($businessData['multiple_subcategory_id'], ',') !== false )
+                    {
+                        $arr = explode(',',  $businessData['multiple_subcategory_id']);
+                        $categoryData = CategoryModel::whereIn('id',$arr)->get()->toArray();
+                    }
+                    else
+                    {
+                        $categoryData = CategoryModel::where('id',$businessData['tag_id'])->get()->toArray();
+                    }
+                    $categoryNameArray = array();
+                    if(count($categoryData) > 0)
+                    {
+                        foreach($categoryData as $data)
+                        {
+                            array_push($categoryNameArray, $data['name']);
+                        }
+                    }
+
+                    if(count($categoryNameArray) > 0)
+                    {
+                        $finalCategoryData = implode(',',$categoryNameArray);
+                    }
+                }
+                $businessFavourite = BusinessFavouriteModel::where('business_id',$businessData['id'])->where('user_id',$userId)->get()->toArray();
+                if(count($businessFavourite) > 0)
+                {
+                    $isFavourite = 'Yes';
+                }
+                else
+                {
+                    $isFavourite = 'No';
+                }
+                $mediaFileArray = $hoursArray = array();
+
+                if(isset($businessData['hours_json']) && !empty($businessData['hours_json']))
+                    $hoursArray = json_decode($businessData['hours_json'], true);
+
+                if(isset($businessData['media_file_json']) && !empty($businessData['media_file_json']))
+                    $mediaFileArray = json_decode($businessData['media_file_json'], true);
+
+                $urlArray['URL'] = array();
+                if(count($mediaFileArray) > 0)
+                {
+                    $m = 1;
+                    foreach($mediaFileArray as $mediaData)
+                    {
+                        $urlArray['URL'][] = !empty($mediaData['Media'.$m]) ? URL::to('/images/business').'/'.$mediaData['Media'.$m] : '';
+                        $m++;
+                    }
+                }
+                $dataArray['Service']['List'][$j]['Id'] = (string)$businessData['id'];
+                $dataArray['Service']['List'][$j]['Name'] = $businessData['name'];
+                $dataArray['Service']['List'][$j]['FeatureorTag'] = $finalTagData;
+                $dataArray['Service']['List'][$j]['isFavourite'] = $isFavourite;
+                $dataArray['Service']['List'][$j]['Address'] = !empty($businessData['address']) ? $businessData['address'] : '';
+                $dataArray['Service']['List'][$j]['Date'] = date('d-m-Y', strtotime($businessData['created_at']));
+                $dataArray['Service']['List'][$j]['Time'] = date('H:i:s', strtotime($businessData['created_at']));
+                $dataArray['Service']['List'][$j]['ActuralPrice'] = !empty($businessData['actual_price']) ? (string)$businessData['actual_price'] : '';
+                $dataArray['Service']['List'][$j]['SellingPrice'] = !empty($businessData['selling_price']) ? (string)$businessData['selling_price'] : '';
+                $dataArray['Service']['List'][$j]['About'] = !empty($businessData['about']) ? (string)$businessData['about'] : '';
+                $dataArray['Service']['List'][$j]['ContactPersonName'] = !empty($businessData['contact_person_name']) ? $businessData['contact_person_name'] : '';
+                $dataArray['Service']['List'][$j]['MobileNumber'] =!empty($businessData['mobile_number']) ? (string)$businessData['mobile_number'] : '';
+                $dataArray['Service']['List'][$j]['UnitOption'] = !empty($businessData['unit_option']) ? (string)$businessData['unit_option'] : '';
+                $dataArray['Service']['List'][$j]['CategoryName'] = !empty($businessData['category_name']) ? $businessData['category_name'] : '';
+                $dataArray['Service']['List'][$j]['SubCategoryName'] = $finalCategoryData;
+                $dataArray['Service']['List'][$j]['DisplayHours'] = !empty($businessData['display_hours']) ? $businessData['display_hours'] : '';
+                $dataArray['Service']['List'][$j]['Hours'] = $hoursArray;
+                $dataArray['Service']['List'][$j]['Media'] = $urlArray;
+                $j++;
+            }
+        }
+        else
+        {
+            $dataArray['List'] = array();
+        }
+
+        return response()->json(['Status'=>true,'StatusMessage'=>'Get Business Profile successfully !','Result'=>$dataArray]);
     }
 
     public function getBusinessesCategoryWise(Request $request)

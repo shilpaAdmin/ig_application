@@ -23,6 +23,8 @@ class User extends Authenticatable
         'email',
         'mobile_number',
         'user_image',
+        'cover_image',
+        'bio',
         'address',
         'social_id',
         'social_type',

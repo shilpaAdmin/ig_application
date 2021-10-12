@@ -406,17 +406,37 @@ class APIAuthController extends Controller
          }
          else
          {
+            $user_image='';
+            if(isset($userData->user_image) && !empty($userData->user_image))
+            {
+                $user_image_path=public_path().'/images/user/'.$userData->user_image;
+
+                if(file_exists($user_image_path))
+                $user_image=URL::to('/images/user').'/'.$userData->user_image;
+            }
+
+            $cover_image='';
+            if(isset($userData->cover_image) && !empty($userData->cover_image))
+            {
+                $cover_image_path=public_path().'/images/user/coverimage/'.$userData->cover_image;
+
+                if(file_exists($cover_image_path))
+                $cover_image=URL::to('/images/user/coverimage').'/'.$userData->cover_image;
+            }
+
             $userArray=array(
                 'Id'=>strval($userData->id),
                 'Name'=>$userData->name,
                 'Email'=>$userData->email,
                 'Number'=>!empty($userData->mobile_number)?$userData->mobile_number:'',
-                'Image'=>!empty($userData->user_image)?URL::to('/images/user/'.$userData->user_image):'',
+                'Image'=>$user_image,
                 'Address'=>!empty($userData->address)?$userData->address:'',
                 'PrivacyPolicy'=>'',
                 'TC-HtmlData'=>'',
                 'IsRated'=>$userData->is_rated==0?'false':'true',
-                'MatrimonialId'=>!empty($userData->matrimonial_id)?strval($userData->matrimonial_id):''
+                'MatrimonialId'=>!empty($userData->matrimonial_id)?strval($userData->matrimonial_id):'',
+                'CoverImage'=>$cover_image,
+                'Bio'=>!empty($userData->bio)?$userData->bio:''
                 );
 
             return response()->json([
@@ -478,19 +498,38 @@ class APIAuthController extends Controller
                 {
                     if(!empty($userData->user_image))
                     unlink($user_image_path);
-
-                    $nameArr=explode('.',$document_file->getClientOriginalName());
-                    $extension=$document_file->getClientOriginalExtension();
-                    $name=$nameArr[0];
-                    $media_name= md5(time().'_'. $name). '.' . $extension;
-                    $document_file->move(public_path() . '/images/user/', $media_name);
-                    $updateArray['user_image']=$media_name;
                 }
+                $nameArr=explode('.',$document_file->getClientOriginalName());
+                $extension=$document_file->getClientOriginalExtension();
+                $name=$nameArr[0];
+                $media_name= md5(time().'_'. $name). '.' . $extension;
+                $document_file->move(public_path() . '/images/user/', $media_name);
+                $updateArray['user_image']=$media_name;
             }
 
             if(isset($input['Number']))
             $updateArray['mobile_number']=$input['Number'];
 
+            if(isset($input['CoverImage']))
+            {
+                $document_file=$input['CoverImage'];
+                $cover_image_path=public_path().'/images/user/coverimage/'.$userData->cover_image;
+                if(file_exists($cover_image_path))
+                {
+                    if(!empty($userData->cover_image))
+                    unlink($cover_image_path);
+                }
+                
+                $nameArr=explode('.',$document_file->getClientOriginalName());
+                $extension=$document_file->getClientOriginalExtension();
+                $name=$nameArr[0];
+                $media_name= md5(time().'_'. $name). '.' . $extension;
+                $document_file->move(public_path() . '/images/user/coverimage/', $media_name);
+                $updateArray['cover_image']=$media_name;
+            }
+
+            if(isset($input['Bio']) && $input['Bio'])
+            $updateArray['bio']=$input['Bio'];
             //print_r($updateArray);
             //exit;
             $user=User::where('id',$input['RegisterId'])->update($updateArray);
