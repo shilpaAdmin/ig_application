@@ -12,12 +12,13 @@ use App\Http\Model\CategoryModel;
 class HousingController extends Controller
 {
 
-    public function housingDetails(Request $request,$categoryid,$businessid)
+    public function housingDetails(Request $request,$slug,$business_slug)
     {
 
 
         // find category details page redirect (direction)
-        $category=CategoryModel::find($categoryid);
+        // $category=CategoryModel::find($categoryid);
+        $category=CategoryModel::where('slug','=',$slug)->first();
         if(isset($category) && $category->parent_category_id!=0){
             while(true){
                 $category=CategoryModel::find($category->parent_category_id);
@@ -26,15 +27,16 @@ class HousingController extends Controller
                 }
             }
         }
+       
         $categoryPageRedirect= isset($category) ? $category->category_page_redirect: 0;
 
         // get business details data
-        $businessData = BusinessModel::where('id', $businessid)->first();
+        $businessData = BusinessModel::with(['category'])->where('slug','=', $business_slug)->first();
         $similarData=null;
         if(isset($businessData->tag_id)){
-            $similarData = BusinessModel::where('tag_id','=',$businessData->tag_id)->limit(2)->get();
+            $similarData = BusinessModel::with(['category'])->where('tag_id','=',$businessData->tag_id)->limit(2)->get();
         }
-
+        // dd($category,$businessData,$similarData,$categoryPageRedirect);
         // redirect perticular business details page
         if($categoryPageRedirect=="0"){
             // housing details

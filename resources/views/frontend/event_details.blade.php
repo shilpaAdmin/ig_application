@@ -1,9 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title') Event - Details @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
 
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
@@ -28,7 +25,7 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4>{{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
+                                <h4>{{ ucwords($businessData['name']) }}<i class="fa fa-check"></i></h4>
                             </div>
                             <?php
                                 $timestamp = strtotime( $businessData['created_at'] );
@@ -77,7 +74,7 @@
                                 <div class="badge-pill badge-cast d-inline-block mb-3 mr-3"> $ 5000 - Inclusive of all
                                     taxes </div>
 
-                                <p class="first_text mb-0">{{ $businessData['about'] }} </p>
+                                <p class="first_text mb-0">{{ ucfirst($businessData['about']) }} </p>
 
                               
 
@@ -189,6 +186,12 @@
                                 } else {
                                     $imageUrl= URL::asset('assets/frontend/images/listings/event-list2.jpg');
                                 }
+
+                                if (isset($similarDatas->category) && isset($similarDatas->category->slug)) {
+                                    $detailPageUrl = route('housing.details',['slug'=>$similarDatas->category->slug,'business_slug'=>$similarDatas['slug'] ]);
+                                } else {
+                                    $detailPageUrl = "javascript:void(0);";
+                                }
                             @endphp
 
                             <div class="col-xl-6 col-md-12 col-sm-12">
@@ -203,10 +206,10 @@
                                         </div>
                                         <div class="listings_three-page_content pt-3">
                                             <div class="title">
-                                                <h3><a href="{{route('Eventdetails')}}"> {{ $similarDatas['name'] }}<span
+                                                <h3><a href="{{$detailPageUrl}}"> {{ ucwords($similarDatas['name']) }}<span
                                                             class="fa fa-check"></span></a></h3>
     
-                                                <p class="mb-0">{{ $similarDatas['address'] }},{{ $similarDatas['description'] }}</p>
+                                                <p class="mb-0">{{ ucwords($similarDatas['address']) }},{{ ucwords($similarDatas['description']) }}</p>
                                             </div>
                                             <ul class="list-unstyled listings_three-page_contact_info">
                                                 <li class="d-inline-block"><a class="job_list_pill" href="#"> Music</a></li>
@@ -237,6 +240,4 @@
             </section>
         @endif
     </div><!-- /.page-wrapper -->
-</body>
-</html>
 @endsection

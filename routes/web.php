@@ -274,33 +274,37 @@ Route::namespace('Frontend')->group(function () {
     // forum & comments - likes
     Route::get('/forum','ForumController@index')->name('ForumList');
     Route::get('/forum/{slug}','ForumController@forumDetails')->name('forumdetail');
-    // Route::get('/forumdetail','ForumController@forumDetails')->name('forumdetail');
     Route::post('/save-comments','ForumController@saveForumComment')->name('save.comments');
     Route::post('/like-dislike','ForumController@saveLikeDislike')->name('like-dislike');
     Route::post('/comment-replys','ForumController@saveCommentReplys')->name('comment.replys');
 
     // Matrimoney
-    Route::get('/matrimoney','MatrimoneyController@viewMatrimoney')->name('matrimoney');
-
-    //category wise business listinng
-    // Route::get('/category/{id}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
-    // Route::get('/category/{id}/{bid}','HousingController@housingDetails')->name('housing.details');
- 
-    Route::get('/category/{slug}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
-    Route::get('/category/{slug}/{bid}','HousingController@housingDetails')->name('housing.details');
+    Route::group(['prefix' => 'matrimoney'], function () {
+        Route::get('/','MatrimoneyController@viewMatrimoney')->name('matrimoney');
+        Route::get('/{slug}','MatrimoneyController@matrimoneyDetails')->name('matrimoney.details');
+    });
+    
+    // Cateogry list or Details page
+    Route::group(['prefix' => 'category'], function () {
+        Route::get('/{slug}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
+        Route::get('/{slug}/{business_slug}','HousingController@housingDetails')->name('housing.details');
+    });
 
     //category career details
-    Route::get('/careers','CareerController@careerList')->name('category.career-list');
-
-
-   
+    Route::group(['prefix' => 'careers'], function () {
+        Route::get('/','CareerController@careerList')->name('category.career-list');
+    });
 
     // Faq
-    Route::get('/faq','FaqController@faqDetails')->name('faq.details');
+    Route::group(['prefix' => 'faq'], function () {
+        Route::get('/','FaqController@faqDetails')->name('faq.details');
+    });
 
     // blogs
-    Route::get('blog','BlogController@viewBlogList')->name('blog.list');
-    Route::get('blog/{slug}','BlogController@viewBlogDetails')->name('blog.detail');
+    Route::group(['prefix' => 'blog'], function () {
+        Route::get('/','BlogController@viewBlogList')->name('blog.list');
+        Route::get('/{slug}','BlogController@viewBlogDetails')->name('blog.detail');
+    });
     Route::post('save-blog-comments','BlogController@saveBlogComments')->name('save.blog.comments');
 
 });

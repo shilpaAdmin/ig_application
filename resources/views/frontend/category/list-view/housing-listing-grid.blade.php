@@ -15,7 +15,7 @@
             $imageUrl=URL::asset('assets/frontend/images/listings/education1.jpg');
         }
 
-        $detailsPageUrl= route('housing.details',['slug'=>$slug,'bid'=>$business->id]);
+        $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
     @endphp
 
     <div class="col-xl-4 col-md-6 col-sm-12">
@@ -35,7 +35,7 @@
             </div>
             <div class="listings_three-page_content">
                 <div class="title">
-                    <h3><a href="{{$detailsPageUrl}}">{{$name}}<span class="fa fa-check"></span></a></h3>
+                    <h3><a href="{{$detailsPageUrl}}">{{ $name}}<span class="fa fa-check"></span></a></h3>
                     <p >{{$address}} , {{$description}}</p>
                 </div>
                 <ul class="list-unstyled listings_three-page_contact_info">

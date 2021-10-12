@@ -545,6 +545,7 @@
                 $('.data-view').removeClass('active');
                 $(this).addClass('active');
                 page = 1;
+                hasLoadMore=true;
                 $("#results").html('');
                 loadMore(page,viewData);
             });

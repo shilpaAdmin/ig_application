@@ -5,9 +5,6 @@
 @extends('frontend.layouts.master')
 @section('title') Job Details @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
 
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
@@ -118,9 +115,9 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4> {{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
-                                <small>{{ $businessData['about'] }} </small><br>
-                                <small>{{ $businessData['address'] }} </small>
+                                <h4> {{ ucwords($businessData['name']) }}<i class="fa fa-check"></i></h4>
+                                <small>{{ ucwords($businessData['about']) }} </small><br>
+                                <small>{{ ucwords($businessData['address']) }} </small>
 
                             </div>
                             <div class="main_bottom_rating_time">
@@ -170,7 +167,7 @@
                             <div class="listings_details_text">
                                 <h3 class="mb-3">Description</h3>
 
-                                <p class="first_text mb-0">{{ $businessData['description'] }} </p>
+                                <p class="first_text mb-0">{{ ucwords($businessData['description']) }} </p>
 
                             </div>
 
@@ -182,8 +179,8 @@
                                     <div class="house_detaill">
                                         <div> <i class="far fa-calendar"></i> </div>
                                         <?php
-                                        $timestamp = strtotime( $businessData['created_at'] );
-                                        $date = date('M d,Y', $timestamp );
+                                            $timestamp = strtotime( $businessData['created_at'] );
+                                            $date = date('M d,Y', $timestamp );
                                         ?>
                                         <div class="house_desc">Date Posted</div>
                                         <p>{{ $date }}</p>
@@ -200,19 +197,19 @@
                                     <div class="house_detaill">
                                         <div><i class="fas fa-user-graduate"></i> </div>
                                         <div class="house_desc">Qualifications</div>
-                                        <p>{{ $attachmentArray['JobQualification'] }}</p>
+                                        <p>{{ isset($attachmentArray['JobQualification']) ? $attachmentArray['JobQualification'] :'-' }}</p>
                                     </div>
 
                                     <div class="house_detaill">
                                         <div> <i class="far fa-money-bill-alt"></i> </div>
                                         <div class="house_desc">Offered Salary</div>
-                                        <p>{{ $attachmentArray['JobSalary'] }}</p>
+                                        <p>{{ isset($attachmentArray['JobSalary']) ? $attachmentArray['JobSalary']:'-' }}</p>
                                     </div>
 
                                     <div class="house_detaill">
                                         <div> <i class="fas fa-user-clock"></i> </div>
                                         <div class="house_desc">Experience</div>
-                                        <p>{{ $attachmentArray['JobExperience'] }}</p>
+                                        <p>{{ isset($attachmentArray['JobExperience']) ? $attachmentArray['JobExperience'] :'-'}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +224,7 @@
 
                                     <div class="col-lg-12">
                                         <ul class="listings_details_features_list">
-                                            <li class="job_li_icon">{{ $businessData['sub_description_1'] }}</li>
+                                            <li class="job_li_icon">{{ ucwords($businessData['sub_description_1']) }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -242,7 +239,7 @@
 
                                     <div class="col-lg-12">
                                         <ul class="listings_details_features_list">
-                                            <li class="job_li_icon">{{ $businessData['sub_descrition'] }}</li>
+                                            <li class="job_li_icon">{{ ucwords($businessData['sub_descrition']) }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -258,7 +255,7 @@
                                     <!--Single_item-->
                                     <div class="additional_info_single">
                                         <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>{{ $businessData['sub_descrition'] }}</p>
+                                            <p><i class="fas fa-dot-circle"></i>{{ ucwords($businessData['sub_descrition']) }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -299,6 +296,14 @@
                                     } else {
                                         $imageUrl=URL::asset('assets/frontend/images/img/gridimglisthouse.png');
                                     }
+
+                                    if (isset($similarDatas->category) && isset($similarDatas->category->slug)) {
+                                        $detailPageUrl = route('housing.details',['slug'=>$similarDatas->category->slug,'business_slug'=>$similarDatas['slug'] ]);
+                                    } else {
+                                        $detailPageUrl = "javascript:void(0);";
+                                    }
+    
+
                                 @endphp
                                 <div class="listings_two_page_single overflow-y__hidden">
                                     <div class="listings_two_page_img">
@@ -311,10 +316,10 @@
                                     </div>
                                     <div class="listings_three-page_content pt-3">
                                         <div class="title">
-                                            <h3><a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}"> {{ $similarDatas['name'] }}<span
+                                            <h3><a href="{{$detailPageUrl}}"> {{ ucwords($similarDatas['name']) }}<span
                                                         class="fa fa-check"></span></a></h3>
-                                            <p class="mb-0">{{ $similarDatas['about'] }}</p>
-                                            <p class="mb-0">{{ $similarDatas['address'] }}</p>
+                                            <p class="mb-0">{{ ucwords($similarDatas['about']) }}</p>
+                                            <p class="mb-0">{{ ucwords($similarDatas['address']) }}</p>
                                         </div>
                                         <ul class="list-unstyled listings_three-page_contact_info">
                                             <li class="d-inline-block"><a class="job_list_pill" href="#"> Full-time</a>
@@ -327,7 +332,7 @@
 
                                             </div>
                                             <div>
-                                                <a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                                <a href="{{$detailPageUrl}}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
                                                 <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                                             </div>
                                         </div>
@@ -343,6 +348,5 @@
         @endif
 
     </div><!-- /.page-wrapper -->
-</body>
-</html>
+
 @endsection

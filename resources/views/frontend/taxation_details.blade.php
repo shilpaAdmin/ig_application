@@ -1,9 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title') Taxation Details @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
 
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
@@ -29,8 +26,8 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4>{{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
-                                <small>{{ $businessData['address'] }}, {{ $businessData['description'] }}</small>
+                                <h4>{{ ucwords($businessData['name']) }}<i class="fa fa-check"></i></h4>
+                                <small>{{ ucwords($businessData['address']) }}, {{ ucwords($businessData['description']) }}</small>
                             </div>
                             <div class="main_bottom_rating_time">
                                 <div class="mr-3">
@@ -75,7 +72,7 @@
                         <div class="listings_details_left">
                             <div class="listings_details_text">
                                 <h3 class="mb-3">About</h3>
-                                <p class="first_text mb-0"> {{ $businessData['about'] }} </p>
+                                <p class="first_text mb-0"> {{ ucwords($businessData['about']) }} </p>
                             </div>
                             <div class="listings_details_features border-bottom-0">
                                 <div class="listings_details_features_title">
@@ -84,7 +81,7 @@
                                 <div class="row tax_contact_main">
                                     <div class="col-sm-12">
                                         <span class="tax_contact text_green"> <i class="far fa-user"></i> </span>
-                                        {{ isset($businessData['contact_person_name']) ? $businessData['contact_person_name'] :'-' }}
+                                        {{ isset($businessData['contact_person_name']) ? ucwords($businessData['contact_person_name']) :'-' }}
                                     </div>
                                     <div class="col-sm-12">
                                         <span class="tax_contact text_green"> <i class="fas fa-mobile-alt"></i>
@@ -96,7 +93,7 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <span class="tax_contact text_green"> <i class="fas fa-map-marker-alt"></i>
-                                        </span>  {{isset($businessData['address']) ? $businessData['address'] : '-'}}
+                                        </span>  {{isset($businessData['address']) ? ucwords($businessData['address']) : '-'}}
                                     </div>
                                 </div>
                             </div>
@@ -201,6 +198,12 @@
                                 } else {
                                     $imageUrl= URL::asset('assets/frontend/images/listings/tax2.jpg');
                                 }
+
+                                if (isset($similarDatas->category) && isset($similarDatas->category->slug)) {
+                                    $detailPageUrl = route('housing.details',['slug'=>$similarDatas->category->slug,'business_slug'=>$similarDatas['slug'] ]);
+                                } else {
+                                    $detailPageUrl = "javascript:void(0);";
+                                }
                             @endphp
                              <div class="col-xl-6 col-md-12 col-sm-12">
                                 <div class="listings_two_page_content">
@@ -215,9 +218,9 @@
                                         </div>
                                         <div class="listings_three-page_contentt pt-3">
                                             <div class="title">
-                                                <h3><a href="taxation-details.html">{{ $similarDatas['name'] }}<span
+                                                <h3><a href="{{ $detailPageUrl }}">{{ ucwords($similarDatas['name']) }}<span
                                                             class="fa fa-check"></span></a></h3>
-                                                <p>{{ $similarDatas['description'] }}</p>
+                                                <p>{{ ucwords($similarDatas['description']) }}</p>
                                             </div>
                                             <ul class="list-unstyled listings_three-page_contact_info">
                                                 <li>
@@ -252,6 +255,4 @@
         @endif
 
     </div><!-- /.page-wrapper -->
-</body>
-</html>
 @endsection

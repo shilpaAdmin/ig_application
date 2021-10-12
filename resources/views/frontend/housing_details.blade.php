@@ -2,10 +2,6 @@
 @extends('frontend.layouts.master')
 @section('title') Housing Details @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
-
 
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
@@ -31,9 +27,9 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4>{{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
-                                <small>{{ $businessData['about'] }}</small></br>
-                                <small>{{ $businessData['address'] }}</small>
+                                <h4>{{ ucwords($businessData['name']) }}<i class="fa fa-check"></i></h4>
+                                <small>{{ ucwords($businessData['about']) }}</small></br>
+                                <small>{{ ucwords($businessData['address']) }}</small>
 
 
                             </div>
@@ -81,7 +77,7 @@
                             <div class="listings_details_text">
                                 <h3 class="mb-3">Unit Options</h3>
                                 <div>
-                                    <button type="button" class="btn btnunit">{{ $businessData['unit_option'] }} Appartment</button>
+                                    <button type="button" class="btn btnunit">{{ ucwords($businessData['unit_option']) }} Appartment</button>
                                     {{-- <button type="button" class="btn btnunit">3 BHK Appartment</button>
                                     <button type="button" class="btn btnunit">4 BHK Appartment</button> --}}
                                 </div>
@@ -91,7 +87,7 @@
                             <div class="listings_details_text">
                                 <h3 class="mb-3">Description</h3>
 
-                                <p class="first_text mb-0">{{ $businessData['description'] }}</p>
+                                <p class="first_text mb-0">{{ ucwords($businessData['description']) }}</p>
 
                             </div>
 
@@ -106,7 +102,7 @@
                                     <!--Single_item-->
                                     <div class="additional_info_single">
                                         <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>{{ $businessData['sub_descrition'] }}</p>
+                                            <p><i class="fas fa-dot-circle"></i>{{ ucwords($businessData['sub_descrition']) }}</p>
                                         </div>
                                     </div>
 
@@ -115,7 +111,7 @@
                             <div class="listings_details_sidebar__single contact_business">
                                 <h3 class="listings_details_sidebar__title">Contact Business</h3>
                                 <div class="contact_business_details">
-                                    <input type="text" placeholder="Your name" name="name" value="{{ $businessData['contact_person_name'] }}" readonly>
+                                    <input type="text" placeholder="Your name" name="name" value="{{ ucwords($businessData['contact_person_name']) }}" readonly>
                                     <input type="email" placeholder="Email address" name="email" value="{{ $businessData['mobile_number'] }}" readonly>
                                     <input type="text" placeholder="Contact Number" name="contact" value="{{ $businessData['email_id'] }}" readonly>
                                     {{-- <a href="#" class="thm-btn contact_business_btn">Send message</a> --}}
@@ -154,6 +150,11 @@
                                             } else {
                                                 $imageUrl=URL::asset('assets/frontend/images/img/gridimglisthouse.png');
                                             }
+                                            if (isset($similarDatas->category) && isset($similarDatas->category->slug)) {
+                                                $detailPageUrl = route('housing.details',['slug'=>$similarDatas->category->slug,'business_slug'=>$similarDatas['slug'] ]);
+                                            } else {
+                                                $detailPageUrl = "javascript:void(0);";
+                                            }
                                         @endphp
 
                                         <div class="listings_two_page_img">
@@ -166,9 +167,9 @@
 
                                         <div class="listings_three-page_contentt">
                                             <div class="title">
-                                                <h3><a href="housing-listing-grid.html">{{ $similarDatas['name'] }}<span
+                                                <h3><a href="{{$detailPageUrl}}">{{ ucwords($similarDatas['name']) }}<span
                                                             class="fa fa-check"></span></a></h3>
-                                                <p>{{ $similarDatas['address'] }} , {{ $similarDatas['description'] }}</p>
+                                                <p>{{ ucwords($similarDatas['address']) }} , {{ ucwords($similarDatas['description']) }}</p>
                                             </div>
                                             <ul class="list-unstyled listings_three-page_contact_info">
                                                 <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
@@ -195,7 +196,4 @@
         @endif
     </div><!-- /.page-wrapper -->
 
-</body>
-
-</html>
 @endsection

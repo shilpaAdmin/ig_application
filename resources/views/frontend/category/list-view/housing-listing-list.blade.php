@@ -15,7 +15,7 @@
         $imageUrl=URL::asset('assets/frontend/images/img/listimghousing.png');
     }
 
-    $detailsPageUrl= route('housing.details',['slug'=>$slug,'bid'=>$business->id]);
+    $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
 @endphp
 
     <div class="col-xl-6 col-md-12 col-sm-12">

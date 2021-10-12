@@ -2,11 +2,11 @@
 
     @php
 
-        $name= $business->name ? $business->name :'-';
-        $address= $business->address ? $business->address :'-';
-        $description= $business->description ? $business->description :'-';
+        $name= $business->name ? ucwords($business->name) :'-';
+        $address= $business->address ? ucwords($business->address) :'-';
+        $description= $business->description ? ucwords($business->description) :'-';
         $date=$business->created_at->diffForHumans();
-        $about= $business->about ? $business->about :'-';
+        $about= $business->about ? ucwords($business->about) :'-';
 
         $images=json_decode($business->media_file_json, true);
         if(count($images)){
@@ -14,7 +14,7 @@
         } else {
             $imageUrl= URL::asset('assets/frontend/images/listings/tour1.jpg');
         }
-        $detailsPageUrl= route('housing.details',['id'=>$id,'bid'=>$business->id]);
+        $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
     @endphp
 
     <div class="col-xl-6 col-md-12 col-sm-12">

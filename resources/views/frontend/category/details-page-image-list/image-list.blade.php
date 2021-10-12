@@ -19,37 +19,16 @@
         }
         $q = 1;
     @endphp
-    @if (count($attachmentArray) > 0)
-      @for ($k = 0; $k < count($attachmentArray); $k++)
-      <div class="item">
-          <div class="listings_details_main_image_box_single">
-              <div class="listings_details_main_image_box__img">
-                  <img src="{{ URL::asset('images/business/'.$attachmentArray[$k]['Media'.($k+1)]) }}" alt="">
-              </div>
-          </div>
-      </div>
-      @endfor
-    @endif
-        {{-- <div class="item">
-            <div class="listings_details_main_image_box_single">
-                <div class="listings_details_main_image_box__img">
-                    <img src="{{ URL::asset('assets/frontend/images/listings/tax-1.jpg')}}" alt="">
+        @if (count($attachmentArray) > 0)
+            @for ($k = 0; $k < count($attachmentArray); $k++)
+                <div class="item">
+                    <div class="listings_details_main_image_box_single">
+                        <div class="listings_details_main_image_box__img">
+                            <img src="{{ URL::asset('images/business/'.$attachmentArray[$k]['Media'.($k+1)]) }}" alt="">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="listings_details_main_image_box_single">
-                <div class="listings_details_main_image_box__img">
-                    <img src="{{ URL::asset('assets/frontend/images/listings/tax-2.jpg')}}" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="listings_details_main_image_box_single">
-                <div class="listings_details_main_image_box__img">
-                    <img src="{{ URL::asset('assets/frontend/images/listings/tax-3.jpg')}}" alt="">
-                </div>
-            </div>
-        </div> --}}
+            @endfor
+        @endif
     </div>
 </div>

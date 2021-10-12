@@ -2,10 +2,10 @@
 
     @php
 
-        $name= $business->name ? $business->name :'-';
-        $address= $business->address ? $business->address :'-';
-        $description= $business->description ? $business->description :'-';
-        $about= $business->about ? $business->about :'-';
+        $name= $business->name ? ucwords($business->name) :'-';
+        $address= $business->address ? ucwords($business->address) :'-';
+        $description= $business->description ? ucwords($business->description) :'-';
+        $about= $business->about ? ucwords($business->about) :'-';
         $date=$business->created_at->diffForHumans();
 
         $images=json_decode($business->media_file_json, true);
@@ -14,7 +14,7 @@
         } else {
             $imageUrl= URL::asset('assets/frontend/images/listings/job-list.jpg');
         }
-        $detailsPageUrl= route('housing.details',['id'=>$id,'bid'=>$business->id]);
+        $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
     @endphp
 
 <div class="col-xl-6 col-md-12 col-sm-12">
@@ -45,7 +45,7 @@
 
                     </div>
                     <div>
-                        <a href="{{route('housing.details',['id'=>$business['category_id'],'bid'=>$business['id'] ])}}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                        <a href="{{$detailsPageUrl}}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
                         <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                     </div>
                 </div>

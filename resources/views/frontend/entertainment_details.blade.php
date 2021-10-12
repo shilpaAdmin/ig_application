@@ -1,9 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title') Entertainment - Details @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
 
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
@@ -28,9 +25,9 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4>{{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
+                                <h4>{{ ucwords($businessData['name']) }}<i class="fa fa-check"></i></h4>
                             </div>
-                            <small> <i class="fas fa-map-marker-alt"></i> {{ $businessData['about'] }} </small> <br>
+                            <small> <i class="fas fa-map-marker-alt"></i> {{ ucfirst($businessData['about']) }} </small> <br>
                             <small class="d-inline-block"> Action , Thriller </small> &nbsp; | &nbsp;<small
                                 class="d-inline-block"> 1hr 54min </small>
 
@@ -89,7 +86,7 @@
                                 <div class="badge-pill badge-cast d-inline-block mb-3 mr-3"> Tamil </div>
 
 
-                                <p class="first_text mb-0"> {{ $businessData['about'] }} </p>
+                                <p class="first_text mb-0"> {{ ucfirst($businessData['about']) }} </p>
 
                                 {{-- <p class="first_text mb-0">Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
                                     tellus.
@@ -206,6 +203,12 @@
                                 } else {
                                     $imageUrl= URL::asset('assets/frontend/images/listings/ent3.jpg');
                                 }
+
+                                if (isset($similarDatas->category) && isset($similarDatas->category->slug)) {
+                                    $detailPageUrl = route('housing.details',['slug'=>$similarDatas->category->slug,'business_slug'=>$similarDatas['slug'] ]);
+                                } else {
+                                    $detailPageUrl = "javascript:void(0);";
+                                }
                             @endphp
 
                             <div class="col-xl-6 col-md-12 col-sm-12">
@@ -220,7 +223,7 @@
                                         </div>
                                         <div class="listings_three-page_content pt-3">
                                             <div class="title">
-                                                <h3><a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}">{{ $similarDatas['name'] }}</a> </h3>
+                                                <h3><a href="{{$detailPageUrl}}">{{ ucwords($similarDatas['name']) }}</a> </h3>
     
                                                 <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy </p>
                                                 <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p>
@@ -233,7 +236,7 @@
     
                                                 </div>
                                                 <div>
-                                                    <a href="{{ route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ]) }}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                                    <a href="{{ $detailPageUrl }}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -315,7 +318,4 @@
         @endif
 
     </div><!-- /.page-wrapper -->
-
-</body>
-</html>
 @endsection

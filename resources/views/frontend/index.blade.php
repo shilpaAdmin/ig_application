@@ -838,10 +838,11 @@
                     </div>
 
                     <div class="col-lg-9 ">
-                            <a href="{{route('forumdetail')}}?id={{$forum->id}}" class="for__title">{{$forum->question}}</a>
+                            {{-- <a href="{{route('forumdetail')}}?id={{$forum->id}}" class="for__title">{{$forum->question}}</a> --}}
+                            <a href="{{ route('forumdetail',['slug'=>$forum]) }}" class="for__title">{{ ucwords($forum->question) }}</a>
 
                         <p class="for_desc">
-                            <span> <a href="#"> {{$forum->name}}</a></span>
+                            <span> <a href="#"> {{ucwords($forum->name)}}</a></span>
                             <span> <a href="#">  {{$forum->created_at->diffForHumans()}}</a></span>
                             <span> <a href="#">  {{$forum->forumComments->count()}} replies </a></span>
                         </p>
@@ -890,11 +891,11 @@
                                 @foreach ($faqs as $key=>$faq)
                                     <div class="accrodion {{$key==0 ? 'active' :''}}">
                                         <div class="accrodion-title">
-                                            <h4>{{ $faq->question}}</h4>
+                                            <h4>{{ ucwords($faq->question) }}</h4>
                                         </div>
                                         <div class="accrodion-content">
                                             <div class="inner">
-                                                <p>{{ $faq->answer }}</p>
+                                                <p>{{ ucwords($faq->answer) }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1355,10 +1356,12 @@
                         $.each(data.Result, function (i) {
 
                             var id=data.Result[i]['Id'];
+                            var slug=data.Result[i]['slug'];
                             var name=data.Result[i]['Name'];
                             var icon=data.Result[i]['Icon'];
                             var redirectStatus=data.Result[i]['redirect_status'];
-
+console.log("slug");
+console.log(slug);
                             let model='';
                             let modelid='';
                             resultId=parseInt(data.Result[i]['Id']);
@@ -1379,7 +1382,7 @@
                                 url="{{route('matrimoney')}}";
                             } else if(redirectStatus=='5'){ // entertainment
                                 // url="{{route('EntertainmentListingGrid')}}";
-                                url="/category/"+id;
+                                url="/category/"+slug;
                             } else if(redirectStatus=='1'){ //faq
                                 url="{{ route('faq.details') }}";
                             }
@@ -1448,7 +1451,8 @@
                                 {
                                     var name = data.Result[i]['Name'];
                                     var id = data.Result[i]['Id'];
-                                    htmlStr+='<div class="w-50 float-left"> <a class=" a_cat_color" href="/category/'+id+'"><i class="fas fa-angle-right"></i> '+name+'</a> </div>';
+                                    var slug = data.Result[i]['Slug'];
+                                    htmlStr+='<div class="w-50 float-left"> <a class=" a_cat_color" href="/category/'+slug+'"><i class="fas fa-angle-right"></i> '+name+'</a> </div>';
                                 });
                             }
                             else

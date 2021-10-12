@@ -1,10 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title') Education Details @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-
-<body>
 
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
@@ -31,8 +27,8 @@
                                 </div>
                             </div>
                             <div class="main_bottom_left_title">
-                                <h4>{{ $businessData['name'] }}<i class="fa fa-check"></i></h4>
-                                <small>{{ $businessData['address'] }}, {{ $businessData['description'] }} </small>
+                                <h4>{{ ucwords($businessData['name']) }}<i class="fa fa-check"></i></h4>
+                                <small>{{ ucwords($businessData['address']) }}, {{ ucwords($businessData['description']) }} </small>
 
                             </div>
                             <div class="main_bottom_rating_time">
@@ -87,9 +83,7 @@
 
                             <div class="listings_details_text">
                                 <h3 class="mb-3">About</h3>
-
-                                <p class="first_text mb-0">{{ $businessData['about'] }}</p>
-
+                                <p class="first_text mb-0">{{ ucfirst($businessData['about']) }}</p>
                             </div>
 
 
@@ -290,6 +284,7 @@
 
                         @foreach($similarData as $similarDatas)
                             @php
+                           
                                 if (isset($similarDatas['media_file_json']) && !empty($similarDatas['media_file_json'])) {
                                     $attachmentArray = json_decode($similarDatas['media_file_json'], true);
                                 } else {
@@ -300,6 +295,12 @@
                                     $imageUrl= URL::to('/images/business').'/'.$attachmentArray[0]['Media1'] ;
                                 } else {
                                     $imageUrl= URL::asset('assets/frontend/images/listings/education2.jpg');
+                                }
+
+                                if (isset($similarDatas->category) && isset($similarDatas->category->slug)) {
+                                    $detailPageUrl = route('housing.details',['slug'=>$similarDatas->category->slug,'business_slug'=>$similarDatas['slug'] ]);
+                                } else {
+                                    $detailPageUrl = "javascript:void(0);";
                                 }
                             @endphp
 
@@ -315,10 +316,10 @@
                                         </div>
                                         <div class="listings_three-page_content pt-3">
                                             <div class="title">
-                                                <h3><a href="education-details.html">{{ $similarDatas['name'] }}<span
+                                                <h3><a href="{{$detailPageUrl}}">{{ ucwords($similarDatas['name']) }}<span
                                                             class="fa fa-check"></span></a></h3>
 
-                                                <p class="mb-0">{{ $similarDatas['address'] }} , {{ $similarDatas['description'] }}</p>
+                                                <p class="mb-0">{{ $similarDatas['address'] }} , {{ ucwords($similarDatas['description']) }}</p>
                                                 <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> 4.5km Away
                                                     from you</p>
                                             </div>
@@ -332,7 +333,7 @@
                                                     <a class="job_list_pill mb-0" href="#"> DE / EN </a>
                                                 </div>
                                                 <div>
-                                                    <a href="{{route('housing.details',['id'=>$similarDatas['category_id'],'bid'=>$similarDatas['id'] ])}}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
+                                                    <a href="{{ $detailPageUrl }}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
                                                     <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
                                                 </div>
                                             </div>
@@ -383,7 +384,4 @@
             </section>
         @endif
     </div><!-- /.page-wrapper -->
-
-</body>
-</html>
 @endsection
