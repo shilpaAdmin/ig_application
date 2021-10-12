@@ -11,6 +11,7 @@ use App\Http\Traits\UserLocationDetailTrait;
 
 use URL;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AdvertisementController extends Controller
 {
@@ -142,6 +143,10 @@ class AdvertisementController extends Controller
         }
         else
         {
+            if(isset($input['Name']) && !empty($input['Name']))
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $input['Name'])).'-'.Str::random(5);
+            else
+            $slug=null;
 
             $dataArray=['name'=>$input['Name'],
             'user_id'=>$input['RegisterId'],
@@ -153,7 +158,8 @@ class AdvertisementController extends Controller
             'media'=>!empty($imageName)?$imageName:NULL,
             'continously'=>!empty($input['Continously'])?$input['Continously']:NULL,
             'cityid_or_countryid'=>$cityCountryId,
-            'type_city_or_country'=>$LocationType
+            'type_city_or_country'=>$LocationType,
+            'slug'=>$slug
         ];
             
             /*if(isset($locationData->location_id))

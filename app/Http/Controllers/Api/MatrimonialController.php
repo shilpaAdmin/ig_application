@@ -14,6 +14,8 @@ use App\Http\Traits\UserLocationDetailTrait;
 
 use URL;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 use Exception;
 
 class MatrimonialController extends Controller
@@ -341,9 +343,13 @@ class MatrimonialController extends Controller
                     $matrimonial_obj->cityid_or_countryid=1;
                     $matrimonial_obj->type_city_or_country='country';
                 }
-                //$matrimonial_obj->cityid_or_countryid=;
+                
+                if(isset($input['FullName']) && !empty($input['FullName']))
+                $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $input['FullName'])).'-'.Str::random(5);
+                else
+                $slug=null;
 
-                //$matrimonial_obj->type_city_or_country=;
+                $matrimonial_obj->slug=$slug;
 
                 if($matrimonial_obj->save())
                 {

@@ -11,6 +11,7 @@ use App\User;
 
 use URL;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use App\Http\Traits\UserLocationDetailTrait;
 
@@ -197,6 +198,13 @@ class FAQController extends Controller
             
             $faqObject->cityid_or_countryid=$cityCountryId;
             $faqObject->type_city_or_country=$LocationType;
+
+            if(isset($input['Question']) && !empty($input['Question']))
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $input['Question'])).'-'.Str::random(5);
+            else
+            $slug=null;
+
+            $faqObject->slug=$slug;
 
             if($faqObject->save())
             {

@@ -13,6 +13,7 @@ use App\Http\Model\ForumModel;
 use App\Http\Model\FAQModel;
 use App\Http\Model\TagFAQMasterModel;
 use App\User;
+use Illuminate\Support\Str;
 
 use App\Http\Model\BusinessUserEnquiryModel;
 
@@ -391,6 +392,13 @@ class BusinessController extends Controller
             
             $data->cityid_or_countryid=$cityCountryId;
             $data->type_city_or_country=$LocationType;
+
+            if(isset($request->Name) && !empty($request->Name))
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->Name)).'-'.Str::random(5);
+            else
+            $slug=null;
+
+            $data->slug=$slug;
 
             $data->status = 'active';
             $data->save();

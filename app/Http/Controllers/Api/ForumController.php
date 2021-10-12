@@ -15,6 +15,8 @@ use App\Http\Traits\UserLocationDetailTrait;
 
 use URL;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 use Illuminate\Support\Facades\File; 
 
 class ForumController extends Controller
@@ -159,6 +161,13 @@ class ForumController extends Controller
             {
                 $forumObject->attachment=$attachmentImage;
             }
+
+            if(isset($input['Question']) && !empty($input['Question']))
+            $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $input['Question'])).'-'.Str::random(5);
+            else
+            $slug=null;
+
+            $forumObject->slug=$slug;
 
             if($forumObject->save())
             {
