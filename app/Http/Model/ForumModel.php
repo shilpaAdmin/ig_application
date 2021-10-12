@@ -15,7 +15,10 @@ class ForumModel extends Model
         'user_id',
         'status',
         'is_approve',
-        'slug'
+        'slug',
+        'cityid_or_countryid',
+        'type_city_or_country',
+        'attachment'
     ];
 
     public function user()

@@ -165,6 +165,26 @@ class MatrimonialController extends Controller
                     
                     $matrimonial_obj->education_json=$educationJson;
                 }
+                
+                if(isset($input['RegisterId']))
+                {
+                    $locationDetail=$this->getUserLocationDetail($input['RegisterId']);
+
+                    if(isset($locationDetail->location_id))
+                    $matrimonial_obj->cityid_or_countryid=$locationDetail->location_id;
+                    else
+                    $matrimonial_obj->cityid_or_countryid=1;
+
+                    if(isset($locationDetail->location_type))
+                    $matrimonial_obj->type_city_or_country=$locationDetail->location_type;
+                    else
+                    $matrimonial_obj->type_city_or_country='country';
+                }
+                else
+                {
+                    $matrimonial_obj->cityid_or_countryid=1;
+                    $matrimonial_obj->type_city_or_country='country';
+                }
 
                 if($matrimonial_obj->save())
                 {
@@ -302,7 +322,25 @@ class MatrimonialController extends Controller
                     $matrimonial_obj->education_json=$educationJson;
                 }
 
-                
+                if(isset($input['RegisterId']))
+                {
+                    $locationDetail=$this->getUserLocationDetail($input['RegisterId']);
+
+                    if(isset($locationDetail->location_id))
+                    $matrimonial_obj->cityid_or_countryid=$locationDetail->location_id;
+                    else
+                    $matrimonial_obj->cityid_or_countryid=1;
+
+                    if(isset($locationDetail->location_type))
+                    $matrimonial_obj->type_city_or_country=$locationDetail->location_type;
+                    else
+                    $matrimonial_obj->type_city_or_country='country';
+                }
+                else
+                {
+                    $matrimonial_obj->cityid_or_countryid=1;
+                    $matrimonial_obj->type_city_or_country='country';
+                }
                 //$matrimonial_obj->cityid_or_countryid=;
 
                 //$matrimonial_obj->type_city_or_country=;
@@ -339,6 +377,8 @@ class MatrimonialController extends Controller
 
         $userId = isset($input['RegisterId']) ? $input['RegisterId'] : '';
         $status = isset($input['Status']) ? $input['Status'] : '';
+        $location_id=isset($input['LocationId']) ? $input['LocationId'] : '';
+        $location_type=isset($input['LocationType']) ? $input['LocationType'] : '';
 
         $matrimonial_obj='';
 
@@ -373,8 +413,18 @@ class MatrimonialController extends Controller
 
         if((isset($userId) && !empty($userId)) || (isset($status) && !empty($status)) )
         {
-            $Matrimonial_prequery = MatrimonialModel::leftjoin('connect_now','matrimonial.id','=','connect_now.connection_matrimonial_id')
-            ->where('connect_now.user_id',$userId)->whereIn('matrimonial.id',$ids)
+            $Matrimonial_prequery1 = MatrimonialModel::leftjoin('connect_now','matrimonial.id','=','connect_now.connection_matrimonial_id');
+            
+            if(isset($userId) && !empty($userId))
+            {
+                $Matrimonial_prequery1->where('connect_now.user_id',$userId);
+            }
+            elseif(!empty($location_id) && !empty($location_type) && $location_type!='country')
+            {
+                $Matrimonial_prequery1->where('matrimonial.cityid_or_countryid',$location_id)->where('matrimonial.type_city_or_country',$location_type);
+            }
+
+            $Matrimonial_prequery=$Matrimonial_prequery1->whereIn('matrimonial.id',$ids)
             ->select('matrimonial.*','connect_now.status as connect_status')
             ->whereNotIn('connect_now.status',['connection-reject','private-reject'])->get();
         }
@@ -421,7 +471,7 @@ class MatrimonialController extends Controller
                 //$matrimonialArray[$i]['Media1']=!empty($matrimonial_obj[$i]['media'])?URL::to('/images/matrimonial/media').'/'.$matrimonial_obj[$i]['media']:'';
                 $matrimonialArray[$i]['Status']=!empty($matrimonial_obj[$i]['connect_status'])?$matrimonial_obj[$i]['connect_status']:'';
             }
-            return response()->json(['Status'=>true,'StatusMessage'=>'Get Matrimonial List successfully !','Result'=>[$matrimonialArray]]);
+            return response()->json(['Status'=>true,'StatusMessage'=>'Get Matrimonial List successfully !','Result'=>$matrimonialArray]);
         }
         else
         {
@@ -570,7 +620,7 @@ class MatrimonialController extends Controller
 		}
 
         $result=ConnectNowModel::create(['user_id'=>$input['RegisterId'],'matrimonial_id'=>$input['MatrimonialId'],
-        'connection_register_id'=>$input['ConnectionMatrimonialId'],
+        'connection_register_id'=>$input['ConnectionRegisterId'],
         'connection_matrimonial_id'=>$input['ConnectionMatrimonialId'],
         'status'=>$input['Status']]);
 

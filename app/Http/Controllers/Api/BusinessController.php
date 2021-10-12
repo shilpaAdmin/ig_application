@@ -269,6 +269,26 @@ class BusinessController extends Controller
                 if($updateHoursFlag!=1)
                 $data->hours_json =$jsonHoureData;
 
+                $LocationType=$cityCountryId='';
+
+                $locationData=$this->getUserLocationDetail($request->RegisterId);
+    
+                if($locationData!==null)
+                {
+                    if(isset($locationData->location_id) && !empty($locationData->location_id))
+                    $cityCountryId=$locationData->location_id;
+                    else
+                    $cityCountryId=1;
+                    
+                    if(isset($locationData->location_type) && !empty($locationData->location_type))
+                    $LocationType=$locationData->location_type;
+                    else
+                    $LocationType='country';
+                }
+                
+                $data->cityid_or_countryid=$cityCountryId;
+                $data->type_city_or_country=$LocationType;
+                
                 $data->status = 'active';
 
                 $data->save();
@@ -347,13 +367,26 @@ class BusinessController extends Controller
             // $data->declined_by_user_id = $request->contact_person_name;
             // $data->created_by = $request->mobile_number;
             // $data->last_updated_by = $request->hours_json;
+            
+            $LocationType=$cityCountryId='';
+
             $locationData=$this->getUserLocationDetail($request->RegisterId);
 
             if($locationData!==null)
             {
-                $data->cityid_or_countryid=$locationData->location_id;
-                $data->type_city_or_country=$locationData->location_type;
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+                
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
             }
+            
+            $data->cityid_or_countryid=$cityCountryId;
+            $data->type_city_or_country=$LocationType;
 
             $data->status = 'active';
             $data->save();
@@ -438,6 +471,9 @@ class BusinessController extends Controller
             $PriceMin = isset($request->PriceMin) ? $request->PriceMin : '';
             $FeatureOrTag = isset($request->FeatureOrTag) ? $request->FeatureOrTag : '';
             $SearchName = isset($request->SearchName) ? $request->SearchName : '';
+            
+            $LocationId = isset($request->LocationId) ? $request->LocationId : '';
+            $LocationType = isset($request->LocationType) ? $request->LocationType : '';
 
             if(isset($PriceMax) && !empty($PriceMax) && isset($PriceMin) && !empty($PriceMin))
             {
@@ -457,6 +493,10 @@ class BusinessController extends Controller
                 $query->whereBetween('business.selling_price', [$PriceMin,$PriceMax]);
             }
 
+            if(!empty($LocationId) && !empty($LocationType) && $LocationType!='country')
+            {
+                $query->where('business.cityid_or_countryid', $LocationId)->where('business.type_city_or_country', $LocationType);
+            }
 
             if(isset($CatagoryId) && !empty($CatagoryId))
             {
@@ -1298,11 +1338,12 @@ class BusinessController extends Controller
         }
     }
 
-    /*public function getBusinessCountCategorywise(Request $request)
+    public function getBusinessProfile(Request $request)
     {
         $input=$request->all();
+        $business=BusinessModel::where('business.status','active')->get();
 
-    }*/
+    }
 
     public function getBusinessesCategoryWise(Request $request)
     {

@@ -12,8 +12,12 @@ use App\User;
 use URL;
 use Illuminate\Http\Request;
 
+use App\Http\Traits\UserLocationDetailTrait;
+
 class FAQController extends Controller
 {
+    use UserLocationDetailTrait;
+
     public function listFAQData(Request $request)
     {
         $input=$request->all();
@@ -22,6 +26,9 @@ class FAQController extends Controller
         $FAQFilter=array();
         
         $userId=!empty($input['RegisterId'])?$input['RegisterId']:'';
+        $locationId=isset($input['LocationId'])?$input['LocationId']:'';
+        $locationType=isset($input['LocationType'])?$input['LocationType']:'';
+
         $tagsId=isset($input['TagsID'])?$input['TagsID']:'';
 
         if(isset($tagsId) && !empty($tagsId))
@@ -56,18 +63,27 @@ class FAQController extends Controller
                     }
                 }
 
-                if(empty($userId))
+                if(empty($userId) && empty($locationId) && empty($locationType))
                 $FAQFilter=$query->get()->toArray();
-                else
+                elseif(!empty($userId))
                 $FAQFilter=$query->where('user_id',$userId)->get()->toArray();
+                elseif(!empty($locationId) && !empty($locationType) && $locationType!='country')
+                $FAQFilter=$query->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->get()->toArray();
+                else
+                $FAQFilter=$query->get()->toArray();
             }
         }
         else
         {
-            if(empty($userId))
-            $FAQFilter=FAQModel::where('status','active')->get()->toArray();
+            
+            if(empty($userId) && empty($locationId) && empty($locationType))
+            $FAQFilter=FAQModel::get()->toArray();
+            elseif(!empty($userId))
+            $FAQFilter=FAQModel::where('user_id',$userId)->get()->toArray();
+            elseif(!empty($locationId) && !empty($locationType) && $locationType!='country')
+            $FAQFilter=FAQModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->get()->toArray();
             else
-            $FAQFilter=FAQModel::where('user_id',$userId)->where('status','active')->get()->toArray();
+            $FAQFilter=FAQModel::get()->toArray();
         }
         
         $tagsData=TagFAQMasterModel::get()->toArray();
@@ -156,13 +172,33 @@ class FAQController extends Controller
             }
         }
 
-            $forumObject=new FAQModel;
-            $forumObject->question=$input['Question'];
-            $forumObject->answer=$input['Answer'];
-            $forumObject->user_id=$input['RegisterId'];
-            $forumObject->tags=$input['TagsID'];
+            $faqObject=new FAQModel;
+            $faqObject->question=$input['Question'];
+            $faqObject->answer=$input['Answer'];
+            $faqObject->user_id=$input['RegisterId'];
+            $faqObject->tags=$input['TagsID'];
 
-            if($forumObject->save())
+            $LocationType=$cityCountryId='';
+
+            $locationData=$this->getUserLocationDetail($input['RegisterId']);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+                
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+            
+            $faqObject->cityid_or_countryid=$cityCountryId;
+            $faqObject->type_city_or_country=$LocationType;
+
+            if($faqObject->save())
             {
                 return response()->json(['Status'=>true,'StatusMessage'=>'FAQ added successfully!','Result'=>array()]);
             }
@@ -231,6 +267,26 @@ class FAQController extends Controller
 
             if(isset($input['RegisterId']))
             $faqObj->user_id=$input['RegisterId'];
+
+            $LocationType=$cityCountryId='';
+
+            $locationData=$this->getUserLocationDetail($input['RegisterId']);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+                
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+            
+            $faqObj->cityid_or_countryid=$cityCountryId;
+            $faqObj->type_city_or_country=$LocationType;
 
             if($faqObj->save())
             { 

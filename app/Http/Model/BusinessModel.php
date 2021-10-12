@@ -42,7 +42,9 @@ class BusinessModel extends Model
         'created_by	',
         'last_updated_by',
         'status',
-        'slug'
+        'slug',
+        'cityid_or_countryid',
+        'type_city_or_country'
     ];
 
     public function categories()

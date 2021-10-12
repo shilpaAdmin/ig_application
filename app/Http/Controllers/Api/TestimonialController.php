@@ -10,12 +10,24 @@ use File;
 use URL;
 use Illuminate\Http\Request;
 
+use App\Http\Traits\UserLocationDetailTrait;
+
 class TestimonialController extends Controller
 {
+    use UserLocationDetailTrait;
+
     public function getTestimonialData(Request $request)
     {
         $input=$request->all();
+
+        $locationId=!empty($input['LocationId'])?$input['LocationId']:'';
+        $locationType=!empty($input['LocationType'])?$input['LocationType']:'';
+
+        if(!empty($locationId) && !empty($locationType) && $locationType!='country')
+        $testimonialData=TestimonialModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->get()->toArray();
+        else
         $testimonialData=TestimonialModel::all()->toArray();
+
         $total_count=count($testimonialData);
 
         if($total_count > 0)
@@ -101,14 +113,38 @@ class TestimonialController extends Controller
             
             $testimonials->name=$user->name;
 
-            $imgArray=explode('.',$user->user_image);
-            $imageName=$imgArray[1];
-            $imageName=md5(time() . '_' . $user->user_image) . '.' .$imageName;
+            if(!empty($user->user_image))
+            {    
+                $imgArray=explode('.',$user->user_image);
+                $imageName=$imgArray[1];
+                $imageName=md5(time() . '_' . $user->user_image) . '.' .$imageName;
 
-            File::copy(public_path('/images/user/'.$user->user_image),
-            public_path('/images/testimonials/user/'.$imageName));
+                File::copy(public_path('/images/user/'.$user->user_image),
+                public_path('/images/testimonials/user/'.$imageName));
 
-            $testimonials->image=$imageName;
+                $testimonials->image=$imageName;
+            }
+            
+            $LocationType=$cityCountryId='';
+
+            $locationData=$this->getUserLocationDetail($input['RegisterId']);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+                
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+            
+            $testimonials->cityid_or_countryid=$cityCountryId;
+            $testimonials->type_city_or_country=$LocationType;
+
         }
         else
         {

@@ -48,6 +48,12 @@ class DashboardController extends Controller
     {
         $input=$request->all();
 
+        $locationId=$input['LocationId']?$input['LocationId']:'';
+        $locationType=$input['LocationType']?$input['LocationType']:'';
+
+        if(!empty($locationId) && !empty($locationType) && $locationType!='country')
+        $testimonialData=TestimonialModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        else
         $testimonialData=TestimonialModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         $testimonial_counts=count($testimonialData);
         //print_r($testimonials);
@@ -55,16 +61,28 @@ class DashboardController extends Controller
         $tagmasterData=TagMasterModel::orderBy('id','DESC')->get()->toArray();
        // print_r($tagmasters);
 
-        $faqsData=FAQModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+       if(!empty($locationId) && !empty($locationType) && $locationType!='country')
+       $faqsData=FAQModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+       else
+       $faqsData=FAQModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         //print_r($faqs);
         $tagFAQData=TagFAQMasterModel::orderBy('id','DESC')->get()->toArray();
 
+        if(!empty($locationId) && !empty($locationType) && $locationType!='country')
+        $blogsData=BlogsModel::with(['user'])->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get();
+        else
         $blogsData=BlogsModel::with(['user'])->skip(0)->take(10)->orderBy('id','DESC')->get();
         //print_r($blogs);
 
+        if(!empty($locationId) && !empty($locationType) && $locationType!='country')
+        $forumsData=ForumModel::with(['user'])->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        else
         $forumsData=ForumModel::with(['user'])->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         //print_r($forums);
 
+        if(!empty($locationId) && !empty($locationType) && $locationType!='country')
+        $advertisementsData=AdvertisementModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        else
         $advertisementsData=AdvertisementModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         $advertisements_counts=count($advertisementsData);
         //print_r($advertisements);
@@ -356,27 +374,62 @@ class DashboardController extends Controller
             foreach($categoryData as $catData)
             {
                 $categoryId= $catData['id'];
-                
-                $listBusiness = BusinessModel::where('business.status','active')
-                ->leftJoin('tag_master', function ($join) {
-                    $join->on('tag_master.id', '=', 'business.tag_id');
-                })
-                ->leftJoin('category', function ($join) {
-                    $join->on('category.id', '=', 'business.category_id');
-                })->select('business.*','category.name as category_name')
-                ->where('business.category_id',$categoryId)
-                ->skip(0)->take(3)
-                ->orderBy('business.id','DESC')
-                ->get()->toArray();
 
+                if(!empty($locationId) && !empty($locationType) && $locationType!='country')
+                {    
+                   // echo 'in if<br>location id='.$locationId.',locationtype='.$locationType.'categoryId='.$categoryId;
+                    $preQuery=BusinessModel::where('business.status','active')
+                    ->where('business.category_id',$categoryId)
+                    ->where('business.cityid_or_countryid',$locationId)
+                    ->where('business.type_city_or_country',$locationType)
+                    ->leftJoin('tag_master', function ($join) {
+                        $join->on('tag_master.id', '=', 'business.tag_id');
+                    })
+                    ->leftJoin('category', function ($join) {
+                        $join->on('category.id', '=', 'business.category_id');
+                    })->select('business.*','category.name as category_name');
+                }
+                else
+                {
+                   // echo 'in else<br>';
+                    $preQuery=BusinessModel::where('business.status','active')
+                    ->leftJoin('tag_master', function ($join) {
+                        $join->on('tag_master.id', '=', 'business.tag_id');
+                    })
+                    ->leftJoin('category', function ($join) {
+                        $join->on('category.id', '=', 'business.category_id');
+                    })->select('business.*','category.name as category_name')
+                    ->where('business.category_id',$categoryId);
+                }
+
+                $totalCount=$preQuery->count();
+                //echo 'totalrecords='.$totalCount.'<br>';
+
+                $No_records=0;
+                if($totalCount > 0 && $totalCount <=3)
+                {
+                    $No_records=$totalCount;
+                }
+                elseif($totalCount >=3 || $totalCount==0)
+                {
+                    $No_records=3;
+                }
+                //echo $No_records.'<br>';
+                $listBusiness=$preQuery->skip(0)->take($No_records)->orderBy('business.id','DESC')->get()->toArray();
+                // echo '<pre>';
+                // print_r($listBusiness);
                 $total_records=count($listBusiness);
+                
+                //echo $total_records;
 
                 $totalBusiness+=$total_records;
 
                 if($total_records > 0)
                 {
+                    //echo 'inside<br>';
                     foreach($listBusiness as $businessData)
                     {
+                    //echo 'inside loop<br>';
                         $finalTagData = '';
                         if(isset($businessData['tag_id']) && !empty($businessData['tag_id']))
                         {
@@ -457,6 +510,7 @@ class DashboardController extends Controller
                                 $m++;
                             }
                         }
+                        //echo 'name='.$businessData['name'].'';
                         $dataArray['List'][$j]['Id'] = (string)$businessData['id'];
                         $dataArray['List'][$j]['Name'] = $businessData['name'];
                         $dataArray['List'][$j]['FeatureorTag'] = $finalTagData;
@@ -478,16 +532,17 @@ class DashboardController extends Controller
                         $j++;
                     }
                 }
-                else
-                {
-                    $dataArray['List']=array();
-                }
             }
         }
         else
         {
             $dataArray['List']=array();
-        }   
+        }
+
+        if($totalBusiness ==0)
+        {
+            $dataArray['List']=array();
+        }
 
         $newsData=NewsModel::first();
         $registerId=isset($input['RegisterId'])?$input['RegisterId']:'';
@@ -526,6 +581,9 @@ class DashboardController extends Controller
         $userId = isset($request->RegisterId) ? $request->RegisterId : '';
         $SearchName = isset($request->SearchName) ? $request->SearchName : '';
         
+        $LocationId = isset($request->LocationId) ? $request->LocationId : '';
+        $LocationType = isset($request->LocationType) ? $request->LocationType : '';
+        
 //        if(!isset($userId) || empty($userId))
 //        {
 //            $error[] = 'RegisterId Must be Required!';
@@ -547,6 +605,8 @@ class DashboardController extends Controller
         })
         ->where(function($query) use ($request)
         {
+            $LocationId = isset($request->LocationId) ? $request->LocationId : '';
+            $LocationType = isset($request->LocationType) ? $request->LocationType : '';
             $CatagoryId = isset($request->CatagoryId) ? $request->CatagoryId : '';
             $SubcatagoryId = isset($request->SubcatagoryId) ? $request->SubcatagoryId : '';
             $PriceMax = isset($request->PriceMax) ? $request->PriceMax : '';
@@ -572,6 +632,10 @@ class DashboardController extends Controller
                 $query->whereBetween('business.selling_price', [$PriceMin,$PriceMax]);
             }
 
+            if(!empty($LocationId) && !empty($LocationType) && $LocationType!='country')
+            {
+                $query->where('business.cityid_or_countryid', $LocationId)->where('business.type_city_or_country', $LocationType);
+            }
             
             if(isset($CatagoryId) && !empty($CatagoryId))
             {
@@ -775,13 +839,29 @@ class DashboardController extends Controller
 
         if($Pagination!=0)
         {
-            $fetchAllForumData=ForumModel::with('user')->where('question','like','%'.$SearchName.'%')
-            ->orderBy('forum.id','DESC')->skip($skip)->take(30)->get()->toArray();
+            $preQuery=ForumModel::with('user')->where('question','like','%'.$SearchName.'%');
+         
+            if(!empty($LocationId) && !empty($LocationType) && $LocationType!='country')
+            $preQuery2=$preQuery->where('cityid_or_countryid',$LocationId)->where('type_city_or_country',$LocationType)->orderBy('id','DESC');
+            else
+            $preQuery2=$preQuery->orderBy('id','DESC');
+
+            $fetchAllForumData=$preQuery2->skip($skip)->take(30)->get()->toArray();
+
+            /*$fetchAllForumData=ForumModel::with('user')->where('question','like','%'.$SearchName.'%')
+            ->where('cityid_or_countryid',$LocationId)->where('type_city_or_country',$LocationType)
+            ->orderBy('forum.id','DESC')->skip($skip)->take(30)->get()->toArray();*/
         }
         else
         {
-            $fetchAllForumData=ForumModel::with('user')
-            ->orderBy('forum.id','DESC')->get()->toArray();
+            $preQuery=ForumModel::with('user')->where('question','like','%'.$SearchName.'%');
+
+            if(!empty($LocationId) && !empty($LocationType) && $LocationType!='country')
+            $preQuery2=$preQuery->where('cityid_or_countryid',$LocationId)->where('type_city_or_country',$LocationType)->orderBy('id','DESC');
+            else
+            $preQuery2=$preQuery->orderBy('id','DESC');
+
+            $fetchAllForumData=$preQuery2->get()->toArray();
         }
 
         $forumArray=array();
@@ -865,13 +945,28 @@ class DashboardController extends Controller
         //----------------------------------End FORUM -----------------------------------------
 
         //-----------------------------------StartFAQ-----------------------------------------
+
         if($Pagination!=0)
         {
-            $FAQFilter=FAQModel::where('question','like','%'.$SearchName.'%')->skip($skip)->take(30)->get()->toArray();
+            $preQuery=FAQModel::where('question','like','%'.$SearchName.'%');
+            
+            if(!empty($LocationId) && !empty($LocationType) && $LocationType!='country')
+            $preQuery2=$preQuery->where('cityid_or_countryid',$LocationId)->where('type_city_or_country',$LocationType)->orderBy('id','DESC');            
+            else
+            $preQuery2=$preQuery->orderBy('id','DESC');
+
+            $FAQFilter=$preQuery2->skip($skip)->take(30)->get()->toArray();
         }
         else
-        {
-            $FAQFilter=FAQModel::all()->toArray();
+        {   
+            $preQuery=FAQModel::where('question','like','%'.$SearchName.'%');
+            
+            if(!empty($LocationId) && !empty($LocationType) && $LocationType!='country')
+            $preQuery2=$preQuery->where('cityid_or_countryid',$LocationId)->where('type_city_or_country',$LocationType)->orderBy('id','DESC');            
+            else
+            $preQuery2=$preQuery->orderBy('id','DESC');
+
+            $FAQFilter=$preQuery2->get()->toArray();
         }
 
         $tagsData=TagFAQMasterModel::all()->toArray();
@@ -916,12 +1011,25 @@ class DashboardController extends Controller
         
         if($Pagination!=0)
         {
-            $blogsData=BlogsModel::where('name','like','%'.$SearchName.'%')
-            ->skip($skip)->take(30)->get();
+            $preQuery=BlogsModel::where('name','like','%'.$SearchName.'%');
+            
+            if(!empty($LocationId) && !empty($LocationType) && $LocationType!='country')
+            $preQuery2=$preQuery->where('cityid_or_countryid',$LocationId)->where('type_city_or_country',$LocationType)->orderBy('id','DESC');            
+            else
+            $preQuery2=$preQuery->orderBy('id','DESC');
+
+            $blogsData=$preQuery2->skip($skip)->take(30)->get();
         }
         else
         {
-            $blogsData=BlogsModel::all();
+            $preQuery=BlogsModel::where('name','like','%'.$SearchName.'%');
+            
+            if(!empty($LocationId) && !empty($LocationType) && $LocationType!='country')
+            $preQuery2=$preQuery->where('cityid_or_countryid',$LocationId)->where('type_city_or_country',$LocationType)->orderBy('id','DESC');            
+            else
+            $preQuery2=$preQuery->orderBy('id','DESC');
+
+            $blogsData=$preQuery2->get();
         }
 
         $totalBlogs=count($blogsData);

@@ -217,14 +217,30 @@ class ForumController extends Controller
         ->leftJoin('user','forum_comment_reply.user_id','user.id')
         ->select('forum_comment_reply.id','forum_comment_reply.message','forum_comment_reply.media','forum_comment_reply.created_at',
         'user.name as username','user.user_image as userimage')
-        ->where('forum_comment_reply.is_deleted',0)
+        ->where('forum_comment_reply.is_deleted',0)->paginate(10);
         //->skip($skip)->take(5)
-        ->get()->toArray();
-
+        //->get()->toArray();
+        // echo '<pre>';
+        // print_r($commentData);
+        // exit;
         $commentReplyArray = array();
         foreach ($commentData as $comment)
         {
-            $commentId = $comment['id'];
+            $commentId = $comment->id;
+            $replyData =ForumCommentReplyModel::where('forum_comment_reply.comment_id',$commentId)
+            ->where('forum_comment_reply.comment_id','!=',0)
+            ->leftJoin('user','forum_comment_reply.user_id','user.id')
+            ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
+            ->where('forum_comment_reply.is_deleted',0)
+            ->orderBy('forum_comment_reply.id','desc')->get()->toArray();
+            
+            $commentReplyArray[$commentId]['id'] = $commentId;
+            $commentReplyArray[$commentId]['comment'] = $comment->message;
+            $commentReplyArray[$commentId]['media'] = $comment->media;
+            $commentReplyArray[$commentId]['username'] = $comment->username;
+            $commentReplyArray[$commentId]['userimage'] = $comment->userimage;
+            $commentReplyArray[$commentId]['created_at'] = $comment->created_at;
+            /*$commentId = $comment['id'];
             $replyData =ForumCommentReplyModel::where('forum_comment_reply.comment_id',$commentId)
             ->where('forum_comment_reply.comment_id','!=',0)
             ->leftJoin('user','forum_comment_reply.user_id','user.id')
@@ -237,7 +253,7 @@ class ForumController extends Controller
             $commentReplyArray[$commentId]['media'] = $comment['media'];
             $commentReplyArray[$commentId]['username'] = $comment['username'];
             $commentReplyArray[$commentId]['userimage'] = $comment['userimage'];
-            $commentReplyArray[$commentId]['created_at'] = $comment['created_at'];
+            $commentReplyArray[$commentId]['created_at'] = $comment['created_at'];*/
             if(count($replyData) > 0)
             {
                 $j = 0;
@@ -262,7 +278,7 @@ class ForumController extends Controller
         }
         // echo '<pre>';
         // print_r($commentReplyArray);exit;
-        return view('forum.comment_reply_structure', compact('commentReplyArray','recordsPerPage','forumDetail'));
+        return view('forum.comment_reply_structure', compact('commentReplyArray','recordsPerPage','forumDetail','commentData'));
     }
 
     public function edit($id)
