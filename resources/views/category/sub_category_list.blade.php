@@ -11,7 +11,7 @@
 @section('content')
 
 
- 
+
 <div class="row mb-3" id="">
         <div class="col-md-12">
             <div class="card text-white-50 m-0 mainhedformaster">
@@ -21,7 +21,7 @@
                             <h5 class="m-0 textforhedermaster">Sub Category List</h5>
                         </div>
                     </div>
-                    
+
 
                 </div>
 
@@ -89,6 +89,17 @@
             </div>
 
             <div class="form-group">
+                <div class="input-group dategroup d-inline-flex" id="dateFilterDivId">
+                    <input type="text" id="storyDate" class="form-control datearea" name="storyDate" placeholder=""
+                        required="" data-provide="" data-date-autoclose="true">
+
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <button type="button" onclick="getListData(),closeNav()"
                     class="btn btn-outline-success waves-effect waves-light">Search</button>
                 <button type="button" onclick="clearListData(),closeNav()"
@@ -117,6 +128,35 @@
 <script src="{{ URL::asset('assets/js/pages/form-validation.init.js')}}"></script>
 
 <script>
+
+var start = moment().subtract(29, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        console.log('start :: ' + start + ' end ::: ' + end);
+        $('#storyDate span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
+    }
+
+    $(document).ready(function() {
+        $('#storyDate').daterangepicker({
+            startDate: start,
+            endDate: end,
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                    'month').endOf(
+                    'month')]
+            }
+        }, cb);
+        cb(start, end);
+    });
     $(function()
     {
         var table_html = '';
@@ -230,8 +270,10 @@
     function getListData() {
             var search = '';
             var txtStatusType = $("#txtStatusType").val();
+            var startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
+            var endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
 
-            var str ='status='+txtStatusType;
+            var str ='status='+txtStatusType+'&startDate='+startDate+'&endDate='+endDate;
 
             dataTableAjaxCall(str);
         }

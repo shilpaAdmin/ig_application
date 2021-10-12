@@ -123,6 +123,9 @@ class AdvertisementController extends Controller
         $input = $request->all();
         $txtStatusType = isset($request->status) ? $request->status : '';
         $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
+
 
         $preQuery = AdvertisementModel::where('advertisement.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
@@ -140,6 +143,11 @@ class AdvertisementController extends Controller
         if(isset($txtApproveStatus) && !empty($txtApproveStatus))
         {
             $result_obj= $preQuery->where('advertisement.is_approve',$txtApproveStatus);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('advertisement.created_at',[$storyStartDate,$storyEndDate]);
 
         }
         $result_obj= $preQuery->get();

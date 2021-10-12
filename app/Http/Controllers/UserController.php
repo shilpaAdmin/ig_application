@@ -30,6 +30,8 @@ class UserController extends Controller
         $txtStatusType = isset($request->status) ? $request->status : '';
         $txtlocationType = isset($request->locationSearch) ? $request->locationSearch : '';
         $txtUsername = isset($request->userName) ? $request->userName : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 
 
         $preQuery = UserModel::where('user.status', '!=', 'deleted')
@@ -54,6 +56,11 @@ class UserController extends Controller
         {
            $result_obj= $preQuery->where('city.name', 'like', '%'.$txtlocationType.'%')
                                 ->orWhere('country.name', 'like', '%'.$txtlocationType.'%');
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('user.created_at',[$storyStartDate,$storyEndDate]);
+
         }
 
         $result_obj = $preQuery->orderBy('user.created_at', 'DESC')->get();

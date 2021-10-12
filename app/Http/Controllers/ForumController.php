@@ -127,7 +127,7 @@ class ForumController extends Controller
         }
         if(isset($storyStartDate) && !empty($storyStartDate)  && isset($storyEndDate) && !empty($storyEndDate))
         {
-            $result_obj= $preQuery->where('forum.created_at',[$storyStartDate,$storyEndDate]);
+            $result_obj= $preQuery->whereBetween('forum.created_at',[$storyStartDate,$storyEndDate]);
 
         }
 
