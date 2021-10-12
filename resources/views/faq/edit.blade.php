@@ -28,6 +28,9 @@
                     <form class="needs-validation" method="post" enctype="multipart/form-data"
                         action="{{route('faq.update',$row['id'])}}" novalidate>
                         @csrf
+
+                            
+
                         <div class="form-group">
                             <label for="formrow-firstname-input">Question</label>
                             <input type="text" class="form-control" name="question" id="question"
