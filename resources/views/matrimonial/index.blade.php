@@ -11,15 +11,15 @@
         <div class="col-md-12">
             <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 col-6">
+                    <div class="col-md-6 col-sm-6 col-12">
                         <div class="card-body newheadcontanty">
                             <h5 class="m-0 textforhedermaster">Matrimonial</h5>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-6">
+                    <div class="col-md-6 col-sm-6 col-12">
 
                         <div class="card-body newheadcontanty">
-                            <h4 class="card-title" style="text-align:right;"><a
+                            <h4 class="card-title addfourm" style="text-align:right;"><a
                                     href="{{ route('matrimonial.create') }}"
                                     class="btn btn-primary waves-effect btn-label waves-light addbtnforall"><i
                                         class="bx bx-plus label-icon"></i>ADD
