@@ -22,7 +22,9 @@ class AdvertisementModel extends Model
         'type',
         'status',
         'is_approve',
-        'slug'
+        'slug',
+        'cityid_or_countryid',
+        'type_city_or_country'
     ];
 
     public function user()

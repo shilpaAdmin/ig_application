@@ -33,7 +33,9 @@ class MatrimonialModel extends Model
         'user_id',
         'education_json',
         'media_json',
-        'slug'
+        'slug',
+        'cityid_or_countryid',
+        'type_city_or_country'
     ];
 
     public function user()

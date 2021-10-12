@@ -15,9 +15,12 @@ use Illuminate\Http\Request;
 use HasApiTokens;
 use Hash;
 use URL;
+use App\Http\Traits\UserLocationDetailTrait;
 
 class BlogController extends Controller
 {
+    use UserLocationDetailTrait;
+
     public function listBlogData(Request $request)
     {
         $input=$request->all();
@@ -27,11 +30,23 @@ class BlogController extends Controller
     	$skip = (($Pagination - 1) * 30) ;
 
         $userId=!empty($input['RegisterId'])?$input['RegisterId']:'';
+        $locationId=isset($input['LocationId'])?$input['LocationId']:'';
+        $locationType=isset($input['LocationType'])?$input['LocationType']:'';
         
         if(empty($userId))
         $blogsPrequery=BlogsModel::with(['user']);
         else
         $blogsPrequery=BlogsModel::with(['user'])->where('user_id',$userId);
+
+        
+        if(empty($userId) && empty($locationId) && empty($locationType))
+        $blogsPrequery=BlogsModel::with(['user']);
+        elseif(!empty($userId))
+        $blogsPrequery=BlogsModel::with(['user'])->where('user_id',$userId);
+        elseif(!empty($locationId) && !empty($locationType) && $locationType!='country')
+        $blogsPrequery=BlogsModel::with(['user'])->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType);
+        else
+        $blogsPrequery=BlogsModel::with(['user']);
 
         if($Pagination!=0)
         {

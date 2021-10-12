@@ -14,6 +14,8 @@ class TestimonialModel extends Model
         'image',
         'media',
         'user_id',
-        'status'
+        'status',
+        'cityid_or_countryid',
+        'type_city_or_country'
     ];
 }

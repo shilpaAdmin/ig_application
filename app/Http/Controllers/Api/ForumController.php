@@ -11,11 +11,16 @@ use App\Http\Model\BlogsCommentReplyLikesModel;
 
 use App\User;
 
+use App\Http\Traits\UserLocationDetailTrait;
+
 use URL;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File; 
 
 class ForumController extends Controller
 {
+    use UserLocationDetailTrait;
+
     public function storeForumData(Request $request)
     {
         $input=$request->all();
@@ -61,6 +66,47 @@ class ForumController extends Controller
             }
         }
 
+        $LocationType=$cityCountryId='';
+
+        $locationData=$this->getUserLocationDetail($input['RegisterId']);
+
+        if($locationData!==null)
+        {
+            if(isset($locationData->location_id) && !empty($locationData->location_id))
+            $cityCountryId=$locationData->location_id;
+            else
+            $cityCountryId=1;
+            
+            if(isset($locationData->location_type) && !empty($locationData->location_type))
+            $LocationType=$locationData->location_type;
+            else
+            $LocationType='country';
+        }
+
+        $attachmentImage='';
+
+        if(isset($input['Attachment']) && !empty($input['Attachment']))
+        {
+            if(isset($input['Id']) && !empty($input['Id']))
+            {
+                if(isset($forum->attachment) && !empty($forum->attachment))
+                {
+                    $destinationPath = public_path().'/images/forum_attachments/';
+                    
+                    if(file_exists($destinationPath.$forum->attachment))
+                    File::delete($destinationPath.$forum->attachment);
+                }
+            }
+
+            $imagedestinationPath=$media_path=public_path().'/images/forum_attachments/';
+
+            if($mediaData = $request->file('Attachment'))
+            {
+                $attachmentImage = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+                $mediaData->move($imagedestinationPath, $attachmentImage);
+            }
+        }
+
         if(isset($input['Id']) && !empty($input['Id']))
         {
             $forumObject=ForumModel::find($input['Id']);
@@ -80,6 +126,14 @@ class ForumController extends Controller
             if(isset($input['TelegramLink']) && !empty($input['TelegramLink']))
             $forumObject->telegram_link=!empty($input['TelegramLink'])?$input['TelegramLink']:'';
 
+            $forumObject->cityid_or_countryid=$cityCountryId;
+            $forumObject->type_city_or_country=$LocationType;
+
+            if(isset($input['Attachment']) && !empty($input['Attachment']))
+            {
+                $forumObject->attachment=$attachmentImage;
+            }
+
             if($forumObject->save())
             {
                 return response()->json(['Status'=>true,'StatusMessage'=>'Forum updated successfully!']);
@@ -97,6 +151,14 @@ class ForumController extends Controller
             $forumObject->user_id=!empty($input['RegisterId'])?$input['RegisterId']:'';
             $forumObject->url=!empty($input['URL'])?$input['URL']:'';
             $forumObject->telegram_link=!empty($input['TelegramLink'])?$input['TelegramLink']:'';
+
+            $forumObject->cityid_or_countryid=$cityCountryId;
+            $forumObject->type_city_or_country=$LocationType;
+            
+            if(isset($input['Attachment']) && !empty($input['Attachment']))
+            {
+                $forumObject->attachment=$attachmentImage;
+            }
 
             if($forumObject->save())
             {
@@ -124,24 +186,33 @@ class ForumController extends Controller
 		}
 
         $userId=!empty($input['RegisterId'])?$input['RegisterId']:'';
+        $locationId=isset($input['LocationId'])?$input['LocationId']:'';
+        $locationType=isset($input['LocationType'])?$input['LocationType']:'';
 
         $Pagination = isset($input['Pagination']) ? $input['Pagination'] : 1;
     	$skip = (($Pagination - 1) * 30) ;
 
-        if(empty($userId))
-        $formModelPrequery=ForumModel::with('user');
+        if(empty($userId) && empty($locationId) && empty($locationType))
+        {
+            $formModelPrequery=ForumModel::with('user');
+        }
+        elseif(!empty($userId))
+        {
+            $formModelPrequery=ForumModel::with('user')->where('user_id',$userId);
+        }
+        elseif(!empty($locationId) && !empty($locationType) && $locationType!='country')
+        {
+            $formModelPrequery=ForumModel::with('user')->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType);
+        }
         else
-        $formModelPrequery=ForumModel::with('user')->where('user_id',$userId);
+        {
+            $formModelPrequery=ForumModel::with('user');
+        }
 
         if($input['Pagination']!=0)
-        {
-            $fetchAllForumData=$formModelPrequery->orderBy('forum.id','DESC')
-            ->skip($skip)->take(30)->get()->toArray();
-        }
-        else
-        {
-            $fetchAllForumData=$formModelPrequery->orderBy('forum.id','DESC')->get()->toArray();
-        }
+        $fetchAllForumData=$formModelPrequery->orderBy('forum.id','DESC')->skip($skip)->take(30)->get()->toArray();
+        else 
+        $fetchAllForumData=$formModelPrequery->orderBy('forum.id','DESC')->get()->toArray();
 
         $dataArray=array();
         $totalCount=count($fetchAllForumData);
@@ -280,6 +351,8 @@ class ForumController extends Controller
             ])->where('comment_id',0)->where('is_deleted',0)->get()->toArray();
 
         $total_count=count($forumModel);
+        //print_r($forumModel);
+
         $total_forum=count($forum);
 
         $dataArray=array();
@@ -294,6 +367,18 @@ class ForumController extends Controller
             $dataArray['Question']=!empty($forumModel[0]['question'])?$forumModel[0]['question']:'';
             $dataArray['Description']=!empty($forumModel[0]['description'])?$forumModel[0]['description']:'';
             $dataArray['TelegramLink']=!empty($forumModel[0]['telegram_link'])?$forumModel[0]['telegram_link']:'';
+
+            $attachment='';
+
+            if(!empty($forumModel[0]['attachment']))
+            {
+                $attachment_image_path=public_path().'/images/forum_attachments/'.$forumModel[0]['attachment'];
+
+                if(file_exists($attachment_image_path))
+                $attachment=URL::to('/images/forum_attachments').'/'.$forumModel[0]['attachment'];
+            }
+
+            $dataArray['Attachment']=$attachment;
         }
 
         //if data found
