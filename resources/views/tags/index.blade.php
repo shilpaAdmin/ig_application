@@ -48,6 +48,7 @@
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">
                         </div>
+                      
                         <table id="TagsList" class="table">
                             <thead class="thead-light">
                                 <tr>

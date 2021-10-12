@@ -11,15 +11,24 @@
 @section('content')
 
 
- <div class="row mb-3">
-   <div class="col-md-12">
-      <div class="card  bg-gray-bg text-white-50 m-0" style="background: #a71513;">
-         <div class="card-body card-body-py-3">
-            <h5 class=" m-0">Sub Category List</h5>
-         </div>
-      </div>
-   </div>
-</div>
+ 
+<div class="row mb-3" id="">
+        <div class="col-md-12">
+            <div class="card text-white-50 m-0 mainhedformaster">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-12">
+                        <div class="card-body newheadcontanty">
+                            <h5 class="m-0 textforhedermaster">Sub Category List</h5>
+                        </div>
+                    </div>
+                    
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
 {{-- $jobOpeningTitleArray[0]['id'] --}}
 
@@ -27,8 +36,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive custom_tabal_saction_part">
+                <div class="custom_tabal_saction_part">
                 {{-- <h4 class="card-title" style="text-align:right;"><a href="{{route('jobapplypplicant',$jobOpeningTitleArray[0]['id'])}}"  class="btn btn-primary waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>ADD APPLICANT</a></h4> --}}
+                <div class="table-responsive">
                     <table id="subCategoryList" class="table">
                         <thead class="thead-light">
                             <tr>
@@ -46,6 +56,7 @@
                         <tbody>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,9 +65,9 @@
 <!-- end row -->
 
 <div id="custom_saction_filter">
-    <button type="button" style="height: 47px; line-height:10px;"
-        class="btn custom_main_saction header-item noti-icon fil_ waves-effect" onclick="openNav()">
-        <i class="bx bx-filter-alt"></i>
+    <button type="button"
+        class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain" onclick="openNav()">
+        <i class="bx bx-filter-alt filterbtnicon"></i>
     </button>
 
     <div data-simplebar class="h-100">
