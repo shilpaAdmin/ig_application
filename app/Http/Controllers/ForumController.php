@@ -101,10 +101,13 @@ class ForumController extends Controller
 
     public function forumList(Request $request)
     {
+        // dd($request->all());
         $input=$request->all();
 
         $txtStatusType = isset($request->status) ? $request->status : '';
         $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 
         $preQuery = ForumModel::where('forum.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
@@ -122,6 +125,17 @@ class ForumController extends Controller
             $result_obj= $preQuery->where('forum.is_approve',$txtApproveStatus);
 
         }
+        if(isset($storyStartDate) && !empty($storyStartDate)  && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->where('forum.created_at',[$storyStartDate,$storyEndDate]);
+
+        }
+
+        // if(isset($storyEndDate) && !empty($storyEndDate))
+        // {
+        //     $result_obj= $preQuery->where('forum.created_at',$storyEndDate);
+
+        // }
         $result_obj = $preQuery->get();
 
         return DataTables::of($result_obj)
@@ -233,7 +247,7 @@ class ForumController extends Controller
             ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
             ->where('forum_comment_reply.is_deleted',0)
             ->orderBy('forum_comment_reply.id','desc')->get()->toArray();
-            
+
             $commentReplyArray[$commentId]['id'] = $commentId;
             $commentReplyArray[$commentId]['comment'] = $comment->message;
             $commentReplyArray[$commentId]['media'] = $comment->media;

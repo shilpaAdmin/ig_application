@@ -18,3 +18,4 @@
 <link href="{{ URL::asset('assets/css/jquery.nestable.min.css')}}" id="app-light" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/sweetalert.css')}}">
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />

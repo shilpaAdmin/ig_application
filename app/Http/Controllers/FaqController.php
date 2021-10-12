@@ -112,9 +112,11 @@ class FaqController extends Controller
 
     public function faqlist(Request $request)
     {
-// dd($request->all());
         $input = $request->all();
         $txtStatusType = isset($request->status) ? $request->status : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
+
 
         $preQuery = FAQModel::where('faq.status', '!=', 'deleted')->leftJoin('user', function ($join) {
             $join->on('faq.user_id', '=', 'user.id');
@@ -126,6 +128,11 @@ class FaqController extends Controller
         if(isset($txtStatusType) && !empty($txtStatusType))
         {
             $result_obj= $preQuery->where('faq.status',$txtStatusType);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('faq.created_at',[$storyStartDate,$storyEndDate]);
 
         }
         $result_obj= $preQuery->get();
