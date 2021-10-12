@@ -32,7 +32,10 @@ class MatrimonialModel extends Model
         'private',
         'user_id',
         'education_json',
-        'media_json'
+        'media_json',
+        'slug',
+        'cityid_or_countryid',
+        'type_city_or_country'
     ];
 
     public function user()
@@ -44,7 +47,7 @@ class MatrimonialModel extends Model
     {
         return $this->belongsTo('App\Http\Model\CountrysModel','country_id' );
     }
-    
+
     public function desiredcountry()
     {
         return $this->belongsTo('App\Http\Model\CountrysModel','desired_country_id' );

@@ -17,6 +17,7 @@ class CategoryModel extends Model
         'created_by',
         'last_updated_by',
         'status',
+        'slug',
         'created_at',
         'updated_at'
     ];

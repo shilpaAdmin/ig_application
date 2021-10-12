@@ -105,10 +105,20 @@ class CityController extends Controller
 
     }
 
-    public function cityList()
+    public function cityList(Request $request)
     {
-        $result_obj = CitysModel::where('city.status', '!=', 'deleted')->limit(1000)->get();
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
 
+        $preQuery = CitysModel::where('city.status', '!=', 'deleted')->limit(1000);
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('city.status',$txtStatusType);
+
+        }
+        $result_obj= $preQuery->get();
+        
         return DataTables::of($result_obj)
 
         ->addColumn('name', function ($result_obj)

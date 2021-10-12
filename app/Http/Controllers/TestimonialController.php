@@ -7,13 +7,15 @@ use App\Http\Requests\TagsRequest;
 use App\Http\Model\UserModel;
 
 use DataTables;
-
+use App\Http\Traits\UserLocationDetailTrait;
+use Illuminate\Support\Str;
 use App\Http\Model\TagMasterModel;
 use App\Http\Model\TestimonialModel;
 use Auth;
 
 class TestimonialController extends Controller
 {
+    use UserLocationDetailTrait;
     var $counter = 1;
 
     public function index(Request $request)
@@ -35,6 +37,29 @@ class TestimonialController extends Controller
         $userID = $request->user_id;
 
         $obj=new TestimonialModel();
+
+        $LocationType=$cityCountryId='';
+
+        if(isset($userID) && !empty($userID))
+        {
+            $locationData=$this->getUserLocationDetail($userID);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+        }
+
+        $obj->cityid_or_countryid=$cityCountryId;
+        $obj->type_city_or_country=$LocationType;
 
         $obj->name=$input['name'];
         $obj->designation=$input['designation'];
@@ -80,6 +105,7 @@ class TestimonialController extends Controller
 
     public function testmonialdetails($id)
     {
+
         $testmonial_details = TestimonialModel::leftJoin('user',function ($join)
         {
             $join->on('testimonial.user_id', '=', 'user.id');
@@ -102,13 +128,29 @@ class TestimonialController extends Controller
         }
     }
 
-    public function testmonialList()
+    public function testmonialList(Request $request)
     {
-        $result_obj = TestimonialModel::where('testimonial.is_deleted', '=', 0)->leftJoin('user',function ($join)
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
+
+        $preQuery = TestimonialModel::where('testimonial.is_deleted', '=', 0)->leftJoin('user',function ($join)
         {
             $join->on('testimonial.user_id', '=', 'user.id');
-        })->select('testimonial.*','user.name as user_id')->orderBy('id', 'DESC')->get();
+        })->select('testimonial.*','user.name as user_id')->orderBy('id', 'DESC');
 
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('testimonial.status',$txtStatusType);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('testimonial.created_at',[$storyStartDate,$storyEndDate]);
+
+        }
+        $result_obj= $preQuery->get();
         return DataTables::of($result_obj)
 
         ->addColumn('id', function ($result_obj) {

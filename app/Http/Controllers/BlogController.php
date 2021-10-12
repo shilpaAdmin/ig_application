@@ -10,10 +10,14 @@ use DataTables;
 use App\Http\Model\CategoryModel;
 use App\Http\Model\UserModel;
 use App\Http\Model\ForumModel;
+use App\Http\Traits\UserLocationDetailTrait;
+use Illuminate\Support\Str;
 use Auth;
 
 class BlogController extends Controller
 {
+    use UserLocationDetailTrait;
+
     var $counter = 1;
 
     /**
@@ -79,11 +83,35 @@ class BlogController extends Controller
         $userID = $request->user_id;
 
         $obj=new BlogsModel();
+        $LocationType=$cityCountryId='';
+
+        if(isset($userID) && !empty($userID))
+        {
+            $locationData=$this->getUserLocationDetail($userID);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+        }
+
+        $obj->cityid_or_countryid=$cityCountryId;
+        $obj->type_city_or_country=$LocationType;
+
         $obj->name=$input['name'];
         $obj->description=$input['description'];
         $obj->url=$input['url'];
         $obj->media_file_json=$multipleDataJson;
         $obj->tagged=$input['tagged'];
+        $obj->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.Str::random(5);
         $obj->user_id=$userID;
         $obj->category_id=$categoryId;
         if(!empty($input['status']))
@@ -103,13 +131,29 @@ class BlogController extends Controller
         }
     }
 
-    public function bloglist()
+    public function bloglist(Request $request)
     {
-        $result_obj = BlogsModel::where('blogs.status', '!=', 'deleted')->leftJoin('user',function ($join)
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
+
+        $preQuery = BlogsModel::where('blogs.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
             $join->on('blogs.user_id', '=', 'user.id');
 
-        })->select('blogs.*','user.name as user_id')->get();
+        })->select('blogs.*','user.name as user_id');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('blogs.status',$txtStatusType);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('blogs.created_at',[$storyStartDate,$storyEndDate]);
+        }
+        $result_obj= $preQuery->get();
 
         return DataTables::of($result_obj)
 
@@ -243,7 +287,7 @@ class BlogController extends Controller
     public function getCommentReplyList(Request $request)
     {
         $input=$request->all();
-        
+
     }
 
     public function delete($id)

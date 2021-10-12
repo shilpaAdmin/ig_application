@@ -1,15 +1,15 @@
 @extends('layouts.master')
 
-@section('title') Carrier @endsection
+@section('title') Career @endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/select2/select2.min.css') }}">
 @endsection
 <!-- @section('content')
-@component('common-components.breadcrumb')
-@slot('title') Carrier @endslot
-@slot('li_1') Carrier @endslot
-@slot('li_2') Add @endslot
-@endcomponent -->
+        @component('common-components.breadcrumb')
+                @slot('title') Carrier @endslot
+                @slot('li_1') Carrier @endslot
+                @slot('li_2') Add @endslot
+        @endcomponent -->
 @section('content')
 
 
@@ -21,13 +21,16 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-12">
                         <div class="card-body newheadcontanty">
-                            <h5 class="m-0 textforhedermaster">Carrier List</h5>
+                            <h5 class="m-0 textforhedermaster">Career List</h5>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-12">
 
-                    <div class="card-body newheadcontanty">
-                    <h4 class="card-title addfourm" style="text-align:right; padding:0px"><a href="javascript:void(0);" id="addnewsFeedBtn" class="btn addbtnforall waves-effect btn-label waves-light resetFrom"><i class="bx bx-plus label-icon"></i>ADD Carrier</a></h4>
+                        <div class="card-body newheadcontanty">
+                            <h4 class="card-title addfourm" style="text-align:right; padding:0px"><a
+                                    href="javascript:void(0);" id="addnewsFeedBtn"
+                                    class="btn addbtnforall waves-effect btn-label waves-light resetFrom"><i
+                                        class="bx bx-plus label-icon"></i>ADD Career</a></h4>
                         </div>
 
 
@@ -45,7 +48,8 @@
         <div class="col-12">
             <!-- Form start here-->
             <div class="form-group" id="addUpdateFormDivId" style="display: none;">
-                <form class="needs-validation" id="restFrom" action="{{ route('carrierStore')}}" method="post" novalidate="novalidate">
+                <form class="needs-validation" id="restFrom" action="{{ route('carrierStore') }}" method="post"
+                    novalidate="novalidate">
                     @csrf
                     <div class="card">
                         <div class="card-body">
@@ -53,104 +57,185 @@
                             </div>
                             <!--<div class="form-row">-->
                             <div class="">
-                                <div class="row">
-                                    <div class="col-md-8 col-lg-9">
-                                        <div class="row">
+                                <div class=" row">
+                                <div class="col-md-8 col-lg-9">
+                                    <div class="row">
 
-                                            <div class="col-md-4 mb-3">
+                                        <div class="col-md-4 mb-3">
 
-                                                <label for="formrow-firstname-input">Type</label>
-                                                <input type="text" name="type" class="form-control" id="type" placeholder="Type" required>
-                                                <div class="invalid-feedback">
-                                                    Please provide a Type.
-                                                </div>
+                                            <label for="formrow-firstname-input">Type</label>
+                                            <input type="text" name="type" class="form-control" id="type"
+                                                placeholder="Type" required>
+                                            <div class="invalid-feedback">
+                                                Please provide a Type.
                                             </div>
-                                            <div class="col-md-4 mb-3">
-                                                <label for="formrow-firstname-input">Name</label>
-                                                <input type="text" name="name" class="form-control" id="name" placeholder="Name" required>
-                                                <div class="invalid-feedback">
-                                                    Please provide a Name.
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 mb-3">
-                                                <label for="formrow-firstname-input">Description</label>
-                                                <input type="text" id="description" name="description" class="form-control input-mask countryCodeClass" required placeholder="Description">
-                                                <div class="invalid-feedback">
-                                                    Please provide a Description.
-                                                </div>
-                                            </div>
-
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="formrow-firstname-input">Name</label>
+                                            <input type="text" name="name" class="form-control" id="name"
+                                                placeholder="Name" required>
+                                            <div class="invalid-feedback">
+                                                Please provide a Name.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="formrow-firstname-input">Description</label>
+                                            <input type="text" id="description" name="description"
+                                                class="form-control input-mask countryCodeClass" required
+                                                placeholder="Description">
+                                            <div class="invalid-feedback">
+                                                Please provide a Description.
+                                            </div>
+                                        </div>
 
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="invalidCheck" name="status" value="active" checked>
-                                    <label class="custom-control-label" for="invalidCheck">Active</label>
-                                </div>
-                            </div>
-
-                            <div class="row mt-4">
-                                <div class="col-md-3">
-                                    <div class="btn_set" style="margin-bottom: 10px;">
-                                        <input type="hidden" id="hdnCarrierId" name="hdnCarrierId">
-                                        <button type="submit" class="btn btn-success waves-effect waves-light">Submit</button>
-                                        {{-- <a href="{{route('identity_card')}}" class="btn btn-danger waves-effect waves-light">CANCEL</a> --}}
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="invalidCheck" name="status"
+                                    value="active" checked>
+                                <label class="custom-control-label" for="invalidCheck">Active</label>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="btn_set" style="margin-bottom: 10px;">
+                                    <input type="hidden" id="hdnCarrierId" name="hdnCarrierId">
+                                    <button type="submit" class="btn btn-success waves-effect waves-light">Submit</button>
+                                    {{-- <a href="{{route('identity_card')}}" class="btn btn-danger waves-effect waves-light">CANCEL</a> --}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </form>
             </div>
-            <!-- Form end here-->
+            </form>
+        </div>
+        <!-- Form end here-->
 
 
-            <!-- listing start here-->
-            <div class="card">
+        <!-- listing start here-->
+        <div class="card">
 
-                <div class="card-body custom_tab_part">
-                    <div class="table-responsive custom_tabal_saction_part">
+            <div class="card-body custom_tab_part">
+                <div class="table-responsive custom_tabal_saction_part">
 
-                        <table id="carrierCardList" class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>#</th>
-                                    <th>Type</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Applicant</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table id="carrierCardList" class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>#</th>
+                                <th>#</th>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Applicant</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <!-- listing end here-->
         </div>
+        <!-- listing end here-->
+    </div>
     </div>
 
-    @endsection
-    @section('script')
+    <div id="custom_saction_filter">
+        <button type="button"
+            class="btn custom_main_saction header-item noti-icon fil_ waves-effect  filterbtnmsain " onclick="openNav()">
+            <i class="bx bx-filter-alt filterbtnicon"></i>
+        </button>
 
-    <script src="{{ URL::asset('assets/libs/select2/select2.min.js')}}"></script>
-    <script src="{{ URL::asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
+        <div data-simplebar class="h-100">
+            <div class="rightbar-title p-3">
+                <a href="javascript:void(0);" class="custom_saction_filter float-right" onclick="closeNav()">
+                    <i class="mdi mdi-close noti-icon" style="color:#fff;"></i>
+                </a>
+                <h5 class="m-0 text-cutom1">Filter</h5>
+            </div>
+            <!-- custom_form -->
+            <div class="p-3">
+                <div class="form-group">
+                    <label class="control-label text-cutom">Status</label>
+                    <select class="form-control select2" id="txtStatusType" name="txtStatusType">
+                        <option value="">--Select--</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group dategroup d-inline-flex" id="dateFilterDivId">
+                        <input type="text" id="storyDate" class="form-control datearea" name="storyDate" placeholder=""
+                            required="" data-provide="" data-date-autoclose="true">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" onclick="getListData(),closeNav()"
+                        class="btn btn-outline-success waves-effect waves-light">Search</button>
+                    <button type="button" onclick="clearListData(),closeNav()"
+                        class="btn btn-outline-danger waves-effect waves-light">Clear</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+@endsection
+@section('script')
+
+    <script src="{{ URL::asset('assets/libs/select2/select2.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/libs/parsleyjs/parsleyjs.min.js') }}"></script>
 
     <!-- Plugins js -->
-    <script src="{{ URL::asset('assets/js/pages/form-validation.init.js')}}"></script>
-    <!--<script src="{{ URL::asset('assets/js/pages/form-advanced.init.js')}}"></script>-->
+    <script src="{{ URL::asset('assets/js/pages/form-validation.init.js') }}"></script>
+    <!--<script src="{{ URL::asset('assets/js/pages/form-advanced.init.js') }}"></script>-->
     <script src="{{ URL::asset('assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
     <!-- form mask init -->
-    <script src="{{ URL::asset('assets/js/pages/form-repeater.int.js')}}"></script>
+    <script src="{{ URL::asset('assets/js/pages/form-repeater.int.js') }}"></script>
 
     <script>
+
+var start = moment().subtract(29, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        console.log('start :: ' + start + ' end ::: ' + end);
+        $('#storyDate span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
+    }
+
+    $(document).ready(function() {
+        $('#storyDate').daterangepicker({
+            startDate: start,
+            endDate: end,
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                    'month').endOf(
+                    'month')]
+            }
+        }, cb);
+        cb(start, end);
+    });
+
         var assignAspectRatio = 1;
         var imageCallTypeForCrop = '';
         var addOrEditMode = 'add';
@@ -160,57 +245,7 @@
             }
         });
 
-        // $(document).ready(function()
-        // {
-        //     $('input#first_name').maxlength({
-        //         warningClass: "badge bg-info",
-        //         limitReachedClass: "badge bg-warning"
-        //     });
-        //     $('input#last_name').maxlength({
-        //         warningClass: "badge bg-info",
-        //         limitReachedClass: "badge bg-warning"
-        //     });
-        //     $('input#employeeCode').maxlength({
-        //         warningClass: "badge bg-info",
-        //         limitReachedClass: "badge bg-warning"
-        //     });
 
-        //     $(".countryCodeClass").intlTelInput({
-        //         preferredCountries: ["IN", "CA"],
-        //         separateDialCode: true,
-        //         utilsScript: "{{ URL::asset('assets/js/pages/country_code_source.js')}}",
-        //         geoIpLookup: function(callback) {
-        //             $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-        //                 var countryCode = (resp && resp.country) ? resp.country : "";
-        //                 callback(countryCode);
-        //             });
-        //         },
-        //     });
-        // $('#imageUploadProfile').change(function() {
-        //     assignAspectRatio = 1;
-        //     var reader;
-        //     var file;
-        //     var url;
-        //     file = $('#imageUploadProfile')[0].files[0];
-        //     var done = function(url) {
-        //         // alert('image :::: '+url);
-        //         image.src = url;
-        //         if (/^image\/\w+/.test(file.type)) {
-        //             $("#modalLabel").text(file.name);
-        //             imageCallTypeForCrop = 'user_profile_pic';
-        //             $modal.modal('show');
-        //         }
-        //     };
-        //     if (URL) {
-        //         done(URL.createObjectURL(file));
-        //     } else if (FileReader) {
-        //         reader = new FileReader();
-        //         reader.onload = function(e) {
-        //             done(reader.result);
-        //         };
-        //         reader.readAsDataURL(file);
-        //     }
-        // });
         $(document).on("click", "#addnewsFeedBtn", function() {
             $("#addUpdateFormDivId").css('display', 'block');
 
@@ -231,9 +266,15 @@
                     return ((a < b) ? 1 : ((a > b) ? -1 : 0));
                 }
             });
-            var table_html = '';
-            var table_html_td = '';
-            var i = 1;
+            dataTableAjaxCall();
+        });
+
+
+        var table_html = '';
+        var table_html_td = '';
+        var i = 1;
+
+        function dataTableAjaxCall(filter = '') {
             var dt = $('#carrierCardList').DataTable({
                 destroy: true,
                 processing: true,
@@ -243,7 +284,7 @@
                 "order": [], //Initial no order.
                 "aaSorting": [],
                 ajax: {
-                    url: "{{ url('/admin/carrier/carrierList') }}",
+                    url: "{{ url('/admin/carrier/carrierList') }}?"+filter,
                 },
                 columns: [{
                         data: 'id',
@@ -339,11 +380,30 @@
                     cell.innerHTML = i + 1;
                 });
             });
-        });
+        }
+
+        function getListData() {
+            var search = '';
+            var txtStatusType = $("#txtStatusType").val();
+            var startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
+            var endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
+
+
+            var str ='status='+txtStatusType+'&startDate='+startDate+'&endDate='+endDate;
+
+            dataTableAjaxCall(str);
+        }
+
+        function clearListData()
+    {
+
+        $("#txtStatusType").val('');
+        dataTableAjaxCall();
+    }
 
 
         function getEditData(id) {
-            var url = "{{route('carrieEdit', ':id')}}";
+            var url = "{{ route('carrieEdit', ':id') }}";
             $("#hdnCarrierId").val(id);
 
             url = url.replace(":id", id);
@@ -414,4 +474,4 @@
             window.location.href = "/admin/carrier/detail/" + id;
         }
     </script>
-    @endsection
+@endsection

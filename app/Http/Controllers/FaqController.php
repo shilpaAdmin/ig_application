@@ -8,10 +8,15 @@ use DataTables;
 use App\Http\Model\UserModel;
 use App\Http\Model\FAQModel;
 use App\Http\Model\TagMasterModel;
+use Illuminate\Support\Str;
 use Auth;
+
+use App\Http\Traits\UserLocationDetailTrait;
 
 class FaqController extends Controller
 {
+    use UserLocationDetailTrait;
+
     var $counter = 1;
 
     /**
@@ -50,8 +55,32 @@ class FaqController extends Controller
         if (!empty($input['txtSearchTag']))
             $obj->tags = $input['txtSearchTag'];
 
+        $LocationType=$cityCountryId='';
+
+        if(isset($userID) && !empty($userID))
+        {
+            $locationData=$this->getUserLocationDetail($userID);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+        }
+
+        $obj->cityid_or_countryid=$cityCountryId;
+        $obj->type_city_or_country=$LocationType;
+
         $obj->question = $input['question'];
         $obj->answer = $input['answer'];
+        $obj->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->question)).'-'.Str::random(5);
         $obj->user_id = $userID;
         if (!empty($input['status']))
             $obj->status = $input['status'];
@@ -81,15 +110,32 @@ class FaqController extends Controller
         return response()->json($result);
     }
 
-    public function faqlist()
+    public function faqlist(Request $request)
     {
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 
-        $result_obj = FAQModel::where('faq.status', '!=', 'deleted')->leftJoin('user', function ($join) {
+
+        $preQuery = FAQModel::where('faq.status', '!=', 'deleted')->leftJoin('user', function ($join) {
             $join->on('faq.user_id', '=', 'user.id');
         })->leftjoin('tag_master', function ($join) {
 
             $join->on('faq.tags', '=', 'tag_master.id');
-        })->select('faq.*','user.name as user_id', 'tag_master.name as tags')->get();
+        })->select('faq.*','user.name as user_id', 'tag_master.name as tags');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('faq.status',$txtStatusType);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('faq.created_at',[$storyStartDate,$storyEndDate]);
+
+        }
+        $result_obj= $preQuery->get();
 
         return DataTables::of($result_obj)
 

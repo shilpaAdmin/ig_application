@@ -10,11 +10,14 @@ use App\Http\Model\BusinessModel;
 use App\Http\Model\UserModel;
 use App\Http\Model\TagMasterModel;
 use App\Http\Model\CategoryModel;
-
+use App\Http\Traits\UserLocationDetailTrait;
+use Illuminate\Support\Str;
 use Auth;
 
 class BusinessController extends Controller
 {
+    use UserLocationDetailTrait;
+
     var $counter = 1;
     public function index(Request $request)
     {
@@ -173,9 +176,6 @@ class BusinessController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        //  echo '<pre>';
-        //  print_r($input);
-        //  exit;
 
         $business = new BusinessModel;
 
@@ -189,6 +189,29 @@ class BusinessController extends Controller
             $business->display_hours = 'yes';
         else
             $business->display_hours = 'no';
+
+            $LocationType=$cityCountryId='';
+
+            if(isset($input['user_id']) && !empty($input['user_id']))
+            {
+                $locationData=$this->getUserLocationDetail($input['user_id']);
+
+                if($locationData!==null)
+                {
+                    if(isset($locationData->location_id) && !empty($locationData->location_id))
+                    $cityCountryId=$locationData->location_id;
+                    else
+                    $cityCountryId=1;
+
+                    if(isset($locationData->location_type) && !empty($locationData->location_type))
+                    $LocationType=$locationData->location_type;
+                    else
+                    $LocationType='country';
+                }
+            }
+
+            $business->cityid_or_countryid=$cityCountryId;
+            $business->type_city_or_country=$LocationType;
 
         $business->category_id = $input['hdnSearchCategoryId'];
         $business->type = !empty($input['type']) ?$input['type'] : '';
@@ -209,6 +232,8 @@ class BusinessController extends Controller
         $business->unit_option = !empty($input['unit_option']) ?$input['unit_option'] : '';
         $business->reference_url = !empty($input['reference_url']) ?$input['reference_url'] : '';
         $business->syllabus = !empty($input['syllabus']) ?$input['syllabus'] : '';
+        $business->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.Str::random(5);
+
 
         if (!empty($input['subcategory']))
             $business->multiple_subcategory_id = implode(',', $input['subcategory']);

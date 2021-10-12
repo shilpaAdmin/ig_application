@@ -25,3 +25,18 @@ ALTER TABLE `advertisement` ADD `is_approve` TINYINT(1) NOT NULL DEFAULT '0' COM
 ALTER TABLE `tag_forum` ADD `is_approve` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0=disapprove,1=approve' AFTER `last_updated_by`;
 
 ALTER TABLE `tag_master` ADD `is_approve` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0=disapprove,1=approve' AFTER `last_updated_by`;
+
+//chaitany queries of slug
+ALTER TABLE `business` ADD `slug` TEXT NULL DEFAULT NULL AFTER `type_city_or_country`;
+
+ALTER TABLE `faq` ADD `slug` TEXT NULL DEFAULT NULL AFTER `id`;
+
+ALTER TABLE `blogs` ADD `slug` TEXT NULL DEFAULT NULL AFTER `id`;
+
+ALTER TABLE `advertisement` ADD `slug` TEXT NULL DEFAULT NULL AFTER `category_id`;
+
+ALTER TABLE `forum` ADD `slug` TEXT NULL DEFAULT NULL AFTER `id`;
+
+ALTER TABLE `category` ADD `slug` TEXT NULL DEFAULT NULL AFTER `name`;
+
+ALTER TABLE `matrimonial` ADD `slug` TEXT NULL DEFAULT NULL AFTER `type_city_or_country`;

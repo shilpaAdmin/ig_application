@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Tags  @endsection
+@section('title') Tags @endsection
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css') }}">
@@ -8,27 +8,28 @@
 
 @section('content')
 
-   
+
 
     <div class="row mb-3" id="">
         <div class="col-md-12">
             <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 col-6">
+                    <div class="col-md-6 col-sm-6 col-6 col-12">
                         <div class="card-body newheadcontanty">
                             <h5 class="m-0 textforhedermaster">Tags</h5>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-6">
+                    <div class="col-md-6 col-sm-6 col-6 col-12">
 
-                    <div class="card-body newheadcontanty">
-                    <h4 class="card-title" style="text-align:right;"><a href="{{ route('tagsforum.create') }}"
-                                class="btn addbtnforall waves-effect btn-label waves-light"><i
-                                    class="bx bx-plus label-icon"></i>ADD&nbsp;Tags</a></h4>
+                        <div class="card-body newheadcontanty">
+                            <h4 class="card-title addfourm" style="text-align:right;"><a
+                                    href="{{ route('tagsforum.create') }}"
+                                    class="btn addbtnforall waves-effect btn-label waves-light"><i
+                                        class="bx bx-plus label-icon"></i>ADD&nbsp;Tags</a></h4>
                         </div>
-                    
-                           
-                    
+
+
+
                     </div>
 
                 </div>
@@ -43,11 +44,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
-                       
+
 
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">
                         </div>
+
                         <table id="TagsList" class="table">
                             <thead class="thead-light">
                                 <tr>
@@ -72,6 +74,63 @@
         </div> <!-- end col -->
     </div> <!-- end row -->
     <!-- end row -->
+    <div id="custom_saction_filter">
+        <button type="button" class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain"
+            onclick="openNav()">
+            <i class="bx bx-filter-alt filterbtnicon"></i>
+        </button>
+
+        <div data-simplebar class="h-100">
+            <div class="rightbar-title p-3">
+                <a href="javascript:void(0);" class="custom_saction_filter float-right" onclick="closeNav()">
+                    <i class="mdi mdi-close noti-icon" style="color:#fff;"></i>
+                </a>
+                <h5 class="m-0 text-cutom1">Filter</h5>
+            </div>
+            <!-- custom_form -->
+            <div class="p-3">
+                <div class="form-group">
+                    <label class="control-label text-cutom">Status</label>
+                    <select class="form-control select2" id="txtStatusType" name="txtStatusType">
+                        <option value="">--Select--</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label text-cutom">Approve Status</label>
+                    <select class="form-control select2" id="txtApproveStatusType" name="txtApproveStatusType">
+                        <option value="">--Select--</option>
+                        <option value="active">Approve</option>
+                        <option value="inactive">Disapprove</option>
+                    </select>
+                </div>
+
+
+            <div class="form-group">
+                <div class="input-group dategroup d-inline-flex" id="dateFilterDivId">
+                    <input type="text" id="storyDate" class="form-control datearea" name="storyDate" placeholder=""
+                        required="" data-provide="" data-date-autoclose="true">
+
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+
+
+
+                <div class="form-group">
+                    <button type="button" onclick="getListData(),closeNav()"
+                        class="btn btn-outline-success waves-effect waves-light">Search</button>
+                    <button type="button" onclick="clearListData(),closeNav()"
+                        class="btn btn-outline-danger waves-effect waves-light">Clear</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 @endsection
 
 @section('script')
@@ -80,11 +139,42 @@
     <!-- Init js-->
     <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
     <script>
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        function cb(start, end) {
+            console.log('start :: ' + start + ' end ::: ' + end);
+            $('#storyDate span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
+        }
+
+        $(document).ready(function() {
+            $('#storyDate').daterangepicker({
+                startDate: start,
+                endDate: end,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                        'month').endOf(
+                        'month')]
+                }
+            }, cb);
+            cb(start, end);
+        });
+
         var dt = '';
-        $(function() {
+        // $(function() {
             var table_html = '';
             var table_html_td = '';
             var i = 1;
+        $(function()
+        {
 
             jQuery.extend(jQuery.fn.dataTableExt.oSort, {
                 "dom-date-pre": function(a) {
@@ -97,7 +187,15 @@
                     return ((a < b) ? 1 : ((a > b) ? -1 : 0));
                 }
             });
+            dataTableAjaxCall();
+        });
+        var txtStatusType = '';
+        var txtApproveStatus = '';
+        var startDate = '';
+        var endDate = '';
 
+        function dataTableAjaxCall()
+        {
             dt = $('#TagsList').DataTable({
                 destroy: true,
                 processing: true,
@@ -109,9 +207,14 @@
                 rowReorder: true,
                 ajax: {
                     url: "{{ route('datatable.tagsList') }}",
+                    data: function(data){
+                        data.status = txtStatusType,
+                        data.approved = txtApproveStatus
+                        data.startDate = startDate
+                        data.endDate = endDate
+                    }
                 },
-                columns: [
-                    {
+                columns: [{
                         "data": null,
                         defaultContent: ''
                     },
@@ -123,13 +226,13 @@
                         targets: 0,
                         visible: true
                     },
-                   /* {
-                        data: 'id',
-                        name: 'id',
-                        orderable: false,
-                        searchable: false,
-                        targets: 1
-                    },*/
+                    /* {
+                         data: 'id',
+                         name: 'id',
+                         orderable: false,
+                         searchable: false,
+                         targets: 1
+                     },*/
                     {
                         data: 'name',
                         name: 'name',
@@ -153,13 +256,13 @@
                         orderable: false
                     }
                 ],
-            //     rowReorder: {
-            //     dataSrc: 'sequence',
-            // },
-            // columnDefs: [{
-            // type: 'dateNonStandard',
-            // targets: -1
-            // }],
+                //     rowReorder: {
+                //     dataSrc: 'sequence',
+                // },
+                // columnDefs: [{
+                // type: 'dateNonStandard',
+                // targets: -1
+                // }],
                 "columnDefs": [{
                     "targets": 0,
                     "data": "id",
@@ -171,7 +274,8 @@
                     "orderData": "",
                     "className": "",
                     "render": function(data, type, full, meta) {
-                        return '<input type="checkbox" id="id_' + data.id +'" name="id[]" value="' + data.id + '">';
+                        return '<input type="checkbox" id="id_' + data.id +
+                            '" name="id[]" value="' + data.id + '">';
 
                     }
                 }, ],
@@ -268,10 +372,28 @@
                 });
             });
 
-        });
+        }
 
+        function getListData() {
+
+            txtStatusType = $("#txtStatusType").val();
+            txtApproveStatus = $("#txtApproveStatus").val();
+            startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
+            endDate = $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
+
+            var str = '?txtStatusType=' + txtStatusType + '&txtApproveStatus=' + txtApproveStatus + '&startDate=' +
+                startDate + '&endDate=' + endDate;
+            dataTableAjaxCall();
+            dt.ajax.reload();
+        }
+
+        function clearListData() {
+
+            $("#txtStatusType").val('');
+            $("#txtApproveStatus").val('');
+            dataTableAjaxCall();
+        }
         $('#approveStatusButton').click(function() {
-
 
             var multipleId = getListIdList();
             var reomveId = multipleId;

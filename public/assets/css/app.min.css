@@ -4487,7 +4487,7 @@ a.undar_line {
   z-index: 9999;
   float: right!important;
   right: -280px;
-  top: 50%;
+  top: 67%;
   bottom: 0;
   height: 400px;
   transform: translateY(-50%);
@@ -5931,6 +5931,7 @@ z-index: 1;
 {
   background-color: #298541;
   color: white;
+  border: 1px solid #298541 ;
 }
 .addbtnforall2
 {
@@ -5966,16 +5967,15 @@ z-index: 1;
 
 
 input#approveStatusButton {
-  /* color: white; */
-  /* background-color: #298541; */
-  /* border: 1px solid; */
+
+  border: 1px solid #298541;
   padding: 5px 10px;
-  /* border-radius: 5px; */
+ border-radius: 5px; 
 }
 .tableAction {
   position: absolute;
  
-  margin-top: 8px;
+  margin-top: 0px;
   
 }
 
@@ -6000,68 +6000,41 @@ select.custom-select.custom-select-sm.form-control.form-control-sm {
 @media (min-width: 320px) and (max-width: 604px) 
 {
   input.jigar.form-control.form-control-sm {
-    width: 149px !important;
-    margin-left: -22px !important;
+    width: 244px !important;
+    margin-left: 0px !important;
     position: absolute;
     margin-top: -13px !important;
+}
+.dataTables_filter
+{
+  float: left !important;
 }
 .bx-search-alt
 {
   display: none;
 }
-div#TagsList_lengt {
 
-  float: left;
-  margin-top: 26px;
-}
-div#TagforumList_length
+div.dataTables_length
 {
   float: left;
   margin-top: 26px;
 }
-
-div#TagsList_length
+.dataTables_info
 {
-  float: left;
-  margin-top: 26px;
-}
-
-div#carrierCardList_length
-{
-  float: left;
-  margin-top: 26px;
-}
-
-div#CategoryList_length
-{
-  float: left;
-  margin-top: 26px;
-}
-div#testmonialList_length
-{
-  float: left;
-  margin-top: 26px;
-}
-div#countryList_length
-{
-  float: left;
-  margin-top: 26px;
-}
-div#cityList_length
-{
-  float: left;
-  margin-top: 26px;
-}
-div#AdvertismentList_length 
-{
-  float: left;
-  margin-top: 26px;
+  text-align: right !important;
+  margin-bottom: 15px;
 }
 .custom_tabal_saction_part h4.card-title a.btn {
   position: absolute;
-  /* right: 0; */
+  
   top: 0;
   left: 0;
+}
+.tableAction
+{
+  position: inherit;
+  margin-bottom: 20px;
+  margin-left: 12px;
 }
 }
 @media (min-width: 605px) and (max-width: 767px) 
@@ -6069,6 +6042,15 @@ div#AdvertismentList_length
   div#TagsList_length {
 
     float: left;
+  }
+  .dataTables_info
+{
+  text-align: right !important;
+  margin-bottom: 15px;
+}
+  .tableAction
+  {
+    margin-left: 12px;
   }
 }
 @media (min-width: 768px) and (max-width: 990px) 
@@ -6172,6 +6154,7 @@ table.dataTable td {
 {
   font-size: 22px;
   margin-top: 5px !important; 
+  color: #298541;
   
 }
 .addbtnforall:hover
@@ -6208,3 +6191,69 @@ table.dataTable td {
   }
 }
 /* / Nehal css end 09/10/2021 / */
+
+
+/* Hiren suthar css start 12/10/2021 */
+
+.filterbtnmsain
+{
+  height: 47px !important; 
+  line-height:10px !important;
+  background-color: #298541;
+  border-radius: 7px !important;
+}
+.filterbtnicon
+{
+  color: white !important;
+}
+div.dataTables_wrapper div.dataTables_filter
+{
+  margin-top: 0 !important;
+}
+.dataTables_filter
+{
+  float: right;
+}
+.table .thead-light th {
+  color: #298342;
+  background-color: #f8f9fa;
+  border-color: #eff2f7;
+}
+.form-control
+{
+  border: 1px solid #298342 ;
+}
+.dataTables_info{
+  color: #298541;
+}
+.newsmallpic
+{
+  padding-left: 24px;
+}
+.mediatextedit
+{
+  padding-left: 24px;
+}
+.newsmallpic2
+{
+  margin-left: 12px !important;
+}
+.newsmallpic21
+{
+  margin-left: 24px !important;
+}
+.newsmallpic2a
+{
+  margin-left: -12px !important;
+}
+
+@media (min-width: 320px) and (max-width: 767px)
+{
+.neweduca
+{
+  margin-top: 20px;
+}
+}
+  
+}
+/* Hiren suthar css end 12/10/2021 */

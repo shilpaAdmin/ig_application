@@ -3,226 +3,326 @@
 @section('title') Advertisment @endsection
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/datatables/datatables.min.css') }}">
 @endsection
 
 @section('content')
 
-<div class="row mb-3" id="">
-    <div class="col-md-12">
-        <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-12">
-                    <div class="card-body newheadcontanty">
-                        <h5 class="m-0 textforhedermaster">Advertisment</h5>
+    <div class="row mb-3" id="">
+        <div class="col-md-12">
+            <div class="card  bg-gray-bg text-white-50 m-0 mainhedformaster">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-12">
+                        <div class="card-body newheadcontanty">
+                            <h5 class="m-0 textforhedermaster">Advertisment</h5>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-12">
+                    <div class="col-md-6 col-sm-6 col-12">
 
-                    <div class="card-body newheadcontanty">
+                        <div class="card-body newheadcontanty">
 
-                        <h4 class="card-title addfourm" style="text-align:right;"><a href="{{ route('advertisement.create') }}" class="btn addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>ADD
-                                Advertisment </a></h4>
+                            <h4 class="card-title addfourm" style="text-align:right;"><a
+                                    href="{{ route('advertisement.create') }}"
+                                    class="btn addbtnforall waves-effect btn-label waves-light"><i
+                                        class="bx bx-plus label-icon"></i>ADD
+                                    Advertisment </a></h4>
+                        </div>
+
+
+
                     </div>
-
-
 
                 </div>
 
             </div>
 
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive custom_tabal_saction_part">
+
+                        <div class="tableAction">
+                            <input type="button" id="approveStatusButton" value="Approve">
+                        </div>
+                        <table id="AdvertismentList" class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>User</th>
+                                    <th>Category</th>
+                                    <th>Description</th>
+                                    <th>Continously</th>
+                                    <th>Date</th>
+                                    <th>URL</th>
+                                    <th>Media</th>
+                                    <th>type</th>
+                                    <th>Approve Status</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+    <!-- end row -->
+    <div id="custom_saction_filter">
+        <button type="button" class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain"
+            onclick="openNav()">
+            <i class="bx bx-filter-alt filterbtnicon"></i>
+        </button>
+
+        <div data-simplebar class="h-100">
+            <div class="rightbar-title p-3">
+                <a href="javascript:void(0);" class="custom_saction_filter float-right" onclick="closeNav()">
+                    <i class="mdi mdi-close noti-icon" style="color:#fff;"></i>
+                </a>
+                <h5 class="m-0 text-cutom1">Filter</h5>
+            </div>
+            <!-- custom_form -->
+            <div class="p-3">
+                <div class="form-group">
+                    <label class="control-label text-cutom">Status</label>
+                    <select class="form-control select2" id="txtStatusType" name="txtStatusType">
+                        <option value="">--Select--</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label text-cutom">Approve Status</label>
+                    <select class="form-control select2" id="txtApproveStatus" name="txtApproveStatus">
+                        <option value="">--Select--</option>
+                        <option value="1">Approve</option>
+                        <option value="0">Disapprove</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group dategroup d-inline-flex" id="dateFilterDivId">
+                        <input type="text" id="storyDate" class="form-control datearea" name="storyDate" placeholder=""
+                            required="" data-provide="" data-date-autoclose="true">
+
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" onclick="getListData(),closeNav()"
+                        class="btn btn-outline-success waves-effect waves-light">Search</button>
+                    <button type="button" onclick="clearListData(),closeNav()"
+                        class="btn btn-outline-danger waves-effect waves-light">Clear</button>
+                </div>
+            </div>
         </div>
 
     </div>
-</div>
-
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive custom_tabal_saction_part">
-
-                    <div class="tableAction">
-                        <input type="button" id="approveStatusButton" value="Approve">
-                    </div>
-                    <table id="AdvertismentList" class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th></th>
-                                <th>#</th>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>User</th>
-                                <th>Category</th>
-                                <th>Description</th>
-                                <th>Continously</th>
-                                <th>Date</th>
-                                <th>URL</th>
-                                <th>Media</th>
-                                <th>type</th>
-                                <th>Approve Status</th>
-                                <th>Status</th>
-                                <th>Action</th>
-
-                            </tr>
-                        </thead>
-
-
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div> <!-- end col -->
-</div> <!-- end row -->
-<!-- end row -->
 @endsection
 
 @section('script')
-<!-- Plugins js -->
-<script src="{{ URL::asset('assets/libs/datatables/datatables.min.js') }}"></script>
-<!-- Init js-->
-<script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
-<script>
-    var dt = '';
-    $(function() {
+    <!-- Plugins js -->
+    <script src="{{ URL::asset('assets/libs/datatables/datatables.min.js') }}"></script>
+    <!-- Init js-->
+    <script src="{{ URL::asset('assets/js/pages/datatables.init.js') }}"></script>
+    <script>
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        function cb(start, end) {
+            console.log('start :: ' + start + ' end ::: ' + end);
+            $('#storyDate span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
+        }
+
+        $(document).ready(function() {
+            $('#storyDate').daterangepicker({
+                startDate: start,
+                endDate: end,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                        'month').endOf(
+                        'month')]
+                }
+            }, cb);
+            cb(start, end);
+        });
+
+        var dt = '';
         var table_html = '';
         var table_html_td = '';
         var i = 1;
-
-        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
-            "dom-date-pre": function(a) {
-                return moment(a, "DD MMMM YYYY")
-            },
-            "dom-date-asc": function(a, b) {
-                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
-            },
-            "dom-date-desc": function(a, b) {
-                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
-            }
+        $(function() {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                "dom-date-pre": function(a) {
+                    return moment(a, "DD MMMM YYYY")
+                },
+                "dom-date-asc": function(a, b) {
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+                "dom-date-desc": function(a, b) {
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                }
+            });
+            dataTableAjaxCall();
         });
 
-        dt = $('#AdvertismentList').DataTable({
-            destroy: true,
-            processing: true,
-            //serverSide: true,
-            responsive: true,
-            autoWidth: false,
-            "order": [], //Initial no order.
-            "aaSorting": [],
-            rowReorder: true,
-            ajax: {
-                url: "{{ route('datatable.advertisementlist') }}",
-            },
+        var txtStatusType = '';
+        var txtApproveStatus = '';
+        var startDate = '';
+        var endDate = '';
 
-            columns: [{
-                    "data": null,
-                    defaultContent: ''
-                },
-                {
-                    data: 'id',
-                    name: 'sequence',
-                    orderable: false,
-                    searchable: false,
-                    targets: 0,
-                    visible: false
+        function dataTableAjaxCall() {
+            dt = $('#AdvertismentList').DataTable({
+                    destroy: true,
+                    processing: true,
+                    //serverSide: true,
+                    responsive: true,
+                    autoWidth: false,
+                    "order": [], //Initial no order.
+                    "aaSorting": [],
+                    rowReorder: true,
+                    ajax: {
+                        url: "{{ route('datatable.advertisementlist') }}",
+                        data: function(data) {
+                            data.status = txtStatusType,
+                            data.approved = txtApproveStatus
+                            data.startDate = startDate
+                            data.endDate = endDate
+                        }
+
                 },
 
-                {
-                    data: 'id',
-                    name: 'id',
-                    orderable: false,
-                    searchable: false,
-                    targets: 1
-                },
-                {
-                    data: 'name',
-                    name: 'name',
-                },
-                {
-                    data: 'user_id',
-                    name: 'user_id',
-                    orderable: true
-                },
-                {
-                    data: 'category_id',
-                    name: 'category_id',
-                    searchable: true,
-                    orderable: false
-                },
-                {
-                    data: 'description',
-                    name: 'description',
-                    orderable: false
-                },
-                {
-                    data: 'continously',
-                    name: 'continously',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'start_date',
-                    name: 'start_date',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'url',
-                    name: 'url',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'image_src',
-                    name: 'image_src',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'type',
-                    name: 'type',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'is_approve',
-                    name: 'is_approve',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'status_td',
-                    name: 'status_td',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'command',
-                    name: 'command',
-                    searchable: false,
-                    orderable: false
-                }
-            ],
-            "columnDefs": [{
-                "targets": 0,
-                "data": "id",
-                "title": "<input type='checkbox' name='select_all' value='1' id='selectAllCheckboxes'>",
-                "visible": true,
-                "width": "5%", //https://datatables.net/reference/option/columns.width
-                "searchable": false,
-                "orderable": false,
-                "orderData": "",
-                "className": "",
-                "render": function(data, type, full, meta) {
-                    return '<input type="checkbox" id="id_' + data.id +
-                        '" name="id[]" value="' + data.id + '">';
-                }
-            }, ],
-            retrieve: true
-        });
+                columns: [{
+                        "data": null,
+                        defaultContent: ''
+                    },
+                    {
+                        data: 'id',
+                        name: 'sequence',
+                        orderable: false,
+                        searchable: false,
+                        targets: 0,
+                        visible: false
+                    },
+
+                    {
+                        data: 'id',
+                        name: 'id',
+                        orderable: false,
+                        searchable: false,
+                        targets: 1
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                    },
+                    {
+                        data: 'user_id',
+                        name: 'user_id',
+                        orderable: true
+                    },
+                    {
+                        data: 'category_id',
+                        name: 'category_id',
+                        searchable: true,
+                        orderable: false
+                    },
+                    {
+                        data: 'description',
+                        name: 'description',
+                        orderable: false
+                    },
+                    {
+                        data: 'continously',
+                        name: 'continously',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'start_date',
+                        name: 'start_date',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'url',
+                        name: 'url',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'image_src',
+                        name: 'image_src',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'type',
+                        name: 'type',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'is_approve',
+                        name: 'is_approve',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'status_td',
+                        name: 'status_td',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'command',
+                        name: 'command',
+                        searchable: false,
+                        orderable: false
+                    }
+                ],
+                "columnDefs": [{
+                    "targets": 0,
+                    "data": "id",
+                    "title": "<input type='checkbox' name='select_all' value='1' id='selectAllCheckboxes'>",
+                    "visible": true,
+                    "width": "5%", //https://datatables.net/reference/option/columns.width
+                    "searchable": false,
+                    "orderable": false,
+                    "orderData": "",
+                    "className": "",
+                    "render": function(data, type, full, meta) {
+                        return '<input type="checkbox" id="id_' + data.id +
+                            '" name="id[]" value="' + data.id + '">';
+                    }
+                }, ],
+                retrieve: true
+            });
         $('table [type="checkbox"]').each(function(i, chk) {
             //alert(1);
             if (chk.checked) {
@@ -315,71 +415,92 @@
         });
 
 
-    });
+        }
+
+        function getListData() {
+
+            txtStatusType = $("#txtStatusType").val();
+            txtApproveStatus = $("#txtApproveStatus").val();
+            startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
+            endDate = $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
+
+            var str = '?txtStatusType=' + txtStatusType + '&txtApproveStatus=' + txtApproveStatus + '&startDate=' +
+                startDate + '&endDate=' + endDate;
+
+            dataTableAjaxCall();
+            dt.ajax.reload();
+        }
+
+        function clearListData() {
+
+            $("#txtStatusType").val('');
+            $("#txtApproveStatus").val('');
+            dataTableAjaxCall();
+        }
 
 
-    function deleteAdvertisment(id) {
-        swal({
-                title: "Are you sure?",
-                text: "Delete Question Bank",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Yes, Delete it!",
-                cancelButtonText: "No, cancel please!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            function(isConfirm) {
-                if (isConfirm) {
-                    window.location.href = "/setting/advertisement/delete/" + id;
+        function deleteAdvertisment(id) {
+            swal({
+                    title: "Are you sure?",
+                    text: "Delete Question Bank",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, Delete it!",
+                    cancelButtonText: "No, cancel please!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = "/setting/advertisement/delete/" + id;
 
-                } else {
-                    swal("Cancelled", "Don't worry your data is safe :)", "error");
-                }
-            });
-    }
+                    } else {
+                        swal("Cancelled", "Don't worry your data is safe :)", "error");
+                    }
+                });
+        }
 
-    $('#approveStatusButton').click(function() {
-
-
-        var multipleId = getListIdList();
-        var reomveId = multipleId;
-
-        swal({
-                title: "Are you sure?",
-                text: "Approve Record",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Yes, Approve it!",
-                cancelButtonText: "No, cancel please!",
-                closeOnConfirm: true,
-                closeOnCancel: true
-            },
-            function(isConfirm) {
-                if (isConfirm) {
-                    window.location.href = "/admin/advertisement/approve/" + reomveId;
-                }
-            });
-
-    });
+        $('#approveStatusButton').click(function() {
 
 
-    function getListIdList() {
-        var tableDataLength = dt.rows('.selected').data().length;
-        // alert("tableDataLength >> "+tableDataLength);
-        var listId = "";
-        for (var i = 0; i < tableDataLength; i++) {
-            var id = dt.rows('.selected').data()[i]['id'];
-            if (listId == "")
-                listId += id;
-            else
-                listId += "," + id;
-        } // for loop ends here
-        // alert("listId >> "+listId);
-        return listId;
-    }
-</script>
+            var multipleId = getListIdList();
+            var reomveId = multipleId;
+
+            swal({
+                    title: "Are you sure?",
+                    text: "Approve Record",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, Approve it!",
+                    cancelButtonText: "No, cancel please!",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = "/admin/advertisement/approve/" + reomveId;
+                    }
+                });
+
+        });
+
+
+        function getListIdList() {
+            var tableDataLength = dt.rows('.selected').data().length;
+            // alert("tableDataLength >> "+tableDataLength);
+            var listId = "";
+            for (var i = 0; i < tableDataLength; i++) {
+                var id = dt.rows('.selected').data()[i]['id'];
+                if (listId == "")
+                    listId += id;
+                else
+                    listId += "," + id;
+            } // for loop ends here
+            // alert("listId >> "+listId);
+            return listId;
+        }
+    </script>
 
 @endsection

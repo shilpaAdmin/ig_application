@@ -287,12 +287,25 @@ class CategoryController extends Controller
     public function subCategoryDataList(Request $request)
     {
 
-        $input=$request->all();
-        $result_obj = CategoryModel::where('category.status','!=','Deleted')->where('parent_category_id',$input['id'])->get();
+        $input = $request->all();
+        $txtStatusType = isset($request->status) ? $request->status : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 
-        // echo "<pre>";
-        // print_r($result_obj);
-        // exit;
+
+        $preQuery = CategoryModel::where('category.status','!=','Deleted')->where('parent_category_id',$input['id']);
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('category.status',$txtStatusType);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('category.created_at',[$storyStartDate,$storyEndDate]);
+
+        }
+        $result_obj = $preQuery->get();
 
         return DataTables::of($result_obj)->addColumn('applicant',function($result_obj){
             $applicant = '';
@@ -320,12 +333,12 @@ class CategoryController extends Controller
                 if ($result_obj->media_file != '' && file_exists(public_path() . '/images/categories/' . $result_obj->media_file)) {
                         $url = asset("images/categories/$result_obj->media_file");
 
-                        $media_file .= '<img src=' . $url . ' border="0" width="100" height="100" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center">';
+                        $media_file .= '<img src=' . $url . ' border="0" width="40" height="40" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center">';
 
                         return $media_file;
                     } else {
                         $url2 = asset("images/image-placeholder.jpg");
-                        $media_file .= '<img src=' . $url2 . ' border="0" width="100" height="100" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
+                        $media_file .= '<img src=' . $url2 . ' border="0" width="40" height="40" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
                     }
                 return $media_file;
             })

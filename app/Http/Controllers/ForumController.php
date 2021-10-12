@@ -9,11 +9,15 @@ use DataTables;
 use App\Http\Model\UserModel;
 use App\Http\Model\ForumModel;
 use App\Http\Model\ForumCommentReplyModel;
+use Illuminate\Support\Str;
+use App\Http\Traits\UserLocationDetailTrait;
 
 use Auth;
 
 class ForumController extends Controller
 {
+    use UserLocationDetailTrait;
+
     var $counter = 1;
 
     /**
@@ -44,13 +48,39 @@ class ForumController extends Controller
     {
         $input=$request->all();
 
+
+
         $userID = $request->user_id;
 
         $obj=new ForumModel();
+        $LocationType=$cityCountryId='';
+
+        if(isset($userID) && !empty($userID))
+        {
+            $locationData=$this->getUserLocationDetail($userID);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+        }
+
+        $obj->cityid_or_countryid=$cityCountryId;
+        $obj->type_city_or_country=$LocationType;
+
         $obj->question=$input['question'];
         $obj->description=$input['description'];
         $obj->url=$input['url'];
         $obj->telegram_link=$input['telegram_link'];
+        $obj->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->question)).'-'.Str::random(5);
         $obj->user_id=$userID;
 
         if(!empty($input['status']))
@@ -69,13 +99,44 @@ class ForumController extends Controller
         }
     }
 
-    public function forumList()
+    public function forumList(Request $request)
     {
-        $result_obj = ForumModel::where('forum.status', '!=', 'deleted')->leftJoin('user',function ($join)
+        // dd($request->all());
+        $input=$request->all();
+
+        $txtStatusType = isset($request->status) ? $request->status : '';
+        $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
+
+        $preQuery = ForumModel::where('forum.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
             $join->on('forum.user_id', '=', 'user.id');
 
-        })->select('forum.*','user.name as user_id')->get();
+        })->select('forum.*','user.name as user_id');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('forum.status',$txtStatusType);
+
+        }
+        if(isset($txtApproveStatus) && !empty($txtApproveStatus))
+        {
+            $result_obj= $preQuery->where('forum.is_approve',$txtApproveStatus);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate)  && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('forum.created_at',[$storyStartDate,$storyEndDate]);
+
+        }
+
+        // if(isset($storyEndDate) && !empty($storyEndDate))
+        // {
+        //     $result_obj= $preQuery->where('forum.created_at',$storyEndDate);
+
+        // }
+        $result_obj = $preQuery->get();
 
         return DataTables::of($result_obj)
         ->addColumn('DT_RowId', function ($result_obj)
@@ -154,6 +215,7 @@ class ForumController extends Controller
 
     public function getCommentReplyList($id)
     {
+        $input = $request->all();
         $forum_id=$id;
 
         $forumDetail=ForumModel::with(['user'])->where('id',$forum_id)->first();
@@ -169,14 +231,30 @@ class ForumController extends Controller
         ->leftJoin('user','forum_comment_reply.user_id','user.id')
         ->select('forum_comment_reply.id','forum_comment_reply.message','forum_comment_reply.media','forum_comment_reply.created_at',
         'user.name as username','user.user_image as userimage')
-        ->where('forum_comment_reply.is_deleted',0)
+        ->where('forum_comment_reply.is_deleted',0)->paginate(10);
         //->skip($skip)->take(5)
-        ->get()->toArray();
-
+        //->get()->toArray();
+        // echo '<pre>';
+        // print_r($commentData);
+        // exit;
         $commentReplyArray = array();
         foreach ($commentData as $comment)
         {
-            $commentId = $comment['id'];
+            $commentId = $comment->id;
+            $replyData =ForumCommentReplyModel::where('forum_comment_reply.comment_id',$commentId)
+            ->where('forum_comment_reply.comment_id','!=',0)
+            ->leftJoin('user','forum_comment_reply.user_id','user.id')
+            ->select('forum_comment_reply.*','user.name as username','user.user_image as userimage')
+            ->where('forum_comment_reply.is_deleted',0)
+            ->orderBy('forum_comment_reply.id','desc')->get()->toArray();
+
+            $commentReplyArray[$commentId]['id'] = $commentId;
+            $commentReplyArray[$commentId]['comment'] = $comment->message;
+            $commentReplyArray[$commentId]['media'] = $comment->media;
+            $commentReplyArray[$commentId]['username'] = $comment->username;
+            $commentReplyArray[$commentId]['userimage'] = $comment->userimage;
+            $commentReplyArray[$commentId]['created_at'] = $comment->created_at;
+            /*$commentId = $comment['id'];
             $replyData =ForumCommentReplyModel::where('forum_comment_reply.comment_id',$commentId)
             ->where('forum_comment_reply.comment_id','!=',0)
             ->leftJoin('user','forum_comment_reply.user_id','user.id')
@@ -189,7 +267,7 @@ class ForumController extends Controller
             $commentReplyArray[$commentId]['media'] = $comment['media'];
             $commentReplyArray[$commentId]['username'] = $comment['username'];
             $commentReplyArray[$commentId]['userimage'] = $comment['userimage'];
-            $commentReplyArray[$commentId]['created_at'] = $comment['created_at'];
+            $commentReplyArray[$commentId]['created_at'] = $comment['created_at'];*/
             if(count($replyData) > 0)
             {
                 $j = 0;
@@ -214,7 +292,7 @@ class ForumController extends Controller
         }
         // echo '<pre>';
         // print_r($commentReplyArray);exit;
-        return view('forum.comment_reply_structure', compact('commentReplyArray','recordsPerPage','forumDetail'));
+        return view('forum.comment_reply_structure', compact('commentReplyArray','recordsPerPage','forumDetail','commentData'));
     }
 
     public function edit($id)

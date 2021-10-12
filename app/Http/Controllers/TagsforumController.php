@@ -35,11 +35,34 @@ class TagsforumController extends Controller
         }
     }
 
-    public function tagsforumList()
+    public function tagsforumList(Request $request)
     {
-        $result_obj = TagForumMasterModel::where('status','!=','deleted')->get();
-        // print_r($result_obj);
-        // exit;
+        $input=$request->all();
+
+        $txtStatusType = isset($request->txtStatusType) ? $request->txtStatusType : '';
+        $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $storyEndDate = isset($request->endDate) ? $request->endDate : '';
+
+        $preQuery = TagForumMasterModel::where('status','!=','deleted');
+
+        if(isset($txtStatusType) && !empty($txtStatusType))
+        {
+            $result_obj= $preQuery->where('tag_forum.status',$txtStatusType);
+
+        }
+        if(isset($txtApproveStatus) && !empty($txtApproveStatus))
+        {
+            $result_obj= $preQuery->where('tag_forum.is_approve',$txtApproveStatus);
+
+        }
+        if(isset($storyStartDate) && !empty($storyStartDate) && isset($storyEndDate) && !empty($storyEndDate))
+        {
+            $result_obj= $preQuery->whereBetween('tag_forum.created_at',[$storyStartDate,$storyEndDate]);
+
+        }
+        $result_obj = $preQuery->get();
+
         return DataTables::of($result_obj)
         ->addColumn('DT_RowId', function ($result_obj)
         {

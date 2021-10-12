@@ -91,13 +91,13 @@
                     <div class="repeater main-repeter">
                         <div data-repeater-list="group-a">
                             <div data-repeater-item class="row">
-                                <div class="col-lg-3">
+                                <div class="col-md-4 col-lg-3">
                                     <div class="small-pic">
                                         <img class="imagePreview2 mb-3 imgdisplay-blog" alt=""
                                             src="{{ URL::asset('images/image-placeholder.jpg') }}" />
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-md-4 col-lg-4">
                                     <input type="file" class="custom-file-input media_file form-control"
                                         name="media_file_json" id="media_file" accept="image/*" required />
                                     <label class="custom-file-label" for="customFile">Image</label>
@@ -107,7 +107,7 @@
                                     <br />
                                 </div>
 
-                                <div class="col-lg-1">
+                                <div class="col-md-1 col-lg-1">
                                     <button type="button" data-repeater-delete data-toggle="tooltip"
                                         data-placement="top" title="Delete" class="btn btn-sm btn-danger mt-2">
                                         <i class="bx bx-trash d-block font-size-16"></i>
