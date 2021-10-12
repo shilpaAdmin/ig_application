@@ -12,7 +12,9 @@ class BlogsModel extends Model
         'description',
         'blog_created_by',
         'media_file_json',
-        'category_id'
+        'category_id',
+        'cityid_or_countryid',
+        'type_city_or_country'
     ];
 
     public function user()

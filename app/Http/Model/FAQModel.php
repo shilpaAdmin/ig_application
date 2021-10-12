@@ -10,6 +10,8 @@ class FAQModel extends Model
     protected $fillable = [
         'question',
         'answer',
-        'tags'
+        'tags',
+        'cityid_or_countryid',
+        'type_city_or_country'
     ];
 }

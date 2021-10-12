@@ -82,12 +82,37 @@ class AdvertisementController extends Controller
                 }
             }
         }
+        
+        $LocationType=$cityCountryId='';
+
+        if(isset($input['RegisterId']) && !empty($input['RegisterId']))
+        {
+            $locationData=$this->getUserLocationDetail($input['RegisterId']);
+
+            if($locationData!==null)
+            {
+                if(isset($locationData->location_id) && !empty($locationData->location_id))
+                $cityCountryId=$locationData->location_id;
+                else
+                $cityCountryId=1;
+                
+                if(isset($locationData->location_type) && !empty($locationData->location_type))
+                $LocationType=$locationData->location_type;
+                else
+                $LocationType='country';
+            }
+        }
 
         if(isset($input['AdsID']) && !empty($input['AdsID']))
         {
             $ads=AdvertisementModel::find($input['AdsID']);
             $ads->name=$input['Name'];
             $ads->user_id=$input['RegisterId'];
+            
+            $ads->cityid_or_countryid=$cityCountryId;
+            
+            $ads->type_city_or_country=$LocationType;
+            
             $ads->category_id=$input['CategoryId'];
             
             if(isset($input['Description']) && !empty($input['Description']))
@@ -117,15 +142,6 @@ class AdvertisementController extends Controller
         }
         else
         {
-            $locationData=$this->getUserLocationDetail($input['RegisterId']);
-
-            $LocationType=$cityCountryId='';
-
-            if($locationData!==null)
-            {
-                $cityCountryId=$locationData->location_id;
-                $LocationType=$locationData->location_type;
-            }
 
             $dataArray=['name'=>$input['Name'],
             'user_id'=>$input['RegisterId'],
@@ -135,7 +151,10 @@ class AdvertisementController extends Controller
             'end_date'=>!empty($input['EndDate'])?date('Y-m-d',strtotime($input['EndDate'])):NULL,
             'url'=>!empty($input['URL'])?$input['URL']:NULL,
             'media'=>!empty($imageName)?$imageName:NULL,
-            'continously'=>!empty($input['Continously'])?$input['Continously']:NULL];
+            'continously'=>!empty($input['Continously'])?$input['Continously']:NULL,
+            'cityid_or_countryid'=>$cityCountryId,
+            'type_city_or_country'=>$LocationType
+        ];
             
             /*if(isset($locationData->location_id))
             {
@@ -374,9 +393,21 @@ class AdvertisementController extends Controller
         $input=$request->all();
 
         $userId=isset($input['RegisterId'])?$input['RegisterId']:'';
+        $locationId=isset($input['LocationId'])?$input['LocationId']:'';
+        $locationType=isset($input['LocationType'])?$input['LocationType']:'';
 
-        $advertisementData=AdvertisementModel::with(['user','categories'])
-        ->where('user_id',$userId)->get()->toArray();
+        if(!empty($userId))
+        {
+            $advertisementData=AdvertisementModel::with(['user','categories'])
+            ->where('user_id',$userId)->get()->toArray();
+        }
+        else
+        {
+            $advertisementData=AdvertisementModel::with(['user','categories'])
+            ->where('cityid_or_countryid',$locationId)
+            ->where('type_city_or_country',$locationType)
+            ->get()->toArray();
+        }
         
         $advertisementArray=array();
 

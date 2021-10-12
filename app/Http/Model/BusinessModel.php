@@ -41,7 +41,9 @@ class BusinessModel extends Model
         'declined_by_user_id',
         'created_by	',
         'last_updated_by',
-        'status'
+        'status',
+        'cityid_or_countryid',
+        'type_city_or_country'
     ];
 
     public function categories()

@@ -21,7 +21,9 @@ class AdvertisementModel extends Model
         'media',
         'type',
         'status',
-        'is_approve'
+        'is_approve',
+        'cityid_or_countryid',
+        'type_city_or_country'
     ];
 
     public function user()
