@@ -8,12 +8,20 @@
 
 @section('content')
 
-    @component('common-components.breadcrumb')
-        @slot('title') User List @endslot
-        @slot('li_1') User @endslot
-        @slot('li_2') List @endslot
-
-    @endcomponent
+<div class="row mb-3" id="">
+        <div class="col-md-12">
+            <div class="card bg-gray-bg text-white-50 m-0 mainhedformaster">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <div class="card-body newheadcontanty">
+                            <h5 class="m-0 textforhedermaster">Users</h5>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">
@@ -49,9 +57,9 @@
     <!-- end row -->
 
     <div id="custom_saction_filter">
-        <button type="button" style="height: 47px; line-height:10px;"
-            class="btn custom_main_saction header-item noti-icon fil_ waves-effect" onclick="openNav()">
-            <i class="bx bx-filter-alt"></i>
+        <button type="button"
+            class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain" onclick="openNav()">
+            <i class="bx bx-filter-alt filterbtnicon"></i>
         </button>
 
         <div data-simplebar class="h-100">

@@ -68,9 +68,9 @@
 </div> <!-- end row -->
 <!-- end row -->
 <div id="custom_saction_filter">
-    <button type="button" style="height: 47px; line-height:10px;"
-        class="btn custom_main_saction header-item noti-icon fil_ waves-effect" onclick="openNav()">
-        <i class="bx bx-filter-alt"></i>
+    <button type="button"
+        class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain" onclick="openNav()">
+        <i class="bx bx-filter-alt filterbtnicon"></i>
     </button>
 
     <div data-simplebar class="h-100">

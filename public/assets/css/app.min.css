@@ -4487,7 +4487,7 @@ a.undar_line {
   z-index: 9999;
   float: right!important;
   right: -280px;
-  top: 50%;
+  top: 67%;
   bottom: 0;
   height: 400px;
   transform: translateY(-50%);
@@ -6225,5 +6225,35 @@ div.dataTables_wrapper div.dataTables_filter
 }
 .dataTables_info{
   color: #298541;
+}
+.newsmallpic
+{
+  padding-left: 24px;
+}
+.mediatextedit
+{
+  padding-left: 24px;
+}
+.newsmallpic2
+{
+  margin-left: 12px !important;
+}
+.newsmallpic21
+{
+  margin-left: 24px !important;
+}
+.newsmallpic2a
+{
+  margin-left: -12px !important;
+}
+
+@media (min-width: 320px) and (max-width: 767px)
+{
+.neweduca
+{
+  margin-top: 20px;
+}
+}
+  
 }
 /* Hiren suthar css end 12/10/2021 */

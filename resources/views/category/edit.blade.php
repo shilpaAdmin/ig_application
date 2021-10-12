@@ -141,7 +141,7 @@
 
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div>
                                     <div class="form-group">
                                         <label for="formrow-firstname-input">Category Name</label>
@@ -155,7 +155,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div>
 
                                     <div class="form-group">
@@ -177,7 +177,7 @@
                         
                         <div class="row">
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="formrow-email-input">Image</label>
                                     <div class="custom-file">

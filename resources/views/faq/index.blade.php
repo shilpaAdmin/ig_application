@@ -6,14 +6,14 @@
     <div class="col-md-12">
         <div class="card bg-gray-bg text-white-50 m-0 mainhedformaster">
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-6">
+                <div class="col-md-6 col-sm-6 col-12">
                     <div class="card-body newheadcontanty">
                         <h5 class="m-0 textforhedermaster">FAQ</h5>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-6">
+                <div class="col-md-6 col-sm-6 col-12">
                     <div class="card-body newheadcontanty">
-                        <h4 class="card-title" style="text-align: right;">
+                        <h4 class="card-title addfourm" style="text-align: right;">
                             <a href="{{ route('faq.create') }}"
                                 class="btn btn-primary waves-effect btn-label waves-light addbtnforall"><i
                                     class="bx bx-plus label-icon"></i>ADD FAQ </a>
@@ -55,9 +55,9 @@
 <!-- end row -->
 <!-- end row -->
 <div id="custom_saction_filter">
-    <button type="button" style="height: 47px; line-height:10px;"
-        class="btn custom_main_saction header-item noti-icon fil_ waves-effect" onclick="openNav()">
-        <i class="bx bx-filter-alt"></i>
+    <button type="button"
+        class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain" onclick="openNav()">
+        <i class="bx bx-filter-alt filterbtnicon"></i>
     </button>
 
     <div data-simplebar class="h-100">

@@ -73,14 +73,14 @@
     <!-- end row -->
 
     <div id="custom_saction_filter">
-        <button type="button" style="height: 47px; line-height:10px;"
-            class="btn custom_main_saction header-item noti-icon fil_ waves-effect" onclick="openNav()">
-            <i class="bx bx-filter-alt"></i>
+        <button type="button"
+            class="btn custom_main_saction header-item noti-icon fil_ waves-effect filterbtnmsain" onclick="openNav()">
+            <i class="bx bx-filter-alt filterbtnicon"></i>
         </button>
 
         <div data-simplebar class="h-100">
             <div class="rightbar-title p-3">
-                <a href="javascript:void(0);" class="custom_saction_filter float-right" onclick="closeNav()">
+                <a href="javascript:void(0);" class="custom_saction_filter float-right " onclick="closeNav()">
                     <i class="mdi mdi-close noti-icon" style="color:#fff;"></i>
                 </a>
                 <h5 class="m-0 text-cutom1">Filter</h5>
