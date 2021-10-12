@@ -326,12 +326,12 @@ class CategoryController extends Controller
                 if ($result_obj->media_file != '' && file_exists(public_path() . '/images/categories/' . $result_obj->media_file)) {
                         $url = asset("images/categories/$result_obj->media_file");
 
-                        $media_file .= '<img src=' . $url . ' border="0" width="100" height="100" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center">';
+                        $media_file .= '<img src=' . $url . ' border="0" width="40" height="40" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center">';
 
                         return $media_file;
                     } else {
                         $url2 = asset("images/image-placeholder.jpg");
-                        $media_file .= '<img src=' . $url2 . ' border="0" width="100" height="100" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
+                        $media_file .= '<img src=' . $url2 . ' border="0" width="40" height="40" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
                     }
                 return $media_file;
             })

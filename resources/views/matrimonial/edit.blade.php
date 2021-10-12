@@ -405,7 +405,7 @@
                                 @endif
                             </div>
                             <button type="button" data-repeater-create
-                                class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light"><i
+                                class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light addbtnforall"><i
                                     class="bx bx-plus label-icon"></i>
                                 Add New</button>
                         </div>
@@ -461,7 +461,7 @@
                                         @endfor
                                         @endif
                                     </div>
-                                    <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light"><i class="bx bx-plus label-icon"></i>Add New</button>
+                                    <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light addbtnforall"><i class="bx bx-plus label-icon"></i>Add New</button>
                                 </div>
                                 </div>
 
