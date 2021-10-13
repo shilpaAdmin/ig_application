@@ -12,6 +12,7 @@ class NotificationsModel extends Model
         'user_id',
         'business_id',
         'title',
-        'message'
+        'message',
+        'type'
     ];
 }

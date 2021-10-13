@@ -56,4 +56,9 @@ class BusinessModel extends Model
         return $this->belongsTo(CategoryModel::class );
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
+
 }

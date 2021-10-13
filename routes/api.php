@@ -123,5 +123,7 @@ Route::post('getApplyJobList', 'Api\ApplyForJobController@getApplyJobList');
 
 Route::post('BusinessProfile', 'Api\BusinessController@getBusinessProfile');
 
+Route::post('SendNotification', 'Api\NotificationsController@sendNotification')->middleware('CheckHashToken');
+
 // froend login api
 Route::post('login', 'Frontend\LoginController@loginAuthentication')->name('api.login');

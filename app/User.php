@@ -31,6 +31,7 @@ class User extends Authenticatable
         'login_type',
         'device_id',
         'device_token',
+        'device_type',
 		'username',
         'is_rated',
         'user_type',

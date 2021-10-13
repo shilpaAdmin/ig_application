@@ -76,7 +76,7 @@ class BlogCommentReplyController extends Controller
 
         if(isset($input['CommentID']) && !empty($input['CommentID']))
         {   
-            $forum=BlogsCommentReplyModel::where('id',$input['CommentID'])->first();
+            $forum=BlogsCommentReplyModel::where('id',$input['CommentID'])->where('comment_id',0)->first();
             
             if($forum===null)
             {
@@ -135,6 +135,7 @@ class BlogCommentReplyController extends Controller
         }
 
         $str='';
+
         if(empty($input['CommentID']))
         {
             $str='Comment';
@@ -146,6 +147,19 @@ class BlogCommentReplyController extends Controller
 
         if($obj->save())
         {
+            if(isset($input['CommentID']) && !empty($input['CommentID']))
+            {
+                $blogCommentObj=BlogsCommentReplyModel::with(['user'])->where('comment_id',0)->where('id',$input['CommentID'])->first();
+
+                if(!empty($blogCommentObj->user_id) && $blogCommentObj->user_id > 0 )
+                $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($blogCommentObj->user_id,$obj->id,$user->name.' added reply on your comment.','blog_reply','','');
+            }
+            else
+            {
+                if(!empty($blog->user_id) && $blog->user_id > 0 )
+                $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($blog->user_id,$obj->id,$user->name.' added comment in your blog.','blog_comment','','');
+            }
+            
             return response()->json(['Status'=>true,'StatusMessage'=>$str.' added successfully!','Result'=> []]);
         }
         else
