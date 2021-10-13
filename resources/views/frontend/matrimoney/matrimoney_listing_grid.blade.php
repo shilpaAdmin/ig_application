@@ -316,7 +316,7 @@
             // load more data
             function loadMore(page,viewData){
                 
-                var url="{{route('matrimoney')}}";
+                var url="{!!route('matrimoney')!!}";
                 url+='?page='+page+'&viewData='+viewData;
 
                 $.ajax({
