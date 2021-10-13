@@ -17,14 +17,11 @@
                 <a href="index" class="logo logo-light">
                     <span class="logo-sm logo-sm-header">
                         <!--<img src="../../../assets/images/logo-light.svg" alt="" height="22">-->
-                        <img src="../../../assets/images/IG-light.png" alt="" height="22" style="
-    width: 24px;
-    height: 20px;
-">
+                        <img src="../../../assets/images/newiground.svg" alt="" width="30">
                     </span>
                     <span class="logo-lg logo-lg-header">
                         <!--<img src="../../../assets/images/logo-light.png" alt="" height="19">-->
-                        <img src="../../../assets/images/IG-light.png" alt="" height="5" width="40">
+                        <img src="../../../assets/images/newigadmin.svg" alt="" width="100%" >
                     </span>
                 </a>
             </div>
