@@ -263,6 +263,8 @@ Route::get('/privacy/policy','HomeController@privacypolicy')->name('Privacypolic
 Route::get('/terms/condition','HomeController@termscondition')->name('Termscondition');
 Route::get('/disclaimer','HomeController@disclaimer')->name('Disclaimer');
 Route::get('/gdrp/notice','HomeController@gdrpnotice')->name('Gdrpnotice');
+Route::get('/impressum','HomeController@impressum')->name('impressum');
+Route::get('/cookie','HomeController@cookie')->name('cookie');
 
 
 

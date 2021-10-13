@@ -1,9 +1,7 @@
 @extends('frontend.layouts.master')
 @section('title')  @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
+
 
     <!-- Modal housing-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -242,6 +240,7 @@
             </div>
         </div>
     </div>
+    
     <div class="preloader">
         <img src="assets/images/loader.png" class="preloader__image" alt="">
     </div><!-- /.preloader -->
@@ -577,7 +576,4 @@ temporarily unavailable due to technical issues beyond our control. </li>
         </section>
 
     </div><!-- /.page-wrapper -->
-
-</body>
-</html>
 @endsection

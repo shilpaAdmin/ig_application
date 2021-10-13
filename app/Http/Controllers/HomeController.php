@@ -119,6 +119,14 @@ class HomeController extends Controller
     {
         return view('frontend.disclaimer');
     }
+    public function cookie(Request $request)
+    {
+        return view('frontend.cookie');
+    }
+    public function impressum(Request $request)
+    {
+        return view('frontend.impressum');
+    }
     public function gdrpnotice(Request $request)
     {
         return view('frontend.gdpr_notice');

@@ -60,10 +60,12 @@
                         <a href="{{ route('Privacypolicy') }}" class="sunlilist">Privacy Policy</a>
                         <a href="{{ route('Termscondition') }}" class="sunlilist">Terms & Condition</a>
                         <a href="{{ route('Disclaimer') }}" class="sunlilist">Disclaimer</a>
-                        <a href="{{ route('Faqs') }}" class="sunlilist">FAQ</a>
+                        <a href="{{ route('faq.details') }}" class="sunlilist">FAQ</a>
                         <a href="{{ route('ForumList') }}" class="sunlilist">Forum</a>
                         <a href="{{ route('Gdrpnotice') }}" class="sunlilist">GDPR Notice</a>
                         <a href="{{ route('Contact') }}" class="sunlilist">Contact IG</a>
+                        <a href="{{ route('impressum') }}" class="sunlilist">Impressum</a>
+                        <a href="{{ route('cookie') }}" class="sunlilist">Cookie</a>
                     </div>
                 </div>
 

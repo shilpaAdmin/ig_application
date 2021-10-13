@@ -1,9 +1,7 @@
 @extends('frontend.layouts.master')
 @section('title') Privacy Policy @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
+
 
     <!-- Modal location-->
     <div class="modal fade" id="exampleModallocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -627,8 +625,4 @@ partner strictly for the purpose of participating in the competition.</p>
             </div>
         </section>
     </div><!-- /.page-wrapper -->
-
-</body>
-
-</html>
 @endsection

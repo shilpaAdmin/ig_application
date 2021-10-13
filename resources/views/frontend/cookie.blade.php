@@ -1,9 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title')  @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
 
     <!-- Modal housing-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -389,6 +386,5 @@ website for more information about them. <br>
 
     </div><!-- /.page-wrapper -->
 
-</body>
-</html>
+
 @endsection

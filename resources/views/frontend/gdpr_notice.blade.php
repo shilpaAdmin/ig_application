@@ -1,9 +1,7 @@
 @extends('frontend.layouts.master')
 @section('title') GDRP Notice @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<body>
+
     <!-- Modal housing-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -454,8 +452,4 @@
             </div>
         </section>
     </div><!-- /.page-wrapper -->
-
-</body>
-
-</html>
 @endsection
