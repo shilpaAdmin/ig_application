@@ -9,7 +9,7 @@
 
         <div class="page-wrapper">
 
-               <div class="site-header__header-one-wrap clearfix">
+            {{-- <div class="site-header__header-one-wrap clearfix">
                 <div class="header_top_one">
                     <div class="header_top_one_container">
                         <div class="header_top_one_inner clearfix">
@@ -27,7 +27,7 @@
                                 </div>
                             </div>
 
-                          <div class="header_top_one_inner_right float-right">
+                            <div class="header_top_one_inner_right float-right">
                                 <div class="header_topmenu_1">
                                     <ul class="list-unstyled">
 
@@ -48,182 +48,28 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
 
-    <section class="page-header backgroundimgforum">
-        <div class="overlayforcontactbg"></div>
-        <div class="container">
-            <h2 class="h2_oth_pgs">Forum listing</h2>
-            <ul class="thm-breadcrumb list-unstyled">
-                <li><a href="{{ route('/')}}">Home</a></li>
-                <li><span>Forum</span></li>
-            </ul>
-        </div>
-    </section>
+            <section class="page-header backgroundimgforum">
+                <div class="overlayforcontactbg"></div>
+                <div class="container">
+                    <h2 class="h2_oth_pgs">Forum listing</h2>
+                    <ul class="thm-breadcrumb list-unstyled">
+                        <li><a href="{{ route('/')}}">Home</a></li>
+                        <li><span>Forum</span></li>
+                    </ul>
+                </div>
+            </section>
 
-    <section class="forum_padding mb-20 pt-5 mt-2 pt-2">
-           <div class="container">
-                <!-- forum box -->
-
-                @foreach ($forums as $forum)
-                      <div class="row forum__box">
-                        <div class="col-lg-1  for_profile">
-                            {{-- <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg')}}" class="f__img_left')}}"> --}}
-                            <img src="{{ URL::asset('images/user/'.$forum->user_image)}}" class="f__img_left')}}">
-                        </div>
-
-                        <div class="col-lg-9 ">
-                            {{-- <a href="{{route('forumdetail')}}?id={{$forum->id}}" class="for__title">{{ ucwords($forum->question)}}</a> --}}
-                            <a href="{{route('forumdetail',['slug'=>$forum->slug])}}" class="for__title">{{ ucwords($forum->question)}}</a>
-
-                            <p class="for_desc">
-                                <span> <a href="javascript:void(0);"> {{ucwords($forum->name)}}</a></span>
-                                <span> <a href="javascript:void(0);">  {{$forum->created_at->diffForHumans()}}</a></span>
-                                <span> <a href="javascript:void(0);">  {{$forum->forumComments->count()}} replies </a></span>
-                            </p>
-                        </div>
-
-                        <div class="col-lg-2 for__user">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg')}}" class="f__img_left">
-
-                            <img src="{{ URL::asset('assets/frontend/images /img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                        </div>
-                 </div>
-                @endforeach
-                 {{-- <div class="row forum__box">
-                        <div class="col-lg-1  for_profile">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg')}}" class="f__img_left')}}">
-                        </div>
-
-                        <div class="col-lg-9 ">
-                            <a href="forum-detail.html" class="for__title">Sed sollicitudin tortor diam, in lobortis arcu porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est. Nulla rutrum tempus tristique?</a>
-
-                            <p class="for_desc">
-                            <span> <a href="#"> Stokes Mollie</a></span>
-                                <span>  <a href="#">     3 hours ago</a></span>
-                                <span>   <a href="#">    26 replies </a></span>
-                            </p>
-                        </div>
-
-                        <div class="col-lg-2 for__user">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg')}}" class="f__img_left">
-
-                            <img src="{{ URL::asset('assets/frontend/images /img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                        </div>
-                 </div>
-
-
-                 <div class="row forum__box">
-                        <div class="col-lg-1  for_profile">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg')}}" class="f__img_left">
-
-                        </div>
-
-                             <div class="col-lg-9 ">
-                                 <a href="forum-detail.html" class="for__title">Sed sollicitudin tortor diam, in lobortis arcu porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est. Nulla rutrum tempus tristique?</a>
-
-                                 <p class="for_desc">
-                                    <span> <a href="#"> Stokes Mollie</a></span>
-                                      <span>  <a href="#">     3 hours ago</a></span>
-                                      <span>   <a href="#">    26 replies </a></span>
-                                 </p>
-                             </div>
-
-                        <div class="col-lg-2 for__user">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg')}}" class="f__img_left">
-
-                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                        </div>
-                 </div>
-
-                 <div class="row forum__box">
-                        <div class="col-lg-1  for_profile">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg')}}" class="f__img_left">
-
-                        </div>
-
-                             <div class="col-lg-9 ">
-                                 <a href="forum-detail.html" class="for__title">Sed sollicitudin tortor diam, in lobortis arcu porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est. Nulla rutrum tempus tristique?</a>
-
-                                 <p class="for_desc">
-                                    <span> <a href="#"> Stokes Mollie</a></span>
-                                      <span>  <a href="#">     3 hours ago</a></span>
-                                      <span>   <a href="#">    26 replies </a></span>
-                                 </p>
-                             </div>
-
-                        <div class="col-lg-2 for__user">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg')}}" class="f__img_left">
-
-                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                        </div>
-                 </div>
-
-                 <div class="row forum__box">
-                        <div class="col-lg-1  for_profile">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg')}}" class="f__img_left">
-
-                        </div>
-
-                             <div class="col-lg-9 ">
-                                 <a href="forum-detail.html" class="for__title">Sed sollicitudin tortor diam, in lobortis arcu porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est. Nulla rutrum tempus tristique?</a>
-
-                                 <p class="for_desc">
-                                    <span> <a href="#"> Stokes Mollie</a></span>
-                                      <span>  <a href="#">     3 hours ago</a></span>
-                                      <span>   <a href="#">    26 replies </a></span>
-                                 </p>
-                             </div>
-
-                        <div class="col-lg-2 for__user">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg')}}" class="f__img_left">
-
-                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                        </div>
-                 </div>
-
-                 <div class="row forum__box">
-                        <div class="col-lg-1  for_profile">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d1.jpg')}}" class="f__img_left">
-
-                        </div>
-
-                             <div class="col-lg-9 ">
-                                 <a href="forum-detail.html" class="for__title">Sed sollicitudin tortor diam, in lobortis arcu porttitor eu. Aenean tempus quam dui. Mauris id scelerisque nibh, eu mollis est. Nulla rutrum tempus tristique?</a>
-
-                                 <p class="for_desc">
-                                    <span> <a href="#"> Stokes Mollie</a></span>
-                                      <span>  <a href="#">  3 hours ago</a></span>
-                                      <span>   <a href="#">  26 replies </a></span>
-                                 </p>
-                             </div>
-
-                        <div class="col-lg-2 for__user">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg')}}" class="f__img_left">
-
-                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
-
-                        </div>
-                 </div> --}}
-            </div>
-    </section>
+            <section class="forum_padding mb-20 pt-5 mt-2 pt-2">
+                <div class="container" id="results">
+                    @include('frontend.forum.forum-list')                 
+                </div>
+            </section>
         </div><!-- /.page-wrapper -->
 
-        <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
+        {{-- <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
 
         <div class="side-menu__block">
             <div class="side-menu__block-overlay custom-cursor__overlay">
@@ -275,8 +121,7 @@
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </div>
-        </div>
+        </div> --}}
 
-    </body>
-    </html>
+    
 @endsection

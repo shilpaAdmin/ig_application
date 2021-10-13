@@ -1,11 +1,6 @@
 @extends('frontend.layouts.master')
 @section('title') Forum Details @endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-
-<body>
-
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
     </div><!-- /.preloader -->
@@ -26,10 +21,7 @@
 
 
         <section class="forum_padding mb-20 mt-2 pt-2">
-
-
             <div class="container">
-
                 <!-- forum box -->
                 <div class="forum__box mb-5">
                     <div class="row ">
@@ -214,9 +206,6 @@
                         </div><!--  forum_box2 -->
                     @endforeach
                 @endif
-
-                
-
 
                 {{-- <div class="forum_box2 mt-5">
 
@@ -404,7 +393,6 @@
                 </div> --}}
             </div>
         </section>
-
     </div><!-- /.page-wrapper -->
 
     @section('script')
@@ -518,6 +506,5 @@
             });
         </script>
     @endsection
-</body>
-</html>
+
 @endsection

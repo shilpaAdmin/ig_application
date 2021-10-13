@@ -7,7 +7,7 @@
         } else {
             $imageUrl= URL::asset('assets/frontend/images/img/j1.jpg');
         }
-        $slug = Str::slug($blog->name, '-');
+        $slug = isset($blog->slug) ? $blog->slug : Str::slug($blog->name, '-');
     @endphp
     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
 

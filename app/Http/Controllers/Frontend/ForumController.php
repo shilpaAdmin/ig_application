@@ -13,14 +13,16 @@ class ForumController extends Controller
 
     public function index(Request $request){
 
-        $forums=ForumModel::select('forum.*','user.name','user.user_image')
-                            ->with(['forumComments'])
-                            ->join('user','user.id','=','forum.user_id')
-                            ->get();
+         if($request->ajax()){
 
-
-
-        return view('frontend.forum_listing',compact('forums'));
+             $forums=ForumModel::select('forum.*','user.name','user.user_image')
+                        ->with(['forumComments'])
+                        ->join('user','user.id','=','forum.user_id')
+                        ->paginate(6);
+            $view = view("frontend.forum.forum-list",compact('forums'))->render();        
+            return response()->json(['html'=>$view]);
+        }   
+        return view('frontend.forum.forum_listing');
     }
 
     public function forumDetails(Request $request,$slug) {
@@ -40,7 +42,7 @@ class ForumController extends Controller
                         ->leftJoin('user','user.id','=','forum.user_id')
                         ->where('slug','=',$slug)
                         ->first();
-
+                        
         return view('frontend.forum_detail',compact('forum'));
     }
 

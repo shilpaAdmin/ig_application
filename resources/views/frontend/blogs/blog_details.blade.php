@@ -176,7 +176,8 @@
                                         } else {
                                             $imageUrl= URL::asset('assets/frontend/images/img/br1.jpg');
                                         }
-                                            $slug = Str::slug($post->name, '-');
+                                            // $slug = Str::slug($post->name, '-');
+                                            $slug = isset($post->slug) ? $post->slug : Str::slug($post->name, '-');
                                         @endphp
                                         <li>
                                             <div class="sidebar__post-image">

@@ -828,32 +828,7 @@
             </div>
 
             <div class="container wow slideInRight animated animated">
-
-                <!-- forum box -->
-                @foreach ($forums as $forum)
-                    <div class="row forum__box">
-                        <div class="col-lg-1  for_profile">
-
-                            <img src="{{ URL::asset('images/user/'.$forum->user_image)}}" class="f__img_left')}}">
-                        </div>
-
-                        <div class="col-lg-9 ">
-                            <a href="{{ route('forumdetail',['slug'=>$forum->slug]) }}" class="for__title">{{ ucwords($forum->question) }}</a>
-
-                            <p class="for_desc">
-                                <span> <a href="#"> {{ucwords($forum->name)}}</a></span>
-                                <span> <a href="#">  {{$forum->created_at->diffForHumans()}}</a></span>
-                                <span> <a href="#">  {{$forum->forumComments->count()}} replies </a></span>
-                            </p>
-                        </div>
-
-                        <div class="col-lg-2 for__user">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d2.jpg')}}" class="f__img_left">
-                            <img src="{{ URL::asset('assets/frontend/images /img/d3.jpg')}}" class="f__img_left margin_minus">
-                            <img src="{{ URL::asset('assets/frontend/images/img/d3.jpg')}}" class="f__img_left margin_minus">
-                        </div>
-                    </div>
-                @endforeach
+                @include('frontend.forum.forum-list')      
             </div>
         </section>
 
@@ -964,7 +939,7 @@
                             $imageUrl= URL::asset('assets/frontend/images/blog/blog-1-img-1.jpg');
                         }
 
-                        $slug = Str::slug($blog->name, '-');
+                        $slug = isset($blog->slug) ? $blog->slug : Str::slug($blog->name, '-');
                     @endphp
     
                         <div class="col-xl-4">
@@ -1327,9 +1302,11 @@
                 </div>
             </div>
         </section>
-    @include('frontend.models.CategoryBusinessListModel')
-    @section('script')
 
+    @include('frontend.models.CategoryBusinessListModel')
+
+
+    @section('script')
         <script>
 
             $(document).ready(function(){
@@ -1357,8 +1334,8 @@
                             var name=data.Result[i]['Name'];
                             var icon=data.Result[i]['Icon'];
                             var redirectStatus=data.Result[i]['redirect_status'];
-console.log("slug");
-console.log(slug);
+                            console.log("slug");
+                            console.log(slug);
                             let model='';
                             let modelid='';
                             resultId=parseInt(data.Result[i]['Id']);

@@ -1,19 +1,17 @@
-        @php
-            $categoryId= Request::get('id') ? Request::get('id') : "";
-            $search= Request::get('search') ? Request::get('search') : "";
-        @endphp
+@php
+    $categoryId= Request::get('id') ? Request::get('id') : "";
+    $search= Request::get('search') ? Request::get('search') : "";
+@endphp
 @extends('frontend.layouts.master')
 @section('title') blog @endsection
 @section('content')
-    <!DOCTYPE html>
-    <html lang="en">
     <script>
          var id= "{{ isset($categoryId) ? $categoryId : '' }}";
          var search= "{{ isset($search) ? $search : '' }}";
          console.log(id)
          console.log(search)
     </script>
-    <body>
+    
         <div class="preloader">
             <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
         </div><!-- /.preloader -->
@@ -44,12 +42,7 @@
 
         </div><!-- /.page-wrapper -->
 
-
-
         @section('script')
            @include('frontend.blogs.blog-list-js')
         @endsection
-    </body>
-
-    </html>
 @endsection

@@ -250,7 +250,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 //Frontend start here
-Route::get('/','HomeController@home')->name('/');
+// Route::get('/','HomeController@home')->name('/');
 Route::get('/Faqs','HomeController@faqs')->name('Faqs');
 Route::get('/contact','HomeController@contact')->name('Contact');
 Route::get('/about','HomeController@about')->name('About');
@@ -268,6 +268,9 @@ Route::get('/gdrp/notice','HomeController@gdrpnotice')->name('Gdrpnotice');
 
 // new developement
 Route::namespace('Frontend')->group(function () {
+
+    // home page
+    Route::get('/','HomeController@index')->name('/');
 
     // login
     Route::get('/login','LoginController@viewLogin')->name('login');
