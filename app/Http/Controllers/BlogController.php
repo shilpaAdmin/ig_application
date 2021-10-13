@@ -44,6 +44,8 @@ class BlogController extends Controller
         return view('blog.create',compact('users'));
     }
 
+    
+
     public function store(Request $request)
     {
         $input = $request->all();
