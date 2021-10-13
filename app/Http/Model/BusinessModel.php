@@ -60,9 +60,9 @@ class BusinessModel extends Model
         return $this->belongsTo('App\Http\Model\UserModel','user_id' ,'id');
     }
 
-    public function user()
-    {
-        return $this->belongsTo('App\User','user_id');
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo('App\User','user_id');
+    // }
 
 }
