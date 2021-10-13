@@ -100,10 +100,10 @@
 
                 <div class="form-group">
                     <label class="control-label text-cutom">Approve Status</label>
-                    <select class="form-control select2" id="txtApproveStatusType" name="txtApproveStatusType">
+                    <select class="form-control select2" id="txtApproveStatus" name="txtApproveStatus">
                         <option value="">--Select--</option>
-                        <option value="active">Approve</option>
-                        <option value="inactive">Disapprove</option>
+                        <option value="1">Approve</option>
+                        <option value="0">Disapprove</option>
                     </select>
                 </div>
 
@@ -212,6 +212,7 @@
                         data.approved = txtApproveStatus
                         data.startDate = startDate
                         data.endDate = endDate
+                        console.log(data);
                     }
                 },
                 columns: [{

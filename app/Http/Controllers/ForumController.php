@@ -11,6 +11,7 @@ use App\Http\Model\ForumModel;
 use App\Http\Model\ForumCommentReplyModel;
 use Illuminate\Support\Str;
 use App\Http\Traits\UserLocationDetailTrait;
+use Carbon\Carbon;
 
 use Auth;
 
@@ -105,9 +106,10 @@ class ForumController extends Controller
         $input=$request->all();
 
         $txtStatusType = isset($request->status) ? $request->status : '';
-        $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+        $txtApproveStatus = isset($request->approved) ? $request->approved : '';
         $storyStartDate = isset($request->startDate) ? $request->startDate : '';
         $storyEndDate = isset($request->endDate) ? $request->endDate : '';
+        // dd($storyStartDate,$storyEndDate);
 
         $preQuery = ForumModel::where('forum.status', '!=', 'deleted')->leftJoin('user',function ($join)
         {
@@ -123,19 +125,13 @@ class ForumController extends Controller
         if(isset($txtApproveStatus) && !empty($txtApproveStatus))
         {
             $result_obj= $preQuery->where('forum.is_approve',$txtApproveStatus);
-
         }
         if(isset($storyStartDate) && !empty($storyStartDate)  && isset($storyEndDate) && !empty($storyEndDate))
         {
             $result_obj= $preQuery->whereBetween('forum.created_at',[$storyStartDate,$storyEndDate]);
-
+            // $result_obj = $preQuery->where('forum.created_at','<=',$storyStartDate.'00:00:00.000000')
+            //                     ->where('forum.created_at','>=',$storyEndDate.'23:59:59.976999');
         }
-
-        // if(isset($storyEndDate) && !empty($storyEndDate))
-        // {
-        //     $result_obj= $preQuery->where('forum.created_at',$storyEndDate);
-
-        // }
         $result_obj = $preQuery->get();
 
         return DataTables::of($result_obj)
@@ -146,19 +142,12 @@ class ForumController extends Controller
         ->addColumn('question_td', function ($result_obj)
         {
             $question_td = '';
-
             if(!empty($result_obj->question))
             $question_td='<a href=" '.route('forum.getCommentReplyList',$result_obj->id).' " >'.ucwords($result_obj->question.$result_obj->id).'</a>';
             //$question_td = '<a href="'.route('forum.getCommentReplyList')">'.ucwords($result_obj->question).'</a>';
 
             return $question_td;
         })
-       /* ->addColumn('question', function ($result_obj)
-        {
-            $question = '';
-            $question = ucwords($result_obj->question);
-            return $question;
-        })*/
         ->addColumn('user_id',function($result_obj){
             $user_id = '';
             $user_id = ucwords($result_obj->user_id);

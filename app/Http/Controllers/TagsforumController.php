@@ -39,8 +39,8 @@ class TagsforumController extends Controller
     {
         $input=$request->all();
 
-        $txtStatusType = isset($request->txtStatusType) ? $request->txtStatusType : '';
-        $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+        $txtStatusType = isset($request->status) ? $request->status : '';
+        $txtApproveStatus = isset($request->approved) ? $request->approved : '';
         $storyStartDate = isset($request->startDate) ? $request->startDate : '';
         $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 

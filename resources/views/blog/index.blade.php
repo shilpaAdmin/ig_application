@@ -272,8 +272,8 @@
         function getListData() {
             var search = '';
             var txtStatusType = $("#txtStatusType").val();
-            var startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
-            var endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
+            var startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY-MM-DD');
+            var endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY-MM-DD');
 
             var str = 'status='+txtStatusType+'&startDate='+startDate+'&endDate='+endDate;
             dataTableAjaxCall(str);

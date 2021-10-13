@@ -120,9 +120,10 @@ class AdvertisementController extends Controller
 
     public function advertisementList(Request $request)
     {
+        // dd($request->all());
         $input = $request->all();
         $txtStatusType = isset($request->status) ? $request->status : '';
-        $txtApproveStatus = isset($request->txtApproveStatus) ? $request->txtApproveStatus : '';
+        $txtApproveStatus = isset($request->approved) ? $request->approved : '';
         $storyStartDate = isset($request->startDate) ? $request->startDate : '';
         $storyEndDate = isset($request->endDate) ? $request->endDate : '';
 
@@ -153,11 +154,6 @@ class AdvertisementController extends Controller
         $result_obj= $preQuery->get();
 
         return DataTables::of($result_obj)
-        // ->addColumn('id', function ($result_obj) {
-        //     $counters = $this->counter++;
-        //     $id = '<div><span>' . $counters . '</span></div>';
-        //     return 'row_'.$id;
-        // })
         ->addColumn('DT_RowId', function ($result_obj)
         {
             return 'row_'.$result_obj->id;
@@ -263,7 +259,7 @@ class AdvertisementController extends Controller
 
             return $command;
         })
-        ->rawColumns(['id','is_approve','name','user_id','category_id','description','continously','start_date','url','image_src','type','is_approve','status_td','command'])
+        ->rawColumns(['DT_RowId','is_approve','name','user_id','category_id','description','continously','start_date','url','image_src','type','is_approve','status_td','command'])
         ->make(true);
     }
 

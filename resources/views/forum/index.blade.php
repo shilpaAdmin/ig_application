@@ -197,9 +197,9 @@
                 url: "{{ url('/admin/forum/forumList') }}",
                 data: function(data) {
                     data.status = txtStatusType,
-                        data.approved = txtApproveStatus
-                        data.startDate = startDate
-                        data.endDate = endDate
+                    data.approved = txtApproveStatus
+                    data.startDate = startDate
+                    data.endDate = endDate
                 }
             },
 
@@ -403,8 +403,8 @@
 
         txtStatusType = $("#txtStatusType").val();
         txtApproveStatus = $("#txtApproveStatus").val();
-         startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY/MM/DD');
-         endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY/MM/DD');
+         startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY-MM-DD');
+         endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY-MM-DD');
          str = '?txtStatusType='+txtStatusType+'&txtApproveStatus='+txtApproveStatus+'&startDate='+startDate+'&endDate='+endDate;
         dataTableAjaxCall();
         dt.ajax.reload();

@@ -147,6 +147,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('blog/update/{id}', 'BlogController@update')->name('blog.update');
         Route::get('blog/blogList', 'BlogController@bloglist')->name('datatable.bloglist');
         Route::get('blog/delete/{id}', 'BlogController@delete')->name('blog.delete');
+        Route::get('blog/getcommentreplylist/{id}', 'BlogController@getCommentReplyList')->name('blog.getCommentReplyList');
+        Route::post('blog/deleteReply', 'BlogController@deleteReply')->name('blog.deleteReply');
+        Route::post('blog/deleteComment', 'BlogController@deleteComment')->name('blog.deleteComment');
+
+
+
 
         //carrier routes
         Route::get('carrier', 'CarrierController@index')->name('carrierDetail');
@@ -271,7 +277,7 @@ Route::namespace('Frontend')->group(function () {
 
     // login
     Route::get('/login','LoginController@viewLogin')->name('login');
-    
+
     // forum & comments - likes
     Route::get('/forum','ForumController@index')->name('ForumList');
     Route::get('/forum/{slug}','ForumController@forumDetails')->name('forumdetail');
@@ -284,7 +290,7 @@ Route::namespace('Frontend')->group(function () {
         Route::get('/','MatrimoneyController@viewMatrimoney')->name('matrimoney');
         Route::get('/{slug}','MatrimoneyController@matrimoneyDetails')->name('matrimoney.details');
     });
-    
+
     // Cateogry list or Details page
     Route::group(['prefix' => 'category'], function () {
         Route::get('/{slug}','CategoryController@viewCategoryBusinessList')->name('category.business-list');

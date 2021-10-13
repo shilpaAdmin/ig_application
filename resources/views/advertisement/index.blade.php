@@ -27,9 +27,6 @@
                                         class="bx bx-plus label-icon"></i>ADD
                                     Advertisment </a></h4>
                         </div>
-
-
-
                     </div>
 
                 </div>
@@ -53,7 +50,7 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>Id</th>
+                                    {{-- <th>Id</th> --}}
                                     <th>Name</th>
                                     <th>User</th>
                                     <th>Category</th>
@@ -213,6 +210,7 @@
                             data.approved = txtApproveStatus
                             data.startDate = startDate
                             data.endDate = endDate
+
                         }
 
                 },
@@ -227,16 +225,15 @@
                         orderable: false,
                         searchable: false,
                         targets: 0,
-                        visible: false
+                        visible: true
                     },
-
-                    {
+                    /*{
                         data: 'id',
                         name: 'id',
                         orderable: false,
                         searchable: false,
                         targets: 1
-                    },
+                    },*/
                     {
                         data: 'name',
                         name: 'name',
@@ -426,16 +423,17 @@
 
             var str = '?txtStatusType=' + txtStatusType + '&txtApproveStatus=' + txtApproveStatus + '&startDate=' +
                 startDate + '&endDate=' + endDate;
-
+                alert(str);
             dataTableAjaxCall();
             dt.ajax.reload();
         }
 
         function clearListData() {
 
-            $("#txtStatusType").val('');
-            $("#txtApproveStatus").val('');
+            txtStatusType =  $("#txtStatusType").val('');
+            txtApproveStatus =  $("#txtApproveStatus").val('');
             dataTableAjaxCall();
+
         }
 
 
