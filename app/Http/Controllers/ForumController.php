@@ -213,7 +213,7 @@ class ForumController extends Controller
         ->make(true);
     }
 
-    public function getCommentReplyList($id)
+    public function getCommentReplyList(Request $request, $id)
     {
         $input = $request->all();
         $forum_id=$id;
