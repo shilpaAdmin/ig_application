@@ -14,6 +14,11 @@
         } else {
             $imageUrl=URL::asset('assets/frontend/images/listings/job-grid.jpg');
         }
+
+        $units=null;
+        if(isset($business->unit_option) && !empty($business->unit_option)){
+            $units=explode (",", isset($business->unit_option) ? $business->unit_option : ''); 
+        }
         $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
     @endphp
     <div class="col-xl-4 col-md-6 col-sm-12">
@@ -35,12 +40,15 @@
                 <div class="title">
                     <h3><a href="{{$detailsPageUrl}}">{{$name}}<span class="fa fa-check"></span></a></h3>
                     <p class="mb-0">{{$about}}</p>
-                    <p class="mb-0">{{$address}} , {{$description}}</p>
+                    <p class="mb-0">{{$address}}</p>
                 </div>
-                <ul class="list-unstyled listings_three-page_contact_info">
-                    <li class="d-inline-block"><a class="job_list_pill" href="#"> Part-time </a></li>
-                    <li class="d-inline-block"><a class="job_list_pill" href="#"> Private </a></li>
-                </ul>
+                @if (isset($units) && count($units))
+                    <ul class="list-unstyled listings_three-page_contact_info">
+                        @foreach ($units as $unit)
+                            <li class="d-inline-block"><a class="job_list_pill" href="javascript:void(0);"> {{$unit}}</a></li>
+                        @endforeach
+                    </ul>
+                @endif
                 <div class="listings_three-page_content_bottom">
                     <div class="left">
                         <h6> </h6>

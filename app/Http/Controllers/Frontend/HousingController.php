@@ -40,25 +40,25 @@ class HousingController extends Controller
         // redirect perticular business details page
         if($categoryPageRedirect=="0"){
             // housing details
-            return view('frontend.housing_details', compact('businessData','similarData'));
+            return view('frontend.category.housing_details', compact('businessData','similarData'));
         } else if($categoryPageRedirect=="1"){
             // job details
-            return view('frontend.job_details',compact('businessData','similarData'));
+            return view('frontend.category.job_details',compact('businessData','similarData'));
         }else if($categoryPageRedirect=="2"){
             // educations
-            return view('frontend.education_details',compact('businessData','similarData'));
+            return view('frontend.category.education_details',compact('businessData','similarData'));
         }else if($categoryPageRedirect=="3"){
             // taxation details
-            return view('frontend.taxation_details',compact('businessData','similarData'));
+            return view('frontend.category.taxation_details',compact('businessData','similarData'));
         }else if($categoryPageRedirect=="4"){
             // tour & travel(transport) details
-            return view('frontend.tourtravel_details',compact('businessData','similarData'));
+            return view('frontend.category.tourtravel_details',compact('businessData','similarData'));
         }else if($categoryPageRedirect=="8"){
             // entaintment details
-            return view('frontend.entertainment_details',compact('businessData','similarData'));
+            return view('frontend.category.entertainment_details',compact('businessData','similarData'));
         }else if($categoryPageRedirect=="9"){
             // event details
-            return view('frontend.event_details',compact('businessData','similarData'));
+            return view('frontend.category.event_details',compact('businessData','similarData'));
         }
 
     }

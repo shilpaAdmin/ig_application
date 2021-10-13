@@ -4,6 +4,9 @@
 
 @extends('frontend.layouts.master')
 @section('title') Job Details @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+@endsection
 @section('content')
 
     <div class="preloader">
@@ -23,31 +26,34 @@
                 </div>
                 <div class="modal-body">
 
-                    <form action="">
+                    <form action="" id="jobApplyForm">
+                        <input type="hidden" id="userid" name="RegisterId" value="0">
+                        <input type="hidden" id="JobId" name="JobId" value="{{ ucwords($businessData['id']) }}">
+                        <input type="hidden" id="subject" name="subject" value="{{ ucwords($businessData['name']) }}">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Name</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        aria-describedby="emailHelp" required>
 
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Contact Number</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp">
+                                    <label for="number">Contact Number</label>
+                                    <input type="text" class="form-control" id="number" name="number"
+                                        aria-describedby="emailHelp" required>
 
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp">
+                                    <label for="email">Email address</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        aria-describedby="emailHelp" required>
 
                                 </div>
                             </div>
@@ -56,9 +62,9 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Profile / Skill set</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1"
-                                        rows="3"></textarea>
+                                    <label for="skiell">Profile / Skill set</label>
+                                    <textarea class="form-control" id="skill" name='skill'
+                                        rows="3" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -68,12 +74,23 @@
                                 <span class="input-group-text" id="inputGroupFileAddon01">Upload Resume</span>
                             </div>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                    aria-describedby="inputGroupFileAddon01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                <input type="file" class="custom-file-input" id="resume" name="Resume"
+                                    aria-describedby="inputGroupFileAddon01" required>
+                                <label class="custom-file-label" for="resume">Choose file</label>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="input-group my-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon02">Upload Cover Letter</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="coverLetter" name="coverLetter"
+                                    aria-describedby="inputGroupFileAddon02">
+                                <label class="custom-file-label" for="coverLetter">Choose file</label>
+                            </div>
+                        </div>
+
+                        {{-- <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">Cover Letter</label>
@@ -81,11 +98,11 @@
                                         rows="3"></textarea>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button id="submit" type="submit" class="btn btn-success">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -126,15 +143,7 @@
                             </div>
                         </div>
                     </div>
-                    <!--  <div class="col-xl-4 col-lg-4 seconboxlisd">
-                        <div class="main_bottom_left_titlet">
-                            <h4>Unit options</h4>
-                        </div>
-                        <button type="button" class="btn btnunit">2 BHK Appartment</button>
-                        <button type="button" class="btn btnunit">3 BHK Appartment</button>
-                        <button type="button" class="btn btnunit">4 BHK Appartment</button>
-                        <button type="button" class="btn btnunit">5 BHK Appartment</button>
-                    </div> -->
+                   
                     <div class="col-xl-6 col-lg-6">
                         <div class="main_bottom_right">
 
@@ -148,7 +157,7 @@
                                     $date = date('M d,Y', $timestamp );
                                 ?>
                                 <li>Date Posted <span>{{ isset($date)? $date :'-'  }}</span></li>
-                                <li><a href="#">Add to Favourite<i class="far fa-heart"></i></a></li>
+                                <li><a href="#" class="add-to-favourite">Add to Favourite<i class="far fa-heart"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -167,7 +176,7 @@
                             <div class="listings_details_text">
                                 <h3 class="mb-3">Description</h3>
 
-                                <p class="first_text mb-0">{{ ucwords($businessData['description']) }} </p>
+                                <p class="first_text mb-0">{{ ucfirst($businessData['description']) }} </p>
 
                             </div>
 
@@ -215,6 +224,19 @@
                             </div>
 
 
+                            @php
+                                // Key Responsibilities
+                                $responsibilities=null;
+                                if(isset($businessData->sub_description_1) && !empty($businessData->sub_description_1)){
+                                    $responsibilities=explode (".", isset($businessData->sub_description_1) ? $businessData->sub_description_1 : ''); 
+                                }
+
+                                // Skill & Experience
+                                $skills=null;
+                                if(isset($businessData->sub_descrition) && !empty($businessData->sub_descrition)){
+                                    $skills=explode (".", isset($businessData->sub_descrition) ? $businessData->sub_descrition : ''); 
+                                }
+                            @endphp
 
                             <div class="listings_details_features my-5">
                                 <div class="listings_details_features_title">
@@ -223,9 +245,14 @@
                                 <div class="row">
 
                                     <div class="col-lg-12">
-                                        <ul class="listings_details_features_list">
-                                            <li class="job_li_icon">{{ ucwords($businessData['sub_description_1']) }}</li>
-                                        </ul>
+                                        @if (isset($responsibilities))
+                                           
+                                            <ul class="listings_details_features_list">
+                                                @foreach ($responsibilities as $item)
+                                                    <li class="job_li_icon">{{ ucwords($item) }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -236,11 +263,14 @@
                                     <h3 class="mb-3">Skill & Experience</h3>
                                 </div>
                                 <div class="row">
-
                                     <div class="col-lg-12">
-                                        <ul class="listings_details_features_list">
-                                            <li class="job_li_icon">{{ ucwords($businessData['sub_descrition']) }}</li>
-                                        </ul>
+                                        @if (isset($skills))
+                                            <ul class="listings_details_features_list">
+                                                @foreach ($skills as $item)
+                                                    <li class="job_li_icon">{{ ucwords($item) }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -255,7 +285,18 @@
                                     <!--Single_item-->
                                     <div class="additional_info_single">
                                         <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>{{ ucwords($businessData['sub_descrition']) }}</p>
+                                            @if (isset($businessData['contact_person_name']))
+                                                <p><i class="fas fa-dot-circle"></i>{{ ucwords($businessData['contact_person_name']) }}</p>
+                                            @endif
+                                            @if (isset($businessData['mobile_number']))
+                                                <p><i class="fas fa-dot-circle"></i>{{ ucwords($businessData['mobile_number']) }}</p>
+                                            @endif
+                                            @if (isset($businessData['email_id']))
+                                                <p><i class="fas fa-dot-circle"></i>{{ $businessData['email_id'] }}</p>
+                                            @endif
+                                            @if (isset($businessData['website']))
+                                                <p><i class="fas fa-dot-circle"></i>{{ ucwords($businessData['website']) }}</p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -268,20 +309,25 @@
 
 
         @if (isset($similarData))
+            @php
+                $currentUrl = request()->segments();
+                $slug= isset($currentUrl[1]) ? $currentUrl[1] : $currentUrl[0] ;
+                $listPageUrl= route('category.business-list',['slug'=>$slug]);
+            @endphp
             <section class="mt-5 mb-5">
                 <div class="container">
                     <div class="row mb-4">
                         <div class="col-6">
                             <h4>Similar&nbsp;Jobs</h4>
                         </div>
-                        <div class="col-6 text-right"> <a href="#" class="link-simple"> View All </a> </div>
+                        <div class="col-6 text-right"> <a href="{{$listPageUrl}}" class="link-simple"> View All </a> </div>
                     </div>
 
                     <div class="row">
                         @foreach($similarData as $similarDatas)
                         <div class="col-xl-6 col-md-12 col-sm-12">
                             <div class="listings_two_page_content joblist_shadow">
-                                <!--listings Two Page Single-->
+                               
                                 @php
                                     if (isset($similarDatas['media_file_json']) && !empty($similarDatas['media_file_json'])) {
                                         $attachmentArray = json_decode($similarDatas['media_file_json'], true);
@@ -289,7 +335,6 @@
                                         $attachmentArray = [];
                                     }
                                     $q = 1;
-
 
                                     if(count($attachmentArray)){
                                         $imageUrl= URL::to('/images/business').'/'.$attachmentArray[0]['Media1'] ;
@@ -302,8 +347,10 @@
                                     } else {
                                         $detailPageUrl = "javascript:void(0);";
                                     }
-    
-
+                                    $units=null;
+                                    if(isset($similarDatas->unit_option) && !empty($similarDatas->unit_option)){
+                                        $units=explode (",", isset($similarDatas->unit_option) ? $similarDatas->unit_option : ''); 
+                                    }
                                 @endphp
                                 <div class="listings_two_page_single overflow-y__hidden">
                                     <div class="listings_two_page_img">
@@ -321,12 +368,13 @@
                                             <p class="mb-0">{{ ucwords($similarDatas['about']) }}</p>
                                             <p class="mb-0">{{ ucwords($similarDatas['address']) }}</p>
                                         </div>
-                                        <ul class="list-unstyled listings_three-page_contact_info">
-                                            <li class="d-inline-block"><a class="job_list_pill" href="#"> Full-time</a>
-                                            </li>
-                                            <li class="d-inline-block"><a class="job_list_pill" href="#"> Private</a>
-                                            </li>
-                                        </ul>
+                                        @if (isset($units) && count($units))
+                                            <ul class="list-unstyled listings_three-page_contact_info">
+                                                @foreach ($units as $unit)
+                                                    <li class="d-inline-block"><a class="job_list_pill" href="javascript:void(0);"> {{$unit}}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
                                         <div class="listings_three-page_content_bottom">
                                             <div class="left">
 
@@ -348,5 +396,85 @@
         @endif
 
     </div><!-- /.page-wrapper -->
+
+@endsection
+@section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('input[type="file"]').next().text("Choose file..");
+        $('#jobApplyForm').on('submit',function(e){
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "{{ route('ApplyForJob') }}",
+                type:"POST",
+
+                datatype:"json",
+                cache:false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success:function(response){
+                    if(response.Status){
+                        swal("Done!","Job Apply succesfully..!!","success");
+                    }else{
+                        swal("Warning", "There is something wrong please try after some time", "error");
+                    }
+                    $("#jobApplyForm")[0].reset();
+                    $('#staticBackdrop').modal('toggle');
+                    $('input[type="file"]').next().text("Choose file..");
+                },
+                error: function(response) {
+                    $('#nameErrorMsg').text(response.responseJSON.errors.name);
+                    $('#emailErrorMsg').text(response.responseJSON.errors.email);
+                    $('#mobileErrorMsg').text(response.responseJSON.errors.mobile);
+                    $('#messageErrorMsg').text(response.responseJSON.errors.message);
+                }
+            });
+        });
+
+        $('input[type="file"]').change(function (e) {
+            var filename = $(this).val().replace(/C:\\fakepath\\/i, '');
+            $(this).next().text(filename);
+        });
+
+        $(document).on('click','.add-to-favourite',function(e){
+            e.preventDefault();
+           
+            // $.ajax({
+            //     url: "{{ route('ApplyForJob') }}",
+            //     type:"POST",
+
+            //     datatype:"json",
+            //     cache:false,
+            //     contentType: false,
+            //     processData: false,
+            //     data: formData,
+            //     success:function(response){
+            //         if(response.Status){
+            //             swal("Done!","Job Add To Favourite Succesfully..!!","success");
+            //         }else{
+            //             swal("Warning", "There is something wrong please try after some time", "error");
+            //         }
+            //         $("#jobApplyForm")[0].reset();
+            //         $('#staticBackdrop').modal('toggle');
+            //         $('input[type="file"]').next().text("Choose file..");
+            //     },
+            //     error: function(response) {
+            //        console.log('error');
+            //        console.log(response);
+            //     }
+            // });
+        });
+    });
+</script>
 
 @endsection

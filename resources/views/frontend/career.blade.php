@@ -455,75 +455,42 @@
 
 $(document).ready(function () {
 
-
-$('#jobApplyForm').on('submit',function(e){
-    e.preventDefault();
-
-    // var name = $('#name').val();
-    // var email = $('#email').val();
-    // var number = $('#number').val();
-    // var message = $('#message').val();
-    // var subject = $('#subject').val();
-    // var resume = $('#resume').val();
-    // var skill = $('#skill').val();
-    // var coverLetter = $('#coverLetter').val();
-    // var RegisterId = $('#hdnUserId').val();
-    var formData = new FormData(this);
-
-    $.ajaxSetup({
+    $('#jobApplyForm').on('submit',function(e){
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
+        $.ajax({
+            url: "{{ route('ApplyForJob') }}",
+            type:"POST",
 
-    $.ajax({
-    url: "{{ route('ApplyForJob') }}",
-    type:"POST",
-
-    datatype:"json",
-    cache:false,
-    contentType: false,
-    processData: false,
-    data: formData,
-
-        // data = data,
-        // name:name,
-        // email:email,
-        // number:number,
-        // message:message,
-        // subject :subject,
-        // Resume :resume,
-        // skill :skill,
-        // coverLetter :coverLetter,
-        // RegisterId :RegisterId,
-
-
-        success:function(response){
-
-            console.log(response);
-
-            if(response.Status){
-                swal("Done!","It was succesfully inserted!","success");
-            }else{
-                swal("Warning", "There is something wrong please try after some time", "error");
+            datatype:"json",
+            cache:false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success:function(response){
+                console.log(response);
+                if(response.Status){
+                    swal("Done!","It was succesfully inserted!","success");
+                }else{
+                    swal("Warning", "There is something wrong please try after some time", "error");
+                }
+                $("#jobApplyForm")[0].reset();
+            },
+            error: function(response) {
+                $('#nameErrorMsg').text(response.responseJSON.errors.name);
+                $('#emailErrorMsg').text(response.responseJSON.errors.email);
+                $('#mobileErrorMsg').text(response.responseJSON.errors.mobile);
+                $('#messageErrorMsg').text(response.responseJSON.errors.message);
             }
-            $("#jobApplyForm")[0].reset();
-
-            console.log(response);
-        },
-        error: function(response) {
-            $('#nameErrorMsg').text(response.responseJSON.errors.name);
-            $('#emailErrorMsg').text(response.responseJSON.errors.email);
-            $('#mobileErrorMsg').text(response.responseJSON.errors.mobile);
-            $('#messageErrorMsg').text(response.responseJSON.errors.message);
-        },
-
+        });
     });
-    });
-
 });
-
 
 </script>
 @endsection

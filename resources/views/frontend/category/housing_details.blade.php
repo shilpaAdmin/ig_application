@@ -124,6 +124,7 @@
         </section>
 
         @if (isset($similarData))
+            
             <section class="mt-5 mb-5">
                 <div class="container">
                     <div class="row mb-4">
