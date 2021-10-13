@@ -1202,7 +1202,7 @@
                     </div>
 
                     <div class="block-title text-center color__white" style="position:relative;">
-                        <h4>Let's Find out</h4>
+                        <h4 class="h4_hm_white">Let's Find out</h4>
                         <h2>How It Works</h2>
                         <p>Lorem ipsum dolor sit amet, cibo mundi ea duo, vim exerci phaedrum</p>
                     </div>

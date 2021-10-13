@@ -1018,5 +1018,11 @@ $('.adv_main').owlCarousel({
 })(jQuery);
 
 
-
+ 
+        $(document).ready(function () {
+            $(".filter_by_tagstitile").click(function () {
+                $(".filter_by_tagsall").toggle();
+            });
+        });
+  
 
