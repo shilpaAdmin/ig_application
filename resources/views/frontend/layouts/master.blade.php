@@ -76,7 +76,10 @@
             console.log(user['Email']);
             console.log(user['Name']);
         }
-     
+     console.log('user data')
+     console.log(token);
+     console.log(userObj);
+     console.log(user);
            
             $(document).ready(function () {
                 setUserData(user,token);

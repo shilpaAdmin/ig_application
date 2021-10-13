@@ -67,7 +67,7 @@ Route::post('BusinessEnquiryList', 'Api\BusinessController@getBusinessUserEnquir
 
 Route::post('ContactIG', 'Api\APIAuthController@userContactMessages')->name('userContactMessages')->middleware('CheckHashToken');
 
-Route::post('UserFavouriteBusiness', 'Api\BusinessController@addUserFavouriteBusiness')->middleware('CheckHashToken');
+Route::post('UserFavouriteBusiness', 'Api\BusinessController@addUserFavouriteBusiness')->name('UserFavouriteBusiness')->middleware('CheckHashToken');
 
 Route::post('BlogsDetail', 'Api\BlogController@blogDetailData')->middleware('CheckHashToken');
 

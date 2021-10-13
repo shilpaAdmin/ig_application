@@ -1269,7 +1269,7 @@ class BusinessController extends Controller
     public function addUserFavouriteBusiness(Request $request)
     {
         $input=$request->all();
-
+        // dd($input);
         if(!isset($input['RegisterId']) || empty($input['RegisterId']))
         {
             $error[] = 'RegisterId Must be Required!';

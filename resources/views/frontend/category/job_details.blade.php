@@ -157,7 +157,7 @@
                                     $date = date('M d,Y', $timestamp );
                                 ?>
                                 <li>Date Posted <span>{{ isset($date)? $date :'-'  }}</span></li>
-                                <li><a href="#" class="add-to-favourite">Add to Favourite<i class="far fa-heart"></i></a></li>
+                                <li><a href="#" class="add-to-favourite" data-businessid="{{$businessData->id}}">Add to Favourite<i class="far fa-heart"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -396,10 +396,13 @@
         @endif
 
     </div><!-- /.page-wrapper -->
-
+    {{-- @php
+        dd(auth()->user())
+    @endphp --}}
 @endsection
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+@include('frontend.category.add_to_favourite')
 <script>
     $(document).ready(function () {
 
@@ -407,11 +410,11 @@
         $('#jobApplyForm').on('submit',function(e){
             e.preventDefault();
             var formData = new FormData(this);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
 
             $.ajax({
                 url: "{{ route('ApplyForJob') }}",
@@ -444,35 +447,6 @@
         $('input[type="file"]').change(function (e) {
             var filename = $(this).val().replace(/C:\\fakepath\\/i, '');
             $(this).next().text(filename);
-        });
-
-        $(document).on('click','.add-to-favourite',function(e){
-            e.preventDefault();
-           
-            // $.ajax({
-            //     url: "{{ route('ApplyForJob') }}",
-            //     type:"POST",
-
-            //     datatype:"json",
-            //     cache:false,
-            //     contentType: false,
-            //     processData: false,
-            //     data: formData,
-            //     success:function(response){
-            //         if(response.Status){
-            //             swal("Done!","Job Add To Favourite Succesfully..!!","success");
-            //         }else{
-            //             swal("Warning", "There is something wrong please try after some time", "error");
-            //         }
-            //         $("#jobApplyForm")[0].reset();
-            //         $('#staticBackdrop').modal('toggle');
-            //         $('input[type="file"]').next().text("Choose file..");
-            //     },
-            //     error: function(response) {
-            //        console.log('error');
-            //        console.log(response);
-            //     }
-            // });
         });
     });
 </script>

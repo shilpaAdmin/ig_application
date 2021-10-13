@@ -1,6 +1,9 @@
 
 @extends('frontend.layouts.master')
 @section('title') Housing Details @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+@endsection
 @section('content')
 
     <div class="preloader">
@@ -29,9 +32,6 @@
                             <div class="main_bottom_left_title">
                                 <h4>{{ ucwords($businessData['name']) }}<i class="fa fa-check"></i></h4>
                                 <small>{{ ucwords($businessData['about']) }}</small></br>
-                                <small>{{ ucwords($businessData['address']) }}</small>
-
-
                             </div>
                             <div class="main_bottom_rating_time">
 
@@ -60,7 +60,7 @@
 
                             <ul class="list-unstyled">
                                 <li>Selling Price<span>${{ $businessData['selling_price'] }}</span></li>
-                                <li><a href="#">Add to Favourite<i class="far fa-heart"></i></a></li>
+                                <li><a href="#" class="add-to-favourite" data-businessid="{{$businessData->id}}">Add to Favourite<i class="far fa-heart"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -75,11 +75,20 @@
                     <div class="col-xl-8">
                         <div class="listings_details_left">
                             <div class="listings_details_text">
+                                @php
+                                    $units=null;
+                                    if(isset($businessData->unit_option) && !empty($businessData->unit_option)){
+                                        $units=explode (",", isset($businessData->unit_option) ? $businessData->unit_option : ''); 
+                                    }
+                                @endphp
+                        
                                 <h3 class="mb-3">Unit Options</h3>
                                 <div>
-                                    <button type="button" class="btn btnunit">{{ ucwords($businessData['unit_option']) }} Appartment</button>
-                                    {{-- <button type="button" class="btn btnunit">3 BHK Appartment</button>
-                                    <button type="button" class="btn btnunit">4 BHK Appartment</button> --}}
+                                    @if (isset($units))
+                                        @foreach ($units as $unit)
+                                            <button type="button" class="btn btnunit">{{ $unit }} Appartment</button>
+                                        @endforeach
+                                    @endif
                                 </div>
 
                             </div>
@@ -102,7 +111,8 @@
                                     <!--Single_item-->
                                     <div class="additional_info_single">
                                         <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>{{ ucwords($businessData['sub_descrition']) }}</p>
+                                            {{-- <p><i class="fas fa-dot-circle"></i>{{ ucwords($businessData['sub_descrition']) }}</p> --}}
+                                            {!! ucwords($businessData['sub_descrition']) !!}
                                         </div>
                                     </div>
 
@@ -125,13 +135,18 @@
 
         @if (isset($similarData))
             
+        @php
+            $currentUrl = request()->segments();
+            $slug= isset($currentUrl[1]) ? $currentUrl[1] : $currentUrl[0] ;
+            $listPageUrl= route('category.business-list',['slug'=>$slug]);
+        @endphp
             <section class="mt-5 mb-5">
                 <div class="container">
                     <div class="row mb-4">
                         <div class="col-6">
                             <h4>Similar&nbsp;Properties</h4>
                         </div>
-                        <div class="col-6 text-right"> <a href="#" class="link-simple"> View All </a> </div>
+                        <div class="col-6 text-right"> <a href="{{$listPageUrl}}" class="link-simple"> View All </a> </div>
                     </div>
                     <div class="row">
                         @foreach($similarData as $similarDatas)
@@ -139,6 +154,8 @@
                                 <div class="listings_two_page_content">
                                     <div class="listings_two_page_single">
                                         @php
+                                            $user = \App\Http\Model\UserModel::find($similarDatas->user_id);
+
                                             if (isset($similarDatas['media_file_json']) && !empty($similarDatas['media_file_json'])) {
                                                 $attachmentArray = json_decode($similarDatas['media_file_json'], true);
                                             } else {
@@ -170,12 +187,13 @@
                                             <div class="title">
                                                 <h3><a href="{{$detailPageUrl}}">{{ ucwords($similarDatas['name']) }}<span
                                                             class="fa fa-check"></span></a></h3>
-                                                <p>{{ ucwords($similarDatas['address']) }} , {{ ucwords($similarDatas['description']) }}</p>
+                                                <p>{{ ucwords($similarDatas['about']) }}</p>
                                             </div>
                                             <ul class="list-unstyled listings_three-page_contact_info">
-                                                <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
-                                                <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft.
-                                                        onwards</a></li>
+                                                <li><i class="fas fa-map-marker-alt"></i>{{ ucwords($similarDatas['address']) }}</li>
+                                                @if (isset($user) && $user)
+                                                    <li><a href="#"><i class="fab fa-xing-square"></i>{{ $user->name}}</a></li>
+                                                @endif
                                             </ul>
                                             <div class="listings_three-page_content_bottom">
                                                 <div class="left">
@@ -196,5 +214,9 @@
             </section>
         @endif
     </div><!-- /.page-wrapper -->
+@endsection
 
+@section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    @include('frontend.category.add_to_favourite')
 @endsection

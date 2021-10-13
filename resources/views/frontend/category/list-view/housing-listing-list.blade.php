@@ -4,6 +4,7 @@
 @php
 
     $name= $business->name ? ucwords($business->name) :'-';
+    $about= $business->about ? ucwords($business->about) :'-';
     $address= $business->address ? ucwords($business->address) :'-';
     $description= $business->description ? ucwords($business->description) :'-';
     $date=$business->created_at->diffForHumans();
@@ -14,7 +15,7 @@
     } else {
         $imageUrl=URL::asset('assets/frontend/images/img/listimghousing.png');
     }
-
+    $user = \App\Http\Model\UserModel::find($business->user_id);
     $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
 @endphp
 
@@ -32,12 +33,15 @@
                     <div class="title">
                         <h3><a href="{{$detailsPageUrl}}">{{$name}}<span
                                     class="fa fa-check"></span></a></h3>
-                        <p >{{$address}} , {{$description}}</p>
+                        <p >{{$about}} </p>
                     </div>
                     <ul class="list-unstyled listings_three-page_contact_info">
-                        <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
-                        <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft.
-                                onwards</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i>{{$address}}</li>
+                        @if (isset($user) && $user)
+                            <li><a href="#"><i class="fab fa-xing-square"></i>{{ $user->name}}</a></li>
+                        @endif
+                        {{-- <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft.
+                                onwards</a></li> --}}
                     </ul>
                     <div class="listings_three-page_content_bottom">
                         <div class="left">
