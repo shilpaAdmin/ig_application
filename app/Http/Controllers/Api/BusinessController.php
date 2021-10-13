@@ -1138,7 +1138,7 @@ class BusinessController extends Controller
 
         if(isset($input['ListId']) && !empty($input['ListId']))
         {
-            $business=BusinessModel::where('id',$input['ListId'])->first();
+            $business=BusinessModel::with(['user','category'])->where('id',$input['ListId'])->first();
 
             if($business===null)
             {
@@ -1146,10 +1146,20 @@ class BusinessController extends Controller
             }
         }
 
+        //print_r($business);
+        
+        $user_name='';
+
+        if($business->user_id !=0)
+        $user_name=$business['user']->name;
+
         $status='';
         $statusMessage='';
         if(BusinessUserEnquiryModel::insert(['business_id'=>$input['ListId'],'user_id'=>$input['RegisterId']]))
         {
+            if(!empty($user_name) && !empty($business->user_id) && $business->user_id!=0 && !empty($business->category_id) && $business->category_id!=0 )
+            $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($business->user_id,$input['ListId'],$business['user']['name'].' your business enquired.','service',$business['category']->name,'business enquiry');
+
             $status=true;
             $statusMessage='User enquiry successfully !';
         }
@@ -1297,7 +1307,7 @@ class BusinessController extends Controller
 
         if(isset($input['ListId']) && !empty($input['ListId']))
         {
-            $business=BusinessModel::where('id',$input['ListId'])->first();
+            $business=BusinessModel::with(['user','category'])->where('id',$input['ListId'])->first();
 
             if($business===null)
             {
@@ -1429,7 +1439,7 @@ class BusinessController extends Controller
             for($i=0;$i<$countForum;$i++)
             {
                 $dataArray['Forum'][$i]['Id']=strval($forumData[$i]['id']);
-                $dataArray['Forum'][$i]['Id']=!empty($forumData[$i]['question'])?$forumData[$i]['question']:'';
+                $dataArray['Forum'][$i]['Question']=!empty($forumData[$i]['question'])?$forumData[$i]['question']:'';
                 $dataArray['Forum'][$i]['ByUser']=!empty($forumData[$i]['user']['name'])?$forumData[$i]['user']['name']:'';
 
                 $user_image='';

@@ -40,3 +40,7 @@ ALTER TABLE `forum` ADD `slug` TEXT NULL DEFAULT NULL AFTER `id`;
 ALTER TABLE `category` ADD `slug` TEXT NULL DEFAULT NULL AFTER `name`;
 
 ALTER TABLE `matrimonial` ADD `slug` TEXT NULL DEFAULT NULL AFTER `type_city_or_country`;
+
+ALTER TABLE `user` ADD `device_type` ENUM('android','ios') NOT NULL DEFAULT 'android' AFTER `device_token`;
+
+ALTER TABLE `notifications` ADD `type` VARCHAR(100) NULL DEFAULT NULL AFTER `business_id`;
