@@ -143,15 +143,9 @@
     });
     @foreach($tagsData as $tagdata)
 
-    var $option = $("<option selected></option>").val({
-        {
-            $tagdata - > id
-        }
-    }).text('{{$tagdata->name}}');
+    var $option = $("<option selected></option>").val('{{$tagdata->id}}').text('{{$tagdata->name}}');
     $('#txtSearchTag').append($option).trigger('change');
     @endforeach
-
-
 
     var str_url = '{{route("faqtagAutoComplete")}}';
 
