@@ -35,8 +35,8 @@
                         class="bx bx-check-double"></i><span>Business</span></a> --}}
 
                         <a href="javascript: void(0);" class="has-arrow waves-effect ">
-                            <i class="bx bx-check-double"></i>
-                            <span>Business Sub-Menus</span>
+                        <i class="bx bx-briefcase-alt-2"></i>
+                            <span>Business</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
                             <?php
@@ -47,7 +47,7 @@
                                                 foreach($subCategoryData as $dynamicData)
                                                 {
                                         ?>
-                                                <li><a href="{{ route('subCategoryList',$dynamicData->id) }}"><i class="mdi mdi-music-note-whole"></i>{{ $dynamicData->name }}</a></li>
+                                                <li><a href="{{ route('subCategoryList',$dynamicData->id) }}"><i class="mdi mdi-music-note-whole subcaticon"></i><p class="mainsubmenu">{{ $dynamicData->name }}</p></a></li>
                                         <?php
                                                 }
                                         }
