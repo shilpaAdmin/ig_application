@@ -4477,8 +4477,8 @@ a.undar_line {
 
 #custom_saction_filter {
   background-color: #fff;
-  -webkit-box-shadow: 0 0 24px 0 rgba(0, 0, 0, .06), 0 1px 0 0 rgba(0, 0, 0, .02);
-  box-shadow: 0 0 24px 0 rgba(0, 0, 0, .06), 0 1px 0 0 rgba(0, 0, 0, .02);
+  -webkit-box-shadow: 0 0 24px 0 rgb(0 0 0 / 6%), 0 1px 0 0 rgb(0 0 0 / 2%);
+  box-shadow: 0 0 24px 0 rgb(0 0 0 / 6%), 0 1px 0 0 rgb(0 0 0 / 2%);
   display: block;
   position: fixed;
   -webkit-transition: all .2s ease-out;
@@ -4487,9 +4487,9 @@ a.undar_line {
   z-index: 9999;
   float: right!important;
   right: -280px;
-  top: 67%;
+  top: 60%;
   bottom: 0;
-  height: 400px;
+  height: 470px;
   transform: translateY(-50%);
   border: 1px solid #2a3042;
   border-right: none;
@@ -5929,9 +5929,9 @@ z-index: 1;
 
 .addbtnforall
 {
-  background-color: #298541;
+  background-color: #4B965F;
   color: white;
-  border: 1px solid #298541 ;
+  border: 1px solid #4B965F ;
 }
 .addbtnforall2
 {
@@ -5953,8 +5953,8 @@ z-index: 1;
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #298541;
-  border-color: #298541;
+  background-color: #4B965F;
+  border-color: #4B965F;
 }
 
 .custom_tabal_saction_part h4.card-title a.btn {
@@ -5968,7 +5968,7 @@ z-index: 1;
 
 input#approveStatusButton {
 
-  border: 1px solid #298541;
+  border: 1px solid #00916e;
   padding: 5px 10px;
  border-radius: 5px; 
 }
@@ -6142,9 +6142,9 @@ table.dataTable td {
   margin: 0 0 0px 0 !important;
   font-weight: 600;
 }
-.mainhedformaster
-{
-  background-color: #c8dfce !important;
+.mainhedformaster {
+  background-color: #ffffff !important;
+  box-shadow: 0px 0px 11px -7px #27906f;
 }
 .newheadcontanty
 {
@@ -6154,7 +6154,7 @@ table.dataTable td {
 {
   font-size: 22px;
   margin-top: 5px !important; 
-  color: #298541;
+  color: #4B965F;
   
 }
 .addbtnforall:hover
@@ -6199,7 +6199,7 @@ table.dataTable td {
 {
   height: 47px !important; 
   line-height:10px !important;
-  background-color: #298541;
+  background-color: #4B965F;
   border-radius: 7px !important;
 }
 .filterbtnicon
@@ -6215,16 +6215,16 @@ div.dataTables_wrapper div.dataTables_filter
   float: right;
 }
 .table .thead-light th {
-  color: #298342;
+  color: #00916e;
   background-color: #f8f9fa;
   border-color: #eff2f7;
 }
 .form-control
 {
-  border: 1px solid #298342 ;
+  border: 1px solid #4B965F ;
 }
 .dataTables_info{
-  color: #298541;
+  color: #4B965F;
 }
 .newsmallpic
 {
@@ -6255,5 +6255,45 @@ div.dataTables_wrapper div.dataTables_filter
 }
 }
   
-}
+
 /* Hiren suthar css end 12/10/2021 */
+
+
+/* Hiren suthar 13/10/2021 */
+body[data-sidebar=dark] .navbar-brand-box {
+  background: #4B965F !important;
+}
+body[data-sidebar=dark] .vertical-menu {
+  background: #051F20 !important;
+}
+body[data-sidebar=dark] #sidebar-menu ul li a i {
+  color: #fff !important;
+}
+body[data-sidebar=dark] #sidebar-menu ul li a {
+  color: #fff !important;
+}
+body[data-sidebar=dark] .mm-active>a {
+  
+  background-color: #4B965F !important;
+}
+body[data-sidebar=dark] .menu-title {
+  color: #fff !important;
+}
+.subcaticon {
+  position: absolute;
+  left: 55px;
+  top: 0px;
+}
+.mainsubmenu
+{
+  padding: 0px !important;
+  margin-bottom: 0px !important;
+  margin-left: 25px;
+}
+body.sidebar-enable.vertical-collpsed .subcaticon {
+  display: none !important;
+}
+body.sidebar-enable.vertical-collpsed .mainsubmenu {
+  margin-left: 0px !important;
+}
+/* Hiren suthar 13/10/2021 */
