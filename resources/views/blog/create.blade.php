@@ -203,7 +203,7 @@
         readURL(this);
     });
 
-    var str_url = '{{ route('BlogcategoryAutoComplete') }}';
+    var str_url = "{{ route('BlogcategoryAutoComplete') }}";
 
     $('#txtSearchCategory').select2({
         ajax: {
