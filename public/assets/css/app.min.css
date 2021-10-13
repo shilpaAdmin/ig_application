@@ -1156,10 +1156,10 @@ body[data-layout=horizontal][data-layout-size=boxed] .container-fluid, body[data
 
 /*!
  * Waves v0.7.6
- * http://fian.my.id/Waves 
- * 
- * Copyright 2014-2018 Alfiana E. Sibuea and other contributors 
- * Released under the MIT license 
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014-2018 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
  * https://github.com/fians/Waves/blob/master/LICENSE */
 
 .waves-effect {
@@ -2947,7 +2947,7 @@ input[switch=dark]:checked+label {
 
 
 .note-editor.note-frame .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-codable {
-  border: none; 
+  border: none;
   color: #adb5bd;
   background-color: transparent;
 }
@@ -4541,7 +4541,7 @@ table#datatable td, table#datatable tr {
   font-size: 22px;
 }
 
-/* 
+/*
 .hbox {
   display: table;
   table-layout: fixed;
@@ -5432,7 +5432,7 @@ flex: inherit;
     position: relative;
     height: 736px;
     margin: 0 auto;
-    
+
 }
 
 .phone::before {
@@ -5454,7 +5454,7 @@ flex: inherit;
     position: absolute;
     border-radius: 50%;
     bottom: 0;
-    left: 50%;    
+    left: 50%;
     transform: translateX(-50%) translatey(-12%);
     border: 3px solid lightgray;
 }
@@ -5462,7 +5462,7 @@ flex: inherit;
 {
     background-color:#fff;
     overflow-y: auto;
-    
+
 }
 .story_class {
     border-radius: 10px;
@@ -5555,15 +5555,15 @@ display:none;
   }
 
 
-.Big_Image_Feed .big_image_feed 
+.Big_Image_Feed .big_image_feed
 {
 
-  
+
   position: relative;
 }
 
 .Big_Image_Feed .big_image_feed::after
-{  
+{
   content: '';
   position: absolute;
   bottom: 0;
@@ -5589,14 +5589,14 @@ color:#fff;
 z-index: 1;
 }
 
-.News_Feed 
+.News_Feed
 {
   display: flex;
 }
 
 
 
-.News_Feed  .left_news_image 
+.News_Feed  .left_news_image
 {
   width: 100px;
   margin-right: 10px;
@@ -5659,7 +5659,7 @@ z-index: 1;
 
 #detailPad .Video_feed h3
 {
-  
+
   display: inherit;
   -webkit-line-clamp: inherit;
   -webkit-box-orient:inherit;
@@ -5767,7 +5767,7 @@ z-index: 1;
 
 #detailPad .audio_saction .same_same_titel_part img:last-child {
 
-  
+
   right: 12px;
 }
 
@@ -5858,7 +5858,7 @@ z-index: 1;
     .datelist li .dategroup {
         width: calc(100% - 180px);
     }
-    
+
 }
 @media screen and (min-width: 2700px) {
     .row.border-bottom.row_card.ui-draggable.ui-draggable-handle {
@@ -5937,7 +5937,7 @@ z-index: 1;
 {
   background-color: #298541;
   color: white;
- 
+
 
 }
 .addbtnforall:hover
@@ -5970,13 +5970,13 @@ input#approveStatusButton {
 
   border: 1px solid #00916e;
   padding: 5px 10px;
- border-radius: 5px; 
+ border-radius: 5px;
 }
 .tableAction {
   position: absolute;
- 
+
   margin-top: 0px;
-  
+
 }
 
 div.dataTables_wrapper div.dataTables_filter {
@@ -5997,7 +5997,7 @@ select.custom-select.custom-select-sm.form-control.form-control-sm {
 
 
 
-@media (min-width: 320px) and (max-width: 604px) 
+@media (min-width: 320px) and (max-width: 604px)
 {
   input.jigar.form-control.form-control-sm {
     width: 244px !important;
@@ -6026,7 +6026,7 @@ div.dataTables_length
 }
 .custom_tabal_saction_part h4.card-title a.btn {
   position: absolute;
-  
+
   top: 0;
   left: 0;
 }
@@ -6037,7 +6037,7 @@ div.dataTables_length
   margin-left: 12px;
 }
 }
-@media (min-width: 605px) and (max-width: 767px) 
+@media (min-width: 605px) and (max-width: 767px)
 {
   div#TagsList_length {
 
@@ -6053,7 +6053,7 @@ div.dataTables_length
     margin-left: 12px;
   }
 }
-@media (min-width: 768px) and (max-width: 990px) 
+@media (min-width: 768px) and (max-width: 990px)
 {
   input.jigar.form-control.form-control-sm {
     width: 250px !important;
@@ -6109,8 +6109,8 @@ div.dataTables_wrapper div.dataTables_filter {
 
 {
   font-size: 22px;
-  margin-top: 5px !important; 
-  
+  margin-top: 5px !important;
+
 }
 
 
@@ -6153,9 +6153,9 @@ table.dataTable td {
 .textforhedermaster
 {
   font-size: 22px;
-  margin-top: 5px !important; 
+  margin-top: 5px !important;
   color: #4B965F;
-  
+
 }
 .addbtnforall:hover
 {
@@ -6197,7 +6197,7 @@ table.dataTable td {
 
 .filterbtnmsain
 {
-  height: 47px !important; 
+  height: 47px !important;
   line-height:10px !important;
   background-color: #4B965F;
   border-radius: 7px !important;
@@ -6254,7 +6254,7 @@ div.dataTables_wrapper div.dataTables_filter
   margin-top: 20px;
 }
 }
-  
+
 
 /* Hiren suthar css end 12/10/2021 */
 
@@ -6273,7 +6273,7 @@ body[data-sidebar=dark] #sidebar-menu ul li a {
   color: #fff !important;
 }
 body[data-sidebar=dark] .mm-active>a {
-  
+
   background-color: #4B965F !important;
 }
 body[data-sidebar=dark] .menu-title {
@@ -6296,4 +6296,11 @@ body.sidebar-enable.vertical-collpsed .subcaticon {
 body.sidebar-enable.vertical-collpsed .mainsubmenu {
   margin-left: 0px !important;
 }
+a.logo.logo-light {
+    text-align: left;
+  }
+  .newlogoig2 img {
+    width: 190px;
+    max-width: 100% !important;
+  }
 /* Hiren suthar 13/10/2021 */

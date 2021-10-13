@@ -19,9 +19,9 @@
                         <!--<img src="../../../assets/images/logo-light.svg" alt="" height="22">-->
                         <img src="../../../assets/images/newiground.svg" alt="" width="30">
                     </span>
-                    <span class="logo-lg logo-lg-header">
+                    <span class="logo-lg logo-lg-header newlogoig2">
                         <!--<img src="../../../assets/images/logo-light.png" alt="" height="19">-->
-                        <img src="../../../assets/images/newigadmin.svg" alt="" width="100%" >
+                        <img src="../../../assets/images/newigadmin.svg" alt="">
                     </span>
                 </a>
             </div>
