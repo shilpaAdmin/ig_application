@@ -13,6 +13,7 @@ use App\Http\Model\ForumModel;
 use App\Http\Traits\UserLocationDetailTrait;
 use Illuminate\Support\Str;
 use Auth;
+use App\Http\Model\BlogsCommentReplyModel;
 
 class BlogController extends Controller
 {
@@ -44,7 +45,7 @@ class BlogController extends Controller
         return view('blog.create',compact('users'));
     }
 
-    
+
 
     public function store(Request $request)
     {
@@ -135,6 +136,7 @@ class BlogController extends Controller
 
     public function bloglist(Request $request)
     {
+        // dd($request->all());
         $input = $request->all();
         $txtStatusType = isset($request->status) ? $request->status : '';
         $storyStartDate = isset($request->startDate) ? $request->startDate : '';
@@ -155,6 +157,7 @@ class BlogController extends Controller
         {
             $result_obj= $preQuery->whereBetween('blogs.created_at',[$storyStartDate,$storyEndDate]);
         }
+      
         $result_obj= $preQuery->get();
 
         return DataTables::of($result_obj)
@@ -200,6 +203,8 @@ class BlogController extends Controller
             <div class="dropdown-menu">
                 <a class="dropdown-item" href=" '.route('blog.edit',$result_obj['id']).' ">Edit Record</a>
                 <a class="dropdown-item" href="javascript:;" onclick="deleteBlog('.$result_obj['id'].')" >Delete Record</a>
+                <a class="dropdown-item" href=" '.route('blog.getCommentReplyList',$result_obj['id']).' ">View Comment</a>
+
             </div>';
             return $command;
         })
@@ -207,6 +212,74 @@ class BlogController extends Controller
         ->make(true);
     }
 
+
+    public function getCommentReplyList(Request $request, $id)
+    {
+        $input = $request->all();
+        $blog_id=$id;
+
+        $blogDetail=BlogsModel::with(['user'])->where('id',$blog_id)->first();
+        // dd($blogDetail);
+        $recordsPerPage = isset($input['recordsPerPage']) ? $input['recordsPerPage'] : 5;
+        $pageNumber = isset($input['pageNumber']) ? $input['pageNumber'] : 1;
+
+        $skip = (($pageNumber - 1) * $recordsPerPage);
+
+        $commentData = BlogsCommentReplyModel::where('blogs_comment_reply.blog_id',$blog_id)
+        ->where('blogs_comment_reply.comment_id',0)
+        ->leftJoin('user','blogs_comment_reply.user_id','user.id')
+        ->select('blogs_comment_reply.id','blogs_comment_reply.message','blogs_comment_reply.media','blogs_comment_reply.created_at',
+        'user.name as username','user.user_image as userimage')
+        ->where('blogs_comment_reply.is_deleted',0)->paginate(10);
+        //->skip($skip)->take(5)
+        //->get()->toArray();
+        // echo '<pre>';
+        // print_r($commentData);
+        // exit;
+        $commentReplyArray = array();
+        foreach ($commentData as $comment)
+        {
+            $commentId = $comment->id;
+            $replyData =BlogsCommentReplyModel::where('blogs_comment_reply.comment_id',$commentId)
+            ->where('blogs_comment_reply.comment_id','!=',0)
+            ->leftJoin('user','blogs_comment_reply.user_id','user.id')
+            ->select('blogs_comment_reply.*','user.name as username','user.user_image as userimage')
+            ->where('blogs_comment_reply.is_deleted',0)
+            ->orderBy('blogs_comment_reply.id','desc')->get()->toArray();
+
+            $commentReplyArray[$commentId]['id'] = $commentId;
+            $commentReplyArray[$commentId]['comment'] = $comment->message;
+            $commentReplyArray[$commentId]['media'] = $comment->media;
+            $commentReplyArray[$commentId]['username'] = $comment->username;
+            $commentReplyArray[$commentId]['userimage'] = $comment->userimage;
+            $commentReplyArray[$commentId]['created_at'] = $comment->created_at;
+
+            if(count($replyData) > 0)
+            {
+                $j = 0;
+                foreach($replyData as $reply)
+                {
+                    $replyId = $reply['id'];
+                    $replyMessage = $reply['message'];
+                    $replyMedia = $reply['media'];
+                    $replyUsername = $reply['username'];
+                    $replyUserimage = $reply['userimage'];
+                    $replyCreatedAt = $reply['created_at'];
+
+                    $commentReplyArray[$commentId]['reply'][$j]['id'] = $replyId;
+                    $commentReplyArray[$commentId]['reply'][$j]['comment'] = $replyMessage;
+                    $commentReplyArray[$commentId]['reply'][$j]['media'] = $replyMedia;
+                    $commentReplyArray[$commentId]['reply'][$j]['username'] = $replyUsername;
+                    $commentReplyArray[$commentId]['reply'][$j]['userimage'] = $replyUserimage;
+                    $commentReplyArray[$commentId]['reply'][$j]['created_at'] = $replyCreatedAt;
+                    $j++;
+                }
+            }
+        }
+
+        // dd($commentReplyArray);
+        return view('blog.comment_reply_structure', compact('commentReplyArray','recordsPerPage','blogDetail','commentData'));
+    }
 
     public function edit($id)
     {
@@ -286,11 +359,6 @@ class BlogController extends Controller
         }
     }
 
-    public function getCommentReplyList(Request $request)
-    {
-        $input=$request->all();
-
-    }
 
     public function delete($id)
     {
@@ -315,5 +383,38 @@ class BlogController extends Controller
         return response()->json($result);
     }
 
+    public function deleteReply(Request $request)
+    {
+        $input=$request->all();
+
+        $form=BlogsCommentReplyModel::find($input['ReplyId']);
+        $form->is_deleted=1;
+        $result=$form->save();
+
+        if($result)
+        {
+            echo json_encode(array('status'=>true,'message'=>'Reply Deleted Successfully'));
+        }
+        else
+        {
+            echo json_encode(array('status'=>false,'message'=>'Reply not Deleted'));
+        }
+    }
+
+    public function deleteComment(Request $request)
+    {
+        $input=$request->all();
+
+        $result1=BlogsCommentReplyModel::where('id',$input['CommentId'])->update(['is_deleted'=>1]);
+        $result2=BlogsCommentReplyModel::where('comment_id',$input['CommentId'])->update(['is_deleted'=>1]);
+        if($result1 || $result2)
+        {
+            echo json_encode(array('status'=>true,'message'=>'Comment Deleted Successfully'));
+        }
+        else
+        {
+            echo json_encode(array('status'=>false,'message'=>'Comment not Deleted'));
+        }
+    }
 
 }

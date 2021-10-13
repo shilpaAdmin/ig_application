@@ -14,7 +14,7 @@
                     </span>
                 </a>
 
-                <a href="index" class="logo logo-light">
+                <a href="{{ route('home')}}" class="logo logo-light">
                     <span class="logo-sm logo-sm-header">
                         <!--<img src="../../../assets/images/logo-light.svg" alt="" height="22">-->
                         <img src="../../../assets/images/newiground.svg" alt="" width="30">

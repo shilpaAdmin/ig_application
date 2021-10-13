@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title') Fourm @endsection
+@section('title') Blog @endsection
 
 @section('css')
 <link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/style.css')}}">
@@ -35,67 +35,65 @@ i.far.fa-trash-alt.deleticonnew {
 @endsection
 
 @section('content')
-        @php
-                    $totalData=count($commentReplyArray);
-                    $outer=ceil($totalData/$recordsPerPage);
-                    $count=0;
-                    if($totalData > 0)
-                    {
-                        $img_file='';
+@php
+   $totalData=count($commentReplyArray);
+   $outer=ceil($totalData/$recordsPerPage);
+   $count=0;
+   if($totalData > 0)
+   {
+       $img_file='';
 
-                    if(!empty($forumDetail['user_image']))
-                    {
+       if(!empty($blogDetail['user_image']))
+       {
 
-                            if(file_exists($img_path))
-                            {
-                                $img_file=URL::to('/images/user').'/'.$forumDetail->user['user_image'];
-                            }
-                            else
-                            {
-                                $img_file=URL::to('/images').'/img_avatar3.png';
-                            }
-                    }
-                    else
-                    {
-                            $img_file=URL::to('/images').'/img_avatar3.png';
-                    }
+            if(file_exists($img_path))
+            {
+                $img_file=URL::to('/images/user').'/'.$blogDetail->user['user_image'];
+            }
+            else
+            {
+                $img_file=URL::to('/images').'/img_avatar3.png';
+            }
+       }
+       else
+       {
+            $img_file=URL::to('/images').'/img_avatar3.png';
+       }
 
-                    function timeAgo($time_ago) {
-                        $time_ago =  strtotime($time_ago) ? strtotime($time_ago) : $time_ago;
-                        $time  = time() - $time_ago;
+        function timeAgo($time_ago) {
+            $time_ago =  strtotime($time_ago) ? strtotime($time_ago) : $time_ago;
+            $time  = time() - $time_ago;
 
-                    switch($time):
-                    // seconds
-                    case $time <= 60;
-                    return 'lessthan a minute ago';
-                    // minutes
-                    case $time >= 60 && $time < 3600;
-                    return (round($time/60) == 1) ? 'a minute' : round($time/60).' minutes ago';
-                    // hours
-                    case $time >= 3600 && $time < 86400;
-                    return (round($time/3600) == 1) ? 'a hour ago' : round($time/3600).' hours ago';
-                    // days
-                    case $time >= 86400 && $time < 604800;
-                    return (round($time/86400) == 1) ? 'a day ago' : round($time/86400).' days ago';
-                    // weeks
-                    case $time >= 604800 && $time < 2600640;
-                    return (round($time/604800) == 1) ? 'a week ago' : round($time/604800).' weeks ago';
-                    // months
-                    case $time >= 2600640 && $time < 31207680;
-                    return (round($time/2600640) == 1) ? 'a month ago' : round($time/2600640).' months ago';
-                    // years
-                    case $time >= 31207680;
-                    return (round($time/31207680) == 1) ? 'a year ago' : round($time/31207680).' years ago' ;
+        switch($time):
+        // seconds
+        case $time <= 60;
+        return 'lessthan a minute ago';
+        // minutes
+        case $time >= 60 && $time < 3600;
+        return (round($time/60) == 1) ? 'a minute' : round($time/60).' minutes ago';
+        // hours
+        case $time >= 3600 && $time < 86400;
+        return (round($time/3600) == 1) ? 'a hour ago' : round($time/3600).' hours ago';
+        // days
+        case $time >= 86400 && $time < 604800;
+        return (round($time/86400) == 1) ? 'a day ago' : round($time/86400).' days ago';
+        // weeks
+        case $time >= 604800 && $time < 2600640;
+        return (round($time/604800) == 1) ? 'a week ago' : round($time/604800).' weeks ago';
+        // months
+        case $time >= 2600640 && $time < 31207680;
+        return (round($time/2600640) == 1) ? 'a month ago' : round($time/2600640).' months ago';
+        // years
+        case $time >= 31207680;
+        return (round($time/31207680) == 1) ? 'a year ago' : round($time/31207680).' years ago' ;
 
-                    endswitch;
-                    }
+        endswitch;
+        }
 
-                    $timeBefore=timeAgo($forumDetail->created_at);
-            @endphp
+        $timeBefore=timeAgo($blogDetail->created_at);
+    @endphp
 
-
-
-            <div class="bgforcoomreply">
+        <div class="bgforcoomreply">
             <div class="forum__box mb-5">
                 <div class="row ">
                     <div class="col-lg-1  for_profile">
@@ -103,19 +101,19 @@ i.far.fa-trash-alt.deleticonnew {
                     </div>
 
                     <div class="col-lg-11">
-                        <span> <a class="forum__profilee" href="#">{{!empty($forumDetail->user['name'])?$forumDetail->user['name']:'N/A'}} </a></span>
+                        <span> <a class="forum__profilee" href="#">{{!empty($blogDetail->user['name'])?$blogDetail->user['name']:'N/A'}} </a></span>
                         <div class="for_hour"> <a class="" href=" #">{{$timeBefore }}</a></div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-12  forum_que">
-                        <p class="forum_que">{{!empty($forumDetail->question)?$forumDetail->question:'N/A'}}</p>
-                        <span class="forum_ans">{{!empty($forumDetail->description)?$forumDetail->description:'N/A'}}</span>
+                        <p class="forum_que">{{!empty($blogDetail->name)?$blogDetail->name:'N/A'}}</p>
+                        <span class="forum_ans">{{!empty($blogDetail->description)?$blogDetail->description:'N/A'}}</span>
                     </div>
                 </div>
 
-              <!--<div class="row mt-3">
+               <!-- <div class="row mt-3">
                     <div class="col-lg-1  for_profile mb-3">
                         <img src="https://ig.testingbeta.in/assets/frontend/images/img/d2.jpg" class="f__img_left">
                     </div>
@@ -133,16 +131,16 @@ i.far.fa-trash-alt.deleticonnew {
                             </div>
                         </form>
                     </div>
-                </div>-->
+                </div> -->
 
                 <!--<div class="pt-5 forum_que"> 1 Replies</div>-->
             </div>
-         @foreach($commentReplyArray as $comment)
+        @foreach($commentReplyArray as $comment)
 
-            @php
-                $commentBeforeTime=timeAgo($comment['created_at']);
-            @endphp
-            <div class="forum_box2">
+        @php
+            $commentBeforeTime=timeAgo($comment['created_at']);
+        @endphp
+        <div class="forum_box2">
 
             <div class="row">
                 <div class="col-sm-1  for_profile2 ">
@@ -151,7 +149,7 @@ i.far.fa-trash-alt.deleticonnew {
 
                 <div class="col-sm-10 likes-box">
                     <span> <a class="forum__profilee" href="#"> {{  ucwords($comment['username']) }}</a></span>
-                    <div class="for_hour"> <a class=""  href=" #"> {{$commentBeforeTime}}</a></div>
+                    <div class="for_hour"> <a class=""  href="#"> {{$commentBeforeTime}}</a></div>
                 </div>
 
                 <div class="col-sm-1">
@@ -169,6 +167,7 @@ i.far.fa-trash-alt.deleticonnew {
                         --}}
                     </div>
                 </div>
+
             </div>
 
             @php
@@ -202,7 +201,7 @@ i.far.fa-trash-alt.deleticonnew {
                                     {{--
                                     <a href="#" class="forum__icon mr-3 replayall"> <i class="fas fa-reply"></i> Reply
                                     </a>
-                                    <a href="#" class="forum__icon comment-likes" data-id="{{$comment['reply'][$i]['id']}}" data-forumid="{{$forumDetail->id}}"> <i class="far fa-heart"></i> Like </a>
+                                    <a href="#" class="forum__icon comment-likes" data-id="{{$comment['reply'][$i]['id']}}" data-forumid="{{$blogDetail->id}}"> <i class="far fa-heart"></i> Like </a>
                                     --}}
                                 </div>
 
@@ -254,7 +253,7 @@ i.far.fa-trash-alt.deleticonnew {
             $this=$(this);
 
             $.ajax({
-                url:'{{route("forum.deleteReply")}}',
+                url:'{{route("blog.deleteReply")}}',
                 data:'ReplyId='+$(this).attr('data-id'),
                 type:'post',
                 success:function(html){
@@ -282,7 +281,7 @@ i.far.fa-trash-alt.deleticonnew {
             $this=$(this);
             console.log($(this));
             $.ajax({
-                url:'{{route("forum.deleteComment")}}',
+                url:'{{route("blog.deleteComment")}}',
                 data:'CommentId='+$(this).attr('data-id'),
                 type:'post',
                 success:function(html){

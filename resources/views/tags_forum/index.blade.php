@@ -99,7 +99,7 @@
 
                 <div class="form-group">
                     <label class="control-label text-cutom">Approve Status</label>
-                    <select class="form-control select2" id="txtApproveStatusType" name="txtApproveStatusType">
+                    <select class="form-control select2" id="txtApproveStatus" name="txtApproveStatus">
                         <option value="">--Select--</option>
                         <option value="1">Approve</option>
                         <option value="0">disapprove</option>
@@ -203,7 +203,7 @@
                     url: "{{ route('datatable.tagsforumList') }}",
                     data: function(data) {
                         data.status = txtStatusType,
-                            data.approved = txtApproveStatus
+                        data.approved = txtApproveStatus
                         data.startDate = startDate
                         data.endDate = endDate
                     }
