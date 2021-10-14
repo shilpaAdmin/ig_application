@@ -136,41 +136,6 @@ class BusinessController extends Controller
         return response()->json($result);
     }
 
-    /*  public function tagAutoComplete(Request $request)
-    {
-        $input = $request->all();
-
-        if (isset($input['search']) && !empty($input['search'])) {
-            $tag_qry = TagMasterModel::where('name', 'LIKE', '%' . $input['search'] . '%');
-        } else {
-            $tag_qry = TagMasterModel::where('id', '>', 0);
-        }
-        $result = $tag_qry->select('id', 'name')->get()->toArray();
-
-
-        // if (count($result) == 0 && isset($input['flag']) && $input['flag'] == 'add') {
-        //     $arr = explode(',', $input['search']);
-        //     $id = '';
-        //     foreach ($arr as $val) {
-        //         if (!is_numeric($val)) {
-        //             if (!TagMasterModel::where('name', '=', $val)->exists()) {
-        //                 $obj = new TagMasterModel();
-        //                 $obj->name = $val;
-        //                 $input['flag'] = '';
-        //                 $obj->save();
-        //                 $id = $obj->id;
-        //             }
-        //         }
-        //     }
-        //     if (!empty($id))
-        //         $arr = ['data' => $id, 'status' => 'success'];
-        //     else
-        //         $arr = ['status' => 'success'];
-
-        //     return response()->json($arr);
-        // }
-        return response()->json($result);
-    }*/
 
 
     public function store(Request $request)

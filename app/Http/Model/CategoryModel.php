@@ -22,4 +22,9 @@ class CategoryModel extends Model
         'updated_at'
     ];
 
+    public function categories()
+    {
+        return $this->hasMany(CategoryModel::class,'parent_category_id','id');
+    }
+
 }
