@@ -162,68 +162,73 @@
         </div>
     </div>
     <!------ Forum table ------>
-    <div class="row">
-        <div class="col-6">
 
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive custom_tabal_saction_part ">
-                        <div class="tableAction">
-                            <input type="button" id="approveStatusButton" value="Approve"/>
+
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive custom_tabal_saction_part ">
+                            <div class="tableAction">
+                                <input type="button" id="approveStatusButton" value="Approve" />
+                            </div>
+                            <table id="ForumList" class="table tableneww">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th></th>
+                                        <th>#</th>
+                                        <th>Question</th>
+                                        <th>Description</th>
+                                        <th>URL</th>
+                                        <th>User</th>
+                                        <th>Approve Status</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody></tbody>
+                            </table>
                         </div>
-                        <table id="ForumList" class="table tableneww">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th></th>
-                                    <th>#</th>
-                                    <th>Question</th>
-                                    <th>Description</th>
-                                    <th>URL</th>
-                                    <th>User</th>
-                                    <th>Approve Status</th>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive custom_tabal_saction_part">
 
-                                </tr>
-                            </thead>
+                            <table id="testmonialList" class="table tableneww">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Id</th>
+                                        <th>User</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Image</th>
+                                        <th>Media</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody></tbody>
-                        </table>
+
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
 
         <!----- Testimonial table ----->
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive custom_tabal_saction_part">
-                
-                        <table id="testmonialList" class="table tableneww">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Id</th>
-                                    <th>User</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Image</th>
-                                    <th>Media</th>
-                                </tr>
-                            </thead>
+        <div class="col-lg-6 col-md-12 col-12">
 
+            <div class="card-deck">
 
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
     <!--------------- Testimonial End ----------------->
 
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-md-6">
             <div class="card bg-gray-bg text-white-50 m-0 mainhedformaster">
                 <div class="row">
@@ -240,14 +245,14 @@
     </div>
     <!-------- Advertisment Table-------->
 
-    <div class="row">
-        <div class="col-6">
+    <div>
+        <div class="col-lg-6 col-md-12 col-12">
             <div class="card">
                 <div class="card-body">
 
                     <div class="table-responsive custom_tabal_saction_part">
                         <div class="tableAction">
-                            <input type="button" id="Advertismentapprove" value="Approve"/>
+                            <input type="button" id="Advertismentapprove" value="Approve" />
                         </div>
                         <table id="AdvertismentList" class="table tableneww">
                             <thead class="thead-light">
@@ -280,7 +285,6 @@
 @endsection
 
 @section('script')
-
 
     <script>
         //forum datatable start here
@@ -319,9 +323,9 @@
                 },
 
                 columns: [{
-                    "data": null,
-                    defaultContent: ''
-                },
+                        "data": null,
+                        defaultContent: ''
+                    },
                     {
                         data: 'id',
                         name: 'sequence',
@@ -330,13 +334,13 @@
                         targets: 0,
                         visible: true
                     },
-                   /* {
-                        data: 'id',
-                        name: 'id',
-                        orderable: false,
-                        searchable: false,
-                        targets: 1
-                    },*/
+                    /* {
+                         data: 'id',
+                         name: 'id',
+                         orderable: false,
+                         searchable: false,
+                         targets: 1
+                     },*/
                     {
                         data: 'question_td',
                         name: 'question_td',
@@ -359,94 +363,94 @@
                         searchable: false,
                     },
                     {
-                    data: 'is_approve',
-                    name: 'is_approve',
-                    orderable: false,
-                    searchable: false,
-                },
+                        data: 'is_approve',
+                        name: 'is_approve',
+                        orderable: false,
+                        searchable: false,
+                    },
                 ],
                 "columnDefs": [{
-                "targets": 0,
-                "data": "id",
-                "title": "<input type='checkbox' name='select_all' value='1' id='selectAllForumCheckboxes'>",
-                "visible": true,
-                "width": "5%", //https://datatables.net/reference/option/columns.width
-                "searchable": false,
-                "orderable": false,
-                "orderData": "",
-                "className": "",
-                "render": function(data, type, full, meta) {
-                    return '<input type="checkbox" id="id_' + data.id +
-                        '" name="id[]" value="' + data.id + '">';
+                    "targets": 0,
+                    "data": "id",
+                    "title": "<input type='checkbox' name='select_all' value='1' id='selectAllForumCheckboxes'>",
+                    "visible": true,
+                    "width": "5%", //https://datatables.net/reference/option/columns.width
+                    "searchable": false,
+                    "orderable": false,
+                    "orderData": "",
+                    "className": "",
+                    "render": function(data, type, full, meta) {
+                        return '<input type="checkbox" id="id_' + data.id +
+                            '" name="id[]" value="' + data.id + '">';
+                    }
+                }, ],
+                retrieve: true
+            });
+            $('table [type="checkbox"]').each(function(i, chk) {
+                //alert(1);
+                if (chk.checked) {
+                    alert("Checked!", i, chk);
+                } else {
+                    $("#approveStatusButton").attr("disabled", "disabled");
                 }
-            }, ],
-            retrieve: true
-        });
-        $('table [type="checkbox"]').each(function(i, chk) {
-            //alert(1);
-            if (chk.checked) {
-                alert("Checked!", i, chk);
-            } else {
-                $("#approveStatusButton").attr("disabled", "disabled");
-            }
-        });
-        var data = "";
-        $("#ForumList tbody").on("click", "tr", function() {
-            var allCheckboxLength = $('input[name="id[]"]').length;
-            var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
-
-            if (allCheckboxLength == checkedCheckboxLen) {
-                $("#selectAllForumCheckboxes").prop("checked", true);
-            } else {
-                $("#selectAllForumCheckboxes").prop("checked", false);
-            }
-            $("#ForumList tbody tr").removeClass("selected");
-            /*get checked checkbox value and check full row from table*/
-            $('input[name="id[]"]:checked').map(function() {
-                var checkedCheckBoxVal = $(this).val();
-                // alert("aa >> "+checkedCheckBoxVal);
-                $("#ForumList tbody #row_" + checkedCheckBoxVal).addClass("selected");
-                //console.log();
-                data = checkedCheckBoxVal;
             });
+            var data = "";
+            $("#ForumList tbody").on("click", "tr", function() {
+                var allCheckboxLength = $('input[name="id[]"]').length;
+                var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
 
-            /* Code for edit button(action) enable/disable */
-            var checkedRecordCount = $("#ForumList .selected").length;
-            // alert(" individual checkedRecordCount >> "+checkedRecordCount);
+                if (allCheckboxLength == checkedCheckboxLen) {
+                    $("#selectAllForumCheckboxes").prop("checked", true);
+                } else {
+                    $("#selectAllForumCheckboxes").prop("checked", false);
+                }
+                $("#ForumList tbody tr").removeClass("selected");
+                /*get checked checkbox value and check full row from table*/
+                $('input[name="id[]"]:checked').map(function() {
+                    var checkedCheckBoxVal = $(this).val();
+                    // alert("aa >> "+checkedCheckBoxVal);
+                    $("#ForumList tbody #row_" + checkedCheckBoxVal).addClass("selected");
+                    //console.log();
+                    data = checkedCheckBoxVal;
+                });
 
-            if (checkedRecordCount > 0) {
-                $("#approveStatusButton").removeAttr("disabled");
-            }
-            if (checkedRecordCount == 0) {
-                $("#approveStatusButton").attr("disabled", "disabled");
-            } //end here
-        });
-        // Handle click on "Select all" control
-        $("#selectAllForumCheckboxes").on("click", function() {
-            if ($("#selectAllForumCheckboxes").prop("checked")) {
-                // alert("In side if");
-                $('#ForumList input[type="checkbox"]').prop("checked", true);
-            } else {
-                $('#ForumList input[type="checkbox"]').prop("checked", false);
-            }
-            $("#ForumList tbody tr").removeClass("selected");
-            $('input[name="id[]"]:checked').map(function() {
-                var checkedCheckBoxVal = $(this).val();
-                // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
-                $("#ForumList tbody #row_" + checkedCheckBoxVal).addClass("selected");
+                /* Code for edit button(action) enable/disable */
+                var checkedRecordCount = $("#ForumList .selected").length;
+                // alert(" individual checkedRecordCount >> "+checkedRecordCount);
+
+                if (checkedRecordCount > 0) {
+                    $("#approveStatusButton").removeAttr("disabled");
+                }
+                if (checkedRecordCount == 0) {
+                    $("#approveStatusButton").attr("disabled", "disabled");
+                } //end here
             });
+            // Handle click on "Select all" control
+            $("#selectAllForumCheckboxes").on("click", function() {
+                if ($("#selectAllForumCheckboxes").prop("checked")) {
+                    // alert("In side if");
+                    $('#ForumList input[type="checkbox"]').prop("checked", true);
+                } else {
+                    $('#ForumList input[type="checkbox"]').prop("checked", false);
+                }
+                $("#ForumList tbody tr").removeClass("selected");
+                $('input[name="id[]"]:checked').map(function() {
+                    var checkedCheckBoxVal = $(this).val();
+                    // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
+                    $("#ForumList tbody #row_" + checkedCheckBoxVal).addClass("selected");
+                });
 
-            /* Code for edit button(action) enable/disable */
-            var checkedRecordCount = $("#ForumList .selected").length;
-            // alert(" individual checkedRecordCount >> "+checkedRecordCount);
+                /* Code for edit button(action) enable/disable */
+                var checkedRecordCount = $("#ForumList .selected").length;
+                // alert(" individual checkedRecordCount >> "+checkedRecordCount);
 
-            if (checkedRecordCount > 0) {
-                $("#approveStatusButton").removeAttr("disabled");
-            }
-            if (checkedRecordCount == 0) {
-                $("#approveStatusButton").attr("disabled", "disabled");
-            } //end here
-        });
+                if (checkedRecordCount > 0) {
+                    $("#approveStatusButton").removeAttr("disabled");
+                }
+                if (checkedRecordCount == 0) {
+                    $("#approveStatusButton").attr("disabled", "disabled");
+                } //end here
+            });
 
             // $("#ForumList_filter").hide();
             $(".dataTables_length").hide();
@@ -479,42 +483,386 @@
         }
 
         $("#approveStatusButton").click(function() {
-        var multipleId = getListForumIdList();
-        var reomveId = multipleId;
-        alert(reomveId);
-        swal({
-                title: "Are you sure?",
-                text: "Approve Record",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Yes, Approve it!",
-                cancelButtonText: "No, cancel please!",
-                closeOnConfirm: true,
-                closeOnCancel: true,
-            },
-            function(isConfirm) {
-                if (isConfirm) {
-                    window.location.href = "/admin/dashboard/forum/approve/" + reomveId;
+            var multipleForumId = getListForumIdList();
+            var forumId = multipleForumId;
+            alert(forumId);
+            swal({
+                    title: "Are you sure?",
+                    text: "Approve Record",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, Approve it!",
+                    cancelButtonText: "No, cancel please!",
+                    closeOnConfirm: true,
+                    closeOnCancel: true,
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = "/admin/dashboard/forum/approve/" + forumId;
+                    }
                 }
-            }
-        );
-    });
+            );
+        });
 
-    function getListForumIdList() {
-        var tableDataLength = dt.rows(".selected").data().length;
-        //alert("tableDataLength >> "+tableDataLength);
-        var listId = "";
-        for (var i = 0; i < tableDataLength; i++) {
-            var id = dt.rows(".selected").data()[i]["id"];
-            if (listId == "") listId += id;
-            else listId += "," + id;
-        } // for loop ends here
-        // alert("listId >> "+listId);
-        return listId;
-    }
-
+        function getListForumIdList() {
+            var tableDataLength = dt.rows(".selected").data().length;
+            // alert("tableDataLength >> "+tableDataLength);
+            var listId = "";
+            for (var i = 0; i < tableDataLength; i++) {
+                var id = dt.rows(".selected").data()[i]["id"];
+                if (listId == "") listId += id;
+                else listId += "," + id;
+            } // for loop ends here
+            // alert("listId >> "+listId);
+            return listId;
+        }
 
 
+        // testimonial datatable start here-----------------------
+        var table_html = '';
+        var table_html_td = '';
+        var i = 1;
+        $(function() {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                "dom-date-pre": function(a) {
+                    return moment(a, "DD MMMM YYYY")
+                },
+                "dom-date-asc": function(a, b) {
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+                "dom-date-desc": function(a, b) {
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                }
+            });
+            dataTableTestmonialAjaxCall();
+        });
+
+        function dataTableTestmonialAjaxCall() {
+            var dt = $('#testmonialList').DataTable({
+                destroy: true,
+                processing: true,
+                //serverSide: true,
+                responsive: true,
+                autoWidth: false,
+                "order": [], //Initial no order.
+                "aaSorting": [],
+                rowReorder: true,
+                ajax: {
+                    url: "{{ route('datatable.dashboardTestimoniallist') }}",
+                },
+
+                columns: [{
+                        data: 'id',
+                        name: 'sequence',
+                        orderable: false,
+                        searchable: false,
+                        targets: 0,
+                        visible: false
+                    },
+                    {
+                        data: 'id',
+                        name: 'id',
+                        orderable: false,
+                        searchable: false,
+                        targets: 1
+                    },
+                    {
+                        data: 'user_id',
+                        name: 'user_id',
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'description',
+                        name: 'description'
+                    },
+                    {
+                        data: 'image_src',
+                        name: 'image_src',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'media_src',
+                        name: 'media_src',
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                rowReorder: {
+                    dataSrc: 'sequence',
+                },
+                columnDefs: [{
+                    type: 'dateNonStandard',
+                    targets: -1
+                }]
+            });
+
+
+            $("#testmonialList_filter").hide();
+            $(".dataTables_length").hide();
+            $("#testmonialList_paginate").hide();
+
+            $('.dataTables_filter input').attr('type', 'text');
+            dt.on('row-reordered', function(e, diff, edit) {
+                dt.order([0, 'asc']);
+            });
+
+            dt.on('order.dt search.dt', function() {
+                dt.column(1, {
+                    search: 'applied',
+                    order: 'applied'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+            dt.on('row-reorder', function(e, details, edit) {
+                dt.column(1).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+        }
+
+        //Advertismenr list start here
+
+        var dt = '';
+        var table_html = '';
+        var table_html_td = '';
+        var i = 1;
+        $(function() {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                "dom-date-pre": function(a) {
+                    return moment(a, "DD MMMM YYYY")
+                },
+                "dom-date-asc": function(a, b) {
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+                "dom-date-desc": function(a, b) {
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                }
+            });
+            dataTableAdvertismentAjaxCall();
+        });
+
+        function dataTableAdvertismentAjaxCall() {
+            dt = $('#AdvertismentList').DataTable({
+                destroy: true,
+                processing: true,
+                //serverSide: true,
+                responsive: true,
+                autoWidth: false,
+                "order": [], //Initial no order.
+                "aaSorting": [],
+                rowReorder: true,
+                ajax: {
+                    url: "{{ route('datatable.dashboardadvertismentListlist') }}",
+
+                },
+                columns: [{
+                        "data": null,
+                        defaultContent: ''
+                    },
+                    {
+                        data: 'id',
+                        name: 'sequence',
+                        orderable: false,
+                        searchable: false,
+                        targets: 0,
+                        visible: true
+                    },
+                    /* {
+                         data: 'id',
+                         name: 'id',
+                         orderable: false,
+                         searchable: false,
+                         targets: 1
+                     },*/
+                    {
+                        data: 'name',
+                        name: 'name',
+                    },
+                    {
+                        data: 'user_id',
+                        name: 'user_id',
+                        orderable: true
+                    },
+                    {
+                        data: 'category_id',
+                        name: 'category_id',
+                        searchable: true,
+                        orderable: false
+                    },
+                    {
+                        data: 'description',
+                        name: 'description',
+                        orderable: false
+                    },
+                    {
+                        data: 'url',
+                        name: 'url',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'is_approve',
+                        name: 'is_approve',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        data: 'image_src',
+                        name: 'image_src',
+                        searchable: false,
+                        orderable: false
+                    },
+                ],
+                "columnDefs": [{
+                    "targets": 0,
+                    "data": "id",
+                    "title": "<input type='checkbox' name='select_all' value='1' id='selectAllCheckboxes'>",
+                    "visible": true,
+                    "width": "5%", //https://datatables.net/reference/option/columns.width
+                    "searchable": false,
+                    "orderable": false,
+                    "orderData": "",
+                    "className": "",
+                    "render": function(data, type, full, meta) {
+                        return '<input type="checkbox" id="id_' + data.id +
+                            '" name="id[]" value="' + data.id + '">';
+                    }
+                }, ],
+                retrieve: true
+            });
+            $('table [type="checkbox"]').each(function(i, chk) {
+                //alert(1);
+                if (chk.checked) {
+                    alert("Checked!", i, chk);
+                } else {
+                    $("#Advertismentapprove").attr("disabled", "disabled");
+                }
+            });
+            var data = "";
+            $("#AdvertismentList tbody").on("click", "tr", function() {
+                var allCheckboxLength = $('input[name="id[]"]').length;
+                var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
+
+                if (allCheckboxLength == checkedCheckboxLen) {
+                    $("#selectAllCheckboxes").prop("checked", true);
+                } else {
+                    $("#selectAllCheckboxes").prop("checked", false);
+                }
+                $("#AdvertismentList tbody tr").removeClass("selected");
+                /*get checked checkbox value and check full row from table*/
+                $('input[name="id[]"]:checked').map(function() {
+                    var checkedCheckBoxVal = $(this).val();
+                    // alert("aa >> "+checkedCheckBoxVal);
+                    $("#AdvertismentList tbody #row_" + checkedCheckBoxVal).addClass("selected");
+                    //console.log();
+                    data = checkedCheckBoxVal;
+                });
+
+                /* Code for edit button(action) enable/disable */
+                var checkedRecordCount = $("#AdvertismentList .selected").length;
+                // alert(" individual checkedRecordCount >> "+checkedRecordCount);
+
+                if (checkedRecordCount > 0) {
+                    $("#Advertismentapprove").removeAttr("disabled");
+                }
+                if (checkedRecordCount == 0) {
+                    $("#Advertismentapprove").attr("disabled", "disabled");
+                } //end here
+            });
+            // Handle click on "Select all" control
+            $("#selectAllCheckboxes").on("click", function() {
+                if ($("#selectAllCheckboxes").prop("checked")) {
+                    // alert("In side if");
+                    $('#AdvertismentList input[type="checkbox"]').prop("checked", true);
+                } else {
+                    $('#AdvertismentList input[type="checkbox"]').prop("checked", false);
+                }
+                $("#AdvertismentList tbody tr").removeClass("selected");
+                $('input[name="id[]"]:checked').map(function() {
+                    var checkedCheckBoxVal = $(this).val();
+                    // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
+                    $("#AdvertismentList tbody #row_" + checkedCheckBoxVal).addClass("selected");
+                });
+
+                /* Code for edit button(action) enable/disable */
+                var checkedRecordCount = $("#AdvertismentList .selected").length;
+                // alert(" individual checkedRecordCount >> "+checkedRecordCount);
+
+                if (checkedRecordCount > 0) {
+                    $("#Advertismentapprove").removeAttr("disabled");
+                }
+                if (checkedRecordCount == 0) {
+                    $("#Advertismentapprove").attr("disabled", "disabled");
+                } //end here
+            });
+
+            // $('#AdvertismentList_filter').hide();
+            $(".dataTables_length").hide();
+            $("#AdvertismentList_paginate").hide()
+
+            $('.dataTables_filter input').attr('type', 'text');
+            dt.on('row-reordered', function(e, diff, edit) {
+                dt.order([0, 'asc']);
+            });
+
+            dt.on('order.dt search.dt', function() {
+                dt.column(1, {
+                    search: 'applied',
+                    order: 'applied'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+            dt.on('row-reorder', function(e, details, edit) {
+                dt.column(1).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+        }
+        $("#Advertismentapprove").click(function() {
+            var multipleId = getListIdList();
+            var reomveId = multipleId;
+            // alert('inisde');
+            swal({
+                    title: "Are you sure?",
+                    text: "Approve Record",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, Approve it!",
+                    cancelButtonText: "No, cancel please!",
+                    closeOnConfirm: true,
+                    closeOnCancel: true,
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = "/admin/dashboard/advertisement/approve/" + reomveId;
+                    }
+                }
+            );
+        });
+
+        function getListIdList() {
+            var tableDataLength = dt.rows(".selected").data().length;
+            // alert("tableDataLength >> "+tableDataLength);
+            var listId = "";
+            for (var i = 0; i < tableDataLength; i++) {
+                var id = dt.rows(".selected").data()[i]["id"];
+                if (listId == "") listId += id;
+                else listId += "," + id;
+            } // for loop ends here
+            // alert("listId >> "+listId);
+            return listId;
+        }
     </script>
 @endsection

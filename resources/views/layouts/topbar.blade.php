@@ -178,11 +178,11 @@
             --}}
 
                 <div class="dropdown dropdown-mega d-none d-lg-block ml-2">
-                <button type="button" class="btn header-item waves-effect" data-toggle="dropdown" aria-haspopup="false"
+                {{-- <button type="button" class="btn header-item waves-effect" data-toggle="dropdown" aria-haspopup="false"
                     aria-expanded="false">
                     <i class="fa fa-cog" aria-hidden="true"></i>
                     <i class="mdi mdi-chevron-down"></i>
-                </button>
+                </button> --}}
                 <div class="dropdown-menu dropdown-megamenu">
                     <div class="row">
                         <div class="col-sm-12">
@@ -346,12 +346,12 @@
 
 
             <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item noti-icon waves-effect"
+                {{-- <button type="button" class="btn header-item noti-icon waves-effect"
                     id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <i class="bx bx-bell bx-tada"></i>
                     <span class="badge badge-danger badge-pill"></span>
-                </button>
+                </button> --}}
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
                     aria-labelledby="page-header-notifications-dropdown">
                     <div class="p-3">
