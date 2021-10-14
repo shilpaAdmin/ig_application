@@ -4,6 +4,7 @@
 
         $name= $business->name ? ucwords($business->name) :'-';
         $address= $business->address ? ucwords($business->address) :'-';
+        $about= $business->about ? ucwords($business->about) :'-';
         $description= $business->description ? ucwords($business->description) :'-';
         $date=$business->created_at->diffForHumans();
 
@@ -14,6 +15,10 @@
             $imageUrl=URL::asset('assets/frontend/images/listings/education1.jpg');
         }
         $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
+        $units=null;
+        if(isset($business->unit_option) && !empty($business->unit_option)){
+            $units=explode (",", isset($business->unit_option) ? $business->unit_option : ''); 
+        }
     @endphp
 
     <div class="col-xl-6 col-md-12 col-sm-12">
@@ -31,8 +36,8 @@
                     <div class="title">
                         <h3><a href="{{$detailsPageUrl}}">{{$name}}<span class="fa fa-check"></span></a></h3>
 
-                        <p class="mb-0">{{$address}} , {{$description}}</p>
-                        <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> 4.5km Away from you</p>
+                        <p class="mb-0">{{$about}} </p>
+                        <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> {{$address}}</p>
                     </div>
                     <ul class="list-unstyled listings_three-page_contact_info">
                         <li class="d-inline-block">
@@ -40,9 +45,11 @@
                         </li>
                     </ul>
                     <div class="listings_three-page_content_bottom">
-                        <div class="left">
-                            <a class="job_list_pill mb-0" href="#"> DE / EN </a>
-                        </div>
+                        @if (isset($units) && count($units))
+                            <div class="left">
+                                <a class="job_list_pill mb-0" href="#"> {{$units[0]}} </a>
+                            </div>
+                        @endif
                         <div>
                             <a href="{{ $detailsPageUrl }}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
                             <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>

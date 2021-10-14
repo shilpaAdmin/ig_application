@@ -757,6 +757,7 @@ li {
 }
 .logo_one a {
   display: inline-block;
+  width: 160%;
 }
 
 .main-nav__main-navigation.one {

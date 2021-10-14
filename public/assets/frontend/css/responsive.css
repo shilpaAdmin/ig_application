@@ -1193,7 +1193,7 @@
     }
 
     .main-nav__left .side-menu__toggler {
-    margin-top: 15px !important;
+    margin-top: 25px !important;
     margin-left: -30px;
     }
 
@@ -1202,18 +1202,18 @@
     }
 
     .header_btn_1 {
-    padding: 12px 0 !important;
+    padding: 23px 0 !important;
     }
 
     .main-nav__right .icon-search-box {
-    padding: 20px 0 !important;
+    padding: 30px 0 !important;
     }
 
-    img.main-logo {  width:70%;  }
+    img.main-logo {  width:45%;  }
 
     .logo_one {  width:90%;  }
 
-    .dw_btnss { padding: 12px 5px;  }
+    .dw_btnss { padding: 23px 5px;  }
 
     .stricked-menu.stricky-fixed .logo_one {  padding:10px 0;  }
 }
@@ -1253,7 +1253,7 @@
     float: left;
   }
   .main-nav__left .side-menu__toggler {
-    margin-top: 35px;
+    margin-top: 20px;
     margin-left: 0px;
     margin-bottom: 15px;
     float: right;
@@ -1379,7 +1379,8 @@
 @media (max-width: 767px) {
 .logo_one {
     padding: 15px 0;
-    float: left; }
+    float: left; 
+    width:25%;}
 }
 
 
@@ -1419,10 +1420,10 @@
   .main-nav__left {  text-align:center;  }
 
   .main-nav__left .side-menu__toggler {
-    margin-top: inherit;
+    margin-top: 15px;
     margin-left: inherit;
     margin-bottom: 15px;
-    float: inherit;}
+   }
 
   .logo_one a img {  width:95%;  }
 
@@ -1486,3 +1487,39 @@
 
 
 
+@media (max-width:320px) {
+  
+  .main-nav__left .side-menu__toggler {
+    margin-top: 15px;
+   }
+
+  .logo_one a img {  width:150%;  }
+
+}
+
+
+@media (min-width:1200px) and (max-width:1439px) { 
+
+  .logo_one {
+    width: 175px; }
+
+}
+
+@media (min-width:1440px) {
+  .logo_one a {
+    width: 330px;}
+  
+  .main-nav__main-navigation .main-nav__navigation-box > li, .main-nav__main-navigation .main-nav__navigation-box > li.active {
+      padding: 39px 0px;
+  }
+
+  .main-nav__main-navigation .main-nav__navigation-box > li > a:before, .main-nav__main-navigation .main-nav__navigation-box > li.active > a:before
+  {     top: -43px; }
+
+  .main-nav__right .icon-search-box {     padding: 46px 0; }
+  .header_btn_1 {     padding: 38px 0; }
+  .dw_btnss {    padding: 38px 5px; }
+
+  .stricked-menu.stricky-fixed .dw_btnss {  padding: 27px 5px; }
+
+}

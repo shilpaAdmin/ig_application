@@ -541,6 +541,7 @@
             //  show grid or list view 
             $(document).on('click','.data-view',function(e) {
                 e.preventDefault();
+                $('.ajax-loading').hide(); 
                 viewData = $(this).attr("data-view");
                 $('.data-view').removeClass('active');
                 $(this).addClass('active');

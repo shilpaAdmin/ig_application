@@ -8,7 +8,6 @@
 
     <div class="page-wrapper">
 
-
         <!-- Listings Details Main Image Box Start-->
         <section class="listings_details_main_image_box">
             @include('frontend.category.details-page-image-list.image-list')
@@ -28,8 +27,7 @@
                             </div>
                             <div class="main_bottom_left_title">
                                 <h4>{{ ucwords($businessData['name']) }}<i class="fa fa-check"></i></h4>
-                                <small>{{ ucwords($businessData['address']) }}, {{ ucwords($businessData['description']) }} </small>
-
+                                <small>{{ ucwords($businessData['address']) }} </small>
                             </div>
                             <div class="main_bottom_rating_time">
 
@@ -39,36 +37,20 @@
                             </div>
                         </div>
                     </div>
-                    <!--  <div class="col-xl-4 col-lg-4 seconboxlisd">
-                        <div class="main_bottom_left_titlet">
-                            <h4>Unit options</h4>
-                        </div>
-                        <button type="button" class="btn btnunit">2 BHK Appartment</button>
-                        <button type="button" class="btn btnunit">3 BHK Appartment</button>
-                        <button type="button" class="btn btnunit">4 BHK Appartment</button>
-                        <button type="button" class="btn btnunit">5 BHK Appartment</button>
-                    </div> -->
                     <div class="col-xl-6 col-lg-6">
                         <div class="main_bottom_right">
 
                             <div class="main_bottom_right_Buttons">
                                 <a href="#">Enroll Now</a>
-
                             </div>
 
                             <ul class="list-unstyled">
-                                <li>Duration<span> 16 Jul - 31 Aug </span></li>
-                                <li><a href="#">Add to Wishlist<i class="far fa-heart"></i></a></li>
+                                {{-- <li>Duration<span> 16 Jul - 31 Aug </span></li> --}}
+                                <li>Duration<span> {{ $businessData->created_at->format('d M') }} </span></li>
+                                <li><a href="#"  class="add-to-favourite" data-businessid="{{$businessData->id}}">Add to Favourite<i class="far fa-heart"></i></a></li>
                             </ul>
-
-
-
                         </div>
-
-
-
                     </div>
-
                 </div>
             </div>
         </section>
@@ -80,14 +62,12 @@
                     <div class="col-xl-8">
                         <div class="listings_details_left">
 
-
                             <div class="listings_details_text">
                                 <h3 class="mb-3">About</h3>
                                 <p class="first_text mb-0">{{ ucfirst($businessData['about']) }}</p>
                             </div>
 
-
-                            <div class="listings_details_text">
+                            {{-- <div class="listings_details_text">
                                 <h3 class="mb-3">More About</h3>
 
                                 <div class="house_detaill_main clearfix">
@@ -104,12 +84,14 @@
                                         <div class="house_desc">12+ Mock Test</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
-
-
-
-
+                            @php
+                                $syllabus = null;
+                                if(isset($businessData['syllabus']) && !empty($businessData['syllabus'])){
+                                    $syllabus=json_decode($businessData['syllabus'], true);
+                                }
+                            @endphp
                             <div class="listings_details_features border-bottom-0">
                                 <div class="listings_details_features_title">
                                     <h3 class="mb-3">Syllabus</h3>
@@ -117,92 +99,28 @@
                                 <div class="row">
                                     <div class="faq_one_right box-shadow-none">
                                         <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
-                                            <div class="accrodion">
-                                                <div class="accrodion-title">
-                                                    <h4>Relations and Functions</h4>
-                                                </div>
-                                                <div class="accrodion-content">
-                                                    <div class="inner">
-                                                        <p>There are many variations of passages the majority have
-                                                            suffered
-                                                            alteration in some fo injected humour, randomised words
-                                                            believable. There are many variations of passages the
-                                                            majority have suffered
-                                                            alteration in some fo injected humour, randomised words
-                                                            believable.</p>
-                                                    </div><!-- /.inner -->
-                                                </div>
-                                            </div>
-                                            <div class="accrodion active">
-                                                <div class="accrodion-title">
-                                                    <h4>Trigonometric Functions</h4>
-                                                </div>
-                                                <div class="accrodion-content">
-                                                    <div class="inner">
-                                                        <p>There are many variations of passages the majority have
-                                                            suffered
-                                                            alteration in some fo injected humour, randomised words
-                                                            believable.</p>
-                                                    </div><!-- /.inner -->
-                                                </div>
-                                            </div>
-                                            <div class="accrodion">
-                                                <div class="accrodion-title">
-                                                    <h4>Principle of Mathematical Induction</h4>
-                                                </div>
-                                                <div class="accrodion-content">
-                                                    <div class="inner">
-                                                        <p>There are many variations of passages the majority have
-                                                            suffered
-                                                            alteration in some fo injected humour, randomised words
-                                                            believable.</p>
-                                                    </div><!-- /.inner -->
-                                                </div>
-                                            </div>
-                                            <div class="accrodion">
-                                                <div class="accrodion-title">
-                                                    <h4>Permutation and Combination</h4>
-                                                </div>
-                                                <div class="accrodion-content">
-                                                    <div class="inner">
-                                                        <p>There are many variations of passages the majority have
-                                                            suffered
-                                                            alteration in some fo injected humour, randomised words
-                                                            believable.</p>
-                                                    </div><!-- /.inner -->
-                                                </div>
-                                            </div>
-                                            <div class="accrodion">
-                                                <div class="accrodion-title">
-                                                    <h4>Co-ordinate Geometry</h4>
-                                                </div>
-                                                <div class="accrodion-content">
-                                                    <div class="inner">
-                                                        <p>There are many variations of passages the majority have
-                                                            suffered
-                                                            alteration in some fo injected humour, randomised words
-                                                            believable.</p>
-                                                    </div><!-- /.inner -->
-                                                </div>
-                                            </div>
-                                            <div class="accrodion">
-                                                <div class="accrodion-title">
-                                                    <h4>Sequence and Series</h4>
-                                                </div>
-                                                <div class="accrodion-content">
-                                                    <div class="inner">
-                                                        <p>There are many variations of passages the majority have
-                                                            suffered
-                                                            alteration in some fo injected humour, randomised words
-                                                            believable.</p>
-                                                    </div><!-- /.inner -->
-                                                </div>
-                                            </div>
-
-
-
-
-
+                                                
+                                            @if (isset($syllabus) && isset($syllabus['Result']) && count($syllabus['Result']))
+                                                @foreach ($syllabus['Result'] as $key => $syllabus)
+                                                  
+                                                    <div class="accrodion {{ $key ==0 ? 'active': ''}}">
+                                                        @if (isset($syllabus['BeanTopics'][0]) && isset($syllabus['BeanTopics'][0]['topics']) && !empty($syllabus['BeanTopics'][0]['topics']))
+                                                            <div class="accrodion-title">
+                                                                <h4>{{ ucwords($syllabus['BeanTopics'][0]['topics'])}}</h4>
+                                                            </div>
+                                                            <div class="accrodion-content">
+                                                                <div class="inner">
+                                                                    @if ( isset($syllabus['BeanTopics'][0]['syallabusList']) )
+                                                                        @foreach ($syllabus['BeanTopics'][0]['syallabusList'] as $item)
+                                                                            <p>{{$item}}</p>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -213,53 +131,24 @@
                     </div>
                     <div class="col-xl-4">
                         <div class="listings_details_sidebar">
-
+                            @php
+                                $facultys=null;
+                                if(isset($businessData['realated_person_detail_json']) && !empty($businessData['realated_person_detail_json'])){
+                                    $facultys=json_decode($businessData['realated_person_detail_json'], true);
+                                }
+                            @endphp
                             <div class="listings_details_sidebar__single additional_info">
                                 <h3 class="listings_details_sidebar__title">Faculty Names</h3>
                                 <div class="additional_info_details">
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Joana Mark</p>
-                                        </div>
-                                    </div>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Kira Williams</p>
-                                        </div>
-                                    </div>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Sharon williams</p>
-                                        </div>
-                                    </div>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Markopolo Andrew</p>
-                                        </div>
-                                    </div>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Karl Semolind</p>
-                                        </div>
-                                    </div>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Justin Biber</p>
-                                        </div>
-                                    </div>
-
-
+                                    @if (isset($facultys))
+                                        @foreach ($facultys as $key=>$faculty)
+                                            <div class="additional_info_single">
+                                                <div class="left">
+                                                    <p><i class="fas fa-dot-circle"></i>{{$faculty['RelatedPersonDetail'.($key+1)]}}</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
 
@@ -270,13 +159,18 @@
         </section>
 
         @if (isset($similarData))
+            @php
+                $currentUrl = request()->segments();
+                $slug= isset($currentUrl[1]) ? $currentUrl[1] : $currentUrl[0] ;
+                $listPageUrl= route('category.business-list',['slug'=>$slug]);
+            @endphp
             <section class="mt-5 mb-5">
                 <div class="container">
                     <div class="row mb-4">
                         <div class="col-6">
                             <h4>Similar&nbsp;Courses</h4>
                         </div>
-                        <div class="col-6 text-right"> <a href="education-listing-list.html" class="link-simple"> View
+                        <div class="col-6 text-right"> <a href="{{ $listPageUrl }}" class="link-simple"> View
                                 All </a> </div>
                     </div>
 
@@ -302,6 +196,12 @@
                                 } else {
                                     $detailPageUrl = "javascript:void(0);";
                                 }
+
+
+                                $units=null;
+                                if(isset($similarDatas->unit_option) && !empty($similarDatas->unit_option)){
+                                    $units=explode (",", isset($similarDatas->unit_option) ? $similarDatas->unit_option : ''); 
+                                }
                             @endphp
 
                             <div class="col-xl-6 col-md-12 col-sm-12">
@@ -319,9 +219,8 @@
                                                 <h3><a href="{{$detailPageUrl}}">{{ ucwords($similarDatas['name']) }}<span
                                                             class="fa fa-check"></span></a></h3>
 
-                                                <p class="mb-0">{{ $similarDatas['address'] }} , {{ ucwords($similarDatas['description']) }}</p>
-                                                <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> 4.5km Away
-                                                    from you</p>
+                                                <p class="mb-0">{{ $similarDatas['about'] }} </p>
+                                                <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> {{ $similarDatas['address'] }} </p>
                                             </div>
                                             <ul class="list-unstyled listings_three-page_contact_info">
                                                 <li class="d-inline-block">
@@ -329,9 +228,13 @@
                                                 </li>
                                             </ul>
                                             <div class="listings_three-page_content_bottom">
-                                                <div class="left">
-                                                    <a class="job_list_pill mb-0" href="#"> DE / EN </a>
-                                                </div>
+                                                
+                                                @if (isset($units))
+                                                    <div class="left">
+                                                        <a class="job_list_pill mb-0" href="#">{{ $units[0] }} </a>
+                                                    </div>
+                                                @endif
+
                                                 <div>
                                                     <a href="{{ $detailPageUrl }}" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
                                                     <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
@@ -342,43 +245,6 @@
                                 </div>
                             </div>
                         @endforeach
-                        {{-- <div class="col-xl-6 col-md-12 col-sm-12">
-                            <div class="listings_two_page_content joblist_shadow">
-                                <div class="listings_two_page_single overflow-y__hidden">
-                                    <div class="listings_two_page_img">
-                                        <img src="{{ URL::asset('assets/frontend/images/listings/education2.jpg')}}" alt="">
-
-                                        <div class="heart_icon">
-                                            <i class="icon-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listings_three-page_content pt-3">
-                                        <div class="title">
-                                            <h3><a href="education-details.html">Carl Duisberg Centren<span
-                                                        class="fa fa-check"></span></a></h3>
-
-                                            <p class="mb-0">Halvorson , Adrienview 73379</p>
-                                            <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> 4.5km Away
-                                                from you</p>
-                                        </div>
-                                        <ul class="list-unstyled listings_three-page_contact_info">
-                                            <li class="d-inline-block">
-                                                <h6> 250+ Students enrolled this week </h6>
-                                            </li>
-                                        </ul>
-                                        <div class="listings_three-page_content_bottom">
-                                            <div class="left">
-                                                <a class="job_list_pill mb-0" href="#"> DE / EN </a>
-                                            </div>
-                                            <div>
-                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
-                                                <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
             </section>
