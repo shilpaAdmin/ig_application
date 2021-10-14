@@ -13,6 +13,10 @@
             $imageUrl= URL::asset('assets/frontend/images/listings/ent3.jpg');
         }
         $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
+        $units=null;
+        if(isset($business->unit_option) && !empty($business->unit_option)){
+            $units=explode (",", isset($business->unit_option) ? $business->unit_option : ''); 
+        }
     @endphp
     
     <div class="col-xl-6 col-md-12 col-sm-12">
@@ -31,11 +35,13 @@
 
                         <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy
                         </p>
-                        <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p>
+                        {{-- <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p> --}}
                     </div>
-                    <ul class="list-unstyled listings_three-page_contact_info">
-                        <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
-                    </ul>
+                    @if (isset($units))
+                        <ul class="list-unstyled listings_three-page_contact_info">
+                            <li> <a class="job_list_pill" href="#"> {{$units[0]}} </a> </li>
+                        </ul>
+                    @endif
                     <div class="listings_three-page_content_bottom">
                         <div class="left">
 

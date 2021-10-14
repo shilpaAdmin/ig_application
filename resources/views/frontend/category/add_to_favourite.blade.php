@@ -3,9 +3,11 @@
     $(document).ready(function () {
         $(document).on('click','.add-to-favourite',function(e){
             e.preventDefault();
-           console.log(token);
-           console.log(user.Id);
-            if(user && token){
+            console.log("fevrit token");
+            console.log(user);
+            console.log(token);
+            if( !(typeof user === 'undefined')&& !(typeof token==='undefined') ){
+                console.log("calli fav");
                 var businessId=$(this).attr('data-businessid')
                 $.ajax({
                     url: "{{ route('UserFavouriteBusiness') }}",
@@ -33,5 +35,11 @@
                 });
             }
         });
+
+        $("body").on('click','.open-hour-popup',function(e){
+            e.preventDefault();
+            $('#hours-popup').modal('toggle');
+        });
+
     });
 </script>

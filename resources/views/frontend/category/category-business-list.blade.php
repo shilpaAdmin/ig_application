@@ -521,7 +521,7 @@
                         success: function(data) {
                           
                             if(data.html.length == 0){
-                                $('.ajax-loading').html("No more records!");
+                                // $('.ajax-loading').html("No more records!");
                                 hasLoadMore=false;
                                 return;
                             }
