@@ -135,11 +135,11 @@
 
         @if (isset($similarData))
             
-        @php
-            $currentUrl = request()->segments();
-            $slug= isset($currentUrl[1]) ? $currentUrl[1] : $currentUrl[0] ;
-            $listPageUrl= route('category.business-list',['slug'=>$slug]);
-        @endphp
+            @php
+                $currentUrl = request()->segments();
+                $slug= isset($currentUrl[1]) ? $currentUrl[1] : $currentUrl[0] ;
+                $listPageUrl= route('category.business-list',['slug'=>$slug]);
+            @endphp
             <section class="mt-5 mb-5">
                 <div class="container">
                     <div class="row mb-4">

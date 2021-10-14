@@ -1019,10 +1019,6 @@ $('.adv_main').owlCarousel({
 
 
  
-        $(document).ready(function () {
-            $(".filter_by_tagstitile").click(function () {
-                $(".filter_by_tagsall").toggle();
-            });
-        });
+       
   
 
