@@ -136,125 +136,122 @@
 
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card bg-gray-bg text-white-50 m-0 mainhedformaster">
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-12">
-                        <div class="card-body newheadcontanty">
-                            <h5 class="m-0 textforhedermaster">Forum</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="card bg-gray-bg text-white-50 m-0 mainhedformaster">
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-12">
-                        <div class="card-body newheadcontanty">
-                            <h5 class="m-0 textforhedermaster">Testimonial</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!------ Forum table ------>
 
 
-            <div class="card-deck">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive custom_tabal_saction_part ">
-                            <div class="tableAction">
-                                <input type="button" id="approveStatusButton" value="Approve" />
+    <div class="row">
+        <div class="col-lg-12">
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-12">
+                            <div class="card-body newheadcontanty">
+                                <h5 class="m-0 textforhedermaster">Forum</h5>
                             </div>
-                            <table id="ForumList" class="table tableneww">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th></th>
-                                        <th>#</th>
-                                        <th>Question</th>
-                                        <th>Description</th>
-                                        <th>URL</th>
-                                        <th>User</th>
-                                        <th>Approve Status</th>
-
-                                    </tr>
-                                </thead>
-
-                                <tbody></tbody>
-                            </table>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive custom_tabal_saction_part">
-
-                            <table id="testmonialList" class="table tableneww">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Id</th>
-                                        <th>User</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Image</th>
-                                        <th>Media</th>
-                                    </tr>
-                                </thead>
-
-
-                                <tbody>
-
-                                </tbody>
-                            </table>
+                    <div class="table-responsive custom_tabal_saction_part ">
+                        <div class="tableAction">
+                            <input type="button" id="approveStatusButton" value="Approve" />
                         </div>
+                        <table id="ForumList" class="table table-striped tableneww">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>Question</th>
+                                    <th>Description</th>
+                                    <th>URL</th>
+                                    <th>User</th>
+                                    <th>Approve Status</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-
-        <!----- Testimonial table ----->
-        <div class="col-lg-6 col-md-12 col-12">
-
-            <div class="card-deck">
-
-            </div>
         </div>
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-12">
+                            <div class="card-body newheadcontanty">
+                                <h5 class="m-0 textforhedermaster">Testimonial</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive custom_tabal_saction_part">
+
+                        <table id="testmonialList" class="table table-striped tableneww">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Id</th>
+                                    <th>User</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
+                                    <th>Media</th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!----- Testimonial table ----->
+    <div class="col-lg-6 col-md-12 col-12">
+
+        <div class="card-deck">
+
+        </div>
+    </div>
     </div>
     <!--------------- Testimonial End ----------------->
 
-    <div class="row mt-3">
-        <div class="col-md-6">
-            <div class="card bg-gray-bg text-white-50 m-0 mainhedformaster">
-                <div class="row">
 
-                    <div class="col-md-6 col-sm-6 col-12">
-                        <div class="card-body newheadcontanty">
-                            <h5 class="m-0 textforhedermaster">Advertisment</h5>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-------- Advertisment Table-------->
 
     <div>
-        <div class="col-lg-6 col-md-12 col-12">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-md-6 col-sm-6 col-12">
+                            <div class="card-body newheadcontanty">
+                                <h5 class="m-0 textforhedermaster">Advertisment</h5>
+                            </div>
+
+                        </div>
+                    </div>
 
                     <div class="table-responsive custom_tabal_saction_part">
                         <div class="tableAction">
                             <input type="button" id="Advertismentapprove" value="Approve" />
                         </div>
-                        <table id="AdvertismentList" class="table tableneww">
+                        <table id="AdvertismentList" class="table table-striped tableneww">
                             <thead class="thead-light">
                                 <tr>
                                     {{-- <th></th> --}}
@@ -456,6 +453,11 @@
             $(".dataTables_length").hide();
             $("#ForumList_paginate").hide();
 
+            $('.dataTables_filter input[type="search"]').css({
+                'width': '350px',
+                'display': 'inline-block'
+            });
+
             $(".dataTables_filter input").attr("type", "text");
             dt.on("row-reordered", function(e, diff,
                 edit) {
@@ -602,9 +604,14 @@
             });
 
 
-            $("#testmonialList_filter").hide();
+            // $("#testmonialList_filter").hide();
             $(".dataTables_length").hide();
             $("#testmonialList_paginate").hide();
+
+            $('.dataTables_filter input[type="search"]').css({
+                'width': '350px',
+                'display': 'inline-block'
+            });
 
             $('.dataTables_filter input').attr('type', 'text');
             dt.on('row-reordered', function(e, diff, edit) {
@@ -807,6 +814,11 @@
             // $('#AdvertismentList_filter').hide();
             $(".dataTables_length").hide();
             $("#AdvertismentList_paginate").hide()
+
+            $('.dataTables_filter input[type="search"]').css({
+                'width': '350px',
+                'display': 'inline-block'
+            });
 
             $('.dataTables_filter input').attr('type', 'text');
             dt.on('row-reordered', function(e, diff, edit) {
