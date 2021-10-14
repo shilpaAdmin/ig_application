@@ -10,6 +10,7 @@ use App\Http\Model\JobApplyModel;
 use App\Http\Model\BusinessModel;
 
 use App\User;
+use App\Http\Traits\PdfImageNameCleanTrait;
 
 use URL;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use Exception;
 
 class ApplyForJobController extends Controller
 {
+    use PdfImageNameCleanTrait;
 
     public function storeAllJobData(Request $request)
     {
@@ -68,7 +70,7 @@ class ApplyForJobController extends Controller
 
         if(isset($request->JobId) && !empty($request->JobId))
         {
-            $obj=BusinessModel::where('id',$request->JobId)->first();
+            $obj=BusinessModel::with(['category'])->where('id',$request->JobId)->first();
             
             if($obj===null)
             {
@@ -80,8 +82,12 @@ class ApplyForJobController extends Controller
         $imageName = '';
         $destinationPath = public_path().'/images/job_apply/';
         if ($coverletter = $request->file('coverLetter'))
-        {
-            $imageName = md5(time() . '_' . $coverletter->getClientOriginalName()) . '.' . $coverletter->getClientOriginalExtension();
+        {            
+            if(!empty($coverletter->getClientOriginalName()))
+            $imageName=$this->getPdfImageNameClean(substr($coverletter->getClientOriginalName(), 0, strrpos($coverletter->getClientOriginalName(), '.')));
+
+            $imageName = $imageName . '_' .time(). '.' . $coverletter->getClientOriginalExtension();
+            //$imageName = md5(time() . '_' . $coverletter->getClientOriginalName()) . '.' . $coverletter->getClientOriginalExtension();
 
             $coverletter->move($destinationPath, $imageName);
         }
@@ -92,8 +98,12 @@ class ApplyForJobController extends Controller
         $resumeName = '';
         $destinationPath = public_path().'/images/job_apply/';
         if ($resume = $request->file('Resume'))
-        {
-            $resumeName = md5(time() . '_' . $resume->getClientOriginalName()) . '.' . $resume->getClientOriginalExtension();
+        {            
+            if(!empty($resume->getClientOriginalName()))
+            $resumeName=$this->getPdfImageNameClean(substr($resume->getClientOriginalName(), 0, strrpos($resume->getClientOriginalName(), '.')));
+
+            $resumeName = $resumeName . '_' .time(). '.' . $resume->getClientOriginalExtension();
+        //    $resumeName = md5(time() . '_' . $resume->getClientOriginalName()) . '.' . $resume->getClientOriginalExtension();
 
             $resume->move($destinationPath, $resumeName);
         }
@@ -113,8 +123,21 @@ class ApplyForJobController extends Controller
         $data->job_id= !empty($request->JobId) ? $request->JobId : "";
         $data->status = 'active';
         
+        /*print_r($obj);
+        echo 'user'.$obj->user_id.'<br>';
+        echo $obj['category']['name'];
+        exit;*/
+
         if($data->save())
         {
+            $category_name='';
+
+            if(!empty($obj['category']['name']))
+            $category_name=$obj['category']['name'];
+
+            if(!empty($request->name) && !empty($obj->user_id) && $obj->user_id!=0 && !empty($obj->category_id) && $obj->category_id!=0 )
+            $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($obj->user_id,$data->id,$request->name.' applied to your '.$obj->name.' job.','service',$category_name,'Job Apply');
+
             return response()->json(['Status'=>true,'StatusMessage'=>'Job applied successfully!','Result'=>array()]);
         }
         else

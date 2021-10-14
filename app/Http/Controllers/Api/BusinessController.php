@@ -1148,17 +1148,23 @@ class BusinessController extends Controller
 
         //print_r($business);
         
-        $user_name='';
+        $user_name=$category_name=$enquiry_user='';
 
         if($business->user_id !=0)
         $user_name=$business['user']->name;
+
+        if(!empty($business['category']->name))
+        $category_name=$business['category']->name;
+
+        if(!empty($user->name))
+        $enquiry_user=$user->name;
 
         $status='';
         $statusMessage='';
         if(BusinessUserEnquiryModel::insert(['business_id'=>$input['ListId'],'user_id'=>$input['RegisterId']]))
         {
             if(!empty($user_name) && !empty($business->user_id) && $business->user_id!=0 && !empty($business->category_id) && $business->category_id!=0 )
-            $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($business->user_id,$input['ListId'],$business['user']['name'].' your business enquired.','service',$business['category']->name,'business enquiry');
+            $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($business->user_id,$input['ListId'],$business['user']['name'].' your business enquired.By '.$enquiry_user,'service',$category_name,'business enquiry');
 
             $status=true;
             $statusMessage='User enquiry successfully !';
@@ -1341,6 +1347,19 @@ class BusinessController extends Controller
         }
         else
         {
+            $user_name='';
+
+            if(!empty($user->id))
+            $user_name=$user->name;
+
+            $category_name='';
+
+            if(!empty($business->category_id))
+            $category_name=$business['category']['name'];
+
+            if(!empty($user->id) && !empty($business->user_id) && $business->user_id!=0 && !empty($business->category_id) && $business->category_id!=0 )
+            $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($business->user_id,$input['ListId'],$user_name.' added your '.$business->name.' business as favourite','service',$category_name,'business favourite');
+
             $create=BusinessFavouriteModel::create([
                 'user_id' => $input['RegisterId'],
                 'business_id'=>$input['ListId'],

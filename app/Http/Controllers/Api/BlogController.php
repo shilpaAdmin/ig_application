@@ -16,10 +16,12 @@ use HasApiTokens;
 use Hash;
 use URL;
 use App\Http\Traits\UserLocationDetailTrait;
+use App\Http\Traits\PdfImageNameCleanTrait;
 
 class BlogController extends Controller
 {
     use UserLocationDetailTrait;
+    use PdfImageNameCleanTrait;
 
     public function listBlogData(Request $request)
     {

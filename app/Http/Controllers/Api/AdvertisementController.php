@@ -8,6 +8,7 @@ use App\Http\Model\CategoryModel;
 use App\User;
 
 use App\Http\Traits\UserLocationDetailTrait;
+use App\Http\Traits\PdfImageNameCleanTrait;
 
 use URL;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 class AdvertisementController extends Controller
 {
     use UserLocationDetailTrait;
+    use PdfImageNameCleanTrait;
     
     public function AddAds(Request $request)
     {
@@ -70,7 +72,12 @@ class AdvertisementController extends Controller
 
         if($mediaData = $request->file('Media'))
         {
-            $imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+            $media_name='';
+            
+            if(!empty($mediaData->getClientOriginalName()))
+            $media_name=$this->getPdfImageNameClean(substr($mediaData->getClientOriginalName(), 0, strrpos($mediaData->getClientOriginalName(), '.')));
+
+            $imageName = $media_name . '_' .time(). '.' . $mediaData->getClientOriginalExtension();
             if($mediaData->move($destinationPath, $imageName))
             {
                 if(isset($ads))

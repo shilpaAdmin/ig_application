@@ -12,6 +12,7 @@ use App\Http\Model\BlogsCommentReplyLikesModel;
 use App\User;
 
 use App\Http\Traits\UserLocationDetailTrait;
+use App\Http\Traits\PdfImageNameCleanTrait;
 
 use URL;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\File;
 class ForumController extends Controller
 {
     use UserLocationDetailTrait;
+    use PdfImageNameCleanTrait;
 
     public function storeForumData(Request $request)
     {
@@ -104,7 +106,12 @@ class ForumController extends Controller
 
             if($mediaData = $request->file('Attachment'))
             {
-                $attachmentImage = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+                $media_name='';
+
+                if(!empty($mediaData->getClientOriginalName()))
+                $media_name=$this->getPdfImageNameClean(substr($mediaData->getClientOriginalName(), 0, strrpos($mediaData->getClientOriginalName(), '.')));
+
+                $attachmentImage = $media_name.'_' .time(). '.' . $mediaData->getClientOriginalExtension();
                 $mediaData->move($imagedestinationPath, $attachmentImage);
             }
         }
@@ -357,7 +364,7 @@ class ForumController extends Controller
         $forum=ForumCommentReplyModel::with(['user','forum'])->where([
             ['forum_id',$input['ForumId']],
            // ['user_id',$input['RegisterId']]
-            ])->where('comment_id',0)->where('is_deleted',0)->get()->toArray();
+            ])->where('comment_id',0)->where('is_deleted',0)->orderBy('id','desc')->get()->toArray();
 
         $total_count=count($forumModel);
         //print_r($forumModel);
@@ -402,6 +409,7 @@ class ForumController extends Controller
                 {
                     $dataArray['Comment'][$i]['Id']=strval($forum[$i]['id']);
                     $dataArray['Comment'][$i]['Message']=!empty($forum[$i]['message'])?$forum[$i]['message']:'';
+                    $dataArray['Comment'][$i]['UserId']=!empty($forum[$i]['user_id'])?strval($forum[$i]['user_id']):'';
                     $dataArray['Comment'][$i]['UserName']=!empty($forum[$i]['user']['name'])?$forum[$i]['user']['name']:'';
                     $dataArray['Comment'][$i]['UserImage']=!empty($forum[$i]['user']['user_image'])?URL::to('/images/user').'/'.$forum[$i]['user']['user_image']:'';
                     $dataArray['Comment'][$i]['Date']=date('d-m-Y',strtotime($forum[$i]['created_at']));
@@ -451,7 +459,7 @@ class ForumController extends Controller
                     $dataArray['Comment'][$i]['IsLike']=$is_like;
 
                     $replyData=ForumCommentReplyModel::with(['user'])->where('comment_id',$forum[$i]['id'])
-                    ->where('comment_id','!=',0)->where('is_deleted',0)->get()->toArray();
+                    ->where('comment_id','!=',0)->where('is_deleted',0)->orderBy('id','desc')->get()->toArray();
 
                     $totalReplyData=count($replyData);
 
@@ -460,7 +468,8 @@ class ForumController extends Controller
                         for($j=0;$j<$totalReplyData;$j++)
                         {
                             $dataArray['Comment'][$i]['Reply'][$j]['Id']=strval($replyData[$j]['id']);
-                            $dataArray['Comment'][$i]['Reply'][$j]['Message']=$replyData[$j]['message'];
+                            $dataArray['Comment'][$i]['Reply'][$j]['Message']=!empty($replyData[$j]['message'])?$replyData[$j]['message']:'';
+                            $dataArray['Comment'][$i]['Reply'][$j]['UserId']=!empty($replyData[$j]['user_id'])?strval($replyData[$j]['user_id']):'';
                             $dataArray['Comment'][$i]['Reply'][$j]['UserName']=!empty($replyData[$j]['user']['name'])?$replyData[$j]['user']['name']:'';
                             $dataArray['Comment'][$i]['Reply'][$j]['UserImage']=!empty($replyData[$j]['user']['user_image'])?URL::to('/images/user').'/'.$replyData[$j]['user']['user_image']:'';
                             $dataArray['Comment'][$i]['Reply'][$j]['Date']=date('d-m-Y',strtotime($replyData[$j]['created_at']));
