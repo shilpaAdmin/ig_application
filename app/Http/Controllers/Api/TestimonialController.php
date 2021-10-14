@@ -11,10 +11,12 @@ use URL;
 use Illuminate\Http\Request;
 
 use App\Http\Traits\UserLocationDetailTrait;
+use App\Http\Traits\PdfImageNameCleanTrait;
 
 class TestimonialController extends Controller
 {
     use UserLocationDetailTrait;
+    use PdfImageNameCleanTrait;
 
     public function getTestimonialData(Request $request)
     {
@@ -153,7 +155,13 @@ class TestimonialController extends Controller
 
             if($mediaData = $request->file('UserImage'))
             {
-                $imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+                $media_name='';
+
+                if(!empty($mediaData->getClientOriginalName()))
+                $media_name=$this->getPdfImageNameClean(substr($mediaData->getClientOriginalName(), 0, strrpos($mediaData->getClientOriginalName(), '.')));
+
+                $imageName = $media_name . '_' .time(). '.' . $mediaData->getClientOriginalExtension();
+                //$imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
                 $mediaData->move($imagedestinationPath, $imageName);
 
                 $testimonials->image=$imageName;
@@ -170,7 +178,13 @@ class TestimonialController extends Controller
         
         if($mediaData = $request->file('Media'))
         {
-            $imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+            $media_name='';
+
+            if(!empty($mediaData->getClientOriginalName()))
+            $media_name=$this->getPdfImageNameClean(substr($mediaData->getClientOriginalName(), 0, strrpos($mediaData->getClientOriginalName(), '.')));
+
+            $imageName = $media_name . '_' .time(). '.' . $mediaData->getClientOriginalExtension();
+            //$imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
             $mediaData->move($mediadestinationPath, $imageName);
 
             $testimonials->media=$imageName;

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\User;
 use App\Http\Model\ForumCommentReplyModel;
+use App\Http\Model\BlogsCommentReplyModel;
 use App\Http\Model\ForumModel;
 use App\Http\Model\BlogsModel;
 use App\Http\Model\ForumCommentReplyLikesModel;
@@ -55,9 +56,9 @@ class ForumCommentReplyController extends Controller
 
         if(isset($input['CommentID']) && !empty($input['CommentID']))
         {   
-            $forum=ForumCommentReplyModel::where('id',$input['CommentID'])->first();
+            $forumComment=ForumCommentReplyModel::where('id',$input['CommentID'])->where('comment_id',0)->first();
             
-            if($forum===null)
+            if($forumComment===null)
             {
                 return response()->json(['Status'=>false,'StatusMessage'=>'Comment not exist!']);
             }
@@ -117,6 +118,17 @@ class ForumCommentReplyController extends Controller
 
         if($obj->save())
         {
+            if(isset($input['CommentID']) && !empty($input['CommentID']))
+            {
+                if(!empty($forumComment->user_id) && $forumComment->user_id > 0 )
+                app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forumComment->user_id,$input['ForumId'],$user->name.' added reply on your comment.','forum_reply','','forum reply');
+            }
+            else
+            {
+                if(!empty($forum->user_id) && $forum->user_id > 0 )
+                app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forum->user_id,$input['ForumId'],$user->name.' added comment in your forum.','forum_comment','','forum comment');
+            }
+
             return response()->json(['Status'=>true,'StatusMessage'=>$str.' added successfully!']);
         }
         else
@@ -167,11 +179,23 @@ class ForumCommentReplyController extends Controller
 
         if(isset($input['CommentOrReplyId']) && !empty($input['CommentOrReplyId']))
         {   
-            $forum=ForumCommentReplyModel::where('id',$input['CommentOrReplyId'])->first();
+            if($input['Type']=='forum')
+            {   
+                $forum_comment_reply=ForumCommentReplyModel::where('id',$input['CommentOrReplyId'])->first();
             
-            if($forum===null)
+                if($forum_comment_reply===null)
+                {
+                    return response()->json(['Status'=>false,'StatusMessage'=>'Forum comment or reply not exist!','Result'=>array()]);
+                }
+            }
+            else
             {
-                return response()->json(['Status'=>false,'StatusMessage'=>'Comment not exist!','Result'=>array()]);
+                $blog_comment_reply=BlogsCommentReplyModel::where('id',$input['CommentOrReplyId'])->first();
+            
+                if($blog_comment_reply===null)
+                {
+                    return response()->json(['Status'=>false,'StatusMessage'=>'Blog comment or reply not exist!','Result'=>array()]);
+                }
             }
         }
         
@@ -209,6 +233,40 @@ class ForumCommentReplyController extends Controller
             ->where('comment_or_reply_id',$input['CommentOrReplyId'])->first();
         }
 
+        $stringcommentreplyinfo='';
+        // check forum or blog contains comment or reply
+        if($input['Type']=='forum')
+        {
+            if(!empty($forum_comment_reply))
+            {
+                if($forum_comment_reply->comment_id==0)
+                {
+                    $stringcommentreplyinfo='forum comment';
+                }
+                else
+                {
+                    $stringcommentreplyinfo='forum reply';
+                }
+            }
+        }
+        else
+        {
+            if(!empty($blog_comment_reply))
+            {
+                if($blog_comment_reply->comment_id==0)
+                {
+                    $stringcommentreplyinfo='blog comment';
+                }
+                else
+                {
+                    $stringcommentreplyinfo='blog reply';
+                }
+            }
+        }
+
+        $user_name='';
+        if(!empty($user->name))
+        $user_name=$user->name;
 
         if($likesObj===null)
         {
@@ -217,12 +275,18 @@ class ForumCommentReplyController extends Controller
                 ForumCommentReplyLikesModel::insert(
                 ['user_id'=>$input['RegisterId'],'comment_or_reply_id'=>$input['CommentOrReplyId'],
                 'forum_id'=>$input['Id'],'is_like'=>1]);
+                
+                if(!empty($user_name) && !empty($forum_comment_reply->user_id) && $forum_comment_reply->user_id!=0 )
+                $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forum_comment_reply->user_id,$input['Id'],$user_name.' likes your '.$stringcommentreplyinfo,'forum like','',$stringcommentreplyinfo.' like');
             }
             elseif($input['Type']=='blog')
             {
                 BlogsCommentReplyLikesModel::insert(
                 ['user_id'=>$input['RegisterId'],'comment_or_reply_id'=>$input['CommentOrReplyId'],
                 'blog_id'=>$input['Id'],'is_like'=>1]);
+                
+                if(!empty($user_name) && !empty($blog_comment_reply->user_id) && $blog_comment_reply->user_id!=0 )
+                $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($blog_comment_reply->user_id,$input['Id'],$user_name.' likes your '.$stringcommentreplyinfo,'blog like','',$stringcommentreplyinfo.' like');
             }
 
             return response()->json(['Status'=>true,'StatusMessage'=>'Status stored!','Result'=>array()]);
@@ -245,14 +309,29 @@ class ForumCommentReplyController extends Controller
             if($input['Type']=='forum')
             {
                 $result=ForumCommentReplyLikesModel::where('comment_or_reply_id',$input['CommentOrReplyId'])
-                ->where('user_id',$input['RegisterId'])->where('forum_id',$input['Id'])
-                ->update(['is_like'=>$newValue]);
+                ->where('user_id',$input['RegisterId'])->where('forum_id',$input['Id'])->first();
+                
+                $result->update(['is_like'=>$newValue]);
+
+                if($newValue==1)
+                {
+                    if(!empty($user_name) && !empty($forum_comment_reply->user_id) && $forum_comment_reply->user_id!=0 )
+                    app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forum_comment_reply->user_id,$input['Id'],$user_name.' likes your '.$stringcommentreplyinfo,'forum','',$stringcommentreplyinfo.' like');
+                }
             }
             elseif($input['Type']=='blog')
             {
                 $result=BlogsCommentReplyLikesModel::where('comment_or_reply_id',$input['CommentOrReplyId'])
-                ->where('user_id',$input['RegisterId'])->where('blog_id',$input['Id'])
-                ->update(['is_like'=>$newValue]);
+                ->where('user_id',$input['RegisterId'])->where('blog_id',$input['Id'])->first();
+                
+                $result->update(['is_like'=>$newValue]);
+                
+                if($newValue==1)
+                {
+                    if(!empty($user_name) && !empty($blog_comment_reply->user_id) && $blog_comment_reply->user_id!=0 )
+                    app('App\Http\Controllers\Api\NotificationsController')->sendNotification($blog_comment_reply->user_id,$input['Id'],$user_name.' likes your '.$stringcommentreplyinfo,'blog','',$stringcommentreplyinfo.' like');
+                }
+
             }
 
             if($result)
@@ -264,6 +343,5 @@ class ForumCommentReplyController extends Controller
                 return response()->json(['Status'=>true,'StatusMessage'=>'Status not updated!','Result'=>array()]);
             }
         }
-
     }   
 }

@@ -7,6 +7,7 @@ use Laravel\Passport\Token;
 use App\Http\Controllers\Controller;
 
 use App\Http\Model\NotificationsModel;
+use App\Http\Model\CategoryModel;
 use App\User;
 use Illuminate\Http\Request;
 use HasApiTokens;
@@ -41,15 +42,21 @@ class NotificationsController extends Controller
             }
         }
 
-        $notificationsData=NotificationsModel::where('user_id',$input['RegisterId'])->get()->toArray();
+        $notificationsData=NotificationsModel::with(['category'])->where('user_id',$input['RegisterId'])->orderBy('id','desc')->get()->toArray();
         $totalCount=count($notificationsData);
 
         $notificationsArray=array();
 
         for($i=0;$i<$totalCount;$i++)
         {
-            $notificationsArray[$i]['Id']=$notificationsData[$i]['id'];
-            $notificationsArray[$i]['ListId']=$notificationsData[$i]['business_id'];
+            $category_name='';
+            if(isset($notificationsData[$i]['category']['name']))
+            $category_name=$notificationsData[$i]['category']['name'];
+
+            $notificationsArray[$i]['Id']=strval($notificationsData[$i]['id']);
+            $notificationsArray[$i]['ListId']=$notificationsData[$i]['ids'];
+            $notificationsArray[$i]['Type']=!empty($notificationsData[$i]['type'])?$notificationsData[$i]['type']:'';
+            $notificationsArray[$i]['Category']=$category_name;
             $notificationsArray[$i]['Title']=$notificationsData[$i]['title'];
             $notificationsArray[$i]['Message']=$notificationsData[$i]['message'];
             $notificationsArray[$i]['Date']=date('d-m-Y',strtotime($notificationsData[$i]['created_at']));
@@ -68,22 +75,37 @@ class NotificationsController extends Controller
         $sender_username = isset($sender_userdata->username) ? $sender_userdata->username : '';
         $sender_fullname = isset($sender_userdata->full_name) ? $sender_userdata->full_name : '';
         $Message = $sender_username.' has '.$orderStatus;*/
-
+        
         $receiverId = isset($receiverId) ? $receiverId : '';
         $id = isset($id) ? $id :'';
         $message =  isset($message) ? $message :'';
         $type= isset($type) ? $type :'';
         $categoryid=!empty($categoryid)?$categoryid:'';
 
+        if($title=='')
         $title='IGGroup App';
 
         $receiverInfo = User::select('device_token','device_type')->where('id',$receiverId)->first();
 
-        $notification['business_id'] = $id;
+        if(!empty($categoryid))
+        {
+            $categoryObj=CategoryModel::where('name','like','%'.$categoryid.'%')->select('id')->first();
+
+            if($categoryObj!==null)
+            {
+                $categoryid=$categoryObj->id;
+            }
+        }
+
+        $notification['ids'] = $id;
         $notification['user_id']   = $receiverId;
         $notification['message']     = $message;
         $notification['title']     = $title;
         $notification['type']     = $type;
+
+        if(!empty($categoryid))
+        $notification['category_id']=$categoryid;
+
         NotificationsModel::create($notification);
 
         /// PUSH NOTIFICATION WORK ======================================================

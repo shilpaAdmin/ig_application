@@ -305,7 +305,7 @@ class APIAuthController extends Controller
         $userArray['user']['Name'] = $user->name;
         // $userArray['user']['Password'] = $user->password;
         $userArray['user']['Email'] = $user->email;
-        $userArray['user']['Gender'] = $user->gender;
+        $userArray['user']['Gender'] = !empty($user->gender)?$user->gender:'';
         $userArray['user']['Address'] = !empty($user->address)?$user->address:'';
         $userArray['user']['UserImage'] = !empty($user->user_image)?URL::to('/images/user').'/'.$user->user_image:'';
         $userArray['user']['MatrimonialId']=!empty($user->matrimonial_id)?strval($user->matrimonial_id):'';
