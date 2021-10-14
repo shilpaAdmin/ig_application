@@ -1,21 +1,20 @@
 @extends('frontend.layouts.master')
 @section('title') Tour Travel Details @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+@endsection
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-
-<body>
-
+    
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png')}}" class="preloader__image" alt="">
     </div><!-- /.preloader -->
 
     <div class="page-wrapper">
+       
         <!-- Listings Details Main Image Box Start-->
         <section class="listings_details_main_image_box">
             @include('frontend.category.details-page-image-list.image-list')
         </section>
-
         <!--Main Bottom Start-->
         <section class="main_bottom">
             <div class="container">
@@ -36,7 +35,7 @@
                                 <div class="mr-3">
                                     <i class="fas fa-tag "></i> Air Travel agents
                                 </div>
-                                <div class="main_bottom_rating">
+                                {{-- <div class="main_bottom_rating">
 
                                     <a href="#"><i class="fas fa-star"></i></a>
                                     <a href="#"><i class="fas fa-star"></i></a>
@@ -44,13 +43,8 @@
                                     <a href="#" class="clr-gray"><i class="fas fa-star"></i></a>
                                     <a href="#" class="clr-gray"><i class="fas fa-star"></i></a>
                                     <a href="#" class="clr-black">4.8</a>
-                                </div>
+                                </div> --}}
                             </div>
-
-
-
-
-
                         </div>
                     </div>
 
@@ -60,10 +54,39 @@
                             <div class="main_bottom_right_Buttons">
                                 <a href="#">Enquire Now</a>
                             </div>
-
+                            @php
+                                $hoursData=null;
+                                $timeStr='10 AM - 7 PM';
+                                if(isset($businessData->hours_json) && !empty($businessData->hours_json) ){
+                                    $hoursData = json_decode($businessData->hours_json, true);
+                                    if(isset($hoursData) && count($hoursData)){
+                                        $date= date("l");
+                                        if($date=="Sunday"){
+                                            $timeStr=$hoursData['DisplaySun'];
+                                        } else if($date=="Monday"){
+                                            $timeStr=$hoursData['DisplayMon'];
+                                        } else if($date=="Tuesday"){
+                                            $timeStr=$hoursData['DisplayTue'];
+                                        } else if($date=="Wednesday"){
+                                            $timeStr=$hoursData['DisplayWed'];
+                                        } else if($date=="Thursday"){
+                                            $timeStr=$hoursData['DisplayThur'];
+                                        } else if($date=="Friday"){
+                                            $timeStr=$hoursData['DisplayFri'];
+                                        } else if($date=="Saturday"){
+                                            $timeStr=$hoursData['DisplaySat'];
+                                        } else {
+                                            $timeStr='10 AM - 7 PM ';
+                                        }
+                                    }
+                                }
+                            @endphp
                             <ul class="list-unstyled">
-                                <li>Mon to Sat<span> 10 AM - 7 PM </span></li>
-                                <li><a href="#">Add to Wishlist<i class="far fa-heart"></i></a></li>
+                                @if (isset($hoursData))
+                                    <li ><a href="#" class="open-hour-popup" ><span> {{ $timeStr }}</span></a></li>
+                                @endif
+                                {{-- <li><a href="#">Add to Wishlist<i class="far fa-heart"></i></a></li> --}}
+                                <li><a href="#"  class="add-to-favourite" data-businessid="{{$businessData->id}}">Add to Favourite<i class="far fa-heart"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -106,8 +129,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                     <div class="col-xl-4">
@@ -116,76 +137,7 @@
                             <div class="listings_details_sidebar__single additional_info">
                                 <h3 class="listings_details_sidebar__title mb-0"> Services Offered </h3>
                                 <div class="additional_info_details">
-
-                                    <h6 class="service_h6">Tour Operators</h6>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>International</p>
-                                        </div>
-                                    </div>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Pilgrimage</p>
-                                        </div>
-                                    </div>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Domestic</p>
-                                        </div>
-                                    </div>
-
-                                    <h6 class="service_h6">travel agents</h6>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Air Travel</p>
-                                        </div>
-                                    </div>
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Train Travel</p>
-                                        </div>
-                                    </div>
-
-
-                                    <h6 class="service_h6">Serving in</h6>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Burgel</p>
-                                        </div>
-                                    </div>
-
-
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Eisenberg</p>
-                                        </div>
-                                    </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Graitschen bei Burgel</p>
-                                        </div>
-                                    </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Neuengonna</p>
-                                        </div>
-                                    </div>
-
-
+                                    {!! $businessData['sub_descrition'] !!}
                                 </div>
                             </div>
 
@@ -196,13 +148,18 @@
         </section>
 
         @if (isset($similarData))
+            @php
+                $currentUrl = request()->segments();
+                $slug= isset($currentUrl[1]) ? $currentUrl[1] : $currentUrl[0] ;
+                $listPageUrl= route('category.business-list',['slug'=>$slug]);
+            @endphp
             <section class="mt-5 mb-5">
                 <div class="container">
                     <div class="row mb-4">
                         <div class="col-6">
                             <h4>Similar&nbsp;Providers</h4>
                         </div>
-                        <div class="col-6 text-right"> <a href="{{route('TourtravelListingList')}}" class="link-simple"> View
+                        <div class="col-6 text-right"> <a href="{{$listPageUrl}}" class="link-simple"> View
                                 All </a> </div>
                     </div>
 
@@ -241,10 +198,10 @@
                                             <div class="title">
                                                 <h3><a href="{{ $detailPageUrl }}">{{ ucwords($similarDatas['name']) }}<span
                                                             class="fa fa-check"></span></a></h3>
-                                                <p>{{ $similarDatas['address'] }},{{ ucwords($similarDatas['description']) }}</p>
+                                                <p>{{ $similarDatas['about'] }}</p>
                                             </div>
                                             <ul class="list-unstyled listings_three-page_contact_info">
-                                                <li>
+                                                {{-- <li>
                                                     <a class="rating_listt" href="#">
                                                         <i class="fas fa-star"></i>
                                                         <i class="fas fa-star"></i>
@@ -252,9 +209,9 @@
                                                         <i class="fas fa-star"></i>
                                                         <span class="gry_clr"><i class="fas fa-star"> </i></span>
                                                         <span class="clr_blackk">4.0</span> </a>
-                                                </li>
+                                                </li> --}}
                                                 <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
-                                                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
+                                                <li><a href="#"><i class="fas fa-map-marker-alt"></i> {{ $similarDatas['address'] }}</a></li>
                                             </ul>
                                             <div class="listings_three-page_content_bottom">
                                                 <div class="left">
@@ -270,97 +227,16 @@
                                 </div>
                             </div>
                         @endforeach
-                        {{-- <div class="col-xl-6 col-md-12 col-sm-12">
-                            <div class="listings_two_page_content">
-                                <div class="listings_two_page_single">
-                                    <div class="listings_two_page_img">
-                                        <img src="{{ URL::asset('assets/frontend/images/listings/tour1.jpg')}}" alt="">
-
-                                        <div class="heart_icon">
-                                            <i class="icon-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listings_three-page_contentt pt-3">
-                                        <div class="title">
-                                            <h3><a href="{{route('Tourtraveldetails')}}">Fly Services Pvt Ltd<span
-                                                        class="fa fa-check"></span></a></h3>
-                                            <p>Halvorson, Adrienview 73379</p>
-                                        </div>
-                                        <ul class="list-unstyled listings_three-page_contact_info">
-                                            <li>
-                                                <a class="rating_listt" href="#">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <span class="gry_clr"><i class="fas fa-star"> </i></span>
-                                                    <span class="clr_blackk">4.0</span> </a>
-                                            </li>
-                                            <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
-                                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
-                                        </ul>
-                                        <div class="listings_three-page_content_bottom">
-                                            <div class="left">
-
-                                            </div>
-                                            <div>
-                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                                <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-6 col-md-12 col-sm-12">
-                            <div class="listings_two_page_content">
-                                <div class="listings_two_page_single">
-                                    <div class="listings_two_page_img">
-                                        <img src="{{ URL::asset('assets/frontend/images/listings/tour1.jpg')}}" alt="">
-
-                                        <div class="heart_icon">
-                                            <i class="icon-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listings_three-page_contentt pt-3">
-                                        <div class="title">
-                                            <h3><a href="{{route('Tourtraveldetails')}}">Fly Services Pvt Ltd<span
-                                                        class="fa fa-check"></span></a></h3>
-                                            <p>Halvorson, Adrienview 73379</p>
-                                        </div>
-                                        <ul class="list-unstyled listings_three-page_contact_info">
-                                            <li>
-                                                <a class="rating_listt" href="#">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <span class="gry_clr"><i class="fas fa-star"> </i></span>
-                                                    <span class="clr_blackk">4.0</span> </a>
-                                            </li>
-                                            <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
-                                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
-                                        </ul>
-                                        <div class="listings_three-page_content_bottom">
-                                            <div class="left">
-
-                                            </div>
-                                            <div>
-                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                                <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
 
                     </div>
                 </div>
             </section>
         @endif
     </div><!-- /.page-wrapper -->
-</body>
-</html>
+    @include('frontend.models.hours-model')
+@endsection
+
+@section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    @include('frontend.category.add_to_favourite')
 @endsection

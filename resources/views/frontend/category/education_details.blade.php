@@ -1,5 +1,8 @@
 @extends('frontend.layouts.master')
 @section('title') Education Details @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+@endsection
 @section('content')
 
     <div class="preloader">
@@ -96,32 +99,30 @@
                                 <div class="listings_details_features_title">
                                     <h3 class="mb-3">Syllabus</h3>
                                 </div>
-                                <div class="row">
-                                    <div class="faq_one_right box-shadow-none">
-                                        <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
+                                <div class="faq_one_right box-shadow-none">
+                                    <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
+                                            
+                                        @if (isset($syllabus) && isset($syllabus['Result']) && count($syllabus['Result']))
+                                            @foreach ($syllabus['Result'] as $key => $syllabus)
                                                 
-                                            @if (isset($syllabus) && isset($syllabus['Result']) && count($syllabus['Result']))
-                                                @foreach ($syllabus['Result'] as $key => $syllabus)
-                                                  
-                                                    <div class="accrodion {{ $key ==0 ? 'active': ''}}">
-                                                        @if (isset($syllabus['BeanTopics'][0]) && isset($syllabus['BeanTopics'][0]['topics']) && !empty($syllabus['BeanTopics'][0]['topics']))
-                                                            <div class="accrodion-title">
-                                                                <h4>{{ ucwords($syllabus['BeanTopics'][0]['topics'])}}</h4>
+                                                <div class="accrodion {{ $key ==0 ? 'active': ''}}">
+                                                    @if (isset($syllabus['BeanTopics'][0]) && isset($syllabus['BeanTopics'][0]['topics']) && !empty($syllabus['BeanTopics'][0]['topics']))
+                                                        <div class="accrodion-title">
+                                                            <h4>{{ ucwords($syllabus['BeanTopics'][0]['topics'])}}</h4>
+                                                        </div>
+                                                        <div class="accrodion-content">
+                                                            <div class="inner">
+                                                                @if ( isset($syllabus['BeanTopics'][0]['syallabusList']) )
+                                                                    @foreach ($syllabus['BeanTopics'][0]['syallabusList'] as $item)
+                                                                        <p>{{$item}}</p>
+                                                                    @endforeach
+                                                                @endif
                                                             </div>
-                                                            <div class="accrodion-content">
-                                                                <div class="inner">
-                                                                    @if ( isset($syllabus['BeanTopics'][0]['syallabusList']) )
-                                                                        @foreach ($syllabus['BeanTopics'][0]['syallabusList'] as $item)
-                                                                            <p>{{$item}}</p>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -250,4 +251,8 @@
             </section>
         @endif
     </div><!-- /.page-wrapper -->
+@endsection
+@section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    @include('frontend.category.add_to_favourite')
 @endsection

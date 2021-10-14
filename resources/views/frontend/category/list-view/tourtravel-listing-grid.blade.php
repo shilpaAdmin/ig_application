@@ -15,6 +15,7 @@
             $imageUrl= URL::asset('assets/frontend/images/listings/tour2.jpg');
         }
         $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
+
     @endphp
 
     <div class="col-xl-4 col-md-6 col-sm-12">
@@ -37,19 +38,20 @@
                 <div class="title">
                     <h3><a href="{{$detailsPageUrl}}">{{$name}}<span
                                 class="fa fa-check"></span></a></h3>
-                    <p>{{$address}},{{$description}}</p>
+                    <p>{{ $about }}</p>
+                    {{-- <p>{{$address}},{{$description}}</p> --}}
                 </div>
                 <ul class="list-unstyled listings_three-page_contact_info">
-                    <li> <a class="rating_listt" href="#">
+                    {{-- <li> <a class="rating_listt" href="#">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <span class="gry_clr"><i class="fas fa-star"> </i></span> <span
                                 class="clr_blackk">4.0</span> </a>
-                    </li>
+                    </li> --}}
                     <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
-                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> {{ $address }}</a></li>
                 </ul>
                 <div class="listings_three-page_content_bottom">
                     <div class="left">
