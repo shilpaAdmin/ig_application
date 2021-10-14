@@ -121,12 +121,12 @@ class ForumCommentReplyController extends Controller
             if(isset($input['CommentID']) && !empty($input['CommentID']))
             {
                 if(!empty($forumComment->user_id) && $forumComment->user_id > 0 )
-                app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forumComment->user_id,$obj->id,$user->name.' added reply on your comment.','forum_reply','','forum reply');
+                app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forumComment->user_id,$input['ForumId'],$user->name.' added reply on your comment.','forum_reply','','forum reply');
             }
             else
             {
                 if(!empty($forum->user_id) && $forum->user_id > 0 )
-                app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forum->user_id,$obj->id,$user->name.' added comment in your forum.','forum_comment','','forum comment');
+                app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forum->user_id,$input['ForumId'],$user->name.' added comment in your forum.','forum_comment','','forum comment');
             }
 
             return response()->json(['Status'=>true,'StatusMessage'=>$str.' added successfully!']);
@@ -272,21 +272,21 @@ class ForumCommentReplyController extends Controller
         {
             if($input['Type']=='forum')
             {
-                $forumlikeid=ForumCommentReplyLikesModel::insertGetId(
+                ForumCommentReplyLikesModel::insert(
                 ['user_id'=>$input['RegisterId'],'comment_or_reply_id'=>$input['CommentOrReplyId'],
                 'forum_id'=>$input['Id'],'is_like'=>1]);
                 
                 if(!empty($user_name) && !empty($forum_comment_reply->user_id) && $forum_comment_reply->user_id!=0 )
-                $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forum_comment_reply->user_id,$forumlikeid,$user_name.' likes your '.$stringcommentreplyinfo,'forum like','',$stringcommentreplyinfo.' like');
+                $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forum_comment_reply->user_id,$input['Id'],$user_name.' likes your '.$stringcommentreplyinfo,'forum like','',$stringcommentreplyinfo.' like');
             }
             elseif($input['Type']=='blog')
             {
-                $bloglikeid=BlogsCommentReplyLikesModel::insertGetId(
+                BlogsCommentReplyLikesModel::insert(
                 ['user_id'=>$input['RegisterId'],'comment_or_reply_id'=>$input['CommentOrReplyId'],
                 'blog_id'=>$input['Id'],'is_like'=>1]);
                 
                 if(!empty($user_name) && !empty($blog_comment_reply->user_id) && $blog_comment_reply->user_id!=0 )
-                $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($blog_comment_reply->user_id,$bloglikeid,$user_name.' likes your '.$stringcommentreplyinfo,'blog like','',$stringcommentreplyinfo.' like');
+                $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($blog_comment_reply->user_id,$input['Id'],$user_name.' likes your '.$stringcommentreplyinfo,'blog like','',$stringcommentreplyinfo.' like');
             }
 
             return response()->json(['Status'=>true,'StatusMessage'=>'Status stored!','Result'=>array()]);
@@ -316,7 +316,7 @@ class ForumCommentReplyController extends Controller
                 if($newValue==1)
                 {
                     if(!empty($user_name) && !empty($forum_comment_reply->user_id) && $forum_comment_reply->user_id!=0 )
-                    app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forum_comment_reply->user_id,$result->id,$user_name.' likes your '.$stringcommentreplyinfo,'forum','',$stringcommentreplyinfo.' like');
+                    app('App\Http\Controllers\Api\NotificationsController')->sendNotification($forum_comment_reply->user_id,$input['Id'],$user_name.' likes your '.$stringcommentreplyinfo,'forum','',$stringcommentreplyinfo.' like');
                 }
             }
             elseif($input['Type']=='blog')
@@ -329,7 +329,7 @@ class ForumCommentReplyController extends Controller
                 if($newValue==1)
                 {
                     if(!empty($user_name) && !empty($blog_comment_reply->user_id) && $blog_comment_reply->user_id!=0 )
-                    app('App\Http\Controllers\Api\NotificationsController')->sendNotification($blog_comment_reply->user_id,$result->id,$user_name.' likes your '.$stringcommentreplyinfo,'blog','',$stringcommentreplyinfo.' like');
+                    app('App\Http\Controllers\Api\NotificationsController')->sendNotification($blog_comment_reply->user_id,$input['Id'],$user_name.' likes your '.$stringcommentreplyinfo,'blog','',$stringcommentreplyinfo.' like');
                 }
 
             }

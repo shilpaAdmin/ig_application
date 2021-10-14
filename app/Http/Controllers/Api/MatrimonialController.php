@@ -11,6 +11,7 @@ use App\Http\Model\ConnectNowModel;
 use App\User;
 
 use App\Http\Traits\UserLocationDetailTrait;
+use App\Http\Traits\PdfImageNameCleanTrait;
 
 use URL;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ use Exception;
 class MatrimonialController extends Controller
 {
     use UserLocationDetailTrait;
+    use PdfImageNameCleanTrait;
 
     public function AddUpdateMatrimonial(Request $request)
     {
@@ -125,8 +127,13 @@ class MatrimonialController extends Controller
                                 if(isset($input['Media'.($i+1)]) && !empty($input['Media'.($i+1)]))
                                 {       
                                     $destinationPath=public_path().'/images/matrimonial/media/';
-                                    $imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
-                                    
+                                    //$imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+                                    $media_name='';
+
+                                    if(!empty($mediaData->getClientOriginalName()))
+                                    $media_name=$this->getPdfImageNameClean(substr($mediaData->getClientOriginalName(), 0, strrpos($mediaData->getClientOriginalName(), '.')));
+                                    $imageName = $media_name . '_' .time(). '.' . $mediaData->getClientOriginalExtension();
+
                                     if($mediaData->move($destinationPath, $imageName))
                                     {
                                         array_push($mediaArray,
@@ -282,7 +289,12 @@ class MatrimonialController extends Controller
                         if($mediaData = $request->file('Media'.($i+1)))
                         {
                             $destinationPath=public_path().'/images/matrimonial/media/';
-                            $imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+                            //$imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+                            $media_name='';
+
+                            if(!empty($mediaData->getClientOriginalName()))
+                            $media_name=$this->getPdfImageNameClean(substr($mediaData->getClientOriginalName(), 0, strrpos($mediaData->getClientOriginalName(), '.')));
+                            $imageName = $media_name . '_' .time(). '.' . $mediaData->getClientOriginalExtension();
                             
                             if($mediaData->move($destinationPath, $imageName))
                             {

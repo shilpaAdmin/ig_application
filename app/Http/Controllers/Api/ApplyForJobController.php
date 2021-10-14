@@ -136,7 +136,7 @@ class ApplyForJobController extends Controller
             $category_name=$obj['category']['name'];
 
             if(!empty($request->name) && !empty($obj->user_id) && $obj->user_id!=0 && !empty($obj->category_id) && $obj->category_id!=0 )
-            $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($obj->user_id,$data->id,$request->name.' applied to your '.$obj->name.' job.','service',$category_name,'Job Apply');
+            $result=app('App\Http\Controllers\Api\NotificationsController')->sendNotification($obj->user_id,$request->JobId,$request->name.' applied to your '.$obj->name.' job.','service',$category_name,'Job Apply');
 
             return response()->json(['Status'=>true,'StatusMessage'=>'Job applied successfully!','Result'=>array()]);
         }

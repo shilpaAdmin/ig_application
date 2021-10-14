@@ -42,7 +42,7 @@ class NotificationsController extends Controller
             }
         }
 
-        $notificationsData=NotificationsModel::with(['category'])->where('user_id',$input['RegisterId'])->get()->toArray();
+        $notificationsData=NotificationsModel::with(['category'])->where('user_id',$input['RegisterId'])->orderBy('id','desc')->get()->toArray();
         $totalCount=count($notificationsData);
 
         $notificationsArray=array();
@@ -75,7 +75,7 @@ class NotificationsController extends Controller
         $sender_username = isset($sender_userdata->username) ? $sender_userdata->username : '';
         $sender_fullname = isset($sender_userdata->full_name) ? $sender_userdata->full_name : '';
         $Message = $sender_username.' has '.$orderStatus;*/
-
+        
         $receiverId = isset($receiverId) ? $receiverId : '';
         $id = isset($id) ? $id :'';
         $message =  isset($message) ? $message :'';
