@@ -116,35 +116,6 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                    
-                                    {{-- remove next block --}}
-                                    <div class="house_detaill text-center mb-5">
-                                        <div> <img src="{{ URL::asset('assets/frontend/images/listings/cast1.jpg')}}" class="cast_imgs" alt="">
-                                        </div>
-                                        <div class="house_desc">Turner donnell</div>
-                                        <p>as Ed Warren</p>
-                                    </div>
-                                    
-                                    <div class="house_detaill text-center mb-5">
-                                        <div><img src="{{ URL::asset('assets/frontend/images/listings/cast2.jpg')}}" class="cast_imgs" alt="">
-                                        </div>
-                                        <div class="house_desc">Turner donnell</div>
-                                        <p>as Ed Warren</p>
-                                    </div>
-
-                                    <div class="house_detaill text-center mb-5">
-                                        <div> <img src="{{ URL::asset('assets/frontend/images/listings/cast3.jpg')}}" class="cast_imgs" alt="">
-                                        </div>
-                                        <div class="house_desc">Turner donnell</div>
-                                        <p>as Ed Warren</p>
-                                    </div>
-
-                                    <div class="house_detaill text-center mb-5">
-                                        <div> <img src="{{ URL::asset('assets/frontend/images/listings/cast4.jpg')}}" class="cast_imgs" alt="">
-                                        </div>
-                                        <div class="house_desc">Turner donnell</div>
-                                        <p>as Ed Warren</p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
