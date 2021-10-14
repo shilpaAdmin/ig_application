@@ -33,10 +33,20 @@ Route::group(['prefix' => 'admin'], function () {
 
     // Login Protected Routes
     Route::middleware(['auth'])->group(function () {
-
         // Admin User Logout
         Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
         Route::get('/dashboard', 'DashboardController@index')->name('home');
+        Route::get('dashboard/forumList', 'DashboardController@forumList')->name('datatable.dashboardForumlist');
+        Route::get('dashboard/forum/approve/{id}', 'DashboardController@forumapproveStatus')->name('forumDashboard.approve');
+
+
+        Route::get('dashboard/testimonialList', 'DashboardController@testimonialList')->name('datatable.dashboardTestimoniallist');
+        Route::get('dashboard/advertismentList', 'DashboardController@advertismentList')->name('datatable.dashboardadvertismentListlist');
+        Route::get('dashboard/advertisement/approve/{id}', 'DashboardController@advertismentApproveStatus')->name('advertisementDashboard.approve');
+
+
+
+
 
         //category routes
         Route::get('category', 'CategoryController@index')->name('category');
@@ -49,17 +59,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('category/update/{id}', 'CategoryController@update')->name('category.update');
         Route::post('category/getSubCategories', 'CategoryController@getSubCategories')->name('category.getSubCategories');
 
-    Route::get('subCategoryData/{id}', 'CategoryController@subCategoryData')->middleware('activity')->name('subCategoryList');
-    Route::get('subCategoryList', 'CategoryController@subCategoryDataList')->name('subCategoryDataList');
+        Route::get('subCategoryData/{id}', 'CategoryController@subCategoryData')->middleware('activity')->name('subCategoryList');
+        Route::get('subCategoryList', 'CategoryController@subCategoryDataList')->name('subCategoryDataList');
 
-    // Route::get('/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
+        // Route::get('/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
 
-    Route::get('category/subCategoryList/{id}', 'CategoryController@subCategoryList')->name('category.subcategoryList');
+        Route::get('category/subCategoryList/{id}', 'CategoryController@subCategoryList')->name('category.subcategoryList');
 
-    Route::get('business/datatableList_applicant', 'CategoryController@businessListapplicant')->name('businessListapplicant');
-
-
-
+        Route::get('business/datatableList_applicant', 'CategoryController@businessListapplicant')->name('businessListapplicant');
 
 
 
@@ -76,10 +83,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('business/detailview/{id}', 'BusinessController@detailview')->name('business.detailview');
         Route::get('business/detail/{id}', 'BusinessController@businessdetail')->name('businessdetail');
         Route::get('business/approve/{id}', 'BusinessController@approveStatus')->name('business.approve');
-
-
-
-
 
 
         //tags routes
@@ -153,7 +156,6 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 
-
         //carrier routes
         Route::get('carrier', 'CarrierController@index')->name('carrierDetail');
         Route::post('carrier/store', 'CarrierController@store')->name('carrierStore');
@@ -164,14 +166,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('carrier/applicantdelete/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
 
 
-    Route::get('carrier/detail/{id}', 'CarrierController@jobDetail')->name('job.detail');
+        Route::get('carrier/detail/{id}', 'CarrierController@jobDetail')->name('job.detail');
 
-    Route::get('job/datatableList_applicant', 'CarrierController@jobapplyListapplicant')->name('jobapplyListapplicant');
-
-
-
-
-
+        Route::get('job/datatableList_applicant', 'CarrierController@jobapplyListapplicant')->name('jobapplyListapplicant');
 
 
         //tags forum routes
@@ -224,7 +221,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('location/delete/{id}', 'LocationController@delete')->name('location.delete');
         Route::post('location/update/{id}', 'LocationController@update')->name('location.update');
 
-		//Country routes
+        //Country routes
         Route::get('country', 'CountryController@index')->name('country');
         Route::get('country/create', 'CountryController@create')->name('country.create');
         Route::post('country/store', 'CountryController@store')->name('country.store');
@@ -249,7 +246,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('user/userList', 'UserController@userlist')->name('datatable.userList');
         Route::get('user/userFilter', 'UserController@userfilter')->name('user.filter');
         Route::get('user/delete/{id}', 'UserController@delete')->name('user.delete');
-
     });
 });
 
@@ -257,20 +253,20 @@ Route::group(['prefix' => 'admin'], function () {
 
 //Frontend start here
 // Route::get('/','HomeController@home')->name('/');
-Route::get('/Faqs','HomeController@faqs')->name('Faqs');
-Route::get('/contact','HomeController@contact')->name('Contact');
-Route::get('/about','HomeController@about')->name('About');
+Route::get('/Faqs', 'HomeController@faqs')->name('Faqs');
+Route::get('/contact', 'HomeController@contact')->name('Contact');
+Route::get('/about', 'HomeController@about')->name('About');
 // Route::get('/careers','HomeController@careers')->name('Careers');
-Route::get('/add/service','HomeController@addservice')->name('Addservice');
-Route::get('/add/business','HomeController@addbusiness')->name('Addbusiness');
-Route::get('/add/advertisement','HomeController@addadvertisement')->name('Addadvertisement');
-Route::get('/blog/detail','HomeController@blogdetail')->name('Blogdetail');
-Route::get('/privacy/policy','HomeController@privacypolicy')->name('Privacypolicy');
-Route::get('/terms/condition','HomeController@termscondition')->name('Termscondition');
-Route::get('/disclaimer','HomeController@disclaimer')->name('Disclaimer');
-Route::get('/gdrp/notice','HomeController@gdrpnotice')->name('Gdrpnotice');
-Route::get('/impressum','HomeController@impressum')->name('impressum');
-Route::get('/cookie','HomeController@cookie')->name('cookie');
+Route::get('/add/service', 'HomeController@addservice')->name('Addservice');
+Route::get('/add/business', 'HomeController@addbusiness')->name('Addbusiness');
+Route::get('/add/advertisement', 'HomeController@addadvertisement')->name('Addadvertisement');
+Route::get('/blog/detail', 'HomeController@blogdetail')->name('Blogdetail');
+Route::get('/privacy/policy', 'HomeController@privacypolicy')->name('Privacypolicy');
+Route::get('/terms/condition', 'HomeController@termscondition')->name('Termscondition');
+Route::get('/disclaimer', 'HomeController@disclaimer')->name('Disclaimer');
+Route::get('/gdrp/notice', 'HomeController@gdrpnotice')->name('Gdrpnotice');
+Route::get('/impressum', 'HomeController@impressum')->name('impressum');
+Route::get('/cookie', 'HomeController@cookie')->name('cookie');
 
 
 
@@ -278,47 +274,46 @@ Route::get('/cookie','HomeController@cookie')->name('cookie');
 Route::namespace('Frontend')->group(function () {
 
     // home page
-    Route::get('/','HomeController@index')->name('/');
+    Route::get('/', 'HomeController@index')->name('/');
 
     // login
-    Route::get('/login','LoginController@viewLogin')->name('login');
+    Route::get('/login', 'LoginController@viewLogin')->name('login');
 
     // forum & comments - likes
-    Route::get('/forum','ForumController@index')->name('ForumList');
-    Route::get('/forum/{slug}','ForumController@forumDetails')->name('forumdetail');
-    Route::post('/save-comments','ForumController@saveForumComment')->name('save.comments');
-    Route::post('/like-dislike','ForumController@saveLikeDislike')->name('like-dislike');
-    Route::post('/comment-replys','ForumController@saveCommentReplys')->name('comment.replys');
+    Route::get('/forum', 'ForumController@index')->name('ForumList');
+    Route::get('/forum/{slug}', 'ForumController@forumDetails')->name('forumdetail');
+    Route::post('/save-comments', 'ForumController@saveForumComment')->name('save.comments');
+    Route::post('/like-dislike', 'ForumController@saveLikeDislike')->name('like-dislike');
+    Route::post('/comment-replys', 'ForumController@saveCommentReplys')->name('comment.replys');
 
     // Matrimoney
     Route::group(['prefix' => 'matrimoney'], function () {
-        Route::get('/','MatrimoneyController@viewMatrimoney')->name('matrimoney');
-        Route::get('/{slug}','MatrimoneyController@matrimoneyDetails')->name('matrimoney.details');
+        Route::get('/', 'MatrimoneyController@viewMatrimoney')->name('matrimoney');
+        Route::get('/{slug}', 'MatrimoneyController@matrimoneyDetails')->name('matrimoney.details');
     });
 
     // Cateogry list or Details page
     Route::group(['prefix' => 'category'], function () {
-        Route::get('/{slug}','CategoryController@viewCategoryBusinessList')->name('category.business-list');
-        Route::get('/{slug}/{business_slug}','HousingController@housingDetails')->name('housing.details');
+        Route::get('/{slug}', 'CategoryController@viewCategoryBusinessList')->name('category.business-list');
+        Route::get('/{slug}/{business_slug}', 'HousingController@housingDetails')->name('housing.details');
     });
 
     //category career details
     Route::group(['prefix' => 'careers'], function () {
-        Route::get('/','CareerController@careerList')->name('category.career-list');
+        Route::get('/', 'CareerController@careerList')->name('category.career-list');
     });
 
     // Faq
     Route::group(['prefix' => 'faq'], function () {
-        Route::get('/','FaqController@faqDetails')->name('faq.details');
+        Route::get('/', 'FaqController@faqDetails')->name('faq.details');
     });
 
     // blogs
     Route::group(['prefix' => 'blog'], function () {
-        Route::get('/','BlogController@viewBlogList')->name('blog.list');
-        Route::get('/{slug}','BlogController@viewBlogDetails')->name('blog.detail');
+        Route::get('/', 'BlogController@viewBlogList')->name('blog.list');
+        Route::get('/{slug}', 'BlogController@viewBlogDetails')->name('blog.detail');
     });
-    Route::post('save-blog-comments','BlogController@saveBlogComments')->name('save.blog.comments');
-
+    Route::post('save-blog-comments', 'BlogController@saveBlogComments')->name('save.blog.comments');
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
 
@@ -327,48 +322,48 @@ Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryDa
 // Route::get('/forumdetail','HomeController@forumdetail')->name('forumdetail');
 
 //Matrimoney List
-Route::get('/matrimoney/list','HomeController@matrimoneyList')->name('MatrimoneyList');
-Route::get('/matrimoney/list/grid','HomeController@matrimoneylistGrid')->name('MatrimoneyListgrid');
-Route::get('/matrimoney/details','HomeController@matrimoneydetails')->name('Matrimoneydetails');
+Route::get('/matrimoney/list', 'HomeController@matrimoneyList')->name('MatrimoneyList');
+Route::get('/matrimoney/list/grid', 'HomeController@matrimoneylistGrid')->name('MatrimoneyListgrid');
+Route::get('/matrimoney/details', 'HomeController@matrimoneydetails')->name('Matrimoneydetails');
 
 //Login
 // Route::get('/login','HomeController@login')->name('Login');
-Route::get('/forgot/password','HomeController@forgotpassword')->name('Forgotpassword');
-Route::get('signup','HomeController@signup')->name('Signup');
+Route::get('/forgot/password', 'HomeController@forgotpassword')->name('Forgotpassword');
+Route::get('signup', 'HomeController@signup')->name('Signup');
 
 // //housing
-Route::get('housing/details','HomeController@housingdetails')->name('Housingdetails');
-Route::get('housing/listing/list','HomeController@housinglistinglist')->name('HousingListingList');
-Route::get('housing/listing/grid','HomeController@housinglistinggrid')->name('HousingListingGrid');
+Route::get('housing/details', 'HomeController@housingdetails')->name('Housingdetails');
+Route::get('housing/listing/list', 'HomeController@housinglistinglist')->name('HousingListingList');
+Route::get('housing/listing/grid', 'HomeController@housinglistinggrid')->name('HousingListingGrid');
 
 //taxation
-Route::get('taxation/details','HomeController@taxationdetails')->name('Taxationdetails');
-Route::get('taxation/listing/list','HomeController@taxationlistinglist')->name('TaxationListingList');
-Route::get('taxation/listing/grid','HomeController@taxationlistinggrid')->name('TaxationListingGrid');
+Route::get('taxation/details', 'HomeController@taxationdetails')->name('Taxationdetails');
+Route::get('taxation/listing/list', 'HomeController@taxationlistinglist')->name('TaxationListingList');
+Route::get('taxation/listing/grid', 'HomeController@taxationlistinggrid')->name('TaxationListingGrid');
 
 //education
-Route::get('education/details','HomeController@educationdetails')->name('Educationdetails');
-Route::get('education/listing/list','HomeController@educationlistinglist')->name('EducationListingList');
-Route::get('education/listing/grid','HomeController@educationlistinggrid')->name('EducationListingGrid');
+Route::get('education/details', 'HomeController@educationdetails')->name('Educationdetails');
+Route::get('education/listing/list', 'HomeController@educationlistinglist')->name('EducationListingList');
+Route::get('education/listing/grid', 'HomeController@educationlistinggrid')->name('EducationListingGrid');
 
 //job
-Route::get('job/details','HomeController@jobdetails')->name('Jobdetails');
-Route::get('job/listing/list','HomeController@joblistinglist')->name('JobListingList');
-Route::get('job/listing/grid','HomeController@joblistinggrid')->name('JobListingGrid');
+Route::get('job/details', 'HomeController@jobdetails')->name('Jobdetails');
+Route::get('job/listing/list', 'HomeController@joblistinglist')->name('JobListingList');
+Route::get('job/listing/grid', 'HomeController@joblistinggrid')->name('JobListingGrid');
 
 
 //transport And Travels
-Route::get('tourtravel/details','HomeController@tourtraveldetails')->name('Tourtraveldetails');
-Route::get('tourtravel/listing/list','HomeController@tourtravellistinglist')->name('TourtravelListingList');
-Route::get('tourtravel/listing/grid','HomeController@tourtravellistinggrid')->name('TourtravelListingGrid');
+Route::get('tourtravel/details', 'HomeController@tourtraveldetails')->name('Tourtraveldetails');
+Route::get('tourtravel/listing/list', 'HomeController@tourtravellistinglist')->name('TourtravelListingList');
+Route::get('tourtravel/listing/grid', 'HomeController@tourtravellistinggrid')->name('TourtravelListingGrid');
 
 
 //event
-Route::get('event/details','HomeController@eventdetails')->name('Eventdetails');
-Route::get('event/listing/list','HomeController@eventlistinglist')->name('EventListingList');
-Route::get('event/listing/grid','HomeController@eventlistinggrid')->name('EventListingGrid');
+Route::get('event/details', 'HomeController@eventdetails')->name('Eventdetails');
+Route::get('event/listing/list', 'HomeController@eventlistinglist')->name('EventListingList');
+Route::get('event/listing/grid', 'HomeController@eventlistinggrid')->name('EventListingGrid');
 
 //entertainment
-Route::get('entertainment/details','HomeController@entertainmentdetails')->name('Entertainmentdetails');
-Route::get('entertainment/listing/list','HomeController@entertainmentlistinglist')->name('EntertainmentListingList');
-Route::get('entertainment/listing/grid','HomeController@entertainmentlistinggrid')->name('EntertainmentListingGrid');
+Route::get('entertainment/details', 'HomeController@entertainmentdetails')->name('Entertainmentdetails');
+Route::get('entertainment/listing/list', 'HomeController@entertainmentlistinglist')->name('EntertainmentListingList');
+Route::get('entertainment/listing/grid', 'HomeController@entertainmentlistinggrid')->name('EntertainmentListingGrid');

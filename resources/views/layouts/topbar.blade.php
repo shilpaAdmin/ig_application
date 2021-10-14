@@ -15,7 +15,7 @@
                 </a>
 
                 <a href="{{ route('home')}}" class="logo logo-light">
-                    <span class="logo-sm logo-sm-header">
+                    <span class="logo-sm logo-sm-header newlogoig21">
                         <!--<img src="../../../assets/images/logo-light.svg" alt="" height="22">-->
                         <img src="../../../assets/images/newiground.svg" alt="" width="30">
                     </span>
@@ -379,7 +379,7 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item header-item-bl waves-effect" id="page-header-user-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="../../../assets/images/users/avatar-2.jpg"
+                    <img class="rounded-circle header-profile-user" src="{{URL::asset('images/user/'.Auth::user()->user_image) }}"
                         alt="Header Avatar">
                     <span class="d-none d-xl-inline-block ml-1">{{ucwords(Auth::user()->name)}}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>

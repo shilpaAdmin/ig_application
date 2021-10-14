@@ -1,10 +1,10 @@
-<div class="col-md-4">
+<div class="col-md-12">
     <div class="card mini-stats-wid">
         <div class="card-body">
             <div class="media">
                 @if(isset($title) || isset($price))
                 <div class="media-body">
-                    @if(isset($title)) <p class="text-muted font-weight-medium">{{ $title }}</p> @endif
+                    @if(isset($title)) <p class="text-muted font-weight-medium"><h5>{{ $title }}<h5></p> @endif
                     @if(isset($price))<h4 class="mb-0">{{ $price }}</h4> @endif
                 </div>
                 @endif
