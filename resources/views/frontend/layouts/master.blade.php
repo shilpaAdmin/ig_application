@@ -8,8 +8,12 @@
     <meta content="" name="description" />
     <meta content="" name="author" />
     <!-- App favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/logo32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/logo16.png">
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/logo32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/logo16.png"> -->
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ URL::asset('assets/frontend/images/favicons/logo32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ URL::asset('assets/frontend/images/favicons/logo16.png')}}">
+    
     @include('frontend.layouts.head')
 </head>
 

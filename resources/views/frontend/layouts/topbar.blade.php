@@ -115,7 +115,7 @@
                 <div class="main-nav__left main-nav__left_one float-left">
                     <div class="logo_one">
                         <a href="index.html" class="main-nav__logo">
-                            <img src="{{ URL::asset('assets/frontend/images/resources/logo-black2.png')}}" class="main-logo" alt="Awesome Image">
+                            <img src="{{ URL::asset('assets/frontend/images/resources/igbig.svg')}}" class="main-logo" alt="Awesome Image">
                         </a>
                     </div>
                     <a href="#" class="side-menu__toggler">
