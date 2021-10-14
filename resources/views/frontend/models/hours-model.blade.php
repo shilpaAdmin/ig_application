@@ -45,7 +45,7 @@
                                  ksort($weekStr);
                             @endphp
                             @foreach ($weekStr as $item)
-                                <li>{{$item}}</li>
+                                <li class="modal-li-lm">{{$item}}</li>
                             @endforeach
                         </ul>
                    @endif

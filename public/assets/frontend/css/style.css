@@ -11091,7 +11091,7 @@ a.job_list_pill {  display:inline-block; background: #def3e3; border: 1px solid 
 .privacy_box ul li {  position:relative; padding-left:20px;  }
 .privacy_box ul li i {  position:absolute; top:0; left:0;  }
 
-.cast_imgs {  border-radius:50%; width:50%;  }
+.cast_imgs {  border-radius:50%; width: 111PX; height: 111PX;  }
 
 .badge-cast {  background-color:#EBFDF0; color: var(--thm-primary); border: 1px solid var(--thm-primary);  }
 
@@ -11292,10 +11292,8 @@ label.lable-thro1 {
 }
 
 
-
-
-
 /*--------------------------------------------------------------
 # Khushbu CSS start 9 OCT 2021
 --------------------------------------------------------------*/
 
+.modal-li-lm { margin-left: 20px; }
