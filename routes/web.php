@@ -38,13 +38,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/dashboard', 'DashboardController@index')->name('home');
         Route::get('dashboard/forumList', 'DashboardController@forumList')->name('datatable.dashboardForumlist');
         Route::get('dashboard/forum/approve/{id}', 'DashboardController@forumapproveStatus')->name('forumDashboard.approve');
-
-
         Route::get('dashboard/testimonialList', 'DashboardController@testimonialList')->name('datatable.dashboardTestimoniallist');
         Route::get('dashboard/advertismentList', 'DashboardController@advertismentList')->name('datatable.dashboardadvertismentListlist');
         Route::get('dashboard/advertisement/approve/{id}', 'DashboardController@advertismentApproveStatus')->name('advertisementDashboard.approve');
-
-
+        Route::get('dashboard/matrimonialList', 'DashboardController@matrimonialList')->name('datatable.dashboardmatrimoniallist');
+        Route::get('dashboard/matrimonial/approve/{id}', 'DashboardController@matrimonialApproveStatus')->name('matrimonialListDashboard.approve');
 
 
 

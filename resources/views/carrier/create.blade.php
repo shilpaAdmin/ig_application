@@ -293,7 +293,8 @@ var start = moment().subtract(29, 'days');
                         searchable: false,
                         targets: 0,
                         visible: false
-                    }, {
+                    },
+                    {
                         class: 'id',
                         data: 'id',
                         name: 'id',

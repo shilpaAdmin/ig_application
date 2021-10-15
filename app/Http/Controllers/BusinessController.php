@@ -88,6 +88,14 @@ class BusinessController extends Controller
                     $category_td = 'N/A';
                 return $category_td;
             })
+            ->addColumn('is_approve', function ($result_obj) {
+                $is_approve = '';
+                if($result_obj->is_approve==1)
+                $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
+                else
+                $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
+                return $is_approve;
+            })
             ->addColumn('status_td', function ($result_obj) {
                 $status = '';
                 if ($result_obj->status == 'active')
@@ -95,7 +103,8 @@ class BusinessController extends Controller
                 else
                     $status .= '<span class="badge badge-pill badge-soft-danger font-size-12">' . ucwords($result_obj->status) . '</span>';
                 return $status;
-            })->addColumn('command', function ($result_obj) {
+            })
+            ->addColumn('command', function ($result_obj) {
                 $command = '';
 
                 $command .= '<div class="btn-group dropleft">
@@ -118,7 +127,7 @@ class BusinessController extends Controller
 
                 return $name;
             })
-            ->rawColumns(['DT_RowId', 'status_td', 'command', 'image_src', 'type_td', 'name_td'])
+            ->rawColumns(['DT_RowId', 'status_td', 'command', 'image_src', 'type_td','is_approve','name_td'])
             ->make(true);
     }
 
