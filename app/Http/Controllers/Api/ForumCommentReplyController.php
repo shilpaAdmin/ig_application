@@ -10,11 +10,16 @@ use App\Http\Model\ForumModel;
 use App\Http\Model\BlogsModel;
 use App\Http\Model\ForumCommentReplyLikesModel;
 use App\Http\Model\BlogsCommentReplyLikesModel;
+
+use App\Http\Traits\PdfImageNameCleanTrait;
+
 use URL;
 use Illuminate\Http\Request;
 
 class ForumCommentReplyController extends Controller
 {
+    use PdfImageNameCleanTrait;
+
     public function storeCommentReplyData(Request $request)
     {   
         $input=$request->all();
@@ -99,8 +104,14 @@ class ForumCommentReplyController extends Controller
         }
 
         if($mediaData = $request->file('Media'))
-        {
-            $imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+        {            
+            $media_name='';
+
+            if(!empty($mediaData->getClientOriginalName()))
+            $media_name=$this->getPdfImageNameClean(substr($mediaData->getClientOriginalName(), 0, strrpos($mediaData->getClientOriginalName(), '.')));
+
+            $imageName = $media_name . '_' .time(). '.' . $mediaData->getClientOriginalExtension();
+            //$imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
             $mediaData->move($destinationPath, $imageName);
             
             $obj->media=$imageName;

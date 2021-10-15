@@ -19,7 +19,7 @@ class CategoryController extends Controller
 {
     public function getAllCategoryData()
     {
-        $category = CategoryModel::where('parent_category_id','=', '0')->OrderBy('display_order', 'ASC')->get()->toArray();
+        $category = CategoryModel::where('parent_category_id','=', '0')->where('status','active')->OrderBy('display_order', 'ASC')->get()->toArray();
         $tempCategoryId = '';
         $categoryData = array();
         if(count($category) > 0)
@@ -37,10 +37,10 @@ class CategoryController extends Controller
                     $categoryData[$j]['redirect_status']= !empty($data['redirect_status'])?trim($data['redirect_status']):'';
                     $categoryData[$j]['CategoryPageRedirect']= !empty($data['category_page_redirect'])?trim($data['category_page_redirect']):'';
                     $categoryData[$j]['slug']= !empty($data['slug'])?trim($data['slug']):'';
-                    $categoryData[$j]['Icon']= URL::to('images/categories').'/'.$data['media_file'];
+                    $categoryData[$j]['Icon']= !empty($data['media_file'])?URL::to('images/categories').'/'.$data['media_file']:'';
 
                     // $categoryData[$j]['parent_category_id'] = (string)$data['parent_category_id'];
-                    $categoryData[$j]['Description'] = $data['description'];
+                    $categoryData[$j]['Description'] = !empty($data['description'])?$data['description']:'';
                     $subCategoryId = $data['id'];
 
                     $subCategorycategory = CategoryModel::where('parent_category_id',  '=', $subCategoryId)->OrderBy('id', 'ASC')->get()->toArray();
@@ -52,11 +52,11 @@ class CategoryController extends Controller
                         {
                             $categoryData[$j]['Subcategories'][$k]['Id'] = (string)$data['id'];
                             // $categoryData[$j]['Subcategories'][$k]['parent_category_id'] = (string)$data['parent_category_id'];
-                            $categoryData[$j]['Subcategories'][$k]['Name'] = ucwords(trim($data['name']));
-                            $categoryData[$j]['Subcategories'][$k]['Icon'] = URL::to('images/categories').'/'.$data['media_file'];
+                            $categoryData[$j]['Subcategories'][$k]['Name'] = !empty($data['name'])?ucwords(trim($data['name'])):'';
+                            $categoryData[$j]['Subcategories'][$k]['Icon'] =!empty($data['media_file'])? URL::to('images/categories').'/'.$data['media_file']:'';
 
-                            $categoryData[$j]['Subcategories'][$k]['Slug'] = $data['slug'];
-                            $categoryData[$j]['Subcategories'][$k]['Description'] = ucwords($data['description']);
+                            $categoryData[$j]['Subcategories'][$k]['Slug'] =!empty($data['slug'])? $data['slug']:'';
+                            $categoryData[$j]['Subcategories'][$k]['Description'] = !empty($data['description'])?ucwords($data['description']):'';
                             $k++;
                         }
                     }
@@ -83,7 +83,7 @@ class CategoryController extends Controller
         $input = $request->all();
         if(isset($input['category_id']) && !empty($input['category_id']))
         {
-            $category = CategoryModel::where('parent_category_id','=', $input['category_id'])->OrderBy('name', 'ASC')->get()->toArray();
+            $category = CategoryModel::where('parent_category_id','=', $input['category_id'])->where('status','active')->OrderBy('name', 'ASC')->get()->toArray();
             $tempCategoryId = '';
             $categoryData = array();
             if(count($category) > 0)

@@ -7,11 +7,15 @@ use App\Http\Model\CarrierModel;
 use App\Http\Model\JobApplyModel;
 use App\User;
 use URL;
+
+use App\Http\Traits\PdfImageNameCleanTrait;
+
 use Illuminate\Http\Request;
 use Exception;
 
 class CarrierController extends Controller
 {
+    use PdfImageNameCleanTrait;
 
     public function CarrierList(Request $request)
     {
@@ -110,8 +114,15 @@ class CarrierController extends Controller
         $destinationPath = public_path().'/images/job_apply/';
 
         if ($coverletter = $request->file('CoverLetter'))
-        {
-            $imageName = md5(time() . '_' . $coverletter->getClientOriginalName()) . '.' . $coverletter->getClientOriginalExtension();
+        {            
+            $media_name='';
+
+            if(!empty($coverletter->getClientOriginalName()))
+            $media_name=$this->getPdfImageNameClean(substr($coverletter->getClientOriginalName(), 0, strrpos($coverletter->getClientOriginalName(), '.')));
+
+            $imageName = $media_name . '_' .time(). '.' . $coverletter->getClientOriginalExtension();
+
+            //$imageName = md5(time() . '_' . $coverletter->getClientOriginalName()) . '.' . $coverletter->getClientOriginalExtension();
 
             $coverletter->move($destinationPath, $imageName);
             $obj->cover_letter=$imageName;
@@ -119,8 +130,15 @@ class CarrierController extends Controller
 
         $resumeName = '';
         if ($resume = $request->file('Resume'))
-        {
-            $resumeName = md5(time() . '_' . $resume->getClientOriginalName()) . '.' . $resume->getClientOriginalExtension();
+        {            
+            $media_name='';
+
+            if(!empty($resume->getClientOriginalName()))
+            $media_name=$this->getPdfImageNameClean(substr($resume->getClientOriginalName(), 0, strrpos($resume->getClientOriginalName(), '.')));
+
+            $resumeName = $media_name . '_' .time(). '.' . $resume->getClientOriginalExtension();
+
+            //$resumeName = md5(time() . '_' . $resume->getClientOriginalName()) . '.' . $resume->getClientOriginalExtension();
 
             $resume->move($destinationPath, $resumeName);
             $obj->resume=$resumeName;

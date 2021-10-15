@@ -65,29 +65,29 @@ class FAQController extends Controller
                 }
 
                 if(empty($userId) && empty($locationId) && empty($locationType))
-                $FAQFilter=$query->get()->toArray();
+                $FAQFilter=$query->where('status','active')->get()->toArray();
                 elseif(!empty($userId))
-                $FAQFilter=$query->where('user_id',$userId)->get()->toArray();
+                $FAQFilter=$query->where('user_id',$userId)->where('status','active')->get()->toArray();
                 elseif(!empty($locationId) && !empty($locationType) && $locationType!='country')
-                $FAQFilter=$query->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->get()->toArray();
+                $FAQFilter=$query->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->where('status','active')->get()->toArray();
                 else
-                $FAQFilter=$query->get()->toArray();
+                $FAQFilter=$query->where('status','active')->get()->toArray();
             }
         }
         else
         {
             
             if(empty($userId) && empty($locationId) && empty($locationType))
-            $FAQFilter=FAQModel::get()->toArray();
+            $FAQFilter=FAQModel::where('status','active')->get()->toArray();
             elseif(!empty($userId))
-            $FAQFilter=FAQModel::where('user_id',$userId)->get()->toArray();
+            $FAQFilter=FAQModel::where('user_id',$userId)->where('status','active')->get()->toArray();
             elseif(!empty($locationId) && !empty($locationType) && $locationType!='country')
-            $FAQFilter=FAQModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->get()->toArray();
+            $FAQFilter=FAQModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->where('status','active')->get()->toArray();
             else
-            $FAQFilter=FAQModel::get()->toArray();
+            $FAQFilter=FAQModel::where('status','active')->get()->toArray();
         }
         
-        $tagsData=TagFAQMasterModel::get()->toArray();
+        $tagsData=TagFAQMasterModel::where('status','active')->get()->toArray();
         $dataArray=array();
 
         if(count($FAQFilter) > 0)

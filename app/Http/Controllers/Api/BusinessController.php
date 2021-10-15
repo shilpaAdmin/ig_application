@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use App\Http\Model\BusinessUserEnquiryModel;
 
 use App\Http\Traits\UserLocationDetailTrait;
+use App\Http\Traits\PdfImageNameCleanTrait;
 
 use Carbon\Carbon;
 use DataTables;
@@ -28,6 +29,7 @@ use Illuminate\Http\Request;
 class BusinessController extends Controller
 {
     use UserLocationDetailTrait;
+    use PdfImageNameCleanTrait;
 
     public function storeAllBusinessData(Request $request)
     {
@@ -58,8 +60,14 @@ class BusinessController extends Controller
             for($k = 1; $k <= $totalMedia; $k++)
             {
                 if($mediaData = $request->file('Media'.$k))
-                {
-                    $imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
+                {         
+                    $media_name='';
+           
+                    if(!empty($mediaData->getClientOriginalName()))
+                    $media_name=$this->getPdfImageNameClean(substr($mediaData->getClientOriginalName(), 0, strrpos($mediaData->getClientOriginalName(), '.')));
+
+                    $imageName = $media_name . '_' .time(). '.' . $mediaData->getClientOriginalExtension();
+                    //$imageName = md5(time() . '_' . $mediaData->getClientOriginalName()) . '.' . $mediaData->getClientOriginalExtension();
                     $mediaData->move($destinationPath, $imageName);
 
                     $mediaFileArray[] = array('Media'.$k=>$imageName);
@@ -161,8 +169,14 @@ class BusinessController extends Controller
             {
                 $relatedPersonImage = $relatedPersonDetail = '';
                 if($relatedPersonImageMediaData = $request->file('RelatedPersonImage'.$k))
-                {
-                    $imageName = md5(time() . '_' . $relatedPersonImageMediaData->getClientOriginalName()) . '.' . $relatedPersonImageMediaData->getClientOriginalExtension();
+                {                          
+                    $media_name='';
+              
+                    if(!empty($relatedPersonImageMediaData->getClientOriginalName()))
+                    $media_name=$this->getPdfImageNameClean(substr($relatedPersonImageMediaData->getClientOriginalName(), 0, strrpos($relatedPersonImageMediaData->getClientOriginalName(), '.')));
+
+                    $imageName = $media_name . '_' .time(). '.' . $relatedPersonImageMediaData->getClientOriginalExtension();
+                    //$imageName = md5(time() . '_' . $relatedPersonImageMediaData->getClientOriginalName()) . '.' . $relatedPersonImageMediaData->getClientOriginalExtension();
                     $relatedPersonImageMediaData->move($relatedPersondestinationPath, $imageName);
 
                     $relatedPersonImage =$imageName;
@@ -469,6 +483,7 @@ class BusinessController extends Controller
         $totalCount = BusinessModel::where('status','active')->count();
 
         $preQuery = BusinessModel::where('business.status','active')
+        ->where('business.is_approve',1)
         ->leftJoin('tag_master', function ($join) {
             $join->on('tag_master.id', '=', 'business.tag_id');
         })
@@ -579,7 +594,7 @@ class BusinessController extends Controller
         else
         $listBusiness = $preQuery->skip($skip)->take(30)->get()->toArray();
 
-        $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
+        $fetchAllTag = TagMasterModel::where('status','active')->where('is_approve',1)->get()->toArray();
 
         $j = 0;
         $locationData = array();
@@ -612,11 +627,11 @@ class BusinessController extends Controller
                     if(strpos($businessData['tag_id'], ',') !== false )
                     {
                         $arr = explode(',',  $businessData['tag_id']);
-                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                        $tagData = TagMasterModel::whereIn('id',$arr)->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     else
                     {
-                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     $tagNameArray = array();
                     if(count($tagData) > 0)
@@ -754,11 +769,11 @@ class BusinessController extends Controller
                     if(strpos($businessData['tag_id'], ',') !== false )
                     {
                         $arr = explode(',',  $businessData['tag_id']);
-                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                        $tagData = TagMasterModel::whereIn('id',$arr)->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     else
                     {
-                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     $tagNameArray = array();
                     if(count($tagData) > 0)
@@ -911,6 +926,7 @@ class BusinessController extends Controller
         $totalCount = BusinessModel::where('status','active')->count();
 
         $preQuery = BusinessModel::where('business.status','active')
+        ->where('business.is_approve',1)
         ->leftJoin('tag_master', function ($join) {
             $join->on('tag_master.id', '=', 'business.tag_id');
         })
@@ -966,7 +982,7 @@ class BusinessController extends Controller
         /* fetch data*/
         $listBusiness = $preQuery->skip($skip)->take(30)->get()->toArray();
 
-        $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
+        $fetchAllTag = TagMasterModel::where('status','active')->where('is_approve',1)->get()->toArray();
 
         $j = 0;
         $locationData = array();
@@ -1000,11 +1016,11 @@ class BusinessController extends Controller
                     if(strpos($businessData['tag_id'], ',') !== false )
                     {
                         $arr = explode(',',  $businessData['tag_id']);
-                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                        $tagData = TagMasterModel::whereIn('id',$arr)->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     else
                     {
-                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     $tagNameArray = array();
                     if(count($tagData) > 0)
@@ -1450,7 +1466,8 @@ class BusinessController extends Controller
 
         $dataArray['LocationName']=$location;
 
-        $forumData=ForumModel::with('user')->where('user_id',$input['UserId'])->get()->toArray();
+        $forumData=ForumModel::with('user')->where('user_id',$input['UserId'])
+        ->where('is_approve',1)->where('status','active')->get()->toArray();
         $countForum=count($forumData);
 
         if($countForum > 0)
@@ -1519,7 +1536,7 @@ class BusinessController extends Controller
             $dataArray['Forum']=array();
         }
 
-        $faqData=FAQModel::where('user_id',$input['UserId'])->get()->toArray();
+        $faqData=FAQModel::where('user_id',$input['UserId'])->where('status','active')->get()->toArray();
 
         
         if(count($faqData) > 0)
@@ -1540,7 +1557,7 @@ class BusinessController extends Controller
             $dataArray['FAQ']['List']=array();
         }
 
-        $tagsData=TagFAQMasterModel::get()->toArray();
+        $tagsData=TagFAQMasterModel::where('status','active')->get()->toArray();
         
         $tag_count=count($tagsData);
 
@@ -1565,6 +1582,7 @@ class BusinessController extends Controller
         $totalCount = BusinessModel::where('status','active')->count();
 
         $preQuery = BusinessModel::where('business.status','active')
+        ->where('business.is_approve',1)
         ->leftJoin('tag_master', function ($join) {
             $join->on('tag_master.id', '=', 'business.tag_id');
         })
@@ -1590,7 +1608,7 @@ class BusinessController extends Controller
         else
         $listBusiness = $preQuery->skip($skip)->take(30)->get()->toArray();
 
-        $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
+        $fetchAllTag = TagMasterModel::where('status','active')->where('is_approve',1)->get()->toArray();
         $j = 0;
         $locationData = array();
         $tagIdArray = array();
@@ -1622,11 +1640,11 @@ class BusinessController extends Controller
                     if(strpos($businessData['tag_id'], ',') !== false )
                     {
                         $arr = explode(',',  $businessData['tag_id']);
-                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                        $tagData = TagMasterModel::whereIn('id',$arr)->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     else
                     {
-                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     $tagNameArray = array();
                     if(count($tagData) > 0)

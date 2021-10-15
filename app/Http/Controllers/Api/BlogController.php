@@ -52,11 +52,11 @@ class BlogController extends Controller
 
         if($Pagination!=0)
         {
-            $listBlogData = $blogsPrequery->skip($skip)->take(30)->get();
+            $listBlogData = $blogsPrequery->where('status','active')->skip($skip)->take(30)->get();
         }
         else
         {
-            $listBlogData = $blogsPrequery->get();
+            $listBlogData = $blogsPrequery->where('status','active')->get();
         }
         //print_r($listBlogData->toArray());exit;
 
