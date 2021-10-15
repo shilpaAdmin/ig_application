@@ -412,13 +412,13 @@ class AdvertisementController extends Controller
         if(!empty($userId))
         {
             $advertisementData=AdvertisementModel::with(['user','categories'])
-            ->where('user_id',$userId)->get()->toArray();
+            ->where('user_id',$userId)->where('status','active')->where('is_approve',1)->get()->toArray();
         }
         else
         {
             $advertisementData=AdvertisementModel::with(['user','categories'])
             ->where('cityid_or_countryid',$locationId)
-            ->where('type_city_or_country',$locationType)
+            ->where('type_city_or_country',$locationType)->where('status','active')->where('is_approve',1)
             ->get()->toArray();
         }
         

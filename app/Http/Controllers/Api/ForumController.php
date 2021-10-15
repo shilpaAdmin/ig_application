@@ -226,9 +226,9 @@ class ForumController extends Controller
         }
 
         if($input['Pagination']!=0)
-        $fetchAllForumData=$formModelPrequery->orderBy('forum.id','DESC')->skip($skip)->take(30)->get()->toArray();
+        $fetchAllForumData=$formModelPrequery->where('status','active')->where('is_approve',1)->orderBy('forum.id','DESC')->skip($skip)->take(30)->get()->toArray();
         else 
-        $fetchAllForumData=$formModelPrequery->orderBy('forum.id','DESC')->get()->toArray();
+        $fetchAllForumData=$formModelPrequery->where('status','active')->where('is_approve',1)->orderBy('forum.id','DESC')->get()->toArray();
 
         $dataArray=array();
         $totalCount=count($fetchAllForumData);

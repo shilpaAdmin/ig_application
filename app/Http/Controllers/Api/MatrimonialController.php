@@ -390,8 +390,6 @@ class MatrimonialController extends Controller
 
         $Pagination = isset($input['Pagination']) ? $input['Pagination'] : 1;
     	$skip = (($Pagination - 1) * 30) ;
-        // print_r($matrimonial_obj);
-        // exit;
 
         $userId = isset($input['RegisterId']) ? $input['RegisterId'] : '';
         $status = isset($input['Status']) ? $input['Status'] : '';
@@ -399,13 +397,9 @@ class MatrimonialController extends Controller
         $location_type=isset($input['LocationType']) ? $input['LocationType'] : '';
 
         $matrimonial_obj='';
-
-       /* if(empty($userId))
-        $Matrimonial_prequery=MatrimonialModel::get();
-        else
-        $Matrimonial_prequery=MatrimonialModel::where('user_id',$userId)->get();*/
         
-        if(isset($userId) && !empty($userId))
+        //1 query
+        /*if(isset($userId) && !empty($userId))
         {
             $connectPrequery = ConnectNowModel::whereNotIn('status',['connection-reject','private-reject'])->where('user_id',$userId);
         }
@@ -451,17 +445,54 @@ class MatrimonialController extends Controller
             $Matrimonial_prequery = MatrimonialModel::leftjoin('connect_now','matrimonial.id','=','connect_now.connection_matrimonial_id')
             ->select('matrimonial.*','connect_now.status as connect_status')
             ->whereNotIn('connect_now.status',['connection-reject','private-reject']);
-        }
-        
-        if($Pagination != 0)
+        }*/
+       
+        // 2 query
+        $Matrimonial_prequery1=ConnectNowModel::join('matrimonial','connect_now.connection_matrimonial_id','=','matrimonial.id')
+        ->where('matrimonial.status','active')->where('matrimonial.is_approve',1)
+        ->whereNotIn('connect_now.status',['connection-reject','private-reject']);
+
+        if(isset($userId) && !empty($userId)) 
+        $Matrimonial_prequery1->where('connect_now.user_id',$userId);
+        elseif(!empty($location_id) && !empty($location_type) && $location_type!='country')
+        $Matrimonial_prequery1->where('matrimonial.cityid_or_countryid',$location_id)->where('matrimonial.type_city_or_country',$location_type);
+
+        if(isset($status) && !empty($status))
+        $Matrimonial_prequery1->where('connect_now.status',$status)->select('matrimonial.*','connect_now.status as connect_status');
+        else
+        $Matrimonial_prequery1->select('matrimonial.*','connect_now.status as connect_status');
+
+        /*3 query
+        if((isset($userId) && !empty($userId)) || (isset($status) && !empty($status)) )
         {
-            $matrimonial_obj=$Matrimonial_prequery->skip($skip)->take(30)->get()->toArray();
+            $Matrimonial_prequery1 = MatrimonialModel::leftjoin('connect_now','matrimonial.id','=','connect_now.connection_matrimonial_id');
+            
+            if(isset($userId) && !empty($userId))
+            {
+                $Matrimonial_prequery1->where('connect_now.user_id',$userId);
+            }
+            elseif(!empty($location_id) && !empty($location_type) && $location_type!='country')
+            {
+                $Matrimonial_prequery1->where('matrimonial.cityid_or_countryid',$location_id)->where('matrimonial.type_city_or_country',$location_type);
+            }
+
+            $Matrimonial_prequery=$Matrimonial_prequery1->whereIn('matrimonial.id',$ids)
+            ->select('matrimonial.*','connect_now.status as connect_status')
+            ->whereNotIn('connect_now.status',['connection-reject','private-reject']);
         }
         else
         {
-            $matrimonial_obj=$Matrimonial_prequery->get()->toArray();
-        }
-        
+            $Matrimonial_prequery = MatrimonialModel::leftjoin('connect_now','matrimonial.id','=','connect_now.connection_matrimonial_id')
+            ->select('matrimonial.*','connect_now.status as connect_status')
+            ->whereNotIn('connect_now.status',['connection-reject','private-reject']);
+        }*/
+
+        if($Pagination != 0)
+        $matrimonial_obj=$Matrimonial_prequery1->skip($skip)->take(30)->get()->toArray();
+        else
+        $matrimonial_obj=$Matrimonial_prequery1->get()->toArray();
+
+        //print_r($matrimonial_obj);
         $matrimonial_count=count($matrimonial_obj);
 
         $matrimonialArray=array();
@@ -501,7 +532,8 @@ class MatrimonialController extends Controller
 
         if((isset($userId) && !empty($userId)) || (isset($status) && !empty($status)) )
         {
-            $Matrimonial_connections_prequery1=ConnectNowModel::join('matrimonial','connect_now.matrimonial_id','matrimonial.id');
+            $Matrimonial_connections_prequery1=ConnectNowModel::join('matrimonial','connect_now.matrimonial_id','matrimonial.id')
+            ->where('matrimonial.status','active')->where('matrimonial.is_approve',1);
             
             if(isset($status) && !empty($status))
             {

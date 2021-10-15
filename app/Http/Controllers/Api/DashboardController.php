@@ -48,49 +48,49 @@ class DashboardController extends Controller
     {
         $input=$request->all();
 
-        $locationId=$input['LocationId']?$input['LocationId']:'';
-        $locationType=$input['LocationType']?$input['LocationType']:'';
+        $locationId=!empty($input['LocationId'])?$input['LocationId']:'';
+        $locationType=!empty($input['LocationType'])?$input['LocationType']:'';
 
         if(!empty($locationId) && !empty($locationType) && $locationType!='country')
-        $testimonialData=TestimonialModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $testimonialData=TestimonialModel::where('status','active')->where('is_deleted',0)->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         else
-        $testimonialData=TestimonialModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $testimonialData=TestimonialModel::where('status','active')->where('is_deleted',0)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         $testimonial_counts=count($testimonialData);
         //print_r($testimonials);
 
-        $tagmasterData=TagMasterModel::orderBy('id','DESC')->get()->toArray();
+        $tagmasterData=TagMasterModel::where('status','active')->where('is_approve',1)->orderBy('id','DESC')->get()->toArray();
        // print_r($tagmasters);
 
        if(!empty($locationId) && !empty($locationType) && $locationType!='country')
-       $faqsData=FAQModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+       $faqsData=FAQModel::where('status','active')->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
        else
-       $faqsData=FAQModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+       $faqsData=FAQModel::where('status','active')->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         //print_r($faqs);
-        $tagFAQData=TagFAQMasterModel::orderBy('id','DESC')->get()->toArray();
+        $tagFAQData=TagFAQMasterModel::where('status','active')->orderBy('id','DESC')->get()->toArray();
 
         if(!empty($locationId) && !empty($locationType) && $locationType!='country')
-        $blogsData=BlogsModel::with(['user'])->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get();
+        $blogsData=BlogsModel::with(['user'])->where('status','active')->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get();
         else
-        $blogsData=BlogsModel::with(['user'])->skip(0)->take(10)->orderBy('id','DESC')->get();
+        $blogsData=BlogsModel::with(['user'])->where('status','active')->skip(0)->take(10)->orderBy('id','DESC')->get();
         //print_r($blogs);
 
         if(!empty($locationId) && !empty($locationType) && $locationType!='country')
-        $forumsData=ForumModel::with(['user'])->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $forumsData=ForumModel::with(['user'])->where('status','active')->where('is_approve',1)->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->where('status','active')->where('is_approve',1)->orderBy('id','DESC')->get()->toArray();
         else
-        $forumsData=ForumModel::with(['user'])->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $forumsData=ForumModel::with(['user'])->where('status','active')->where('is_approve',1)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         //print_r($forums);
 
         if(!empty($locationId) && !empty($locationType) && $locationType!='country')
-        $advertisementsData=AdvertisementModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $advertisementsData=AdvertisementModel::where('status','active')->where('is_approve',1)->where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         else
-        $advertisementsData=AdvertisementModel::skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
+        $advertisementsData=AdvertisementModel::where('status','active')->where('is_approve',1)->skip(0)->take(10)->orderBy('id','DESC')->get()->toArray();
         $advertisements_counts=count($advertisementsData);
         //print_r($advertisements);
         
         // $categoryArray=['Housing Immobilion','Taxation','Travel & Transport','Jobs','Education & Training'
         // ,'Movie Corner','Events'];
 
-        $categoryData=CategoryModel::where('parent_category_id',0)
+        $categoryData=CategoryModel::where('parent_category_id',0)->where('status','active')
         //->whereIn('name',$categoryArray)->get()->toArray();
         ->where('redirect_status',0)->get()->toArray();
 
@@ -346,7 +346,7 @@ class DashboardController extends Controller
             }
         }
 
-        $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
+        $fetchAllTag = TagMasterModel::where('status','active')->where('is_approve',1)->get()->toArray();
         
         $j = 0;
         $locationData = array();
@@ -415,7 +415,7 @@ class DashboardController extends Controller
                     $No_records=3;
                 }
                 //echo $No_records.'<br>';
-                $listBusiness=$preQuery->skip(0)->take($No_records)->orderBy('business.id','DESC')->get()->toArray();
+                $listBusiness=$preQuery->where('business.is_approve',1)->skip(0)->take($No_records)->orderBy('business.id','DESC')->get()->toArray();
                 // echo '<pre>';
                 // print_r($listBusiness);
                 $total_records=count($listBusiness);
@@ -436,11 +436,11 @@ class DashboardController extends Controller
                             if(strpos($businessData['tag_id'], ',') !== false )
                             {
                                 $arr = explode(',',  $businessData['tag_id']);
-                                $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                                $tagData = TagMasterModel::whereIn('id',$arr)->where('status','active')->where('is_approve',1)->get()->toArray();
                             }
                             else
                             {
-                                $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                                $tagData = TagMasterModel::where('id',$businessData['tag_id'])->where('status','active')->where('is_approve',1)->get()->toArray();
                             }
                             $tagNameArray = array();
                             if(count($tagData) > 0)
@@ -597,6 +597,7 @@ class DashboardController extends Controller
         $totalCount = BusinessModel::where('status','active')->count();
         
         $preQuery = BusinessModel::where('business.status','active')
+        ->where('business.is_approve',1)
         ->leftJoin('tag_master', function ($join) {
             $join->on('tag_master.id', '=', 'business.tag_id');
         })
@@ -703,7 +704,7 @@ class DashboardController extends Controller
         /* count of all data*/
         $totalFilteredCount = count($listBusiness);
         
-        $fetchAllTag = TagMasterModel::where('status','active')->get()->toArray();
+        $fetchAllTag = TagMasterModel::where('status','active')->where('is_approve',1)->get()->toArray();
         $j = 0;
         $locationData = array();
         $tagIdArray = array();
@@ -736,11 +737,11 @@ class DashboardController extends Controller
                     if(strpos($businessData['tag_id'], ',') !== false )
                     {
                         $arr = explode(',',  $businessData['tag_id']);
-                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                        $tagData = TagMasterModel::whereIn('id',$arr)->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     else
                     {
-                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     $tagNameArray = array();
                     if(count($tagData) > 0)
@@ -846,7 +847,7 @@ class DashboardController extends Controller
             else
             $preQuery2=$preQuery->orderBy('id','DESC');
 
-            $fetchAllForumData=$preQuery2->skip($skip)->take(30)->get()->toArray();
+            $fetchAllForumData=$preQuery->where('is_approve',1)->where('status','active')->skip($skip)->take(30)->get()->toArray();
 
             /*$fetchAllForumData=ForumModel::with('user')->where('question','like','%'.$SearchName.'%')
             ->where('cityid_or_countryid',$LocationId)->where('type_city_or_country',$LocationType)
@@ -861,7 +862,7 @@ class DashboardController extends Controller
             else
             $preQuery2=$preQuery->orderBy('id','DESC');
 
-            $fetchAllForumData=$preQuery2->get()->toArray();
+            $fetchAllForumData=$preQuery2->where('is_approve',1)->where('status','active')->get()->toArray();
         }
 
         $forumArray=array();
@@ -955,7 +956,7 @@ class DashboardController extends Controller
             else
             $preQuery2=$preQuery->orderBy('id','DESC');
 
-            $FAQFilter=$preQuery2->skip($skip)->take(30)->get()->toArray();
+            $FAQFilter=$preQuery2->where('status','active')->skip($skip)->take(30)->get()->toArray();
         }
         else
         {   
@@ -966,10 +967,10 @@ class DashboardController extends Controller
             else
             $preQuery2=$preQuery->orderBy('id','DESC');
 
-            $FAQFilter=$preQuery2->get()->toArray();
+            $FAQFilter=$preQuery2->where('status','active')->get()->toArray();
         }
 
-        $tagsData=TagFAQMasterModel::all()->toArray();
+        $tagsData=TagFAQMasterModel::where('status','active')->get()->toArray();
         $FAQArray=array();
         if(count($FAQFilter) > 0)
         {
@@ -1018,7 +1019,7 @@ class DashboardController extends Controller
             else
             $preQuery2=$preQuery->orderBy('id','DESC');
 
-            $blogsData=$preQuery2->skip($skip)->take(30)->get();
+            $blogsData=$preQuery2->where('status','active')->skip($skip)->take(30)->get();
         }
         else
         {
@@ -1029,7 +1030,7 @@ class DashboardController extends Controller
             else
             $preQuery2=$preQuery->orderBy('id','DESC');
 
-            $blogsData=$preQuery2->get();
+            $blogsData=$preQuery2->where('status','active')->get();
         }
 
         $totalBlogs=count($blogsData);
@@ -1112,6 +1113,7 @@ class DashboardController extends Controller
 		}
         
         $listBusiness = BusinessModel::where('business.status','active')
+        ->where('business.is_approve',1)
         ->leftJoin('category', function ($join) {
             $join->on('category.id', '=', 'business.category_id');
         })
@@ -1139,11 +1141,11 @@ class DashboardController extends Controller
                     if(strpos($businessData['tag_id'], ',') !== false )
                     {
                         $arr = explode(',',  $businessData['tag_id']);
-                        $tagData = TagMasterModel::whereIn('id',$arr)->get()->toArray();
+                        $tagData = TagMasterModel::whereIn('id',$arr)->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     else
                     {
-                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->get()->toArray();
+                        $tagData = TagMasterModel::where('id',$businessData['tag_id'])->where('status','active')->where('is_approve',1)->get()->toArray();
                     }
                     $tagNameArray = array();
                     if(count($tagData) > 0)

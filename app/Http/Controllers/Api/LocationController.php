@@ -18,9 +18,9 @@ class LocationController extends Controller
 {
     public function getAllLocationData()
     {
-        $countryData = CountrysModel::where('id',  '>', '0')->get()->toArray();
+        $countryData = CountrysModel::where('id',  '>', '0')->where('status','active')->get()->toArray();
 
-        $cityData = CitysModel::where('id',  '>', '0')->where('type','city')->get()->toArray();
+        $cityData = CitysModel::where('id',  '>', '0')->where('type','city')->where('status','active')->get()->toArray();
         //echo "<pre>"; print_r($cityData);
         $j = 0;
         $locationData = array();

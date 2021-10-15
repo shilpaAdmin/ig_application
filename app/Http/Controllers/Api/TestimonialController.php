@@ -26,9 +26,9 @@ class TestimonialController extends Controller
         $locationType=!empty($input['LocationType'])?$input['LocationType']:'';
 
         if(!empty($locationId) && !empty($locationType) && $locationType!='country')
-        $testimonialData=TestimonialModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->get()->toArray();
+        $testimonialData=TestimonialModel::where('cityid_or_countryid',$locationId)->where('type_city_or_country',$locationType)->where('status','active')->where('is_deleted',0)->get()->toArray();
         else
-        $testimonialData=TestimonialModel::all()->toArray();
+        $testimonialData=TestimonialModel::where('status','active')->where('is_deleted',0)->get()->toArray();
 
         $total_count=count($testimonialData);
 
