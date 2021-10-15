@@ -1,7 +1,7 @@
 @foreach ($businessDatas as  $key => $business)
 
     @php
-
+        $category=$business->category;
         $name= $business->name ? ucwords($business->name) :'-';
         $address= $business->address ? ucwords($business->address) :'-';
         $description= $business->description ? ucwords($business->description) :'-';
@@ -44,7 +44,9 @@
                                 <span class="gry_clr"><i class="fas fa-star"> </i></span>
                                 <span class="clr_blackk">4.0</span> </a>
                         </li> --}}
-                        <li><a href="#"><i class="fas fa-tags"></i>Air Travel Agents</a></li>
+                        @if (isset($category) && isset($category->name))
+                            <li><a href="#"><i class="fas fa-tags"></i>{{ ucwords($category->name) }}</a></li>
+                        @endif
                         <li><a href="#"><i class="fas fa-map-marker-alt"></i> {{$address}}</a></li>
                     </ul>
                     <div class="listings_three-page_content_bottom">

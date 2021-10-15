@@ -15,6 +15,11 @@
         }
 
         $detailsPageUrl= route('housing.details',['slug'=>$slug,'business_slug'=>$business->slug]);
+
+        $units=null;
+        if(isset($business->unit_option) && !empty($business->unit_option)){
+            $units=explode (",", isset($business->unit_option) ? $business->unit_option : ''); 
+        }
     @endphp
 
     <div class="col-xl-6 col-md-12 col-sm-12">
@@ -32,15 +37,15 @@
                         <h3><a href="{{$detailsPageUrl}}"> {{$name}}<span
                                     class="fa fa-check"></span></a></h3>
 
-                        <p class="mb-0">{{$address}} , {{$description}}</p>
+                        <p class="mb-0">{{$address}}</p>
                     </div>
-                    <ul class="list-unstyled listings_three-page_contact_info">
-                        <li class="d-inline-block"><a class="job_list_pill" href="#"> Music</a></li>
-                        <li class="d-inline-block"><a class="job_list_pill" href="#"> $5000
-                                Onwards</a></li>
-                        <li class="d-inline-block"><a class="job_list_pill" href="#"> Streaming
-                                Online</a></li>
-                    </ul>
+                    @if (isset($units))
+                        <ul class="list-unstyled listings_three-page_contact_info">
+                            @foreach ($units as $item)
+                                <li class="d-inline-block"><a class="job_list_pill" href="#"> {{ucwords($item)}} </a></li>
+                            @endforeach
+                        </ul>
+                    @endif
                     <div class="listings_three-page_content_bottom">
                         <div class="left">
                             <?php
