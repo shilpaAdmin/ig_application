@@ -1,0 +1,18 @@
+[06-Sep-2021 19:09:23 Asia/Kolkata] PHP Warning:  Uncaught ErrorException: require(/home/edulifem/IGGroup/routes/console.php): failed to open stream: No such file or directory in /home/edulifem/IGGroup/app/Console/Kernel.php:40
+Stack trace:
+#0 /home/edulifem/IGGroup/app/Console/Kernel.php(40): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'require(/home/e...', '/home/edulifem/...', 40, Array)
+#1 /home/edulifem/IGGroup/app/Console/Kernel.php(40): require()
+#2 /home/edulifem/IGGroup/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(316): App\Console\Kernel->commands()
+#3 /home/edulifem/IGGroup/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(261): Illuminate\Foundation\Console\Kernel->bootstrap()
+#4 /home/edulifem/IGGroup/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(261): Illuminate\Foundation\Console\Kernel->call('help', Array)
+#5 /home/edulifem/IGGroup/vendor/facade/ignition/src/Http/Controllers/HealthCheckController.php(19): Illuminate\Support\Facades\Facade::__callStatic('cal in /home/edulifem/IGGroup/app/Console/Kernel.php on line 40
+[06-Sep-2021 19:09:23 Asia/Kolkata] PHP Fatal error:  App\Console\Kernel::commands(): Failed opening required '/home/edulifem/IGGroup/routes/console.php' (include_path='.:/opt/alt/php73/usr/share/pear') in /home/edulifem/IGGroup/app/Console/Kernel.php on line 40
+[06-Sep-2021 19:11:56 Asia/Kolkata] PHP Warning:  Uncaught ErrorException: require(/home/edulifem/IGGroup/routes/console.php): failed to open stream: No such file or directory in /home/edulifem/IGGroup/app/Console/Kernel.php:40
+Stack trace:
+#0 /home/edulifem/IGGroup/app/Console/Kernel.php(40): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(2, 'require(/home/e...', '/home/edulifem/...', 40, Array)
+#1 /home/edulifem/IGGroup/app/Console/Kernel.php(40): require()
+#2 /home/edulifem/IGGroup/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(316): App\Console\Kernel->commands()
+#3 /home/edulifem/IGGroup/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(261): Illuminate\Foundation\Console\Kernel->bootstrap()
+#4 /home/edulifem/IGGroup/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(261): Illuminate\Foundation\Console\Kernel->call('help', Array)
+#5 /home/edulifem/IGGroup/vendor/facade/ignition/src/Http/Controllers/HealthCheckController.php(19): Illuminate\Support\Facades\Facade::__callStatic('cal in /home/edulifem/IGGroup/app/Console/Kernel.php on line 40
+[06-Sep-2021 19:11:56 Asia/Kolkata] PHP Fatal error:  App\Console\Kernel::commands(): Failed opening required '/home/edulifem/IGGroup/routes/console.php' (include_path='.:/opt/alt/php73/usr/share/pear') in /home/edulifem/IGGroup/app/Console/Kernel.php on line 40
