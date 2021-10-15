@@ -11297,3 +11297,8 @@ label.lable-thro1 {
 --------------------------------------------------------------*/
 
 .modal-li-lm { margin-left: 20px; }
+
+ .dropdown-menu.show { 
+  height: 129px !important;
+  transform: none;
+ }
