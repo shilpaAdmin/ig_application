@@ -314,6 +314,7 @@ Route::namespace('Frontend')->group(function () {
         Route::get('/{slug}', 'BlogController@viewBlogDetails')->name('blog.detail');
     });
     Route::post('save-blog-comments', 'BlogController@saveBlogComments')->name('save.blog.comments');
+    Route::post('user-businessfevourite','HousingController@addUserFavouriteBusiness')->name('user.businessfevourite');
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
 

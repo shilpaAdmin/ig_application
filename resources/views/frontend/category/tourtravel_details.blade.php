@@ -62,19 +62,19 @@
                                     if(isset($hoursData) && count($hoursData)){
                                         $date= date("l");
                                         if($date=="Sunday"){
-                                            $timeStr=$hoursData['DisplaySun'];
+                                            $timeStr=isset($hoursData['DisplaySun']) ? $hoursData['DisplaySun'] : '';
                                         } else if($date=="Monday"){
-                                            $timeStr=$hoursData['DisplayMon'];
+                                            $timeStr=isset($hoursData['DisplayMon']) ? $hoursData['DisplayMon'] : '';
                                         } else if($date=="Tuesday"){
-                                            $timeStr=$hoursData['DisplayTue'];
+                                            $timeStr=isset($hoursData['DisplayTue']) ? $hoursData['DisplayTue'] : '';
                                         } else if($date=="Wednesday"){
-                                            $timeStr=$hoursData['DisplayWed'];
+                                            $timeStr=isset($hoursData['DisplayWed']) ? $hoursData['DisplayWed'] : '';
                                         } else if($date=="Thursday"){
-                                            $timeStr=$hoursData['DisplayThur'];
+                                            $timeStr=isset($hoursData['DisplayThur']) ? $hoursData['DisplayThur'] : '';
                                         } else if($date=="Friday"){
-                                            $timeStr=$hoursData['DisplayFri'];
+                                            $timeStr=isset($hoursData['DisplayFri']) ? $hoursData['DisplayFri'] : '';
                                         } else if($date=="Saturday"){
-                                            $timeStr=$hoursData['DisplaySat'];
+                                            $timeStr=isset($hoursData['DisplaySat']) ? $hoursData['DisplaySat'] : '';
                                         } else {
                                             $timeStr='10 AM - 7 PM ';
                                         }
@@ -85,7 +85,6 @@
                                 @if (isset($hoursData))
                                     <li ><a href="#" class="open-hour-popup" ><span> {{ $timeStr }}</span></a></li>
                                 @endif
-                                {{-- <li><a href="#">Add to Wishlist<i class="far fa-heart"></i></a></li> --}}
                                 <li><a href="#"  class="add-to-favourite" data-businessid="{{$businessData->id}}">Add to Favourite<i class="far fa-heart"></i></a></li>
                             </ul>
                         </div>

@@ -8,6 +8,7 @@ use App\Http\Model\ForumCommentReplyModel;
 use App\Http\Model\BusinessModel;
 use Illuminate\Http\Request;
 use App\Http\Model\CategoryModel;
+use App\Http\Model\BusinessFavouriteModel;
 
 class HousingController extends Controller
 {
@@ -61,5 +62,43 @@ class HousingController extends Controller
             return view('frontend.category.event_details',compact('businessData','similarData'));
         }
 
+    }
+
+    public function addUserFavouriteBusiness(Request $request) {
+        
+        $input=$request->all();
+        
+        $this->validate($request,[
+            'RegisterId'=>'required',
+            'ListId'=>'required'
+        ]);
+
+        if(BusinessFavouriteModel::where('user_id',$input['RegisterId'])->where('business_id',$input['ListId'])->exists())
+        {
+            $result=BusinessFavouriteModel::where('user_id',$input['RegisterId'])
+                                            ->where('business_id',$input['ListId'])
+                                            ->delete();
+            if($result) {
+                return response()->json(['Status'=>true,'StatusMessage'=>'User unfavourite business successfully !','Result'=>array()]);
+            } else {
+                return response()->json(['Status'=>false,'StatusMessage'=>'UnFavourite business changes not saved !','Result'=>array()]);
+            }
+
+        } else {
+
+            $create=BusinessFavouriteModel::create([
+                'user_id' => $input['RegisterId'],
+                'business_id'=>$input['ListId'],
+                'created_by'=>$input['RegisterId'],
+                'last_updated_by'=>$input['RegisterId'],
+                'status'=>'active'
+            ]);
+
+            if($create) {
+                return response()->json(['Status'=>true,'StatusMessage'=>'User added favourite business successfully !','Result'=>array()]);
+            } else {
+                return response()->json(['Status'=>false,'StatusMessage'=>'Favourite business not added by user !','Result'=>array()]);
+            }
+        }
     }
 }

@@ -3,17 +3,25 @@
     $(document).ready(function () {
         $(document).on('click','.add-to-favourite',function(e){
             e.preventDefault();
+          
             console.log("fevrit token");
             console.log(user);
             console.log(token);
+            
             if( !(typeof user === 'undefined')&& !(typeof token==='undefined') ){
+               
                 console.log("calli fav");
+               
                 var businessId=$(this).attr('data-businessid')
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': "{{csrf_token()}}"
+                    }
+                });
                 $.ajax({
-                    url: "{{ route('UserFavouriteBusiness') }}",
+                    url: "{{ route('user.businessfevourite') }}",
                     type:"POST",
                     datatype:"json",
-                    headers: {"Authorization": 'Bearer '+token },
                     data: {
                         'RegisterId':user.Id,
                         'ListId':businessId,
@@ -22,8 +30,9 @@
                         'status':'active'
                     },
                     success:function(response){
+                        
                         if(response.Status){
-                            swal("Done!","Job Add To Favourite Succesfully..!!","success");
+                            swal("Done!",response.StatusMessage,"success");
                         }else{
                             swal("Warning", "There is something wrong please try after some time", "error");
                         }

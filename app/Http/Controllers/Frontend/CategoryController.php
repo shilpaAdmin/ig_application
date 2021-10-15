@@ -7,18 +7,33 @@ use App\Http\Model\BusinessModel;
 use App\Http\Model\CategoryModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use App\Http\Model\TagMasterModel;
+use App\Http\Model\CountrysModel;
+use App\Http\Model\CitysModel;
 
 class CategoryController extends Controller
 {
     public function viewCategoryBusinessList(Request $request,$slug){
 
+        $tagMaster = TagMasterModel::where('status','=','active')->get();
+        $allCategorys = CategoryModel::where('status','=','active')->get();
+
+        // $allLocations = CountrysModel::where('status','=','active')->get();
+        $allLocations = CitysModel::where('type','=','city')->get();
+
+        // dd($allLocations);
+
+
+
         // find category page redirect (direction)
         $category=CategoryModel::where('slug','=',$slug)->first();
        
-        \Log::info($slug);
        
         if(isset($category) && !empty($category)){
-           
+            
+            
+
+            //find  page redirect 
             if(isset($category) && $category->parent_category_id!=0){
                 while(true){
                     $category=CategoryModel::find($category->parent_category_id);
@@ -27,12 +42,11 @@ class CategoryController extends Controller
                     }
                 }
             }
-        
             $categoryPageRedirect= isset($category) ? $category->category_page_redirect: 0;
 
             // business data
-            // $total = BusinessModel::where('category_id','=',$id)->get()->count();
             $total = BusinessModel::where('category_id','=',$category->id)->get()->count();
+
             $html='';
             if ($request->ajax()) {
 
@@ -57,8 +71,7 @@ class CategoryController extends Controller
                     } else {
                         $view = view("frontend.category.list-view.education-listing-list",compact('businessDatas','slug'))->render();
                     }
-                }
-                else if($categoryPageRedirect=="3"){
+                } else if($categoryPageRedirect=="3"){
                     if( $request->viewData !=0){
                         $view = view("frontend.category.list-view.taxation-listing-grid",compact('businessDatas','slug'))->render();
                     } else {
@@ -86,6 +99,6 @@ class CategoryController extends Controller
                 return response()->json(['html'=>$view]);
             }
         }
-        return view('frontend.category.category-business-list',compact('slug','total'));
+        return view('frontend.category.category-business-list',compact('slug','total','tagMaster','allCategorys','allLocations'));
     }
 }

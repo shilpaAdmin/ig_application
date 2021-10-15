@@ -155,33 +155,43 @@
                             </div>
 
 
+                            @php
+                                // What she is Looking for
+                                $isLookings=null;
+                                if(isset($businessData->sub_description_1) && !empty($businessData->sub_description_1)){
+                                    $isLookings=explode (".", isset($businessData->sub_description_1) ? $businessData->sub_description_1 : ''); 
+                                }
+                            @endphp
                             <div class="listings_details_features my-5 pb-5">
                                 <div class="listings_details_features_title">
                                     <h3 class="mb-3">What she is Looking for</h3>
                                 </div>
                                 <div class="row">
-
                                     <div class="col-lg-12">
-                                        <ul class="listings_details_features_list">
-                                            <li class="job_li_icon">Lorem ipsum dolor sit amet consectetur,
-                                                adipisicing elit. Reiciendis, recusandae. adipisicing elit. Reiciendis,
-                                                recusandae.
-                                            </li>
-                                            <li class="job_li_icon">Lorem, ipsum dolor sit amet consectetur
-                                                adipisicing elit. Nostrum quasi harum voluptates, eveniet cupiditate sed
-                                                sit nobis rerum et corrupti.
-                                            </li>
-                                            <li class="job_li_icon">Lorem ipsum dolor sit amet consectetur,
-                                                adipisicing elit. Reiciendis, recusandae. adipisicing elit. Reiciendis,
-                                                recusandae.
-                                            </li>
-                                            <li class="job_li_icon">Lorem, ipsum dolor sit amet consectetur
-                                                adipisicing elit. Nostrum quasi harum voluptates, eveniet cupiditate sed
-                                                sit nobis rerum et corrupti.
-                                            </li>
+                                        @if (isset($isLookings))
+                                            <ul class="listings_details_features_list">
+                                                @foreach ($isLookings as $item)
+                                                    <li class="job_li_icon">{{ ucwords($item) }}</li>
+                                                @endforeach
 
-
-                                        </ul>
+                                                {{-- <li class="job_li_icon">Lorem ipsum dolor sit amet consectetur,
+                                                    adipisicing elit. Reiciendis, recusandae. adipisicing elit. Reiciendis,
+                                                    recusandae.
+                                                </li>
+                                                <li class="job_li_icon">Lorem, ipsum dolor sit amet consectetur
+                                                    adipisicing elit. Nostrum quasi harum voluptates, eveniet cupiditate sed
+                                                    sit nobis rerum et corrupti.
+                                                </li>
+                                                <li class="job_li_icon">Lorem ipsum dolor sit amet consectetur,
+                                                    adipisicing elit. Reiciendis, recusandae. adipisicing elit. Reiciendis,
+                                                    recusandae.
+                                                </li>
+                                                <li class="job_li_icon">Lorem, ipsum dolor sit amet consectetur
+                                                    adipisicing elit. Nostrum quasi harum voluptates, eveniet cupiditate sed
+                                                    sit nobis rerum et corrupti.
+                                                </li> --}}
+                                            </ul>
+                                        @endif
                                     </div>
 
 

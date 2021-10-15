@@ -53,7 +53,7 @@
                             @if (isset($units))
                                 <div class="main_bottom_right_Buttons">
                                     @foreach ($units as $item)
-                                        <div class="badge-pill badge-success d-inline-block mb-3 mr-3"> {{$item}} </div>
+                                        <div class="badge-pill badge-success d-inline-block mb-3 mr-3"> {{ ucwords($item) }} </div>
                                     @endforeach
                                 </div>
                             @endif
@@ -202,6 +202,19 @@
                                 if(isset($similarDatas->unit_option) && !empty($similarDatas->unit_option)){
                                     $units=explode (",", isset($similarDatas->unit_option) ? $similarDatas->unit_option : ''); 
                                 }
+
+
+                                $tagsName=null;
+                                if(isset($similarDatas->tag_id) && !empty($similarDatas->tag_id)){
+                                    $tagsId = explode(',', $similarDatas->tag_id);
+                                    $tags   = \App\Http\Model\TagMasterModel::whereIn('id',$tagsId)->get();
+                                    if(isset($tags)&& count($tags) > 0) {
+                                        $tags= $tags->pluck('name')->toArray();
+                                        if(isset($tags) && count($tags) > 0){
+                                            $tagsName=implode(", ",$tags);
+                                        }
+                                    }
+                                }
                            
                             @endphp
 
@@ -214,17 +227,18 @@
                                             <div class="heart_icon">
                                                 <i class="icon-heart"></i>
                                             </div>
+
                                         </div>
                                         <div class="listings_three-page_content pt-3">
                                             <div class="title">
                                                 <h3><a href="{{$detailPageUrl}}">{{ ucwords($similarDatas['name']) }}</a> </h3>
-    
-                                                <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy </p>
-                                                {{-- <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p> --}}
+                                                @if (isset($tagsName))
+                                                    <p class="mb-0"> <i class="fas fa-tags"></i> {{ ucwords($tagsName) }} </p>
+                                                @endif
                                             </div>
                                             @if (isset($units) && count($units))
                                                 <ul class="list-unstyled listings_three-page_contact_info">
-                                                    <li> <a class="job_list_pill" href="#"> {{$units[0]}} </a> </li>
+                                                    <li> <a class="job_list_pill" href="#"> {{ ucwords($units[0]) }} </a> </li>
                                                 </ul>
                                             @endif
                                            
@@ -241,74 +255,6 @@
                                 </div>
                             </div>
                         @endforeach
-
-                        {{-- <div class="col-xl-6 col-md-12 col-sm-12">
-                            <div class="listings_two_page_content joblist_shadow">
-                                <div class="listings_two_page_single overflow-y__hidden">
-                                    <div class="listings_two_page_img">
-                                        <img src="{{ URL::asset('assets/frontend/images/listings/ent3.jpg')}}" alt="">
-
-                                        <div class="heart_icon">
-                                            <i class="icon-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listings_three-page_content pt-3">
-                                        <div class="title">
-                                            <h3><a href="{{route('Entertainmentdetails')}}">Monster Hunter</a> </h3>
-
-                                            <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy </p>
-                                            <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p>
-                                        </div>
-                                        <ul class="list-unstyled listings_three-page_contact_info">
-                                            <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
-                                        </ul>
-                                        <div class="listings_three-page_content_bottom">
-                                            <div class="left">
-
-                                            </div>
-                                            <div>
-                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-6 col-md-12 col-sm-12">
-                            <div class="listings_two_page_content joblist_shadow">
-                                <div class="listings_two_page_single overflow-y__hidden">
-                                    <div class="listings_two_page_img">
-                                        <img src="{{ URL::asset('assets/frontend/images/listings/ent3.jpg')}}" alt="">
-
-                                        <div class="heart_icon">
-                                            <i class="icon-heart"></i>
-                                        </div>
-                                    </div>
-                                    <div class="listings_three-page_content pt-3">
-                                        <div class="title">
-                                            <h3><a href="{{route('Entertainmentdetails')}}">Monster Hunter</a> </h3>
-
-                                            <p class="mb-0"> <i class="fas fa-tags"></i> Romance , Comedy </p>
-                                            <p class="mb-0"> <i class="far fa-thumbs-up"></i> 3.57k Likes </p>
-                                        </div>
-                                        <ul class="list-unstyled listings_three-page_contact_info">
-                                            <li> <a class="job_list_pill" href="#"> EN / DE </a> </li>
-                                        </ul>
-                                        <div class="listings_three-page_content_bottom">
-                                            <div class="left">
-
-                                            </div>
-                                            <div>
-                                                <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">View Detail</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-
-
                     </div>
                 </div>
             </section>

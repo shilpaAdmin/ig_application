@@ -1,7 +1,7 @@
 @foreach ($businessDatas as  $key => $business)
 
     @php
-
+        $category=$business->category;
         $name= $business->name ? ucwords($business->name) :'-';
         $address= $business->address ? ucwords($business->address) :'-';
         $description= $business->description ? ucwords($business->description) :'-';
@@ -38,16 +38,18 @@
                     <p>{{$about}}</p>
                 </div>
                 <ul class="list-unstyled listings_three-page_contact_info">
-                    <li> <a class="rating_listt" href="#">
+                    {{-- <li> <a class="rating_listt" href="#">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <span class="gry_clr"><i class="fas fa-star"></i></span>
                             <span class="gry_clr"><i class="fas fa-star"> </i></span> <span
                                 class="clr_blackk">3.0</span> </a>
-                    </li>
-                    <li><a href="#"><i class="fas fa-tags"></i>GST Consultants</a></li>
-                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Get Direction</a></li>
+                    </li> --}}
+                    @if (isset($category) && isset($category->name))
+                        <li><a href="#"><i class="fas fa-tags"></i>{{ ucwords($category->name) }}</a></li>
+                    @endif
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> {{ $address }}</a></li>
                 </ul>
                 <div class="listings_three-page_content_bottom">
                     <div class="left">

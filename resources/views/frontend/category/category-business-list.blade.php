@@ -35,20 +35,23 @@
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="input_box">
-                                                <div class="dropdown bootstrap-select" style="width: 100%;"><select
-                                                        class="selectpicker" data-width="100%" tabindex="-98">
-                                                        <option selected="selected">All Categories</option>
-                                                        <option>Default Sorting 1</option>
+                                                <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                    <select class="selectpicker" data-width="100%" tabindex="-98" name="category" id="all-categorys">
+                                                        <option value="" selected="selected">All Categories</option>
+                                                        @foreach ($allCategorys as $item)
+                                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                                        @endforeach
+                                                        {{-- <option>Default Sorting 1</option>
                                                         <option>Default Sorting 2</option>
                                                         <option>Default Sorting 3</option>
-                                                        <option>Default Sorting 4</option>
+                                                        <option>Default Sorting 4</option> --}}
                                                     </select>
-                                                    <div class="dropdown-menu " role="combobox">
+                                                    {{-- <div class="dropdown-menu " role="combobox">
                                                         <div class="inner show" role="listbox"
                                                             aria-expanded="false" tabindex="-1">
                                                             <ul class="dropdown-menu inner show"></ul>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -57,10 +60,9 @@
                                                 <div class="dropdown bootstrap-select dropup" style="width: 100%;">
                                                     <select class="selectpicker" data-width="100%" tabindex="-98">
                                                         <option selected="selected">All Location</option>
-                                                        <option>Default Sorting 1</option>
-                                                        <option>Default Sorting 2</option>
-                                                        <option>Default Sorting 3</option>
-                                                        <option>Default Sorting 4</option>
+                                                        @foreach ($allLocations as $item)
+                                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                                        @endforeach
                                                     </select>
                                                     <div class="dropdown-menu" role="combobox"
                                                         style="max-height: 286px; overflow: hidden; min-height: 129px; position: absolute; will-change: transform; min-width: 570px; top: 0px; left: 0px; transform: translate3d(0px, -2px, 0px);"
@@ -125,8 +127,34 @@
                             </div>
                         </div>
 
-
-                        <div class="row">
+                        @if (isset($tagMaster))
+                            <div class="row">
+                                @php
+                                    $i=1;
+                                @endphp
+                                @foreach ($tagMaster as $item)
+                                    @if ($i==1)
+                                        <div class="col-xl-4 col-lg-4">
+                                    @endif
+                                        <div class="single_tags_check__box checkboxes">
+                                            <input type="checkbox" name="{{$item->id}}" id="tag_{{$item->id}}" data-tagid="{{$item->id}}" value="{{$item->id}}">
+                                            <label for="tag_{{$item->id}}" data-tagid="{{$item->id}}"><span></span>{{$item->name}}</label>
+                                        </div>
+                                    @if ($i==4)   
+                                        </div>  
+                                    @endif 
+                                    @php
+                                        if($i==4){
+                                            $i=1;
+                                        } else {
+                                            $i++;
+                                        }
+                                    @endphp
+                                @endforeach
+                            </div>
+ 
+                        @endif
+                        {{-- <div class="row">
                             <div class="col-xl-4 col-lg-4">
                                 <div class="single_tags_check__box">
                                     <input type="checkbox" name="pets-friendly" id="tag_1">
@@ -177,12 +205,12 @@
                                     <label for="tag_11"><span></span>Bed &amp; Breakfast</label>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row">
                             <div class="col-xl-12">
                                 <div class="listings_btn pb-2">
-                                    <a href="#" class="thm-btn px-3"><span
+                                    <a href="#" class="thm-btn px-3 filter-category"><span
                                             class="icon-magnifying-glass"></span>Search</a>
                                 </div>
                             </div>
@@ -554,6 +582,19 @@
             // filter 
             $("body .filter_by_tagstitile").click(function() {
                 $(".filter_by_tagsall").toggle();
+            });
+
+
+            //  filter categorys
+            $(".filter-category").click(function(e){
+                e.preventDefault();
+                var selected = [];
+                $('input[type=checkbox]').each(function() {
+                    if ($(this).is(":checked")) {
+                        selected.push($(this).attr('name'));
+                    }
+                });
+                console.log(selected);
             });
         });
     </script>

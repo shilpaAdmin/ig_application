@@ -371,7 +371,7 @@
                                         @if (isset($units) && count($units))
                                             <ul class="list-unstyled listings_three-page_contact_info">
                                                 @foreach ($units as $unit)
-                                                    <li class="d-inline-block"><a class="job_list_pill" href="javascript:void(0);"> {{$unit}}</a></li>
+                                                    <li class="d-inline-block"><a class="job_list_pill" href="javascript:void(0);"> {{ucwords($unit)}}</a></li>
                                                 @endforeach
                                             </ul>
                                         @endif

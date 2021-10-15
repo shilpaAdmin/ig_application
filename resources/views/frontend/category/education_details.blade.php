@@ -114,7 +114,7 @@
                                                             <div class="inner">
                                                                 @if ( isset($syllabus['BeanTopics'][0]['syallabusList']) )
                                                                     @foreach ($syllabus['BeanTopics'][0]['syallabusList'] as $item)
-                                                                        <p>{{$item}}</p>
+                                                                        <p>{{ucwords($item)}}</p>
                                                                     @endforeach
                                                                 @endif
                                                             </div>
@@ -145,7 +145,7 @@
                                         @foreach ($facultys as $key=>$faculty)
                                             <div class="additional_info_single">
                                                 <div class="left">
-                                                    <p><i class="fas fa-dot-circle"></i>{{$faculty['RelatedPersonDetail'.($key+1)]}}</p>
+                                                    <p><i class="fas fa-dot-circle"></i>{{ucwords($faculty['RelatedPersonDetail'.($key+1)])}}</p>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -220,8 +220,8 @@
                                                 <h3><a href="{{$detailPageUrl}}">{{ ucwords($similarDatas['name']) }}<span
                                                             class="fa fa-check"></span></a></h3>
 
-                                                <p class="mb-0">{{ $similarDatas['about'] }} </p>
-                                                <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> {{ $similarDatas['address'] }} </p>
+                                                <p class="mb-0">{{ ucfirst($similarDatas['about']) }} </p>
+                                                <p class="mb-0"> <i class="fas fa-map-marker-alt"></i> {{ ucwords($similarDatas['address']) }} </p>
                                             </div>
                                             <ul class="list-unstyled listings_three-page_contact_info">
                                                 <li class="d-inline-block">
@@ -232,7 +232,7 @@
                                                 
                                                 @if (isset($units))
                                                     <div class="left">
-                                                        <a class="job_list_pill mb-0" href="#">{{ $units[0] }} </a>
+                                                        <a class="job_list_pill mb-0" href="#">{{ ucwords($units[0]) }} </a>
                                                     </div>
                                                 @endif
 

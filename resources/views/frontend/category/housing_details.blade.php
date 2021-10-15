@@ -96,7 +96,7 @@
                             <div class="listings_details_text">
                                 <h3 class="mb-3">Description</h3>
 
-                                <p class="first_text mb-0">{{ ucwords($businessData['description']) }}</p>
+                                <p class="first_text mb-0">{!! ucwords($businessData['description']) !!}</p>
 
                             </div>
 

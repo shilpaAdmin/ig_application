@@ -1,5 +1,8 @@
 @extends('frontend.layouts.master')
 @section('title') Event - Details @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+@endsection
 @section('content')
 
     <div class="preloader">
@@ -27,12 +30,40 @@
                             <div class="main_bottom_left_title">
                                 <h4>{{ ucwords($businessData['name']) }}<i class="fa fa-check"></i></h4>
                             </div>
-                            <?php
+
+                            @php
                                 $timestamp = strtotime( $businessData['created_at'] );
-                                $date = date('M d,Y', $timestamp );
-                            ?>
-                            <small> <i class="fas fa-calendar-week"></i> {{$date}}</small> <br>
-                            <small> <i class="far fa-clock"></i> Monday : 10AM to 7PM </small>
+                                $createdDate = date('M d,Y', $timestamp );
+                                // dd($businessData);
+                                $hoursData=null;
+                                $timeStr='10 AM - 7 PM';
+                                if(isset($businessData->hours_json) && !empty($businessData->hours_json) ){
+                                    $hoursData = json_decode($businessData->hours_json, true);
+                                    if(isset($hoursData) && count($hoursData)){
+                                        $date= date("l");
+                                        if($date=="Sunday"){
+                                            $timeStr=isset($hoursData['DisplaySun']) ? $hoursData['DisplaySun'] : '';
+                                        } else if($date=="Monday"){
+                                            $timeStr=isset($hoursData['DisplayMon']) ? $hoursData['DisplayMon'] : '';
+                                        } else if($date=="Tuesday"){
+                                            $timeStr=isset($hoursData['DisplayTue']) ? $hoursData['DisplayTue'] : '';
+                                        } else if($date=="Wednesday"){
+                                            $timeStr=isset($hoursData['DisplayWed']) ? $hoursData['DisplayWed'] : '';
+                                        } else if($date=="Thursday"){
+                                            $timeStr=isset($hoursData['DisplayThur']) ? $hoursData['DisplayThur'] : '';
+                                        } else if($date=="Friday"){
+                                            $timeStr=isset($hoursData['DisplayFri']) ? $hoursData['DisplayFri'] : '';
+                                        } else if($date=="Saturday"){
+                                            $timeStr=isset($hoursData['DisplaySat']) ? $hoursData['DisplaySat'] : '';
+                                        } else {
+                                            $timeStr='10 AM - 7 PM ';
+                                        }
+                                    }
+                                }
+                            @endphp
+                            <small> <i class="fas fa-calendar-week"></i> {{$createdDate}}</small> <br>
+                            {{-- <small> <i class="far fa-clock"></i> Monday : 10AM to 7PM </small> --}}
+                            <small class="open-hour-popup"> <i class="far fa-clock"></i> {{$timeStr}}</small>
 
                             <div class="main_bottom_rating_time">
 
@@ -50,7 +81,7 @@
 
                             <ul class="list-unstyled">
                                 <li>Eligibility <span> 16 Years +</span></li>
-                                <li><a href="#">Add to Wishlist<i class="far fa-heart"></i></a></li>
+                                <li><a href="#"  class="add-to-favourite" data-businessid="{{$businessData->id}}">Add to Favourite<i class="far fa-heart"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -69,10 +100,8 @@
 
                             <div class="listings_details_text">
                                 <h3 class="mb-3">About</h3>
-
-
-                                <div class="badge-pill badge-cast d-inline-block mb-3 mr-3"> $ 5000 - Inclusive of all
-                                    taxes </div>
+                                {{-- <div class="badge-pill badge-cast d-inline-block mb-3 mr-3"> $ 5000 - Inclusive of all
+                                    taxes </div> --}}
 
                                 <p class="first_text mb-0">{{ ucfirst($businessData['about']) }} </p>
 
@@ -87,9 +116,20 @@
                                     <h3 class="mb-3">Terms & Conditions</h3>
                                 </div>
                                 <div class="row">
-
+                                @php
+                                    //term and conditions
+                                    $termsConditions=null;
+                                    if(isset($businessData->sub_description_1) && !empty($businessData->sub_description_1)){
+                                        $termsConditions=explode (".", isset($businessData->sub_description_1) ? $businessData->sub_description_1 : ''); 
+                                    }
+                                @endphp
                                     <div class="col-lg-12">
+                                        @if (isset($termsConditions))
                                         <ul class="listings_details_features_list">
+                                            @foreach ($termsConditions as $item)
+                                                <li class="job_li_icon">{{ ucfirst($item) }}</li>
+                                            @endforeach
+{{--                                             
                                             <li class="job_li_icon">Lorem ipsum dolor sit amet consectetur,
                                                 adipisicing elit. Reiciendis, recusandae. adipisicing elit. Reiciendis,
                                                 recusandae.
@@ -105,8 +145,9 @@
                                             <li class="job_li_icon">Lorem, ipsum dolor sit amet consectetur
                                                 adipisicing elit. Nostrum quasi harum voluptates, eveniet cupiditate sed
                                                 sit nobis rerum et corrupti.
-                                            </li>
+                                            </li> --}}
                                         </ul>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -116,39 +157,24 @@
                     <div class="col-xl-4">
                         <div class="listings_details_sidebar">
 
+                            @php
+                                $artists=null;
+                                if(isset($businessData['realated_person_detail_json']) && !empty($businessData['realated_person_detail_json'])){
+                                    $artists=json_decode($businessData['realated_person_detail_json'], true);
+                                }
+                            @endphp
                             <div class="listings_details_sidebar__single additional_info">
                                 <h3 class="listings_details_sidebar__title">Artist Details</h3>
                                 <div class="additional_info_details">
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Artist Name</p>
-                                        </div>
-                                    </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Artist Name ywo</p>
-                                        </div>
-                                    </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Artist Name three</p>
-                                        </div>
-                                    </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Artist Name four </p>
-                                        </div>
-                                    </div>
-                                    <!--Single_item-->
-                                    <div class="additional_info_single">
-                                        <div class="left">
-                                            <p><i class="fas fa-dot-circle"></i>Artist Name five</p>
-                                        </div>
-                                    </div>
+                                    @if (isset($artists) && count($artists))
+                                        @foreach ($artists as $key=>$artist)
+                                            <div class="additional_info_single">
+                                                <div class="left">
+                                                    <p><i class="fas fa-dot-circle"></i>{{ ucwords($artist['RelatedPersonDetail'.($key+1)]) }}</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                 </div>
                             </div>
@@ -160,6 +186,11 @@
         </section>
 
         @if (isset($similarData))
+            @php
+                $currentUrl = request()->segments();
+                $slug= isset($currentUrl[1]) ? $currentUrl[1] : $currentUrl[0] ;
+                $listPageUrl= route('category.business-list',['slug'=>$slug]);
+            @endphp
             <section class="mt-5 mb-5">
                 <div class="container">
                     <div class="row mb-4">
@@ -167,7 +198,7 @@
                             <h4>Similar&nbsp;Events</h4>
                         </div>
                         <div class="col-6 text-right"> 
-                            <a href="{{route('EventListingList')}}" class="link-simple"> View All </a> 
+                            <a href="{{$listPageUrl}}" class="link-simple"> View All </a> 
                         </div>
                     </div>
 
@@ -192,6 +223,10 @@
                                 } else {
                                     $detailPageUrl = "javascript:void(0);";
                                 }
+                                $units=null;
+                                if(isset($similarDatas->unit_option) && !empty($similarDatas->unit_option)){
+                                    $units=explode (",", isset($similarDatas->unit_option) ? $similarDatas->unit_option : ''); 
+                                }
                             @endphp
 
                             <div class="col-xl-6 col-md-12 col-sm-12">
@@ -209,15 +244,15 @@
                                                 <h3><a href="{{$detailPageUrl}}"> {{ ucwords($similarDatas['name']) }}<span
                                                             class="fa fa-check"></span></a></h3>
     
-                                                <p class="mb-0">{{ ucwords($similarDatas['address']) }},{{ ucwords($similarDatas['description']) }}</p>
+                                                <p class="mb-0">{{ ucwords($similarDatas['address']) }}</p>
                                             </div>
-                                            <ul class="list-unstyled listings_three-page_contact_info">
-                                                <li class="d-inline-block"><a class="job_list_pill" href="#"> Music</a></li>
-                                                <li class="d-inline-block"><a class="job_list_pill" href="#"> $5000
-                                                        Onwards</a></li>
-                                                <li class="d-inline-block"><a class="job_list_pill" href="#"> Streaming
-                                                        Online</a></li>
-                                            </ul>
+                                            @if (isset($units))
+                                                <ul class="list-unstyled listings_three-page_contact_info">
+                                                    @foreach ($units as $unit)
+                                                        <li class="d-inline-block"><a class="job_list_pill" href="#"> {{ucwords($unit)}}</a></li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
                                             <div class="listings_three-page_content_bottom">
                                                 <div class="left">
                                                     <?php
@@ -240,4 +275,10 @@
             </section>
         @endif
     </div><!-- /.page-wrapper -->
+    @include('frontend.models.hours-model')
+@endsection
+
+@section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    @include('frontend.category.add_to_favourite')
 @endsection
