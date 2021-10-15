@@ -15,23 +15,18 @@ class CategoryController extends Controller
 {
     public function viewCategoryBusinessList(Request $request,$slug){
 
-        $tagMaster = TagMasterModel::where('status','=','active')->get();
-        $allCategorys = CategoryModel::where('status','=','active')->get();
-
-        // $allLocations = CountrysModel::where('status','=','active')->get();
-        $allLocations = CitysModel::where('type','=','city')->get();
-
-        // dd($allLocations);
-
-
+        // dd($request->all());
 
         // find category page redirect (direction)
         $category=CategoryModel::where('slug','=',$slug)->first();
        
+        $tagMaster = TagMasterModel::where('status','=','active')->get();
+        $allCategorys = CategoryModel::where('status','=','active')->where('parent_category_id','=',$category->id)->get();
+
+        // $allLocations = CountrysModel::where('status','=','active')->get();
+        $allLocations = CitysModel::where('type','=','city')->get();
        
         if(isset($category) && !empty($category)){
-            
-            
 
             //find  page redirect 
             if(isset($category) && $category->parent_category_id!=0){
@@ -45,12 +40,68 @@ class CategoryController extends Controller
             $categoryPageRedirect= isset($category) ? $category->category_page_redirect: 0;
 
             // business data
-            $total = BusinessModel::where('category_id','=',$category->id)->get()->count();
+            // $total = BusinessModel::where('category_id','=',$category->id)->get()->count();
 
+            $preQuery = BusinessModel::where('status','active')
+                                    ->where('category_id','=',$category->id)
+            ->where(function($query) use ($request)
+            {
+                $CatagoryId = isset($request->categoryId) ? $request->categoryId : '';
+                $tagsId = isset($request->tagsId) ? $request->tagsId : '';
+                $SearchName = isset($request->name) ? $request->name : '';
+                $LocationId = isset($request->locationId) ? $request->locationId : '';
+                $Type = isset($request->type) ? $request->type : '';
+    
+                if(!empty($locationId))
+                {
+                    $query->where('cityid_or_countryid', $LocationId);
+                }
+
+                if(!empty($Type))
+                {
+                    $query->where('type', $Type);
+                }
+    
+                if(isset($CatagoryId) && !empty($CatagoryId))
+                {
+                    $query->where('category_id', $CatagoryId);
+                }
+
+                if(isset($tagsId) && !empty($tagsId))
+                {
+                    if( strpos($tagsId, ',') !== false )
+                    {
+                        $tagsIds = explode(',', $tagsId);
+                        for($k =0; $k < count($tagsIds); $k++)
+                        {
+                            if($k==0)
+                            {
+                                $query->whereRaw("find_in_set($tagsIds[$k] ,tag_id)");
+                            }
+                            else
+                            {
+                                $query->orWhereRaw("find_in_set($tagsIds[$k],tag_id)");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $query->whereRaw("find_in_set($tagsIds ,business.tag_id)");
+                    }
+                }
+
+                if(isset($SearchName) && !empty($SearchName))
+                {
+                    $query->where('name', 'like', '%'. $SearchName.'%');
+                }
+            });
+
+            $total = $preQuery->count();
             $html='';
             if ($request->ajax()) {
 
-                $businessDatas = BusinessModel::where('category_id','=',$category->id)->paginate(6);
+                // $businessDatas = BusinessModel::where('category_id','=',$category->id)->paginate(6);
+                $businessDatas=$preQuery->paginate(6);
 
                 if($categoryPageRedirect=="0"){
                     if( $request->viewData !=0){
@@ -96,7 +147,7 @@ class CategoryController extends Controller
                         $view = view("frontend.category.list-view.event-listing-list",compact('businessDatas','slug'))->render();
                     }
                 }
-                return response()->json(['html'=>$view]);
+                return response()->json(['html'=>$view,'total'=>$total]);
             }
         }
         return view('frontend.category.category-business-list',compact('slug','total','tagMaster','allCategorys','allLocations'));

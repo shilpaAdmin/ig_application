@@ -29,42 +29,37 @@
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="input_box">
-                                                <input type="text" name="listing_name"
-                                                    placeholder="What are you looking for?">
+                                                <input type="text" name="listing_name"  id="listing_name" placeholder="What are you looking for?">
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="input_box">
                                                 <div class="dropdown bootstrap-select" style="width: 100%;">
-                                                    <select class="selectpicker" data-width="100%" tabindex="-98" name="category" id="all-categorys">
+                                                    <select class="selectpicker" data-width="100%" tabindex="-98" name="all-category" id="all-category">
                                                         <option value="" selected="selected">All Categories</option>
                                                         @foreach ($allCategorys as $item)
                                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                                         @endforeach
-                                                        {{-- <option>Default Sorting 1</option>
-                                                        <option>Default Sorting 2</option>
-                                                        <option>Default Sorting 3</option>
-                                                        <option>Default Sorting 4</option> --}}
                                                     </select>
-                                                    {{-- <div class="dropdown-menu " role="combobox">
+                                                    <div class="dropdown-menu " role="combobox">
                                                         <div class="inner show" role="listbox"
                                                             aria-expanded="false" tabindex="-1">
                                                             <ul class="dropdown-menu inner show"></ul>
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="input_box">
                                                 <div class="dropdown bootstrap-select dropup" style="width: 100%;">
-                                                    <select class="selectpicker" data-width="100%" tabindex="-98">
-                                                        <option selected="selected">All Location</option>
+                                                    <select class="selectpicker" data-width="100%" tabindex="-98" name="all-location" id="all-location">
+                                                        <option value="" selected="selected">All Location</option>
                                                         @foreach ($allLocations as $item)
                                                             <option value="{{$item->id}}">{{$item->name}}</option>
                                                         @endforeach
                                                     </select>
-                                                    <div class="dropdown-menu" role="combobox"
+                                                    {{-- <div class="dropdown-menu" role="combobox"
                                                         style="max-height: 286px; overflow: hidden; min-height: 129px; position: absolute; will-change: transform; min-width: 570px; top: 0px; left: 0px; transform: translate3d(0px, -2px, 0px);"
                                                         x-placement="top-start">
                                                         <div class="inner show" role="listbox"
@@ -99,19 +94,17 @@
                                                                             Sorting 4</span></a></li>
                                                             </ul>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6">
                                             <div class="input_box">
-                                                <div class="dropdown bootstrap-select" style="width: 100%;"><select
-                                                        class="selectpicker" data-width="100%" tabindex="-98">
-                                                        <option selected="selected">All Price type</option>
-                                                        <option>Default Sorting 1</option>
-                                                        <option>Default Sorting 2</option>
-                                                        <option>Default Sorting 3</option>
-                                                        <option>Default Sorting 4</option>
+                                                <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                    <select class="selectpicker" data-width="100%" tabindex="-98" name="type" id="type">
+                                                        <option value="" selected="selected">All  Type</option>
+                                                        <option value="product">Product</option>
+                                                        <option value="service">Service</option>
                                                     </select>
                                                     <div class="dropdown-menu " role="combobox">
                                                         <div class="inner show" role="listbox"
@@ -138,7 +131,7 @@
                                     @endif
                                         <div class="single_tags_check__box checkboxes">
                                             <input type="checkbox" name="{{$item->id}}" id="tag_{{$item->id}}" data-tagid="{{$item->id}}" value="{{$item->id}}">
-                                            <label for="tag_{{$item->id}}" data-tagid="{{$item->id}}"><span></span>{{$item->name}}</label>
+                                            <label for="tag_{{$item->id}}" data-tagid="{{$item->id}}"><span></span>{{ucwords($item->name)}}</label>
                                         </div>
                                     @if ($i==4)   
                                         </div>  
@@ -238,7 +231,7 @@
                                     <a href="#" class="list-icon icon-list data-view" data-view="0"></a>
                                 </div>
                                 <div class="left_text">
-                                    <h4>Showing {{$total ? $total: 0 }} Results </h4>
+                                    <h4>Showing <span id="totalRecords">{{$total ? $total: 0 }}<span> Results </h4>
                                 </div>
                             </div>
                             <div class="right">
@@ -533,12 +526,15 @@
             });  
 
             // load more data
-            function loadMore(page,viewData){
+            function loadMore(page,viewData,filter=''){
                 // console.log("{!!$slug!!}");
                 var url="{!!route('category.business-list',['slug'=>$slug])!!}";
                     url+='?page='+page+'&viewData='+viewData;
+                if (typeof filter != "undefined"  && filter!=""  ) {
+                    url+=filter;
+                }
 
-                $.ajax({
+                $.ajax({    
                         type: 'get',
                         url:url ,
                         dataType: 'json',
@@ -547,12 +543,14 @@
                             $('.ajax-loading').show();
                         },
                         success: function(data) {
-                          
+                            $("#totalRecords").text(data.total);   
                             if(data.html.length == 0){
                                 // $('.ajax-loading').html("No more records!");
                                 hasLoadMore=false;
+                                
                                 return;
                             }
+                                  
                             $("#results").append(data.html);          
                         },
                         error: function(XMLHttpRequest, errorStatus, errorThrown) {
@@ -588,13 +586,49 @@
             //  filter categorys
             $(".filter-category").click(function(e){
                 e.preventDefault();
-                var selected = [];
+                var selectedTags = [];
                 $('input[type=checkbox]').each(function() {
                     if ($(this).is(":checked")) {
-                        selected.push($(this).attr('name'));
+                        selectedTags.push($(this).attr('name'));
                     }
                 });
-                console.log(selected);
+                var name = $("#listing_name").val();
+                var categoryId = $('#all-category').find(":selected").val();
+                var locationId = $('#all-location').find(":selected").val();
+                var type = $('#type').find(":selected").val();
+                var filter =true;
+                console.log("search value");
+                console.log(selectedTags);
+                console.log(name);
+                console.log(categoryId);
+                console.log(locationId);
+                console.log(type);
+                var queryStr='';
+                if (typeof name != "undefined"  && name!=""  ) {
+                    queryStr+='&name='+name;
+                }
+                if (typeof categoryId != "undefined"  && categoryId!=""  ) {
+                    queryStr+='&categoryId='+categoryId;
+                }
+                if (typeof locationId != "undefined"  && locationId!=""  ) {
+                    queryStr+='&locationId='+locationId;
+                }
+                if (typeof type != "undefined"  && type!=""  ) {
+                    queryStr+='&type='+type;
+                }
+                if(typeof selectedTags != "undefined" && selectedTags.length > 0){
+                    var tagStr=selectedTags.toString();
+                    queryStr+='&tagsId='+tagStr;
+                }
+                // if (typeof queryStr != "undefined"  && queryStr!=""  ) {
+                //     queryStr='?filter=true'+queryStr;
+                // }
+                console.log("string");
+                console.log(queryStr);
+                page = 1;
+                hasLoadMore=true;
+                $("#results").html('');
+                loadMore(page,viewData,queryStr); 
             });
         });
     </script>
