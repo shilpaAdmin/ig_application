@@ -8,6 +8,11 @@ use App\Http\Model\AdvertisementModel;
 use App\Http\Model\CategoryModel;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use App\Http\Model\UserModel;
+use App\Mail\sendEmail;
+use Illuminate\Support\Facades\Auth;
+use Mail;
 use App\Http\Traits\UserLocationDetailTrait;
 
 
@@ -16,10 +21,11 @@ class AdvertismentController extends Controller
     use UserLocationDetailTrait;
     public function index(Request $request)
     {
+        $user = UserModel::all('*');
         $categories =  CategoryModel::where('parent_category_id', '=', 0)
                                     ->select('name','id')
                                     ->get();
-        return view('frontend.add_advertisement',compact('categories'));
+        return view('frontend.add_advertisement',compact('categories','user'));
 
     }
 
@@ -78,15 +84,63 @@ class AdvertismentController extends Controller
         $obj->category_id=$categoryId;
         $obj->save();
 
-        return redirect()->back();
+        // if($obj)
+        // {
+        //     return response(["status" => 200, "message" => "Add successfully "]);
+        // }
+        // else
+        // {
+        //     return response(["status" => 401, 'message' => 'Unsuccesfull']);
+        // }
+        return redirect('/');
 
     }
 
-    public function verifyemail(Request $request)
+    public function requestOtp(Request $request)
+ {
+        // dd($request->all());
+
+        $requestOtp = rand(1000,9999);
+        $user = UserModel::find(1);
+        $user->otp = $requestOtp;
+        $user->save();
+        // dd($otp);
+        Log::info("otp = ".$user);
+       // $user = UserModel::where('email','=',$request->email)->update(['otp' => $otp]);
+
+        if($user){
+
+        $mail_details = [
+            // 'subject' => 'Testing Application OTP',
+            'body' => 'Your OTP is : '. $user->otp
+        ];
+
+         \Mail::to($user->email)->send(new sendEmail($mail_details));
+
+         return response(["status" => 200, "message" => "OTP sent successfully"]);
+        }
+        else
+        {
+            return response(["status" => 401, 'message' => 'Invalid']);
+        }
+    }
+
+
+    public function verifyOtp(Request $request)
     {
+// dd($request->all());
+        $user  = UserModel::where([['email','=',$request->email],['otp','=',$request->otp]])->first();
+        // dd($user);
+        if($user){
+            // auth()->login($user, true);
+            UserModel::where('email','=',$request->email)->update(['otp' => null]);
 
+            return response(["status" => 200, "message" => "Success"]);
+        }
+        else{
+            return response(["status" => 401, 'message' => 'Invalid']);
+        }
     }
-
-
 
 }
+

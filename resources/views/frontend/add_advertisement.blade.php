@@ -295,10 +295,10 @@
     </div> --}}
 
     <div class="preloader">
-        <img src="assets/images/loader.png" class="preloader__image" alt="">
+        <img src="{{ URL::asset('assets/frontend/images/loader.png') }}" class="preloader__image" alt="">
     </div><!-- /.preloader -->
 
-    <div class="page-wrapper">
+    <div class="page-wrapper" id="AdvertismentFormHideTitle">
 
         <section class="page-header backgroundimgaddadv">
             <div class="overlayforcontactbg"></div>
@@ -312,13 +312,13 @@
         </section>
 
 
-        <section class="forum_padding mb-20 pt-5 mt-2 ">
+        <section class="forum_padding mb-20 pt-5 mt-2" id="AdvertismentForm">
             <div class="container">
 
 
                 <h3 class="text-center pb-5">You are one step far from Posting a Free Advertisement</h3>
-                <form class="needs-validation" method="post" enctype="multipart/form-data"
-                    action="{{ route('advertisement.store') }}" novalidate>
+                <form class="needs-validation" method="post" enctype="multipart/form-data" id='advertisement-store'
+                    action="{{ route('advertisements.save') }}" novalidate >
                     @csrf
                     <div class="row">
                         <div class="col-md-4">
@@ -430,7 +430,10 @@
 
                     <div class="row">
                         <div class="col-md-12 mt-2">
-                            <button type="submit" class="btn thm-btn2 px-5">Click to get verification code</button>
+                            <input type="hidden" name="action" id="action" value="email" />
+                            {{-- <input type="hidden" name="email" id="email" value="{{ $user[0]['email'] }}" /> --}}
+                            {{-- <button type="submit" class="btn thm-btn2 px-5">Click to get verification code</button> --}}
+                            <a href="#" id="Getotp" class="btn thm-btn2 px-5">Click to get verification code</a>
                         </div>
 
                     </div>
@@ -439,6 +442,123 @@
         </section>
 
     </div><!-- /.page-wrapper -->
+
+    {{-- Verifying your email --}}
+    <div class="page-wrapper" id="verifyform" style="display: none">
+        <section class="page-header backgroundimglogin">
+            <div class="overlayforcontactbg"></div>
+            <div class="container">
+                <h2 class="h2_oth_pgs">Verifying your email</h2>
+                <ul class="thm-breadcrumb list-unstyled">
+                    <li><a href="index.html">Home</a></li>
+                    <li><span>Verifying your email</span></li>
+                </ul>
+            </div>
+        </section>
+
+
+        <section class="forum_padding mb-20 pt-5 mt-2 pt-2">
+            <div class="container">
+                <form action="">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                            <h2 class="text-center pb-2">Verifying your email</h2>
+                            <div class="login_box">
+
+                                <div class="text-center verify_img_box">
+                                    <img src="{{ URL::asset('assets/frontend/images/resources/verify-email.png') }}"
+                                        alt="">
+                                </div>
+
+                                <div class="text-center mt-3 mb-3"> Please Enter the 4 digit code sent to
+                                    <Br /> {{ $user[0]['email'] }}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <div class="verify_email_box">
+                                            <input type="text" class="form-control otpverify" name="firstbox" id="firstbox"
+                                                aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="verify_email_box">
+                                            <input type="text" class="form-control otpverify" name="secondbox"
+                                                id="secondbox" aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="verify_email_box">
+                                            <input type="text" class="form-control otpverify" name="thirdbox" id="thirdbox"
+                                                aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="verify_email_box">
+                                            <input type="text" class="form-control otpverify" name="fourthbox"
+                                                id="fourthbox" aria-describedby="emailHelp">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-3 mb-3"> <a href="#"> Resend Code </a> </div>
+
+                                {{-- <button type="submit" class="btn btn-primary thm-btn2 px-5 mt-3 w-100" onClick="verifyOTP();">Confirm</button> --}}
+                                <a href="#" id="verifyOtp" class="btn btn-primary thm-btn2 px-5 mt-3 w-100">Confirm</a>
+                                <input type="hidden" name="verifyemail" id="verifyemail"
+                                    value="{{ $user[0]['email'] }}" />
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </div><!-- /.page-wrapper -->
+
+    {{-- Verified! html --}}
+    <div class="page-wrapper" id="verifiedEmailForm" style="display: none">
+
+        <section class="page-header backgroundimglogin">
+            <div class="overlayforcontactbg"></div>
+            <div class="container">
+                <h2 class="h2_oth_pgs">Verified email</h2>
+                <ul class="thm-breadcrumb list-unstyled">
+                    <li><a href="index.html">Home</a></li>
+                    <li><span>Verified email</span></li>
+                </ul>
+            </div>
+        </section>
+
+
+        <section class="forum_padding mb-20 pt-5 mt-2 pt-2">
+            <div class="container">
+                <form action="#">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                            <h2 class="text-center pb-2">Verified! </h2>
+                            <div class="login_box">
+
+                                <div class="text-center verify_img_box">
+                                    <img src="{{ URL::asset('assets/frontend/images/resources/verified-email.png') }}"
+                                        alt="">
+                                </div>
+
+                                <div class="text-center mt-3 mb-3"> Yahoo! you have Successfully verified
+                                    the Advertisement </div>
+
+
+                                {{-- <button type="submit" class="btn btn-primary thm-btn2 px-5 mt-3 w-100">Send request for
+                                    approval</button> --}}
+                                <a href="#" id="submitData" class="btn btn-primary thm-btn2 px-5 mt-3 w-100">Send request for
+                                    approval</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </div><!-- /.page-wrapper -->
+
 
 @endsection
 
@@ -464,4 +584,94 @@
             });
         }, false);
     })();
+
+
+    $(document).ready(function() {
+        $("body").on('click', '#Getotp', function(event) {
+
+            event.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                }
+            });
+
+            $.ajax({
+                url: "{{ route('requestOtp') }}",
+                method: "POST",
+                data: $(this).serialize(),
+                dataType: "json",
+                beforeSend: function() {
+
+                },
+                success: function(data) {
+
+                    $('#AdvertismentForm').hide();
+                    $('#AdvertismentFormHideTitle').hide();
+                    $('#verifiedEmailForm').hide();
+                    $('#verifyform').show();
+
+                }
+            })
+        });
+
+
+        //verify otp
+
+        $("body").on('click', '#verifyOtp', function(event) {
+
+            firstbox = $("#firstbox").val();
+            secondbox = $("#secondbox").val();
+            thirdbox = $("#thirdbox").val();
+            fourthbox = $("#fourthbox").val();
+
+            verifyemail = $("#verifyemail").val();
+
+
+            var str = firstbox + secondbox + thirdbox + fourthbox;
+
+
+            $.ajax({
+                url: "{{ route('otpverify') }}",
+                type: 'POST',
+                dataType: "json",
+                data: {
+                    'otp': str,
+                    'email': verifyemail
+                },
+                success: function(response) {
+
+                    $('#verifiedEmailForm').show();
+                    $('#verifyform').hide();
+
+                }
+            });
+        });
+
+
+        //verified email
+        $("body").on('click', '#submitData', function(event) {
+
+            event.preventDefault();
+            $('#advertisement-store').submit();
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            //     }
+            // });
+
+            // $.ajax({
+            //     url: "{{ route('advertisement.store') }}",
+            //     type: 'POST',
+            //     dataType: "json",
+            //     data: $('form#submitData').serialize(),
+            //     success: function(response) {
+
+            //       alert('hiii');
+
+            //     }
+            // });
+        });
+
+    });
 </script>

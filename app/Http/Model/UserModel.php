@@ -14,6 +14,7 @@ class UserModel extends Model
         'address',
         'user_image',
         'mobile_number',
+        'otp',
         'social_id',
         'password',
         'login_type',

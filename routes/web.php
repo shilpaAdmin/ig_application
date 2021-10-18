@@ -319,8 +319,11 @@ Route::namespace('Frontend')->group(function () {
     //Advertisment
     Route::group(['prefix' => 'advertisment'], function () {
         Route::get('/', 'AdvertismentController@index')->name('advertisementsing');
-        Route::post('add/advertisment', 'AdvertismentController@store')->name('advertisement.store');
+        Route::post('save', 'AdvertismentController@store')->name('advertisements.save');
         Route::post('add/advertisment', 'AdvertismentController@verifyemail')->name('advertisement.verifyemail');
+
+        Route::any('request_otp', 'AdvertismentController@requestOtp')->name('requestOtp');
+        Route::post('verify_otp', 'AdvertismentController@verifyOtp')->name('otpverify');
 
 
     });
