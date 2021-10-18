@@ -231,7 +231,6 @@ var start = moment().subtract(29, 'days');
                     searchable: false,
                     orderable:false
                 },
-
                 {
                     data: 'applicant',
                     name: 'applicant',
@@ -288,7 +287,14 @@ var start = moment().subtract(29, 'days');
 
     function openSubCategoryBusinessDetail(id)
     {
+
         window.location.href = "/admin/category/subCategoryList/" + id;
+    }
+
+    function openJobapplicantPopup(Id)
+    {
+        alert(Id);
+        window.location.href = "/admin/category/subCategoryList/" + Id+"?type=job";
     }
 
 </script>

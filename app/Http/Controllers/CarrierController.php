@@ -175,7 +175,9 @@ class CarrierController extends Controller
 
     public function jobDetail(Request $request,$id)
     {
-        $careerData = CarrierModel ::where('status','Active')->where('id',$id)->get()->toArray();
+
+        $careerData = CarrierModel::where('status','active')->where('id',$id)->get()->toArray();
+
         return view('carrier.job_detail_applicant',compact('careerData'));
 
     }
@@ -184,16 +186,10 @@ class CarrierController extends Controller
     public function jobapplyListapplicant(Request $request)
     {
 
-        // echo $careerDataId;
-        // exit;
         $input = $request->all();
-        // dd($input);
+
 
         $result_obj = JobApplyModel::where('apply_for_job.status','!=','Deleted')->where('career_id',$input['id'])->get();
-        // dd($result_obj);
-        // echo "<pre>";
-        // print_r($result_obj);
-        // exit;
 
         return DataTables::of($result_obj)->addColumn('command', function ($result_obj) {
 

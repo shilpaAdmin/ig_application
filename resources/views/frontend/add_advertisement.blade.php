@@ -1,5 +1,7 @@
 @extends('frontend.layouts.master')
 @section('title') Add Advertisment @endsection
+<link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" id="bootstrap-light" rel="stylesheet" type="text/css" />
+
 @section('content')
 
 
@@ -312,16 +314,21 @@
 
         <section class="forum_padding mb-20 pt-5 mt-2 ">
             <div class="container">
-                <form action="verify-email.html">
 
-                    <h3 class="text-center pb-5">You are one step far from Posting a Free Advertisement</h3>
 
+                <h3 class="text-center pb-5">You are one step far from Posting a Free Advertisement</h3>
+                <form class="needs-validation" method="post" enctype="multipart/form-data"
+                    action="{{ route('advertisement.store') }}" novalidate>
+                    @csrf
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="label_theme" for="exampleInputEmail1">Title</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="Enter adv title">
+                                <input type="text" class="form-control" name="name" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" placeholder="Enter adv title" required>
+                                <div class="invalid-feedback">
+                                    Please provide a Title.
+                                </div>
                             </div>
                         </div>
 
@@ -329,14 +336,16 @@
 
                             <div class="form-group">
                                 <label class="label_theme" for="exampleFormControlSelect2">Select Category</label>
-                                <select class="form-control" id="exampleFormControlSelect2">
-                                    <option>Select</option>
-                                    <option>Housing</option>
-                                    <option>Taxation</option>
-                                    <option>Education</option>
-                                    <option>Jobs</option>
-                                    <option>Travel & Transport</option>
+                                <select class="form-control" name="category_id" id="exampleFormControlSelect2" required>
+                                    <option value="">Select</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+
                                 </select>
+                                <div class="invalid-feedback">
+                                    Please provide a Select Category.
+                                </div>
                             </div>
 
                         </div>
@@ -346,7 +355,11 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="label_theme" for="exampleFormControlTextarea1">Description</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
+                                    rows="3" required></textarea>
+                                <div class="invalid-feedback">
+                                    Please provide a Description.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -356,15 +369,20 @@
                         <div class="col-md-12">
                             <div class="form-check ">
                                 <input class="form-check-input theme-check-form" type="radio" name="inlineRadioOptions"
-                                    id="inlineRadio1" value="option1">
+                                    id="inlineRadio1" value="Yes" required>
                                 <label class="form-check-label theme-check-label" for="inlineRadio1">Run this
                                     advertisement continuously</label>
+
+
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input theme-check-form" type="radio" name="inlineRadioOptions"
-                                    id="inlineRadio2" value="option2">
+                                    id="inlineRadio2" value="No" required>
                                 <label class="form-check-label theme-check-label" for="inlineRadio2">Choose when this
                                     ad will end</label>
+                                <div class="invalid-feedback">
+                                    Please provide a Duration.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -374,15 +392,21 @@
                             <div class="form-group">
                                 <label class="label_theme" for="exampleInputEmail3">Start Date</label>
                                 <input type="date" class="form-control" id="exampleInputEmail3"
-                                    aria-describedby="emailHelp" placeholder="Enter adv title">
+                                    aria-describedby="emailHelp" placeholder="Enter adv title" required>
+                                <div class="invalid-feedback">
+                                    Please provide a Start Date.
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="label_theme" for="exampleInputEmail4">End Date</label>
-                                <input type="date" class="form-control" id="exampleInputEmail4"
-                                    aria-describedby="emailHelp" placeholder="Enter adv title">
+                                <input type="date" class="form-control disable" id="exampleInputEmail4"
+                                    aria-describedby="emailHelp" placeholder="Enter adv title" required>
+                                <div class="invalid-feedback">
+                                    Please provide a End Date.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -394,15 +418,17 @@
                                 <div class="label_theme mb-2"> Upload Your File </div>
                                 <label class="label_theme uploadfile_label" for="exampleFormControlFile1"> Drag and
                                     drop or Browse </label>
-                                <input type="file" class="form-control-file file-upload-input"
-                                    id="exampleFormControlFile1">
+                                <input type="file" class="form-control-file file-upload-input" name="media"
+                                    id="exampleFormControlFile1" required>
+                                <div class="invalid-feedback">
+                                    Please Upload Your File.
+                                </div>
                             </div>
                         </div>
 
                     </div>
 
                     <div class="row">
-
                         <div class="col-md-12 mt-2">
                             <button type="submit" class="btn thm-btn2 px-5">Click to get verification code</button>
                         </div>
@@ -415,3 +441,27 @@
     </div><!-- /.page-wrapper -->
 
 @endsection
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="{{ URL::asset('assets/js/pages/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ URL::asset('assets/libs/bootstrap/bootstrap.min.js') }}"></script>
+
+<script>
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>

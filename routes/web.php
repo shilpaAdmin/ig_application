@@ -60,10 +60,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('subCategoryData/{id}', 'CategoryController@subCategoryData')->middleware('activity')->name('subCategoryList');
         Route::get('subCategoryList', 'CategoryController@subCategoryDataList')->name('subCategoryDataList');
 
+
+
         // Route::get('/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
 
         Route::get('category/subCategoryList/{id}', 'CategoryController@subCategoryList')->name('category.subcategoryList');
-
         Route::get('business/datatableList_applicant', 'CategoryController@businessListapplicant')->name('businessListapplicant');
 
 
@@ -81,6 +82,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('business/detailview/{id}', 'BusinessController@detailview')->name('business.detailview');
         Route::get('business/detail/{id}', 'BusinessController@businessdetail')->name('businessdetail');
         Route::get('business/approve/{id}', 'BusinessController@approveStatus')->name('business.approve');
+        // business job applicant
+        Route::get('business/job/detail/{id}', 'BusinessController@jobDetail')->name('businessJob.detail');
+        Route::get('business/job/datatableList/applicant', 'BusinessController@jobapplyListapplicant')->name('businessjobapplyListapplicant');
+        Route::get('business/applicantdelete/{id}', 'BusinessController@deleteData')->name('businessJobapplydelete');
+
+
 
 
         //tags routes
@@ -160,12 +167,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('carrier/carrierList', 'CarrierController@carrierList')->name('datatableCarrierlisting');
         Route::get('carrier/edit/{id}', 'CarrierController@edit')->name('carrieEdit');
         Route::get('carrier/delete/{id}', 'CarrierController@delete')->name('carrierdelete');
-
         Route::get('carrier/applicantdelete/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
-
-
         Route::get('carrier/detail/{id}', 'CarrierController@jobDetail')->name('job.detail');
-
         Route::get('job/datatableList_applicant', 'CarrierController@jobapplyListapplicant')->name('jobapplyListapplicant');
 
 
@@ -312,6 +315,15 @@ Route::namespace('Frontend')->group(function () {
         Route::get('/{slug}', 'BlogController@viewBlogDetails')->name('blog.detail');
     });
     Route::post('save-blog-comments', 'BlogController@saveBlogComments')->name('save.blog.comments');
+
+    //Advertisment
+    Route::group(['prefix' => 'advertisment'], function () {
+        Route::get('/', 'AdvertismentController@index')->name('advertisementsing');
+        Route::post('add/advertisment', 'AdvertismentController@store')->name('advertisement.store');
+        Route::post('add/advertisment', 'AdvertismentController@verifyemail')->name('advertisement.verifyemail');
+
+
+    });
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
 
@@ -365,3 +377,7 @@ Route::get('event/listing/grid', 'HomeController@eventlistinggrid')->name('Event
 Route::get('entertainment/details', 'HomeController@entertainmentdetails')->name('Entertainmentdetails');
 Route::get('entertainment/listing/list', 'HomeController@entertainmentlistinglist')->name('EntertainmentListingList');
 Route::get('entertainment/listing/grid', 'HomeController@entertainmentlistinggrid')->name('EntertainmentListingGrid');
+
+
+
+

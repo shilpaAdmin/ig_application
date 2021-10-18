@@ -10,6 +10,7 @@ use App\Http\Model\BusinessModel;
 use App\Http\Model\UserModel;
 use App\Http\Model\TagMasterModel;
 use App\Http\Model\CategoryModel;
+use App\Http\Model\JobApplyModel;
 use App\Http\Traits\UserLocationDetailTrait;
 use Illuminate\Support\Str;
 use Auth;
@@ -90,10 +91,10 @@ class BusinessController extends Controller
             })
             ->addColumn('is_approve', function ($result_obj) {
                 $is_approve = '';
-                if($result_obj->is_approve==1)
-                $is_approve.='<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
+                if ($result_obj->is_approve == 1)
+                    $is_approve .= '<span class="badge badge-pill badge-soft-success font-size-12">Approve</span>';
                 else
-                $is_approve.='<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
+                    $is_approve .= '<span class="badge badge-pill badge-soft-danger font-size-12">Disapprove</span>';
                 return $is_approve;
             })
             ->addColumn('status_td', function ($result_obj) {
@@ -127,7 +128,7 @@ class BusinessController extends Controller
 
                 return $name;
             })
-            ->rawColumns(['DT_RowId', 'status_td', 'command', 'image_src', 'type_td','is_approve','name_td'])
+            ->rawColumns(['DT_RowId', 'status_td', 'command', 'image_src', 'type_td', 'is_approve', 'name_td'])
             ->make(true);
     }
 
@@ -164,28 +165,26 @@ class BusinessController extends Controller
         else
             $business->display_hours = 'no';
 
-            $LocationType=$cityCountryId='';
+        $LocationType = $cityCountryId = '';
 
-            if(isset($input['user_id']) && !empty($input['user_id']))
-            {
-                $locationData=$this->getUserLocationDetail($input['user_id']);
+        if (isset($input['user_id']) && !empty($input['user_id'])) {
+            $locationData = $this->getUserLocationDetail($input['user_id']);
 
-                if($locationData!==null)
-                {
-                    if(isset($locationData->location_id) && !empty($locationData->location_id))
-                    $cityCountryId=$locationData->location_id;
-                    else
-                    $cityCountryId=1;
+            if ($locationData !== null) {
+                if (isset($locationData->location_id) && !empty($locationData->location_id))
+                    $cityCountryId = $locationData->location_id;
+                else
+                    $cityCountryId = 1;
 
-                    if(isset($locationData->location_type) && !empty($locationData->location_type))
-                    $LocationType=$locationData->location_type;
-                    else
-                    $LocationType='country';
-                }
+                if (isset($locationData->location_type) && !empty($locationData->location_type))
+                    $LocationType = $locationData->location_type;
+                else
+                    $LocationType = 'country';
             }
+        }
 
-            $business->cityid_or_countryid=$cityCountryId;
-            $business->type_city_or_country=$LocationType;
+        $business->cityid_or_countryid = $cityCountryId;
+        $business->type_city_or_country = $LocationType;
 
         $business->category_id = $input['hdnSearchCategoryId'];
         $business->type = !empty($input['type']) ?$input['type'] : '';
@@ -206,7 +205,7 @@ class BusinessController extends Controller
         $business->unit_option = !empty($input['unit_option']) ?$input['unit_option'] : '';
         $business->reference_url = !empty($input['reference_url']) ?$input['reference_url'] : '';
         $business->syllabus = !empty($input['syllabus']) ?$input['syllabus'] : '';
-        $business->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.Str::random(5);
+        $business->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)) . '-' . Str::random(5);
 
 
         if (!empty($input['subcategory']))
@@ -218,36 +217,36 @@ class BusinessController extends Controller
         ];
 
         foreach ($input['hours_detail'] as $hours) {
-                switch ($hours['txtDay']) {
-                    case 'DisplayMon':
-                        $Hours['DisplayMon'] = $hours['start_time'] . ' To ' . $hours['end_time'];
-                        break;
+            switch ($hours['txtDay']) {
+                case 'DisplayMon':
+                    $Hours['DisplayMon'] = $hours['start_time'] . ' To ' . $hours['end_time'];
+                    break;
 
-                    case 'DisplayTue':
-                        $Hours['DisplayTue'] = $hours['start_time'] . ' To ' . $hours['end_time'];
-                        break;
+                case 'DisplayTue':
+                    $Hours['DisplayTue'] = $hours['start_time'] . ' To ' . $hours['end_time'];
+                    break;
 
-                    case 'DisplayWed':
-                        $Hours['DisplayWed'] = $hours['start_time'] . ' To ' . $hours['end_time'];
-                        break;
+                case 'DisplayWed':
+                    $Hours['DisplayWed'] = $hours['start_time'] . ' To ' . $hours['end_time'];
+                    break;
 
-                    case 'DisplayThur':
-                        $Hours['DisplayThur'] = $hours['start_time'] . ' To ' . $hours['end_time'];
-                        break;
+                case 'DisplayThur':
+                    $Hours['DisplayThur'] = $hours['start_time'] . ' To ' . $hours['end_time'];
+                    break;
 
-                    case 'DisplayFri':
-                        $Hours['DisplayFri'] = $hours['start_time'] . ' To ' . $hours['end_time'];
-                        break;
+                case 'DisplayFri':
+                    $Hours['DisplayFri'] = $hours['start_time'] . ' To ' . $hours['end_time'];
+                    break;
 
-                    case 'DisplaySat':
-                        $Hours['DisplaySat'] = $hours['start_time'] . ' To ' . $hours['end_time'];
-                        break;
+                case 'DisplaySat':
+                    $Hours['DisplaySat'] = $hours['start_time'] . ' To ' . $hours['end_time'];
+                    break;
 
-                    case 'DisplaySun':
-                        $Hours['DisplaySun'] = $hours['start_time'] . ' To ' . $hours['end_time'];
-                        break;
-                }
+                case 'DisplaySun':
+                    $Hours['DisplaySun'] = $hours['start_time'] . ' To ' . $hours['end_time'];
+                    break;
             }
+        }
         // print_r(json_encode($Hours));
 
         $business->hours_json = json_encode($Hours);
@@ -258,20 +257,20 @@ class BusinessController extends Controller
         $count_related_personal_detail = count($input['related_personal_detail']);
 
         if ($count_related_personal_detail > 0) {
-                for ($k = 0; $k < $count_related_personal_detail; $k++) {
-                        $Related_Person_details[$k]['RelatedPersonDetail' . $count] = $input['related_personal_detail'][$k]['related_person_details'];
+            for ($k = 0; $k < $count_related_personal_detail; $k++) {
+                $Related_Person_details[$k]['RelatedPersonDetail' . $count] = $input['related_personal_detail'][$k]['related_person_details'];
 
-                        if ($document_file = $input['related_personal_detail'][$k]['related_person_image']) {
-                                $nameArr = explode('.', $document_file->getClientOriginalName());
-                                $extension = $document_file->getClientOriginalExtension();
-                                $name = $nameArr[0];
-                                $photo_name =  md5(time() . '_' . $name) . '.' . $extension;
-                                $document_file->move(public_path() . '/images/business_related_person/', $photo_name);
-                            }
-                        $Related_Person_details[$k]['RelatedPersonImage' . $count] = $photo_name;
-                        $count++;
-                    }
-                /*foreach($input['related_personal_detail'] as $related_personal_detail)
+                if ($document_file = $input['related_personal_detail'][$k]['related_person_image']) {
+                    $nameArr = explode('.', $document_file->getClientOriginalName());
+                    $extension = $document_file->getClientOriginalExtension();
+                    $name = $nameArr[0];
+                    $photo_name =  md5(time() . '_' . $name) . '.' . $extension;
+                    $document_file->move(public_path() . '/images/business_related_person/', $photo_name);
+                }
+                $Related_Person_details[$k]['RelatedPersonImage' . $count] = $photo_name;
+                $count++;
+            }
+            /*foreach($input['related_personal_detail'] as $related_personal_detail)
             {
                 $Related_Person_details['RelatedPersonDetail'.$count]=$related_personal_detail['related_person_details'];
 
@@ -287,9 +286,9 @@ class BusinessController extends Controller
                 $count++;
             }*/
 
-                $business->realated_person_detail_json = json_encode($Related_Person_details, JSON_FORCE_OBJECT);
-                // print_r(json_encode($Related_Person_details,JSON_FORCE_OBJECT));
-            }
+            $business->realated_person_detail_json = json_encode($Related_Person_details, JSON_FORCE_OBJECT);
+            // print_r(json_encode($Related_Person_details,JSON_FORCE_OBJECT));
+        }
 
         $count2 = 1;
         $Media_Details = [];
@@ -297,19 +296,19 @@ class BusinessController extends Controller
         $count_mediadetail = count($input['media_detail']);
 
         if ($count_mediadetail > 0) {
-                for ($j = 0; $j < $count_mediadetail; $j++) {
-                        if ($document_file = $input['media_detail'][$j]['media_file']) {
-                                $nameArr = explode('.', $document_file->getClientOriginalName());
-                                $extension = $document_file->getClientOriginalExtension();
-                                $name = $nameArr[0];
-                                $media_name = md5(time() . '_' . $name) . '.' . $extension;
-                                $document_file->move(public_path() . '/images/business/', $media_name);
-                            }
-                        $Media_Details[$j]['Media' . $count2] = $media_name;
-                        $count2++;
-                    }
+            for ($j = 0; $j < $count_mediadetail; $j++) {
+                if ($document_file = $input['media_detail'][$j]['media_file']) {
+                    $nameArr = explode('.', $document_file->getClientOriginalName());
+                    $extension = $document_file->getClientOriginalExtension();
+                    $name = $nameArr[0];
+                    $media_name = md5(time() . '_' . $name) . '.' . $extension;
+                    $document_file->move(public_path() . '/images/business/', $media_name);
+                }
+                $Media_Details[$j]['Media' . $count2] = $media_name;
+                $count2++;
+            }
 
-                /*foreach($input['media_detail'] as $media_detail)
+            /*foreach($input['media_detail'] as $media_detail)
             {
                 if ($document_file = $media_detail['media_file'])
                 {
@@ -321,9 +320,9 @@ class BusinessController extends Controller
                 }
                 $Media_Details['Media'.$count2]=$media_name;
             }*/
-                // print_r(json_encode($Media_Details,JSON_FORCE_OBJECT));
-                $business->media_file_json = json_encode($Media_Details, JSON_FORCE_OBJECT);
-            }
+            // print_r(json_encode($Media_Details,JSON_FORCE_OBJECT));
+            $business->media_file_json = json_encode($Media_Details, JSON_FORCE_OBJECT);
+        }
 
         $business->job_detail_json = json_encode(array(
             'JobSalary' => $input['job_salary'],
@@ -336,14 +335,14 @@ class BusinessController extends Controller
         $business->website = $input['website'];
 
         if (!empty($input['status']) && 'active' == strtolower($input['status'])) {
-                $business->status = strtolower($input['status']);
-            } else {
-                $business->status = 'inactive';
-            }
+            $business->status = strtolower($input['status']);
+        } else {
+            $business->status = 'inactive';
+        }
 
         if ($business->save()) {
-                return redirect()->route('home');
-            }
+            return redirect()->route('home');
+        }
         // else
         // {
         //     return redirect('admin/business');
@@ -410,22 +409,22 @@ class BusinessController extends Controller
         $multipleDataArray = array();
 
         foreach ($input['group-a'] as $multipleData) {
-                if (isset($multipleData['media_file_json']) && !empty($multipleData['media_file_json'])) {
-                        if ($attachmentFile = $multipleData['media_file_json']) {
-                                $attachmentName = md5(time() . '_' . $attachmentFile->getClientOriginalName()) . '.' . $attachmentFile->getClientOriginalExtension();
+            if (isset($multipleData['media_file_json']) && !empty($multipleData['media_file_json'])) {
+                if ($attachmentFile = $multipleData['media_file_json']) {
+                    $attachmentName = md5(time() . '_' . $attachmentFile->getClientOriginalName()) . '.' . $attachmentFile->getClientOriginalExtension();
 
-                                $attachmentFile->move($destinationPath, $attachmentName);
-                            }
-                    } else if (isset($multipleData['media_file_json_db']) && !empty($multipleData['media_file_json_db'])) {
-                        $attachmentName = $multipleData['media_file_json_db'];
-                    }
-                array_push($multipleDataArray, $attachmentName);
+                    $attachmentFile->move($destinationPath, $attachmentName);
+                }
+            } else if (isset($multipleData['media_file_json_db']) && !empty($multipleData['media_file_json_db'])) {
+                $attachmentName = $multipleData['media_file_json_db'];
             }
+            array_push($multipleDataArray, $attachmentName);
+        }
         if (count($multipleDataArray) > 0) {
-                $multipleDataJson = json_encode($multipleDataArray, JSON_FORCE_OBJECT);
-            } else {
-                $multipleDataJson = '{}';
-            }
+            $multipleDataJson = json_encode($multipleDataArray, JSON_FORCE_OBJECT);
+        } else {
+            $multipleDataJson = '{}';
+        }
 
         $business = BusinessModel::find($id);
 
@@ -596,18 +595,18 @@ class BusinessController extends Controller
         $business->website = $input['website'];
 
         if (!empty($input['status']) && 'active' == strtolower($input['status'])) {
-                $business->status = strtolower($input['status']);
-            } else {
-                $business->status = 'inactive';
-            }
+            $business->status = strtolower($input['status']);
+        } else {
+            $business->status = 'inactive';
+        }
 
         if ($business->save()) {
-                // return redirect('admin/business');
-                return redirect()->route('home');
-            }
-            // else {
-            //     return redirect('admin/business');
-            // }
+            // return redirect('admin/business');
+            return redirect()->route('home');
+        }
+        // else {
+        //     return redirect('admin/business');
+        // }
     }
     public function detailview($id)
     {
@@ -643,22 +642,22 @@ class BusinessController extends Controller
         // dd($approveData);
 
         if (count($approveData) > 0) {
-                foreach ($approveData as $record)
-                    // dd($approveData);
+            foreach ($approveData as $record)
+                // dd($approveData);
 
-                    {
-                        $table_name = $record['is_approve'];
+                {
+                    $table_name = $record['is_approve'];
 
 
-                        if ($table_name == 1) {
+                    if ($table_name == 1) {
 
-                                $update = BusinessModel::where('id', '=', $record['id'])->update(['is_approve' => 0]);
-                            } else {
+                        $update = BusinessModel::where('id', '=', $record['id'])->update(['is_approve' => 0]);
+                    } else {
 
-                            $update = BusinessModel::where('id', '=', $record['id'])->update(['is_approve' => 1]);
-                        }
+                        $update = BusinessModel::where('id', '=', $record['id'])->update(['is_approve' => 1]);
                     }
-            }
+                }
+        }
         return redirect()->back()->withSuccess('Data recovered successfully!');
     }
 
@@ -676,6 +675,105 @@ class BusinessController extends Controller
         return response()->json($result);
     }
 
-// return redirect()->back()->withSuccess('Data recovered successfully!');
-}
 
+    //business job applicant
+
+    public function jobDetail(Request $request, $id)
+    {
+
+        $BusinessData = BusinessModel::where('status', 'active')->where('id', $id)->get()->toArray();
+
+        return view('business.job_detail_applicant', compact('BusinessData'));
+    }
+
+    public function jobapplyListapplicant(Request $request)
+    {
+
+        $input = $request->all();
+
+        $result_obj = JobApplyModel::where('apply_for_job.status', '!=', 'Deleted')->where('job_id', $input['id'])->get();
+
+        return DataTables::of($result_obj)->addColumn('command', function ($result_obj) {
+
+            $command = '';
+            $command .= '<div class="btn-group dropleft">
+        <button type="button"
+            class="btn dropdown-toggle dropdown-toggle-split btn-sm three_part_saction"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="mdi mdi-dots-vertical"></i>
+        </button>
+        <div class="dropdown-menu">
+        <a class="dropdown-item" href="javascript:;" onclick="jobAppplyDelete(' . $result_obj['id'] . ')" >Delete Record</a>
+
+        </div>';
+            return $command;
+        })->addColumn('id', function ($result_obj) {
+            $counters = $this->counter++;
+            $id = '<div><span>' . $counters . '</span></div>';
+            return $id;
+        })->addColumn('full_name', function ($result_obj) {
+            $full_name = '';
+            // $full_name = ucwords($result_obj->full_name);
+            $full_name = ucwords($result_obj->full_name) . '</br>' . ucwords($result_obj->mobile_number);
+            return $full_name;
+        })->addColumn('email', function ($result_obj) {
+            $email = '';
+            $email = ucwords($result_obj->email);
+            return $email;
+        })
+        // ->addColumn('resume_cv', function ($result_obj) {
+        //     $resume_cv = '';
+        //     $url = asset("images/job_apply/$result_obj->resume");
+        //     $resume_cv .= '<embed src=' . $url . ' border="0" width="100" height="100"  align="center" />';
+        //     return $resume_cv;
+        // })
+        ->addColumn('resume_cv', function ($result_obj) {
+            $resume_cv = '';
+            if ($result_obj->resume_cv != '' && file_exists(public_path() . '/images/job_apply/' . $result_obj->resume_cv)) {
+                $url = asset("images/job_apply/$result_obj->resume");
+
+                $resume_cv .= '<embed src=' . $url . ' border="0" width="100" height="100"  align="center" />';
+
+                return $resume_cv;
+            } else {
+                $url2 = asset("images/image-placeholder.jpg");
+                $resume_cv .= '<img src=' . $url2 . ' border="0" width="100" height="100" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
+            }
+            return $resume_cv;
+        })
+        ->addColumn('cover_letter', function ($result_obj) {
+            $cover_letter = '';
+            if ($result_obj->cover_letter != '' && file_exists(public_path() . '/images/job_apply/' . $result_obj->cover_letter)) {
+                $url = asset("images/job_apply/$result_obj->cover_letter");
+
+                $cover_letter .= '<img src=' . $url . ' border="0" width="100" height="100" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center">';
+
+                return $cover_letter;
+            } else {
+                $url2 = asset("images/image-placeholder.jpg");
+                $cover_letter .= '<img src=' . $url2 . ' border="0" width="100" height="100" class="img-rounded loaded_image" style="object-fit: scale-down;" align="center" />';
+            }
+            return $cover_letter;
+        })
+
+        ->addColumn('status_td', function ($result_obj) {
+            $status = '';
+            if ($result_obj->status == 'active')
+                $status .= '<span class="badge badge-pill badge-soft-success font-size-12">' . ucwords($result_obj->status) . '</span>';
+            else
+                $status .= '<span class="badge badge-pill badge-soft-danger font-size-12">' . ucwords($result_obj->status) . '</span>';
+            return $status;
+        })
+
+            ->rawColumns(['full_name', 'email', 'resume_cv', 'cover_letter', 'status_td', 'command', 'id'])
+            ->make(true);
+    }
+
+    public function deleteData($id)
+    {
+        $delete = JobApplyModel::where('id', $id)->update(['status' => 'deleted']);
+        if ($delete) {
+            return redirect()->back();
+        }
+    }
+}

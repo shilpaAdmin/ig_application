@@ -469,8 +469,6 @@ var start = moment().subtract(29, 'days');
             });
         });
 
-
-
         function openJobDetailPopup(id) {
             window.location.href = "/admin/carrier/detail/" + id;
         }

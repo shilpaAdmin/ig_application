@@ -1,7 +1,7 @@
 @extends('frontend.layouts.master')
 @section('title') Homepage @endsection
 @section('content')
-   
+
     <!-- Modal listing-->
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png') }}" class="preloader__image" alt="">
@@ -134,15 +134,16 @@
                     <div class="col-xl-12">
                         <div class="categories_one_carousel owl-theme owl-carousel">
                             <!--Categories One Single-->
+                            @foreach ($categories as $category)
                             <div class="categories_one_single">
                                 <div class="categories_one_icon">
                                     <span><img src="{{ URL::asset('assets/frontend/images/img/housing111.png') }}"
                                             class="img-fluid"></span>
                                 </div>
-                                <h4>Housing</h4>
+                                <h4>{{ $category->name }}</h4>
                             </div>
-
-                            <!--Categories One Single-->
+                            @endforeach
+                            {{-- <!--Categories One Single-->
                             <div class="categories_one_single">
                                 <div class="categories_one_icon">
                                     <span><img src="{{ URL::asset('assets/frontend/images/img/taxation1.png') }}"
@@ -213,7 +214,7 @@
                                             class="img-fluid"></span>
                                 </div>
                                 <h4>Entertainment</h4>
-                            </div>
+                            </div> --}}
 
                         </div>
                     </div>
@@ -245,7 +246,7 @@
 
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
-                    
+
                     <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -282,7 +283,7 @@
                 </div> <!-- modal -->
             </div> <!-- catagorimain -->
                 </div> <!-- container-full-width -->
-            
+
             <ul class="circles">
                 <li></li>
                 <li></li>
@@ -636,7 +637,7 @@
                 @foreach ($advertisments as $key=>$advertisment)
                     @php
                         if(isset($advertisment['media']) ) {
-                            $imageUrl= URL::to('/images/advertisement').'/'.$advertisment['media'] ;        
+                            $imageUrl= URL::to('/images/advertisement').'/'.$advertisment['media'] ;
                         } else {
                             $imageUrl='';
                         }
@@ -649,7 +650,7 @@
                                         if( !isset($imageUrl) ){
                                             $imageUrl = URL::asset('assets/frontend/images/resources/two-boxes-img-1.jpg');
                                         }
-                                    @endphp 
+                                    @endphp
                                     <img src="{{ $imageUrl }}"
                                         alt="">
                                     <div class="box_one_text">
@@ -667,7 +668,7 @@
                                         if( !isset($imageUrl) ){
                                             $imageUrl = URL::asset('assets/frontend/images/resources/two-boxes-img-2.jpg');
                                         }
-                                    @endphp 
+                                    @endphp
                                     <img src="{{ $imageUrl }}"
                                         alt="">
                                     <div class="box_two_text">
@@ -828,7 +829,7 @@
             </div>
 
             <div class="container wow slideInRight animated animated">
-                @include('frontend.forum.forum-list')      
+                @include('frontend.forum.forum-list')
             </div>
         </section>
 
@@ -872,7 +873,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                               
+
                                 {{-- <div class="accrodion active">
                                     <div class="accrodion-title">
                                         <h4>How to create a new listings on site</h4>
@@ -941,7 +942,7 @@
 
                         $slug = isset($blog->slug) ? $blog->slug : Str::slug($blog->name, '-');
                     @endphp
-    
+
                         <div class="col-xl-4">
                             <!--Blog One single-->
                             <div class="blog_one_single wow fadeInUp" data-wow-delay="100ms">
@@ -1288,7 +1289,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="col-xl-4 col-lg-4">
                         <div class="download_screen wow slideInRight animated" data-wow-delay="100ms"
                             style="visibility: visible; animation-delay: 100ms; animation-name: slideInRight;">
@@ -1310,8 +1311,8 @@
         <script>
 
             $(document).ready(function(){
-                
-               
+
+
                 // category list (when page load)
                 $.ajax({
                     type:'GET',
@@ -1451,7 +1452,7 @@
                         },
                     });
                 });
-                
+
                 $(document).on('click','.logout',function(e){
                     e.preventDefault();
                     alert("helloo");
@@ -1484,7 +1485,7 @@
 
             });
 
-         
+
 
             function setCategoryHtml(data)
             {
@@ -1498,8 +1499,8 @@
                     var icon = data.Result[i]['Icon'];
                     var redirectStatus = data.Result[i]['redirect_status'];
                     var categoryPageRedirect = data.Result[i]['CategoryPageRedirect'];
-                  
-                  
+
+
 
                     if(data.Result[i].Subcategories != undefined)
                     {

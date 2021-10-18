@@ -11,9 +11,9 @@
                 @if (isset($user))
                     <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>
                 @else
-                    <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>      
+                    <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>
                 @endif
-              
+
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
@@ -22,7 +22,7 @@
               <div class="row">
                   <div class="col-md-12">
                       <div class="select_location">
-                            {{-- <div>Berlin 
+                            {{-- <div>Berlin
                                 <a href="#" class="float-right d-inline-block location_a"> Select Location</a>
                             </div>
                           <div> Hamburg <a href="#" class="float-right d-inline-block location_a"> Select
@@ -90,13 +90,13 @@
                             <li><a href="#" data-toggle="modal" data-target="#exampleModallisting">Add <i class="fas fa-plus"></i></a></li>
 
                             <li id="setLocationName">
-                              
+
                                 {{-- @if (isset($user))
                                 <a href="#" data-toggle="modal" data-target="#exampleModallocation">{{$userLocation}} <i class="fas fa-caret-down"></i> </a>
                                 @else
                                 <a href="#" data-toggle="modal" data-target="#exampleModallocation">Select Location <i class="fas fa-caret-down"></i> </a>
                                 @endif --}}
-                                
+
                             </li>
 
 
@@ -183,7 +183,7 @@
                        <a href="{{ route('Addbusiness') }}">  Add Business</a>
                    </div>
                    <div>
-                      <a href="{{ route('Addadvertisement') }}"> Add Advertisement</a>
+                      <a href="{{ route('advertisementsing') }}"> Add Advertisement</a>
                    </div>
                </div>
            </div>
