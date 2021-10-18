@@ -32,7 +32,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 
     // Login Protected Routes
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth','admin'])->group(function () {
         // Admin User Logout
         Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
         Route::get('/dashboard', 'DashboardController@index')->name('home');
@@ -273,11 +273,26 @@ Route::get('/cookie', 'HomeController@cookie')->name('cookie');
 // new developement
 Route::namespace('Frontend')->group(function () {
 
+    // forget password
+    Route::get('forget-password', 'ForgetPasswordController@showForgetPasswordForm')->name('user.forget.password.get');
+    Route::post('forget-password', 'ForgetPasswordController@submitForgetPasswordForm')->name('user.forget.password.post'); 
+    Route::get('reset-password/{token}','ForgetPasswordController@showResetPasswordForm')->name('user.reset.password.get');
+    Route::post('reset-password', 'ForgetPasswordController@submitResetPasswordForm')->name('user.reset.password.post');
+
     // home page
     Route::get('/', 'HomeController@index')->name('/');
-
     // login
-    Route::get('/login', 'LoginController@viewLogin')->name('login');
+    Route::middleware(['guest'])->group(function () {
+        Route::get('/login', 'LoginController@viewLogin')->name('login');
+        Route::post('/authenticate', 'LoginController@loginAuthentication')->name('user.authenticate');
+    });
+    // Login Protected Routes
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/logout', 'LoginController@logout')->name('user.logout');
+    });
+    // location set and get all location 
+    Route::get('getAllLocation','LocationController@getAllLocationData')->name('users.getalllocation');
+    Route::post('updatelocation','LocationController@updateLocation')->name('users.updatelocation');
 
     // forum & comments - likes
     Route::get('/forum', 'ForumController@index')->name('ForumList');

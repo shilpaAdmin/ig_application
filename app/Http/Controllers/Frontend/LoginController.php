@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -16,6 +17,36 @@ class LoginController extends Controller
     }
 
     public function loginAuthentication(Request $request){
+        $input = $request->all();
+        // dd($input);
+        $this->validate($request, [
+            'email'              => 'required|email',
+            'password'           => 'required',
+        ]);
+        
+        $remember = $request->has('remember') ? true : false;
+
+        if(  Auth::attempt( ['email' => $input['email'], 'password' => $input['password'] ],$remember) ) {
+            
+            $user = Auth::user();
+            $userData =$this->loginSuccess($user);
+            Session::put('user', $userData);
+          
+            return redirect()->route('/');
+        } else {
+            return redirect()->back()->with('error', 'Oppes! You have entered invalid credentials');
+        }
+    }
+
+    public function logout() {
+        Auth::logout();
+        return redirect()->route('login');
+    }
+
+
+
+
+    public function loginAuthentication1(Request $request){
         $input = $request->all();
         $this->validate($request, [
             'email'              => 'required|email',
@@ -33,13 +64,8 @@ class LoginController extends Controller
         }
     }
 
-    protected function loginSuccess($tokenResult, $user ,$action)
+    protected function loginSuccess( $user)
     {
-        $token = $tokenResult->token;
-        $token->expires_at = Carbon::now()->addWeeks(100);
-        $token->save();
-        $userArray['user']['AccessToken'] =  $tokenResult->accessToken;
-
         $userArray['user']['Id'] = (string)$user->id;
         $userArray['user']['Name'] = $user->name;
         $userArray['user']['Email'] = $user->email;
@@ -96,23 +122,7 @@ class LoginController extends Controller
             $userArray['user']['SelectedLocationName'] = '';
             $userArray['user']['SelectedContactNumber']='';
         }
-        // $userArray['user']['UserImage'] = URL::to('images/categories').'/'.$user->user_image;
 
-        if($action == 'register')
-        {
-            return response()->json([
-                'Status' => true,
-                'StatusMessage' => 'Register Successfully',
-                 'Result' => [$userArray],
-            ]);
-
-        }
-        else {
-            return response()->json([
-                'Status' => true,
-                'StatusMessage' => 'Successfully logged in',
-                'Result' => [$userArray],
-            ]);
-        }
+        return $userArray;
     }
 }
