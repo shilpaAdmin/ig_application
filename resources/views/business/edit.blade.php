@@ -24,6 +24,8 @@
 }
     </style>
 
+    
+
 <div class="row">
     <div class="col-12">
         <div class="card mb-2">
@@ -122,7 +124,8 @@
 
                             </div>
                         </div>
-
+                        <div id="category_result"></div>
+                        <br>
                         <div class="col-md-4">
 
                             <div>
@@ -370,6 +373,7 @@
                         </label>
                     </div>
 
+                   {{--
                     <div class="repeater">
                         <div data-repeater-list="related_personal_repeater">
                             @php
@@ -411,6 +415,78 @@
                     </div>
                     <button type="button" onclick="addRelatedPersonFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
                         Add New</button>
+            </div>--}}
+            <div class="repeater main-repeter imagmaineditb">
+                <div data-repeater-list="related_personal_detail">
+                    @php
+                        if(!empty($row['related_person_detail_arr']))
+                        $count_person_detail=count($row['related_person_detail_arr']);
+                        else
+                        $count_person_detail=0;
+                    @endphp
+                    
+                    @if(!empty($row['related_person_detail_arr']) && $count_person_detail > 0)
+
+                        @for($i=0;$i < $count_person_detail;$i++) 
+                    <div data-repeater-item class="row">
+
+                        <div class="col-md-2">
+
+                            <div>
+
+                                <div class=""> <img class="imagePreview imagepreivewnew" alt="" style="margin-top:0px;margin-bottom:20px;" width="150" height="150" src="{{URL::asset('images/image-placeholder.jpg')}}" /></div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="col-lg-4 form-group">
+
+                            <label for="formrow-firstname-input">Related Person Image</label>
+
+                            <div class="input-group">
+
+                                {{--<input type="file" class="custom-file-input related_person_file form-control top-img-call" name="related_person_image" id="related_person_image" accept="image/*" required>
+
+                                <label class="custom-file-label" for="customFile">Image</label>
+                                <div class="invalid-feedback invalid-feedback-pic">
+                                    Related Person Image is required !
+                                </div>--}}
+                                
+                                <input type="file" class="custom-file-input related_person_file form-control" name="related_person_image" id="related_person_image" accept="image/*" required>
+                                <label class="custom-file-label" for="customFile">Image</label>
+                                <div class="invalid-feedback invalid-feedback-pic">
+                                    Media File is required !
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="formrow-firstname-input">Related Person Details</label>
+                                <textarea name="related_person_details" class="form-control" value="{{old('related_person_details')}}" id="related_person_details" placeholder="Related Person Details" required>{{$row['related_person_detail_arr'][$i]['RelatedPersonDetail'.($i+1)]}}</textarea>
+                                <div class="invalid-feedback">
+                                    Please provide a Related Person Details.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-sm btn-danger top-img-call">
+                                <i class="bx bx-trash d-block font-size-16"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                        @endfor
+                    @endif
+                </div>
+                <button type="button" data-repeater-create class="btn btn-primary addbtnforall waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn margin-left-btnew"><i class="bx bx-plus label-icon"></i>
+                    Add New</button>
             </div>
 
             <div class="row mt-3">
@@ -418,7 +494,7 @@
                     <h4 class="card-title">Media Detail : </h4>
                 </label>
             </div>
-            <div class="repeater">
+           <div class="repeater">
                 <div data-repeater-list="group-a">
                     @php
                     if (isset($row['media_file_json']) && !empty($row['media_file_json'])) {
@@ -437,17 +513,13 @@
                             <input type="file" class="custom-file-input form-control" id="attachment_files_json" name="group-a[0][media_file_json]" />
 
                             {{-- <input type="hidden" name="media_file_json_db" value="{{ $attachmentArray[$k] }}"> --}}
-                    {{-- @dd($attachmentArray); --}}
-
                             <label class="custom-file-label" for="customFile">Image</label>
                         </div>
                         <div class="col-lg-2"></div>
                        <div class="col-lg-4">
-                        <img class="imagePreview2 imgdisplay-blog" width="100" height="100" alt=""
-                                                src=" {{ URL::asset('images/business/' . $attachmentArray[$k]['Media'.($k+1)]) }}" />
+                            <img class="imagePreview2 imgdisplay-blog" width="100" height="100" alt=""
+                            src=" {{ URL::asset('images/business/' . $attachmentArray[$k]['Media'.($k+1)]) }}" />
                        </div>
-
-                        <!-- <div class="col-sm-4"></div> -->
 
                         <div class="col-lg-1 align-self-center">
                             <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" class="btn btn-danger business-btn mt-2">
@@ -458,11 +530,43 @@
                 @endfor
                 @endif
             </div>
-            {{-- <button type="button" onclick="addMediaFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
-                Add New</button> --}}
         </div>
             <button type="button" onclick="addMediaFunction()" class="btn btn-primary addbtnforall waves-effect btn-label waves-light"><i class="bx bx-plus label-icon"></i>
                 Add New</button>
+        </div>
+        
+        <div class='row mt-3'>
+            <label for="example-text-input" class="col-md-12 col-form-label">
+                <h4 class="card-title">Syllabus Detail: </h4>
+            </label>
+        </div>
+        <div class="main_repeater">
+            <div data-repeater-list="outer-list">
+                <div data-repeater-item>
+                    <label>Topic</label>
+                    <input type="text" class="form-control" name="topic" />    
+
+                    <!-- innner repeater -->
+                    <div class="inner-repeater">
+                    <div data-repeater-list="inner-list">
+                        <div data-repeater-item>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label>Syllabus</label>
+                                    <input type="text" class="form-control" name="syllabus" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <input data-repeater-delete type="button" class="btn btn-danger" value="-"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input data-repeater-create type="button" class="btn btn-primary" value="+"/>
+                    </div>
+
+                </div>
+                </div>
+            <input data-repeater-create type="button" class="btn btn-primary" value="+"/>
         </div>
         <div class="row mt-3">
             <label for="example-text-input" class="col-md-12 col-form-label">
@@ -578,6 +682,7 @@
                 </div>
             </div>
 
+            {{--
             <div class="col-md-4">
 
                 <div>
@@ -593,6 +698,7 @@
 
                 </div>
             </div>
+            --}}
 
             <div class="col-md-4">
                 <div>
@@ -653,7 +759,6 @@
         </form>
     </div>
 </div>
-
 @endsection
 @section('script')
 
@@ -678,35 +783,41 @@
             }
         });
 
-        // @if(isset($row['tag_id']) && !empty($row['tag_id']))
-        // var $option = $("<option selected></option>").val({
-        //     {
-        //         $tag_data - > id
-        //     }
-        // }).text('{{$tag_data->name}}');
-        // $('#txtSearchTag').append($option).trigger('change');
-        // @endif
+        var $repeater = $('.main_repeater').repeater({
+            repeaters: [{
+                selector: '.inner-repeater',
+                repeaters: [{ 
+                    selector: '.deep-inner-repeater' 
+                }]
+            }]
+        });
+       /* $repeater.setList([
+        {
+            'topic': 'set-a',
+            'inner-list': [{ 'syllabus': 'set-a' }]
+        },
+            { 'topic': 'set-foo' ,'inner-list': [{ 'syllabus': 'set-b' },{'syllabus':'set-c'}]}
+        ]);*/
+        var json=<?php echo $syllabus_json_obj;?>;
+        $repeater.setList(json);
 
-        // @if(isset($row['category_id']) && !empty($row['category_id']))
-        // var $option = $("<option selected></option>").val({
-        //     {
-        //         $category_data - > id
-        //     }
-        // }).text('{{$category_data->name}}');
-        // $('#txtSearchCategory').append($option).trigger('change');
-        // showSubCategory();
+        @if(isset($row['tag_id']) && !empty($row['tag_id']))
+        var $option = $("<option selected></option>").val({{$tag_data->id}}).text('{{$tag_data->name}}');
+        $('#txtSearchTag').append($option).trigger('change');
+        @endif
 
-        // @if(isset($row['multiple_subcategory_id']) && !empty($row['multiple_subcategory_id']))
-        // var sub_category_ids = [{
-        //     {
-        //         $row['multiple_subcategory_id']
-        //     }
-        // }];
-        // @else
-        // var sub_category_ids = [];
-        // @endif
+        @if(isset($row['category_id']) && !empty($row['category_id']))
+        var $option = $("<option selected></option>").val({{$category_data-> id}}).text('{{$category_data->name}}');
+        $('#txtSearchCategory').append($option).trigger('change');
+        showSubCategory();
 
-        // @endif
+        @if(isset($row['multiple_subcategory_id']) && !empty($row['multiple_subcategory_id']))
+        var sub_category_ids = [{{$row['multiple_subcategory_id']}}];
+        @else
+        var sub_category_ids = [];
+        @endif
+
+        @endif
 
     var str_url = '{{route("tagAutoComplete")}}';
     console.log(str_url);
@@ -955,7 +1066,6 @@ $('#txtSearchTag').on('select2:unselect', function(e) {
                 data: 'categoryId=' + $('#hdnSearchCategoryId').val(),
                 type: 'POST',
                 success: function(obj) {
-                    //var obj=JSON.parse(html);
                     if (obj.status == true) {
                         var data = obj.data;
                         var totalElements = Object.keys(obj.data).length;

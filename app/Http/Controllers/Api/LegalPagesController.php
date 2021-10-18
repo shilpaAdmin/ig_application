@@ -39,6 +39,10 @@ class LegalPagesController extends Controller
                 $type='about_us';
             break;
 
+            case 'Impressum':
+                $type='impressum';
+            break;
+            
             default:
                 return response()->json(['Status'=>False,'StatusMessage'=>'Type is not correct!','Result'=>array()]);
             break;

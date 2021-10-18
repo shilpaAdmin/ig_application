@@ -449,166 +449,149 @@ class MatrimonialController extends Controller
         }*/
        
         // 2 query
+        $Matrimonial_prequery1=ConnectNowModel::join('matrimonial','connect_now.connection_matrimonial_id','=','matrimonial.id')
+        ->where('matrimonial.status','active')->where('matrimonial.is_approve',1)
+        ->whereNotIn('connect_now.status',['connection-reject','private-reject']);
 
-        $matrimonialConnectionArray=array();
-        $matrimonialArray=array();
-        $matrimonial_connection_count=$matrimonial_count=0;
+        if(isset($userId) && !empty($userId)) 
+        $Matrimonial_prequery1->where('connect_now.user_id',$userId);
+        elseif(!empty($location_id) && !empty($location_type) && $location_type!='country')
+        $Matrimonial_prequery1->where('matrimonial.cityid_or_countryid',$location_id)->where('matrimonial.type_city_or_country',$location_type);
 
-        if(empty($userId) || !isset($userId))
+        if(isset($status) && !empty($status))
+        $Matrimonial_prequery1->where('connect_now.status',$status)->select('matrimonial.*','connect_now.status as connect_status');
+        else
+        $Matrimonial_prequery1->select('matrimonial.*','connect_now.status as connect_status');
+
+        /*3 query
+        if((isset($userId) && !empty($userId)) || (isset($status) && !empty($status)) )
         {
-            if($Pagination==0)
-            $matrimonial_obj=MatrimonialModel::get()->toArray();
-            else
-            $matrimonial_obj=MatrimonialModel::skip($skip)->take(30)->get()->toArray();
+            $Matrimonial_prequery1 = MatrimonialModel::leftjoin('connect_now','matrimonial.id','=','connect_now.connection_matrimonial_id');
+            
+            if(isset($userId) && !empty($userId))
+            {
+                $Matrimonial_prequery1->where('connect_now.user_id',$userId);
+            }
+            elseif(!empty($location_id) && !empty($location_type) && $location_type!='country')
+            {
+                $Matrimonial_prequery1->where('matrimonial.cityid_or_countryid',$location_id)->where('matrimonial.type_city_or_country',$location_type);
+            }
 
-            $matrimonial_count=count($matrimonial_obj);
+            $Matrimonial_prequery=$Matrimonial_prequery1->whereIn('matrimonial.id',$ids)
+            ->select('matrimonial.*','connect_now.status as connect_status')
+            ->whereNotIn('connect_now.status',['connection-reject','private-reject']);
+        }
+        else
+        {
+            $Matrimonial_prequery = MatrimonialModel::leftjoin('connect_now','matrimonial.id','=','connect_now.connection_matrimonial_id')
+            ->select('matrimonial.*','connect_now.status as connect_status')
+            ->whereNotIn('connect_now.status',['connection-reject','private-reject']);
+        }*/
 
-            if(isset($matrimonial_obj) && !empty($matrimonial_obj) && $matrimonial_count > 0)
-            {   
-                for($i=0;$i < $matrimonial_count;$i++)
+        if($Pagination != 0)
+        $matrimonial_obj=$Matrimonial_prequery1->skip($skip)->take(30)->get()->toArray();
+        else
+        $matrimonial_obj=$Matrimonial_prequery1->get()->toArray();
+
+        //print_r($matrimonial_obj);
+        $matrimonial_count=count($matrimonial_obj);
+
+        $matrimonialArray=array();
+        if($matrimonial_count > 0)
+        {
+            for($i=0;$i<$matrimonial_count;$i++)
+            {
+                $matrimonialArray[$i]['Id']=strval($matrimonial_obj[$i]['id']);
+                $matrimonialArray[$i]['ConnectionRegisterId']=!empty($matrimonial_obj[$i]['user_id'])?strval($matrimonial_obj[$i]['user_id']):'';
+                $matrimonialArray[$i]['FullName']=!empty($matrimonial_obj[$i]['full_name'])?$matrimonial_obj[$i]['full_name']:'';
+                $matrimonialArray[$i]['City']=!empty($matrimonial_obj[$i]['city'])?$matrimonial_obj[$i]['city']:'';
+                $matrimonialArray[$i]['Age']=!empty($matrimonial_obj[$i]['age'])?strval($matrimonial_obj[$i]['age']):'';
+                $matrimonialArray[$i]['Height']=!empty($matrimonial_obj[$i]['height'])?strval($matrimonial_obj[$i]['height']):'';
+                $matrimonialArray[$i]['Caste']=!empty($matrimonial_obj[$i]['caste'])?$matrimonial_obj[$i]['caste']:'';
+                $matrimonialArray[$i]['Designation']=!empty($matrimonial_obj[$i]['designation'])?$matrimonial_obj[$i]['designation']:'';
+
+                $matrimonial_media_arr=json_decode($matrimonial_obj[$i]['media_json'],true);
+                $media1='';
+
+                if(!empty($matrimonial_media_arr))
                 {
-                    $matrimonialArray[$i]['Id']=strval($matrimonial_obj[$i]['id']);
-                    $matrimonialArray[$i]['ConnectionRegisterId']=!empty($matrimonial_obj[$i]['user_id'])?strval($matrimonial_obj[$i]['user_id']):'';
-                    $matrimonialArray[$i]['FullName']=!empty($matrimonial_obj[$i]['full_name'])?$matrimonial_obj[$i]['full_name']:'';
-                    $matrimonialArray[$i]['City']=!empty($matrimonial_obj[$i]['city'])?$matrimonial_obj[$i]['city']:'';
-                    $matrimonialArray[$i]['Age']=!empty($matrimonial_obj[$i]['age'])?strval($matrimonial_obj[$i]['age']):'';
-                    $matrimonialArray[$i]['Height']=!empty($matrimonial_obj[$i]['height'])?strval($matrimonial_obj[$i]['height']):'';
-                    $matrimonialArray[$i]['Caste']=!empty($matrimonial_obj[$i]['caste'])?$matrimonial_obj[$i]['caste']:'';
-                    $matrimonialArray[$i]['Designation']=!empty($matrimonial_obj[$i]['designation'])?$matrimonial_obj[$i]['designation']:'';
-                    $matrimonial_media_arr=json_decode($matrimonial_obj[$i]['media_json'],true);
-                    $media1='';
-
-                    if(!empty($matrimonial_media_arr))
-                    {
-                        if(isset($matrimonial_media_arr[0]['Media1']) && file_exists(public_path().'/images/matrimonial/media/'.$matrimonial_media_arr[0]['Media1']))
-                        $media1=$matrimonial_media_arr[0]['Media1'];
-                    }
-
-                    $matrimonialArray[$i]['Media1']=!empty($media1)?URL::to('/images/matrimonial/media').'/'.$media1:'';
-                    //$matrimonialArray[$i]['Media1']=!empty($matrimonial_obj[$i]['media'])?URL::to('/images/matrimonial/media').'/'.$matrimonial_obj[$i]['media']:'';
-                    $matrimonialArray[$i]['Status']='';
+                    if(isset($matrimonial_media_arr[0]['Media1']) && file_exists(public_path().'/images/matrimonial/media/'.$matrimonial_media_arr[0]['Media1']))
+                    $media1=$matrimonial_media_arr[0]['Media1'];
                 }
+
+                $matrimonialArray[$i]['Media1']=!empty($media1)?URL::to('/images/matrimonial/media').'/'.$media1:'';
+                //$matrimonialArray[$i]['Media1']=!empty($matrimonial_obj[$i]['media'])?URL::to('/images/matrimonial/media').'/'.$matrimonial_obj[$i]['media']:'';
+                $matrimonialArray[$i]['Status']=!empty($matrimonial_obj[$i]['connect_status'])?$matrimonial_obj[$i]['connect_status']:'';
             }
         }
         else
         {
-            $Matrimonial_prequery1=ConnectNowModel::join('matrimonial','connect_now.connection_matrimonial_id','=','matrimonial.id')
-            ->where('matrimonial.status','active')->where('matrimonial.is_approve',1)
-            ->whereNotIn('connect_now.status',['connection-reject','private-reject']);
+            $matrimonialArray=array();
+        }
+        
+        $matrimonial_connection_count=0;
 
-            if(isset($userId) && !empty($userId)) 
-            $Matrimonial_prequery1->where('connect_now.user_id',$userId);
-            elseif(!empty($location_id) && !empty($location_type) && $location_type!='country')
-            $Matrimonial_prequery1->where('matrimonial.cityid_or_countryid',$location_id)->where('matrimonial.type_city_or_country',$location_type);
-
+        if((isset($userId) && !empty($userId)) || (isset($status) && !empty($status)) )
+        {
+            $Matrimonial_connections_prequery1=ConnectNowModel::join('matrimonial','connect_now.matrimonial_id','matrimonial.id')
+            ->where('matrimonial.status','active')->where('matrimonial.is_approve',1);
+            
             if(isset($status) && !empty($status))
-            $Matrimonial_prequery1->where('connect_now.status',$status)->select('matrimonial.*','connect_now.status as connect_status');
-            else
-            $Matrimonial_prequery1->select('matrimonial.*','connect_now.status as connect_status');
+            {
+                $Matrimonial_connections_prequery1->where('connect_now.status',$status);
+            }
 
+            if(isset($userId) && !empty($userId))
+            {
+                $Matrimonial_connections_prequery1->where('connect_now.connection_register_id',$userId);
+            }
+            elseif(!empty($location_id) && !empty($location_type) && $location_type!='country')
+            {
+                $Matrimonial_connections_prequery1->where('matrimonial.cityid_or_countryid',$location_id)->where('matrimonial.type_city_or_country',$location_type);
+            }
+
+            $Matrimonial_connections_prequery1->select('matrimonial.*','connect_now.status as connect_status');
+            
             if($Pagination != 0)
-            $matrimonial_obj=$Matrimonial_prequery1->skip($skip)->take(30)->get()->toArray();
+            $matrimonial_connection_obj=$Matrimonial_connections_prequery1->skip($skip)->take(30)->get()->toArray();
             else
-            $matrimonial_obj=$Matrimonial_prequery1->get()->toArray();
+            $matrimonial_connection_obj=$Matrimonial_connections_prequery1->get()->toArray();
 
-            $matrimonial_count=count($matrimonial_obj);
-
-            if($matrimonial_count > 0)
+            $matrimonial_connection_count=count($matrimonial_connection_obj);
+        }
+        $matrimonialConnectionArray=array();
+        if($matrimonial_connection_count > 0)
+        {
+            for($i=0;$i<$matrimonial_connection_count;$i++)
             {
-                for($i=0;$i<$matrimonial_count;$i++)
+                $matrimonialConnectionArray[$i]['Id']=strval($matrimonial_connection_obj[$i]['id']);
+                $matrimonialConnectionArray[$i]['ConnectionRegisterId']=!empty($matrimonial_connection_obj[$i]['user_id'])?strval($matrimonial_connection_obj[$i]['user_id']):'';
+                $matrimonialConnectionArray[$i]['FullName']=!empty($matrimonial_connection_obj[$i]['full_name'])?$matrimonial_connection_obj[$i]['full_name']:'';
+                $matrimonialConnectionArray[$i]['City']=!empty($matrimonial_connection_obj[$i]['city'])?$matrimonial_connection_obj[$i]['city']:'';
+                $matrimonialConnectionArray[$i]['Age']=!empty($matrimonial_connection_obj[$i]['age'])?strval($matrimonial_connection_obj[$i]['age']):'';
+                $matrimonialConnectionArray[$i]['Height']=!empty($matrimonial_connection_obj[$i]['height'])?strval($matrimonial_connection_obj[$i]['height']):'';
+                $matrimonialConnectionArray[$i]['Caste']=!empty($matrimonial_connection_obj[$i]['caste'])?$matrimonial_connection_obj[$i]['caste']:'';
+                $matrimonialConnectionArray[$i]['Designation']=!empty($matrimonial_connection_obj[$i]['designation'])?$matrimonial_connection_obj[$i]['designation']:'';
+
+                $matrimonial_media_arr=json_decode($matrimonial_connection_obj[$i]['media_json'],true);
+                $media1='';
+
+                if(!empty($matrimonial_media_arr))
                 {
-                    $matrimonialArray[$i]['Id']=strval($matrimonial_obj[$i]['id']);
-                    $matrimonialArray[$i]['ConnectionRegisterId']=!empty($matrimonial_obj[$i]['user_id'])?strval($matrimonial_obj[$i]['user_id']):'';
-                    $matrimonialArray[$i]['FullName']=!empty($matrimonial_obj[$i]['full_name'])?$matrimonial_obj[$i]['full_name']:'';
-                    $matrimonialArray[$i]['City']=!empty($matrimonial_obj[$i]['city'])?$matrimonial_obj[$i]['city']:'';
-                    $matrimonialArray[$i]['Age']=!empty($matrimonial_obj[$i]['age'])?strval($matrimonial_obj[$i]['age']):'';
-                    $matrimonialArray[$i]['Height']=!empty($matrimonial_obj[$i]['height'])?strval($matrimonial_obj[$i]['height']):'';
-                    $matrimonialArray[$i]['Caste']=!empty($matrimonial_obj[$i]['caste'])?$matrimonial_obj[$i]['caste']:'';
-                    $matrimonialArray[$i]['Designation']=!empty($matrimonial_obj[$i]['designation'])?$matrimonial_obj[$i]['designation']:'';
-
-                    $matrimonial_media_arr=json_decode($matrimonial_obj[$i]['media_json'],true);
-                    $media1='';
-
-                    if(!empty($matrimonial_media_arr))
-                    {
-                        if(isset($matrimonial_media_arr[0]['Media1']) && file_exists(public_path().'/images/matrimonial/media/'.$matrimonial_media_arr[0]['Media1']))
-                        $media1=$matrimonial_media_arr[0]['Media1'];
-                    }
-
-                    $matrimonialArray[$i]['Media1']=!empty($media1)?URL::to('/images/matrimonial/media').'/'.$media1:'';
-                    //$matrimonialArray[$i]['Media1']=!empty($matrimonial_obj[$i]['media'])?URL::to('/images/matrimonial/media').'/'.$matrimonial_obj[$i]['media']:'';
-                    $matrimonialArray[$i]['Status']=!empty($matrimonial_obj[$i]['connect_status'])?$matrimonial_obj[$i]['connect_status']:'';
-                }
-            }
-            else
-            {
-                $matrimonialArray=array();
-            }
-
-            if((isset($userId) && !empty($userId)) || (isset($status) && !empty($status)) )
-            {
-                $Matrimonial_connections_prequery1=ConnectNowModel::join('matrimonial','connect_now.matrimonial_id','matrimonial.id')
-                ->where('matrimonial.status','active')->where('matrimonial.is_approve',1);
-                
-                if(isset($status) && !empty($status))
-                {
-                    $Matrimonial_connections_prequery1->where('connect_now.status',$status);
+                    if(isset($matrimonial_media_arr[0]['Media1']) && file_exists(public_path().'/images/matrimonial/media/'.$matrimonial_media_arr[0]['Media1']))
+                    $media1=$matrimonial_media_arr[0]['Media1'];
                 }
 
-                if(isset($userId) && !empty($userId))
-                {
-                    $Matrimonial_connections_prequery1->where('connect_now.connection_register_id',$userId);
-                }
-                elseif(!empty($location_id) && !empty($location_type) && $location_type!='country')
-                {
-                    $Matrimonial_connections_prequery1->where('matrimonial.cityid_or_countryid',$location_id)->where('matrimonial.type_city_or_country',$location_type);
-                }
-
-                $Matrimonial_connections_prequery1->select('matrimonial.*','connect_now.status as connect_status');
-                
-                if($Pagination != 0)
-                $matrimonial_connection_obj=$Matrimonial_connections_prequery1->skip($skip)->take(30)->get()->toArray();
-                else
-                $matrimonial_connection_obj=$Matrimonial_connections_prequery1->get()->toArray();
-
-                $matrimonial_connection_count=count($matrimonial_connection_obj);
+                $matrimonialConnectionArray[$i]['Media1']=!empty($media1)?URL::to('/images/matrimonial/media').'/'.$media1:'';
+                //$matrimonialArray[$i]['Media1']=!empty($matrimonial_connection_obj[$i]['media'])?URL::to('/images/matrimonial/media').'/'.$matrimonial_connection_obj[$i]['media']:'';
+                $matrimonialConnectionArray[$i]['Status']=!empty($matrimonial_connection_obj[$i]['connect_status'])?$matrimonial_connection_obj[$i]['connect_status']:'';
             }
-
-            if($matrimonial_connection_count > 0)
-            {
-                for($i=0;$i<$matrimonial_connection_count;$i++)
-                {
-                    $matrimonialConnectionArray[$i]['Id']=strval($matrimonial_connection_obj[$i]['id']);
-                    $matrimonialConnectionArray[$i]['ConnectionRegisterId']=!empty($matrimonial_connection_obj[$i]['user_id'])?strval($matrimonial_connection_obj[$i]['user_id']):'';
-                    $matrimonialConnectionArray[$i]['FullName']=!empty($matrimonial_connection_obj[$i]['full_name'])?$matrimonial_connection_obj[$i]['full_name']:'';
-                    $matrimonialConnectionArray[$i]['City']=!empty($matrimonial_connection_obj[$i]['city'])?$matrimonial_connection_obj[$i]['city']:'';
-                    $matrimonialConnectionArray[$i]['Age']=!empty($matrimonial_connection_obj[$i]['age'])?strval($matrimonial_connection_obj[$i]['age']):'';
-                    $matrimonialConnectionArray[$i]['Height']=!empty($matrimonial_connection_obj[$i]['height'])?strval($matrimonial_connection_obj[$i]['height']):'';
-                    $matrimonialConnectionArray[$i]['Caste']=!empty($matrimonial_connection_obj[$i]['caste'])?$matrimonial_connection_obj[$i]['caste']:'';
-                    $matrimonialConnectionArray[$i]['Designation']=!empty($matrimonial_connection_obj[$i]['designation'])?$matrimonial_connection_obj[$i]['designation']:'';
-
-                    $matrimonial_media_arr=json_decode($matrimonial_connection_obj[$i]['media_json'],true);
-                    $media1='';
-
-                    if(!empty($matrimonial_media_arr))
-                    {
-                        if(isset($matrimonial_media_arr[0]['Media1']) && file_exists(public_path().'/images/matrimonial/media/'.$matrimonial_media_arr[0]['Media1']))
-                        $media1=$matrimonial_media_arr[0]['Media1'];
-                    }
-
-                    $matrimonialConnectionArray[$i]['Media1']=!empty($media1)?URL::to('/images/matrimonial/media').'/'.$media1:'';
-                    //$matrimonialArray[$i]['Media1']=!empty($matrimonial_connection_obj[$i]['media'])?URL::to('/images/matrimonial/media').'/'.$matrimonial_connection_obj[$i]['media']:'';
-                    $matrimonialConnectionArray[$i]['Status']=!empty($matrimonial_connection_obj[$i]['connect_status'])?$matrimonial_connection_obj[$i]['connect_status']:'';
-                }
-            }
-            else
-            {
-                $matrimonialConnectionArray=array();
-            }
-
+        }
+        else
+        {
+            $matrimonialConnectionArray=array();
         }
 
-        
         if($matrimonial_connection_count > 0 || $matrimonial_count > 0)
         {
             return response()->json(['Status'=>true,'StatusMessage'=>'Get Matrimonial List successfully !','Result'=>['UserAcceptedList'=>$matrimonialArray,'UserConnectionStatusList'=>$matrimonialConnectionArray]]);
@@ -643,7 +626,7 @@ class MatrimonialController extends Controller
         DB::connection()->enableQueryLog();
         
         //$queries = DB::getQueryLog();
-        if(isset($userId) && isset($matrimonialObject->id))
+        if(isset($userId))
         {
             $connect_now_obj=ConnectNowModel::where('user_id',$userId)
             ->where('connection_matrimonial_id',$matrimonialObject->id)
