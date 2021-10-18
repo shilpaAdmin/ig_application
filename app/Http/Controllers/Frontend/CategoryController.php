@@ -15,15 +15,16 @@ class CategoryController extends Controller
 {
     public function viewCategoryBusinessList(Request $request,$slug){
 
-        // dd($request->all());
-
         // find category page redirect (direction)
-        $category=CategoryModel::where('slug','=',$slug)->first();
+        $CatagoryId = isset($request->categoryId) ? $request->categoryId : '';
+        if(isset($CatagoryId) && !empty($CatagoryId)) {
+            $category=CategoryModel::find($CatagoryId);
+        } else {
+            $category=CategoryModel::where('slug','=',$slug)->first();
+        }
        
         $tagMaster = TagMasterModel::where('status','=','active')->get();
-        $allCategorys = CategoryModel::where('status','=','active')->where('parent_category_id','=',$category->id)->get();
-
-        // $allLocations = CountrysModel::where('status','=','active')->get();
+        $allCategorys = CategoryModel::where('status','=','active')->where('parent_category_id','=',$category->parent_category_id)->get();
         $allLocations = CitysModel::where('type','=','city')->get();
        
         if(isset($category) && !empty($category)){
@@ -42,9 +43,11 @@ class CategoryController extends Controller
             // business data
             // $total = BusinessModel::where('category_id','=',$category->id)->get()->count();
 
-            $preQuery = BusinessModel::where('status','active')
-                                    ->where('category_id','=',$category->id)
-            ->where(function($query) use ($request)
+            $preQuery = BusinessModel::where('status','active');
+            if(empty($CatagoryId)){
+                $preQuery->where('category_id','=',$category->id);
+            }
+            $preQuery->where(function($query) use ($request)
             {
                 $CatagoryId = isset($request->categoryId) ? $request->categoryId : '';
                 $tagsId = isset($request->tagsId) ? $request->tagsId : '';
@@ -52,55 +55,90 @@ class CategoryController extends Controller
                 $LocationId = isset($request->locationId) ? $request->locationId : '';
                 $Type = isset($request->type) ? $request->type : '';
     
-                if(!empty($locationId))
-                {
+                if(!empty($locationId)) {
                     $query->where('cityid_or_countryid', $LocationId);
                 }
 
-                if(!empty($Type))
-                {
+                if(!empty($Type)) {
                     $query->where('type', $Type);
                 }
     
-                if(isset($CatagoryId) && !empty($CatagoryId))
-                {
+                if(isset($CatagoryId) && !empty($CatagoryId)) {
                     $query->where('category_id', $CatagoryId);
                 }
 
-                if(isset($tagsId) && !empty($tagsId))
-                {
-                    if( strpos($tagsId, ',') !== false )
-                    {
+                if(isset($tagsId) && !empty($tagsId)) {
+                    if( strpos($tagsId, ',') !== false ) {
                         $tagsIds = explode(',', $tagsId);
-                        for($k =0; $k < count($tagsIds); $k++)
-                        {
-                            if($k==0)
-                            {
+                        for($k =0; $k < count($tagsIds); $k++) {
+                            if($k==0) {
                                 $query->whereRaw("find_in_set($tagsIds[$k] ,tag_id)");
-                            }
-                            else
-                            {
+                            } else {
                                 $query->orWhereRaw("find_in_set($tagsIds[$k],tag_id)");
                             }
                         }
-                    }
-                    else
-                    {
-                        $query->whereRaw("find_in_set($tagsIds ,business.tag_id)");
+                    } else {
+                        $query->whereRaw("find_in_set($tagsId ,business.tag_id)");
                     }
                 }
 
-                if(isset($SearchName) && !empty($SearchName))
-                {
+                if(isset($SearchName) && !empty($SearchName)) {
                     $query->where('name', 'like', '%'. $SearchName.'%');
                 }
             });
 
             $total = $preQuery->count();
             $html='';
+           
             if ($request->ajax()) {
 
+                $orderBy = isset($request->orderBy) ? $request->orderBy : 'name';
                 // $businessDatas = BusinessModel::where('category_id','=',$category->id)->paginate(6);
+                $preQuery = BusinessModel::where('status','active');
+                if( empty($CatagoryId) ){
+                    $preQuery->where('category_id','=',$category->id);
+                }
+                $preQuery->where(function($query) use ($request)
+                {
+                    $CatagoryId = isset($request->categoryId) ? $request->categoryId : '';
+                    $tagsId = isset($request->tagsId) ? $request->tagsId : '';
+                    $SearchName = isset($request->name) ? $request->name : '';
+                    $LocationId = isset($request->locationId) ? $request->locationId : '';
+                    $Type = isset($request->type) ? $request->type : '';
+        
+                    if(!empty($locationId)) {
+                        $query->where('cityid_or_countryid', $LocationId);
+                    }
+    
+                    if(!empty($Type)) {
+                        $query->where('type', $Type);
+                    }
+        
+                    if(isset($CatagoryId) && !empty($CatagoryId)) {
+                        $query->where('category_id', $CatagoryId);
+                    }
+    
+                    if(isset($tagsId) && !empty($tagsId)) {
+                        if( strpos($tagsId, ',') !== false ) {
+                            $tagsIds = explode(',', $tagsId);
+                            for($k =0; $k < count($tagsIds); $k++) {
+                                if($k==0) {
+                                    $query->whereRaw("find_in_set($tagsIds[$k] ,tag_id)");
+                                } else {
+                                    $query->orWhereRaw("find_in_set($tagsIds[$k],tag_id)");
+                                }
+                            }
+                        } else {
+                            $query->whereRaw("find_in_set($tagsId ,business.tag_id)");
+                        }
+                    }
+    
+                    if(isset($SearchName) && !empty($SearchName)) {
+                        $query->where('name', 'like', '%'. $SearchName.'%');
+                    }
+                });
+                $preQuery->orderBy($orderBy, 'desc');
+                $total = $preQuery->count();
                 $businessDatas=$preQuery->paginate(6);
 
                 if($categoryPageRedirect=="0"){

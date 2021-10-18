@@ -231,18 +231,23 @@
                                     <a href="#" class="list-icon icon-list data-view" data-view="0"></a>
                                 </div>
                                 <div class="left_text">
-                                    <h4>Showing <span id="totalRecords">{{$total ? $total: 0 }}<span> Results </h4>
+                                    <h4>Showing <span id="totalRecords">{{$total ? $total: 0 }}</span> Results </h4>
                                 </div>
                             </div>
                             <div class="right">
                                 <div class="shorting">
-                                    <div class="dropdown bootstrap-select" style="width: 100%;"><select
-                                            class="selectpicker" data-width="100%" tabindex="-98">
-                                            <option selected="selected">Default Sorting</option>
+                                    <div class="dropdown bootstrap-select" style="width: 100%;">
+                                        <select  class="selectpicker" data-width="100%" tabindex="-98" name='sortingBy' id="sortingBy">
+                                            <option value="name" selected="selected">Sort By Name</option>
+                                            <option value="type" >Sort By Type</option>
+                                            <option value="actual_price" >Sort By Price</option>
+                                            <option value="actual_price_unit" >Sort By Price Unit</option>
+                                            <option value="payment_mode" >Sort By Payment Mode</option>
+                                            {{-- <option selected="selected">Default Sorting</option>
                                             <option>Default Sorting 1</option>
                                             <option>Default Sorting 2</option>
                                             <option>Default Sorting 3</option>
-                                            <option>Default Sorting 4</option>
+                                            <option>Default Sorting 4</option> --}}
                                         </select>
                                         <div class="dropdown-menu " role="combobox">
                                             <div class="inner show" role="listbox" aria-expanded="false"
@@ -263,241 +268,7 @@
         <section class="listings_three-page mt-5 mb-5">
             <div class="container">
                 <div class="row" id="results">
-
-                    {{-- <div class="col-xl-4 col-md-6 col-sm-12">
-                        <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms"
-                            data-wow-duration="1200ms"
-                            style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
-                            <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
-
-                                <div class="heart_icon">
-                                    <i class="icon-heart"></i>
-                                </div>
-
-                                <div class="shopping_circle">
-                                    <i class="fas fa-home"></i>
-                                </div>
-                            </div>
-                            <div class="listings_three-page_content">
-                                <div class="title">
-                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
-                                                class="fa fa-check"></span></a></h3>
-                                    <p>Halvorson , Adrienview 73379</p>
-                                </div>
-                                <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
-                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
-                                    </li>
-                                </ul>
-                                <div class="listings_three-page_content_bottom">
-                                    <div class="left">
-                                        <h6>2 months ago</h6>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-sm-12">
-                        <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp animated" data-wow-delay="0ms"
-                            data-wow-duration="1200ms"
-                            style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
-                            <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
-
-                                <div class="heart_icon">
-                                    <i class="icon-heart"></i>
-                                </div>
-
-                                <div class="shopping_circle">
-                                    <i class="fas fa-home"></i>
-                                </div>
-                            </div>
-                            <div class="listings_three-page_content">
-                                <div class="title">
-                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
-                                                class="fa fa-check"></span></a></h3>
-                                    <p>Halvorson , Adrienview 73379</p>
-                                </div>
-                                <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
-                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
-                                    </li>
-                                </ul>
-                                <div class="listings_three-page_content_bottom">
-                                    <div class="left">
-                                        <h6>2 months ago</h6>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-sm-12">
-                        <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp" data-wow-delay="0ms"
-                            data-wow-duration="1200ms"
-                            style="visibility: hidden; animation-duration: 1200ms; animation-delay: 0ms; animation-name: none;">
-                            <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
-
-                                <div class="heart_icon">
-                                    <i class="icon-heart"></i>
-                                </div>
-
-                                <div class="shopping_circle">
-                                    <i class="fas fa-home"></i>
-                                </div>
-                            </div>
-                            <div class="listings_three-page_content">
-                                <div class="title">
-                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
-                                                class="fa fa-check"></span></a></h3>
-                                    <p>Halvorson , Adrienview 73379</p>
-                                </div>
-                                <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
-                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
-                                    </li>
-                                </ul>
-                                <div class="listings_three-page_content_bottom">
-                                    <div class="left">
-                                        <h6>2 months ago</h6>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-sm-12">
-                        <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp" data-wow-delay="0ms"
-                            data-wow-duration="1200ms"
-                            style="visibility: hidden; animation-duration: 1200ms; animation-delay: 0ms; animation-name: none;">
-                            <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
-
-                                <div class="heart_icon">
-                                    <i class="icon-heart"></i>
-                                </div>
-
-                                <div class="shopping_circle">
-                                    <i class="fas fa-home"></i>
-                                </div>
-                            </div>
-                            <div class="listings_three-page_content">
-                                <div class="title">
-                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
-                                                class="fa fa-check"></span></a></h3>
-                                    <p>Halvorson , Adrienview 73379</p>
-                                </div>
-                                <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
-                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
-                                    </li>
-                                </ul>
-                                <div class="listings_three-page_content_bottom">
-                                    <div class="left">
-                                        <h6>2 months ago</h6>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-sm-12">
-                        <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp" data-wow-delay="0ms"
-                            data-wow-duration="1200ms"
-                            style="visibility: hidden; animation-duration: 1200ms; animation-delay: 0ms; animation-name: none;">
-                            <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
-
-                                <div class="heart_icon">
-                                    <i class="icon-heart"></i>
-                                </div>
-
-                                <div class="shopping_circle">
-                                    <i class="fas fa-home"></i>
-                                </div>
-                            </div>
-                            <div class="listings_three-page_content">
-                                <div class="title">
-                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
-                                                class="fa fa-check"></span></a></h3>
-                                    <p>Halvorson , Adrienview 73379</p>
-                                </div>
-                                <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
-                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
-                                    </li>
-                                </ul>
-                                <div class="listings_three-page_content_bottom">
-                                    <div class="left">
-                                        <h6>2 months ago</h6>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-sm-12">
-                        <!--Latest Listings Single-->
-                        <div class="listings_three-page_single wow fadeInUp" data-wow-delay="0ms"
-                            data-wow-duration="1200ms"
-                            style="visibility: hidden; animation-duration: 1200ms; animation-delay: 0ms; animation-name: none;">
-                            <div class="listings_three-page_image">
-                                <img src="{{ URL::asset('assets/frontend/images/img/gridimglisthouse.png')}}" alt="">
-
-                                <div class="heart_icon">
-                                    <i class="icon-heart"></i>
-                                </div>
-
-                                <div class="shopping_circle">
-                                    <i class="fas fa-home"></i>
-                                </div>
-                            </div>
-                            <div class="listings_three-page_content">
-                                <div class="title">
-                                    <h3><a href="{{route('Housingdetails')}}">Luxoise Apartments<span
-                                                class="fa fa-check"></span></a></h3>
-                                    <p>Halvorson , Adrienview 73379</p>
-                                </div>
-                                <ul class="list-unstyled listings_three-page_contact_info">
-                                    <li><i class="fas fa-map-marker-alt"></i>4.5 km Away from you</li>
-                                    <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
-                                    </li>
-                                </ul>
-                                <div class="listings_three-page_content_bottom">
-                                    <div class="left">
-                                        <h6>2 months ago</h6>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="enqurebtnbox hvr-shutter-in-vertical">Enquire Now</a>
-                                        <a href="#"><i class="fas fa-phone-alt callbtnbox"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
+                    {{-- append list here --}}
                 </div>
                 <div class="ajax-loading" style="text-align:center;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATYAAACjCAMAAAA3vsLfAAAAz1BMVEX////6+vr89PT+/Pz87OL86Nr89vaxvIL4sXv8///l6NbM1c2istT4r3b2l3f9lamwwdft8OX+9/SYlcuwu9XV2uajtNLO1eS4xNfz8+z19fGxvIXM07utuXyyvIrEy6j98Ov66ur707n84c/f3sb3pmW2wZX5u4z3rob5wJb4q2/86OP5y6/71b398+z64uH219L3p4v1nYD6vK32kXH2tKH2oZP1zcP4s6r1w7T7sbj9i6L7nq7Y2tX4xsjh5eXh5+38v8mpq9Khnc61tNbzoKeKAAACnElEQVR4nO3Za1PaQBiG4d0EA4EECKBgkIq1Vm1toK2lrVCh6P//Td1NsuXUAn6KGe7LmRw2+bDzzLuHoBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgJyz7ax7kEe2ZZHbC5yexifHspz4gqrbR9jtnemzia1RKJDbbkGvGOdmKSJOrdDIuk85EL4pFnuBqTZbpUa17eO8WCyem9j6KrV+1j3KhUDF1rXTlZRi2+3i7aWO6F2v15XpCmpmtkZEeP9z5ftXdyqe8vsz0xT19XLaP1Iy7Njrdu2XSn5pc93UoR0VMuhQPlg3Orfb9eZCHBuDdIlcubOuP/j+jRW3S/PIjmstSU2uvn+w1mP4eHf7ab09KkRseFfpeGRaQ1K6riuEq+/1n36QPEpaFq8ffM3JZODpWFz3YjCwFvfpVXyyndBZff2wmTlMnYefq9Xql6+WaTe1JaQdlLWGMI0bY/vQpINPHaP7qnb/bdFuYktSK5eXUz5sS9U2SnL77qb3i9jCJLWAajMW4Qjn8sdo9LPvmrAWsckwCspBaEvmttTy0qgXUleYBXQpUHVQn/Zplqyk/+L0Nz4HpCMZllsNHsbjibPaJiuVyi/+HbPF47hWq03WPgl0bJXKNJse5cFQpzZ+XG+ekttWOrXaUF3M/o5TGapDGOeWXb9euYfa5Lcaoc68OTdNnXpb/9A7pdp2em42n9Reo9WSOrZ6J+v+5EO72dTVdux5x3FsdepsH3MVW1uIlue11CynYuuw+dht9qSKTQ3PE887UbOaLje2urvN1Mw2EyY2EarcZtn2KBfs1rPedIiO58WLQdhuZ9uhfGl7Hnm9nN1hKQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA3PsD/R0hdMCZUboAAAAASUVORK5CYII=" /></div>
             </div>
@@ -510,24 +281,33 @@
     <script>
         $(document).ready(function(){
             
+            var selectedTags = [];
+            var name='';
+            var categoryId ='';
+            var locationId = '';
+            var type = '';
+            var filter = true;
             var page = 1;
             var viewData=1;
             var hasLoadMore=true;
+            var orderBy='name';
             loadMore(page,viewData);
 
             // scroll events
             $(window).scroll(function() { 
+
                 if($(window).scrollTop() + $(window).height() >= ( $(document).height() - $('.site-footer').height() )) { 
                     page++; 
                     if(hasLoadMore){
+                        var queryStr=getFilterQueryString();
+                       
                         loadMore(page,viewData); 
                     } 
                 }
             });  
 
             // load more data
-            function loadMore(page,viewData,filter=''){
-                // console.log("{!!$slug!!}");
+            function loadMore(page,viewData,filter='',orderBy){
                 var url="{!!route('category.business-list',['slug'=>$slug])!!}";
                     url+='?page='+page+'&viewData='+viewData;
                 if (typeof filter != "undefined"  && filter!=""  ) {
@@ -535,38 +315,38 @@
                 }
 
                 $.ajax({    
-                        type: 'get',
-                        url:url ,
-                        dataType: 'json',
-                        async: true,
-                        beforeSend: function() {
-                            $('.ajax-loading').show();
-                        },
-                        success: function(data) {
-                            $("#totalRecords").text(data.total);   
-                            if(data.html.length == 0){
-                                // $('.ajax-loading').html("No more records!");
-                                hasLoadMore=false;
-                                
-                                return;
-                            }
-                                  
-                            $("#results").append(data.html);          
-                        },
-                        error: function(XMLHttpRequest, errorStatus, errorThrown) {
-                            console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
-                            console.log("Status :: " + errorStatus);
-                            console.log("error :: " + errorThrown);
-                        },
-                        complete: function() {
-                            $('.ajax-loading').hide(); 
-                        },
-                    });
+                    type: 'get',
+                    url:url ,
+                    dataType: 'json',
+                    async: true,
+                    beforeSend: function() {
+                        $('.ajax-loading').show();
+                    },
+                    success: function(data) {
+                        $("#totalRecords").text(data.total);   
+                        if(data.html.length == 0){
+                            // $('.ajax-loading').html("No more records!");
+                            hasLoadMore=false;
+                            return;
+                        }
+                        $("#results").append(data.html);          
+                    },
+                    error: function(XMLHttpRequest, errorStatus, errorThrown) {
+                        console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
+                        console.log("Status :: " + errorStatus);
+                        console.log("error :: " + errorThrown);
+                    },
+                    complete: function() {
+                        $('.ajax-loading').hide(); 
+                    },
+                });
             }
 
             //  show grid or list view 
             $(document).on('click','.data-view',function(e) {
                 e.preventDefault();
+                var queryStr=getFilterQueryString();
+                
                 $('.ajax-loading').hide(); 
                 viewData = $(this).attr("data-view");
                 $('.data-view').removeClass('active');
@@ -574,7 +354,7 @@
                 page = 1;
                 hasLoadMore=true;
                 $("#results").html('');
-                loadMore(page,viewData);
+                loadMore(page,viewData,queryStr);
             });
             
             // filter 
@@ -586,23 +366,28 @@
             //  filter categorys
             $(".filter-category").click(function(e){
                 e.preventDefault();
-                var selectedTags = [];
+                var queryStr=getFilterQueryString();
+                page = 1;
+                hasLoadMore=true;
+                $("#results").html('');
+                loadMore(page,viewData,queryStr); 
+            });
+
+            function getFilterQueryString()
+            {
+                selectedTags = [];
                 $('input[type=checkbox]').each(function() {
                     if ($(this).is(":checked")) {
                         selectedTags.push($(this).attr('name'));
                     }
                 });
-                var name = $("#listing_name").val();
-                var categoryId = $('#all-category').find(":selected").val();
-                var locationId = $('#all-location').find(":selected").val();
-                var type = $('#type').find(":selected").val();
-                var filter =true;
-                console.log("search value");
-                console.log(selectedTags);
-                console.log(name);
-                console.log(categoryId);
-                console.log(locationId);
-                console.log(type);
+                
+                name = $("#listing_name").val();
+                categoryId = $('#all-category').find(":selected").val();
+                locationId = $('#all-location').find(":selected").val();
+                type = $('#type').find(":selected").val();
+                filter =true;
+
                 var queryStr='';
                 if (typeof name != "undefined"  && name!=""  ) {
                     queryStr+='&name='+name;
@@ -620,11 +405,17 @@
                     var tagStr=selectedTags.toString();
                     queryStr+='&tagsId='+tagStr;
                 }
-                // if (typeof queryStr != "undefined"  && queryStr!=""  ) {
-                //     queryStr='?filter=true'+queryStr;
-                // }
-                console.log("string");
-                console.log(queryStr);
+
+                orderBy = $("#sortingBy option:selected").val();
+                if (typeof orderBy != "undefined"  && orderBy!=""  ) {
+                    queryStr+='&orderBy='+orderBy;
+                }
+                return queryStr;
+            }
+
+            $('#sortingBy').on('change', function(e) {
+                e.preventDefault();
+                var queryStr=getFilterQueryString();
                 page = 1;
                 hasLoadMore=true;
                 $("#results").html('');
