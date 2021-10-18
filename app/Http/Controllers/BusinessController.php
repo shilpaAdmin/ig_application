@@ -142,6 +142,36 @@ class BusinessController extends Controller
     {
         $input = $request->all();
 
+        $total_count=count($input['outer-list']);
+
+        $new_array=array();
+
+        $syllabus='';
+
+        if($total_count > 0)
+        {
+            for($i=0;$i<$total_count;$i++)
+            {
+                $topic=$input['outer-list'][$i]['topic'];
+                $total_syllabus=count($input['outer-list'][$i]['inner-list']);
+
+                $syllabusArray=[];
+
+                for($j=0;$j<$total_syllabus;$j++)
+                {
+                    array_push($syllabusArray,$input['outer-list'][$i]['inner-list'][$j]['syllabus']);
+                }
+
+                $new_array[]=['BeanTopics'=>[['topics'=>$topic,'syallabusList'=>$syllabusArray]]];
+            }
+            
+            $syllabus=json_encode(array('Result'=>$new_array));
+        }
+        else
+        {
+            $syllabus='{}';
+        }
+
         $business = new BusinessModel;
 
         if (!empty($input['user_id']))
@@ -196,7 +226,8 @@ class BusinessController extends Controller
         $business->email_id = !empty($input['email_id']) ?$input['email_id'] : '';
         $business->unit_option = !empty($input['unit_option']) ?$input['unit_option'] : '';
         $business->reference_url = !empty($input['reference_url']) ?$input['reference_url'] : '';
-        $business->syllabus = !empty($input['syllabus']) ?$input['syllabus'] : '';
+        //$business->syllabus = !empty($input['syllabus']) ?$input['syllabus'] : '';
+        $business->syllabus = $syllabus;
         $business->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.Str::random(5);
 
 
@@ -388,7 +419,42 @@ class BusinessController extends Controller
         //job detail
         $job_detail_obj = json_decode($row['job_detail_json'], true);
 
-        return view('business.edit', compact('row', 'days', 'users', 'tag_data', 'category_data', 'job_detail_obj'));
+        $syllabus_json_obj='{}';
+
+        $syllabus_obj=json_decode($row['syllabus'],true);
+        
+        $total_syllabus=0;
+
+        $arr=array();
+
+        if(!empty($syllabus_obj['Result']))
+        $total_syllabus=count($syllabus_obj['Result']);
+    
+        if($total_syllabus > 0)
+        {
+            for($i=0;$i<$total_syllabus;$i++)
+            {
+                $arr[$i]['topic']=$syllabus_obj['Result'][$i]['BeanTopics'][0]['topics'];
+
+                $countSyllabus=0;
+
+                $countSyllabus=count($syllabus_obj['Result'][$i]['BeanTopics'][0]['syallabusList']);
+
+                $syllabus_array=array();
+
+                if(!empty($syllabus_obj['Result'][$i]['BeanTopics'][0]['syallabusList'][0]))
+                {    
+                    for($j=0;$j < $countSyllabus;$j++)
+                    {
+                        $syllabus_array[$j]['syllabus']=$syllabus_obj['Result'][$i]['BeanTopics'][0]['syallabusList'][$j];
+                    }
+                }
+                $arr[$i]['inner-list']=$syllabus_array;
+            }
+            $syllabus_json_obj=json_encode($arr);
+        }
+        //print_r($syllabus_json_obj);exit;
+        return view('business.edit', compact('row', 'days', 'users', 'tag_data', 'category_data', 'job_detail_obj','syllabus_json_obj'));
     }
 
 
@@ -396,6 +462,35 @@ class BusinessController extends Controller
     {
         $input = $request->all();
         // dd($input);
+        $total_count=count($input['outer-list']);
+
+        $new_array=array();
+
+        $syllabus='';
+
+        if($total_count > 0)
+        {
+            for($i=0;$i<$total_count;$i++)
+            {
+                $topic=$input['outer-list'][$i]['topic'];
+                $total_syllabus=count($input['outer-list'][$i]['inner-list']);
+
+                $syllabusArray=[];
+
+                for($j=0;$j<$total_syllabus;$j++)
+                {
+                    array_push($syllabusArray,$input['outer-list'][$i]['inner-list'][$j]['syllabus']);
+                }
+
+                $new_array[]=['BeanTopics'=>[['topics'=>$topic,'syallabusList'=>$syllabusArray]]];
+            }
+            
+            $syllabus=json_encode(array('Result'=>$new_array));
+        }
+        else
+        {
+            $syllabus='{}';
+        }
 
         $destinationPath = public_path() . '/images/library/';
         $multipleDataArray = array();

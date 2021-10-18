@@ -194,13 +194,10 @@ Route::group(['prefix' => 'admin'], function () {
 
 
         //Legel pages routes
-        Route::get('legalpages', 'TestmonialController@index')->name('legalpages');
-        Route::get('legalpages/create', 'TestmonialController@create')->name('legalpages.create');
-        Route::post('legalpages/store', 'TestmonialController@store')->name('legalpages.store');
-        Route::get('legalpages/tagsforumList', 'TestmonialController@tagsList')->name('datatable.legalpagesList');
-        Route::get('legalpages/edit/{id}', 'TestmonialController@edit')->name('legalpages.edit');
-        Route::get('legalpages/delete/{id}', 'TestmonialController@delete')->name('legalpages.delete');
-        Route::post('legalpages/update/{id}', 'TestmonialController@update')->name('legalpages.update');
+        Route::get('legalpages', 'LegalPagesController@index')->name('legalpages');
+        Route::get('legalpages/legalPagesList', 'LegalPagesController@getLegalPagesList')->name('datatable.legalPagesList');
+        Route::get('legalpages/edit/{id}', 'LegalPagesController@edit')->name('legalpages.edit');
+        Route::post('legalpages/update/{id}', 'LegalPagesController@update')->name('legalpages.update');
 
 
         //notifications routes
