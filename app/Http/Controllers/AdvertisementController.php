@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
 use App\Http\Model\CategoryModel;
 use Auth;
 
-
 class AdvertisementController extends Controller
 {
     use UserLocationDetailTrait;

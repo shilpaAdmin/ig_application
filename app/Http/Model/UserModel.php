@@ -14,6 +14,7 @@ class UserModel extends Model
         'address',
         'user_image',
         'mobile_number',
+        'otp',
         'social_id',
         'password',
         'login_type',
@@ -26,7 +27,8 @@ class UserModel extends Model
         'status',
         'is_rated',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'is_admin'
     ];
 
 }

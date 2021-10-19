@@ -8,13 +8,14 @@ use App\Http\Model\ForumModel;
 use App\Http\Model\AdvertisementModel;
 use App\Http\Model\FAQModel;
 use App\Http\Model\BlogsModel;
+use App\Http\Model\CategoryModel;
 
 class HomeController extends Controller
 {
-   
+
     public function index(Request $request) {
-        
-        // forums 
+
+        // forums
         $forums=ForumModel::select('forum.*','user.name','user.user_image')
                         ->with(['forumComments'])
                         ->join('user','user.id','=','forum.user_id')
@@ -33,7 +34,7 @@ class HomeController extends Controller
                         ->orderBy('created_at','desc')
                         ->take(3)
                         ->get();
-    
+
         // Blogs (news & articals)
         $blogs = BlogsModel::with(['user','blogComments'])
                         ->where('status','=','active')
@@ -41,8 +42,17 @@ class HomeController extends Controller
                         ->take(3)
                         ->get();
 
+        //slider parent category
+         $categories =  CategoryModel::where('parent_category_id', '=', 0)
+                                    ->select('name')
+                                    ->get();
+                                                
 
-        return view('frontend.home.index',compact('forums','advertisments','faqs','blogs'));
+
+
+        return view('frontend.home.index',compact('forums','advertisments','faqs','blogs','categories'));
 
     }
+
+    
 }

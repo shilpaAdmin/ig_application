@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
 		'activity' => \App\Http\Middleware\AddToActivityLog::class,
 		'deleteLog' => \App\Http\Middleware\DeleteLog::class,
 		'CheckHashToken' => \App\Http\Middleware\CheckApiHashToken::class,
+		'admin' => \App\Http\Middleware\IsAdmin::class,
     ];
 
     /**

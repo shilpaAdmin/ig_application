@@ -28,12 +28,11 @@
                 </li> --}}
 
                 <li class="menu-title">Modules</li>
-
+                <li><a href="{{ url('admin/business') }}" class="bx bx-check-double"></i><span>Business</span></a></li>
                 <li>
                         {{-- <a href="{{ url('admin/business') }}"
                         class="{{ Request::segment(2) === 'business.create' ? 'active' : '' }} "><i
                         class="bx bx-check-double"></i><span>Business</span></a> --}}
-
                         <a href="javascript: void(0);" class="has-arrow waves-effect ">
                         <i class="bx bx-briefcase-alt-2"></i>
                             <span>Business</span>
@@ -149,6 +148,12 @@
                <a href="{{ url('admin/testimonial') }}"
                   class="{{ Request::segment(2) === 'testimonial.create' ? 'active' : '' }} ">
 				  <i class="bx bx-user-circle"></i><span>Testimonial</span></a>
+            </li>
+            
+            <li>
+               <a href="{{ url('admin/legalpages') }}"
+                  class="{{ Request::segment(2) === 'advertisement.create' ? 'active' : '' }} ">
+				  <i class="bx bx-bolt-circle"></i><span>Legal Pages</span></a>
             </li>
             <!--<li>
                <a href="javascript: void(0);" class="has-arrow waves-effect">

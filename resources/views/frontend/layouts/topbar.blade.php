@@ -1,6 +1,39 @@
 
 
 
+{{-- logout model --}}
+<div class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4>Logout <i class="fa fa-lock"></i></h4>
+        </div>
+        <div class="modal-body">
+            <i class="fa fa-question-circle"></i> Are you sure you want to log-off?
+        </div>
+        <div class="modal-footer">
+            <a href="{{route('user.logout')}}" class="btn btn-primary btn-block">Logout</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div id="login-model" class="modal bs-login-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4>Login <i class="fa fa-lock"></i></h4>
+        </div>
+        <div class="modal-body">
+            <i class="fa fa-question-circle"></i> Are you sure you want to log-off?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary background_green" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
 
  <!-- Modal location-->
   <div class="modal fade" id="exampleModallocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -11,9 +44,9 @@
                 @if (isset($user))
                     <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>
                 @else
-                    <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>      
+                    <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>
                 @endif
-              
+
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
@@ -22,7 +55,7 @@
               <div class="row">
                   <div class="col-md-12">
                       <div class="select_location">
-                            {{-- <div>Berlin 
+                            {{-- <div>Berlin
                                 <a href="#" class="float-right d-inline-block location_a"> Select Location</a>
                             </div>
                           <div> Hamburg <a href="#" class="float-right d-inline-block location_a"> Select
@@ -96,20 +129,29 @@
 
                             </li>
 
+                            @if( isset($user))
+                                <li><a href="javascript:void(0);" class=""><i class="fas fa-user"></i>{{ isset($user->name) ? $user->name : ''}} </a></li>
+                            @else
+                                <li><a href="{{ route('login') }}"><i class="fas fa-user"></i>Log in </a></li>
+                            @endif
+                           
                             <li><a href="#" data-toggle="modal" data-target="#exampleModallisting">Add <i class="fas fa-plus"></i></a></li>
 
                             <li id="setLocationName">
                               
-                                {{-- @if (isset($user))
-                                <a href="#" data-toggle="modal" data-target="#exampleModallocation">{{$userLocation}} <i class="fas fa-caret-down"></i> </a>
+                                @if (isset($user))
+                                    <a href="#"  id='loadLocation'> <span id="locationname">{{$userData['user']['SelectedLocationName']}} </span><i class="fas fa-caret-down"></i> </a>
                                 @else
-                                <a href="#" data-toggle="modal" data-target="#exampleModallocation">Select Location <i class="fas fa-caret-down"></i> </a>
-                                @endif --}}
+                                    <a href="#" data-toggle="modal" data-target="#exampleModallocation">Select Location <i class="fas fa-caret-down"></i> </a>
+                                @endif
                                 
                             </li>
 
 
                             <li><a href="#">Call Embassy 000 000 000 </i> </a></li>
+                            @if (isset($user))
+                                <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fas fa-user"></i>Log out </a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -123,7 +165,7 @@
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="main-nav__left main-nav__left_one float-left">
                     <div class="logo_one">
-                        <a href="index.html" class="main-nav__logo">
+                        <a href="{{route('/')}}" class="main-nav__logo">
                             <img src="{{ URL::asset('assets/frontend/images/resources/igbig.svg')}}" class="main-logo" alt="Awesome Image">
                         </a>
                     </div>
@@ -189,10 +231,10 @@
                       <a href="{{ route('Addservice') }}">  Add Service</a>
                    </div>
                    <div>
-                       <a href="{{ route('Addbusiness') }}">  Add Business</a>
+                       <a href="{{ route('Business') }}">  Add Business</a>
                    </div>
                    <div>
-                      <a href="{{ route('Addadvertisement') }}"> Add Advertisement</a>
+                      <a href="{{ route('advertisementsing') }}"> Add Advertisement</a>
                    </div>
                </div>
            </div>

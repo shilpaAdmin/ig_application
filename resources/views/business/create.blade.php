@@ -237,11 +237,11 @@
                                         Please provide a Category.
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
 
+                        <div id="category_result">
+                        </div>
 
                         <div class="col-md-4">
 
@@ -487,7 +487,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btnew"><i class="bx bx-plus label-icon"></i>
+                        <button type="button" data-repeater-create class="btn btn-primary addbtnforall waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btnew addbtnforall"><i class="bx bx-plus label-icon"></i>
                             Add New</button>
                     </div>
 
@@ -520,11 +520,17 @@
 
                                     <div class="input-group">
 
-                                        <input type="file" class="custom-file-input form-control top-img-call" name="related_person_image" id="related_person_image" accept="image/*" required>
+                                        {{--<input type="file" class="custom-file-input related_person_file form-control top-img-call" name="related_person_image" id="related_person_image" accept="image/*" required>
 
                                         <label class="custom-file-label" for="customFile">Image</label>
                                         <div class="invalid-feedback invalid-feedback-pic">
                                             Related Person Image is required !
+                                        </div>--}}
+                                        
+                                        <input type="file" class="custom-file-input related_person_file form-control" name="related_person_image" id="related_person_image" accept="image/*" required>
+                                        <label class="custom-file-label" for="customFile">Image</label>
+                                        <div class="invalid-feedback invalid-feedback-pic">
+                                            Media File is required !
                                         </div>
 
 
@@ -549,7 +555,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn margin-left-btnew"><i class="bx bx-plus label-icon"></i>
+                        <button type="button" data-repeater-create class="btn btn-primary waves-effect addbtnforall btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn margin-left-btnew"><i class="bx bx-plus label-icon"></i>
                             Add New</button>
                     </div>
 
@@ -597,9 +603,79 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn margin-left-btnew"><i class="bx bx-plus label-icon"></i>
+                        <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn margin-left-btnew addbtnforall"><i class="bx bx-plus label-icon"></i>
                             Add New</button>
                     </div>
+                    <div class='row mt-3'>
+                        <label for="example-text-input" class="col-md-12 col-form-label">
+                            <h4 class="card-title">Syllabus Detail: </h4>
+                        </label>
+                    </div>
+                    {{--<div class="repeater main-repete imagmaineditb">
+                        <div data-repeater-list="syllabus_detail">
+                            <div data-repeater-item class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group justify-content-end">
+                                                <button type="button" data-repeater-delete data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-sm btn-danger">
+                                                    <i class="bx bx-trash d-block font-size-16"></i>
+                                                </button>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="topic">Topic</label>
+                                                <input type="text" name="topic" class="form-control" required>
+                                                <div class="invalid-feedback">
+                                                    Topic is required !
+                                                </div>
+                                            </div>
+                                            <div class="inner-repeater">
+                                                <label>Syllabus</label>
+                                                <div class="form-group">
+                                                    <input type="text" name="syllabus" class="form-control" required>
+                                                    <div class="invalid-feedback">
+                                                        Syllabus is required !
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" data-repeater-create class="btn btn-primary waves-effect btn-sm btn-label-btn-sm btn-label waves-light margin-left-btn margin-left-btnew"><i class="bx bx-plus label-icon"></i>
+                            Add New</button>
+                    </div>--}}
+                    
+                    <div class="main_repeater">
+                        <div data-repeater-list="outer-list">
+                            <div data-repeater-item>
+                                <label>Topic</label>
+                                <input type="text" class="form-control" name="topic" />    
+
+                                <!-- innner repeater -->
+                                <div class="inner-repeater">
+                                <div data-repeater-list="inner-list">
+                                    <div data-repeater-item>
+                                        <div class="row">
+                                            <div class="col-sm-10">
+                                                <label>Syllabus</label>
+                                                <input type="text" class="form-control" name="syllabus" />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input data-repeater-delete type="button" class="btn btn-danger" value="-"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input data-repeater-create type="button" class="btn btn-primary" value="+"/>
+                                </div>
+
+                            </div>
+                            </div>
+                        <input data-repeater-create type="button" class="btn btn-primary" value="+"/>
+                    </div>
+
                     <div class="row mt-3">
                         <label for="example-text-input" class="col-md-12 col-form-label">
                             <h4 class="card-title">Job Detail : </h4>
@@ -721,7 +797,7 @@
 
                             </div>
                         </div>
-
+                        {{--
                         <div class="col-md-4">
 
                             <div>
@@ -737,6 +813,7 @@
 
                             </div>
                         </div>
+                        --}}
 
                         <div class="col-md-4">
 
@@ -836,6 +913,19 @@
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         }
     });
+
+    $('.main_repeater').repeater({
+            // (Required if there is a nested repeater)
+            // Specify the configuration of the nested repeaters.
+            // Nested configuration follows the same format as the base configuration,
+            // supporting options "defaultValues", "show", "hide", etc.
+            // Nested repeaters additionally require a "selector" field.
+            repeaters: [{
+                // (Required)
+                // Specify the jQuery selector for this nested repeater
+                selector: '.inner-repeater'
+            }]
+        });
 
     var str_url = '{{route("tagAutoComplete")}}';
 
@@ -1020,7 +1110,7 @@
         }
     });
 
-    $(document).on('change', '.custom-file-input', function() {
+    $(document).on('change', '.related_person_file', function() {
         readURL(this);
     });
 

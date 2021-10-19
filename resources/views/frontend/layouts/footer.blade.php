@@ -1,3 +1,8 @@
+@php
+     $categories =  \App\Http\Model\CategoryModel::where('parent_category_id', '=', 0)
+                                    ->select('name')
+                                    ->get();
+@endphp
 <!--Site Footer Start-->
 <footer class="site-footer">
             <div class="site_footer_shape-1" style="background-image: url({{ URL::asset('assets/frontend/images/resources/footer-shape-1.png')}})">
@@ -40,7 +45,7 @@
                  <div class="row mb-3">
                     <div class="col-lg-12">
                         <div class="POPULARll"> CATEGORIES </div>
-                        <a data-toggle="modal" data-target="#exampleModal" href="#" class="sunlilist">Housing</a>
+                        {{-- <a data-toggle="modal" data-target="#exampleModal" href="#" class="sunlilist">Housing</a>
                         <a href="#" data-toggle="modal" data-target="#exampleModal2" class="sunlilist">Taxation</a>
                         <a href="{{ route('ForumList') }}"  class="sunlilist">Forum</a>
                         <a href="#" data-toggle="modal" data-target="#exampleModal4" class="sunlilist">Education</a>
@@ -49,7 +54,11 @@
                         <a href="#" data-toggle="modal" data-target="#exampleModal8" class="sunlilist">Travel & Transport</a>
                         <a href="{{ route('Faqs') }}" class="sunlilist">FAQ</a>
                         <a href="#" data-toggle="modal" data-target="#exampleModal10" class="sunlilist">Event</a>
-                        <a href="entertainment-listing-grid.html"  class="sunlilist">Entertainment</a>
+                        <a href="entertainment-listing-grid.html"  class="sunlilist">Entertainment</a> --}}
+                        @foreach ($categories as $category)
+                        <a data-toggle="modal" data-target="#exampleModal" href="#" class="sunlilist">{{ $category->name }}</a>
+                        @endforeach
+
                     </div>
                 </div>
 

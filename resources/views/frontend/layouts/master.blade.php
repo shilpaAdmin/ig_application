@@ -1,3 +1,10 @@
+@php
+    
+    $user = auth()->user();
+    $userData = session()->get('user');
+    // dd($user,$userData);
+@endphp
+
 <!doctype html>
 <html lang="en">
 
@@ -66,45 +73,36 @@
     @include('frontend.layouts.footer-script')
 
     <script>
-        var token = $.cookie('token');
-        var userObj=$.cookie('user');
-        var user=null;
-        if (typeof userObj === "undefined") {
-            user=null;
-        } else {
-            user =JSON.parse( $.cookie('user') );
-            console.log( "script" );
-            console.log( token );
-            console.log( user );
-            console.log(user['SelectedLocationID']);
-            console.log(user['Email']);
-            console.log(user['Name']);
-        }
-     console.log('user data')
-     console.log(token);
-     console.log(userObj);
-     console.log(user);
+        var user = JSON.parse('{!! json_encode(session()->get('user')) !!}');
+       
+        console.log("user details");
+        console.log(user);
            
             $(document).ready(function () {
-                setUserData(user,token);
-                loadLocation(user,token);  
+               
+                // user location update
                 $(document).on('click','.location_a',function(e) {
                     e.preventDefault();
                     var userId= $(this).data('userid');
                     var locationId= $(this).data('locationid');
                     var type= $(this).data('type');
-                   
+
+                    console.log("update....")
                     console.log(userId);
                     console.log(locationId);
                     console.log(type);
 
+                    var url ="{{ route('users.updatelocation')}}";
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': "{{csrf_token()}}"
+                        }
+                    });
 
-                    var url ="{{url('/')}}"+"/api/UpdateLocation";
                     $.ajax({
                         type: 'post',
                         url: url,
                         dataType: 'json',
-                        headers: {"Authorization": 'Bearer '+token },
                         data:{
                             'RegisterId': userId,
                             'LocationId' : locationId,
@@ -115,8 +113,15 @@
                             $('#loader').show(); // Show loader
                         },
                         success: function(data) {
-                            console.log(data);
+                            console.log("data update")
+                            console.log(data)
+                            console.log(data.userLocation['user']);
+                            user =data.userLocation;
                             $('#exampleModallocation').modal('toggle');
+                            setTimeout(function(){
+                                $('#exampleModallocation').modal('hide');
+                            }, 1500);
+                            $('#locationname').text(data.userLocation['user']['SelectedLocationName']);
                         },
                         error: function(XMLHttpRequest, errorStatus, errorThrown) {
                             console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
@@ -127,73 +132,76 @@
                         },
                     });
                 });
+
+                // load all location 
+                $("body").on('click','#loadLocation',function(e){
+                    e.preventDefault();
+                    loadLocation();
+                })
             });
-
-            function setUserData($user,$token){
-                var setLocationName='';
-                var userName='';
-                if( $token && typeof userObj != "undefined") {
-                    userName='<li><a href="javascript:void(0);"><i class="fas fa-user"></i>'+user['Name']+'</a></li>';
-                    setLocationName='<a href="#" data-toggle="modal" data-target="#exampleModallocation">'+user['SelectedLocationName']+' <i class="fas fa-caret-down"></i> </a>';
-                } else {
-                    var loginUrl ="{{ route('login') }}";
-                    userName='<li><a href="'+loginUrl+'"><i class="fas fa-user"></i>Log in </a></li>';
-                    setLocationName='<a href="#" data-toggle="modal" data-target="#exampleModallocation"> Select Location <i class="fas fa-caret-down"></i> </a>';
-                }
-                $("#userName").html(userName);
-                $("#setLocationName").html(setLocationName);
-
-            }
-            function loadLocation($user,$token)
-            {
-                var url ="{{url('/')}}"+"/api/LocationData";
+            
+            // load location function
+            function loadLocation() {
+                var url = "{{route('users.getalllocation')}}";
                 $.ajax({
-                        type: 'get',
-                        url: url,
-                        dataType: 'json',
-                        async: true,
-                        beforeSend: function() {
-                            $('#loader').show(); // Show loader
-                        },
-                        success: function(data)
-                        {
-                            
-                            console.log(data.Result);
-                            var html='';
-                            $.each(data.Result, function (i){
-                                var id = data.Result[i]['Id'];
-                                var name = data.Result[i]['Name'];
-                                var type = data.Result[i]['Type'];
-                                var number = data.Result[i]['Number'];
-                                if(typeof userObj != "undefined"){
-                                    if($user && $user['SelectedLocationID']==id){
-                                        html+='<div>'+ name +'</div>';
-                                    }else {
-                                        html+='<div>'+ name +'<a href="#" class="float-right d-inline-block location_a" data-userid="'+$user['Id']+'" data-locationid="'+id+'" data-type="'+type+'"> Select Location </a>  </div>';
-                                    } 
-                                } else{
+                    type: 'get',
+                    url: url,
+                    dataType: 'json',
+                    async: true,
+                    beforeSend: function() {
+                        $('#loader').show(); // Show loader
+                    },
+                    success: function(data)
+                    {
+                       
+                        console.log(data.Result);
+                        console.log("sdfdf");
+                        console.log(user);
+                        // user=data.Result['user']
+                        var html='';
+                        $.each(data.Result, function (i){
+                            var id = data.Result[i]['Id'];
+                            var name = data.Result[i]['Name'];
+                            var type = data.Result[i]['Type'];
+                            var number = data.Result[i]['Number'];
+                            console.log("result");
+                            console.log(id)
+                            console.log(name)
+                            console.log(type)
+                            console.log(number)
+                            if(typeof user != "undefined"){
+                                if(user && user['user']['SelectedLocationID']==id){
+                                    html+='<div>'+ name +'</div>';
+                                }else {
+                                    html+='<div>'+ name +'<a href="#" class="float-right d-inline-block location_a" data-userid="'+ user['user']['Id'] +'" data-locationid="'+id+'" data-type="'+type+'"> Select Location </a>  </div>';
+                                } 
+                            } else{
 
-                                    html+='<div>'+ name +'<a href="#" class="float-right d-inline-block location_a" > Select Location </a>  </div>';
-                                }
-                            });
-                            $('.select_location').html(html);
+                                html+='<div>'+ name +'<a href="#" class="float-right d-inline-block location_a" > Select Location </a>  </div>';
+                            }
+                        });
+                        $('.select_location').html(html);
 
-                        },
-                        error: function(XMLHttpRequest, errorStatus, errorThrown) {
-                            console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
-                            console.log("Status :: " + errorStatus);
-                            console.log("error :: " + errorThrown);
-                            $("#fullImageDivError").text(
-                                'There is something wrong. Please try again');
-                            $("#fullImageDivError").show();
-                        },
-                        complete: function() {
-                            setTimeout(() => {
-                                $('#loader').hide();
-                            }, 1000);
-                        },
-                    });
+                        $('#exampleModallocation').modal('toggle');
+
+                    },
+                    error: function(XMLHttpRequest, errorStatus, errorThrown) {
+                        console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
+                        console.log("Status :: " + errorStatus);
+                        console.log("error :: " + errorThrown);
+                        $("#fullImageDivError").text(
+                            'There is something wrong. Please try again');
+                        $("#fullImageDivError").show();
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                            $('#loader').hide();
+                        }, 1000);
+                    },
+                });
             }
+
+           
            
     </script>
 </body>

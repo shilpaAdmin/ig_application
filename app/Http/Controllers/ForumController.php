@@ -102,12 +102,11 @@ class ForumController extends Controller
 
     public function forumList(Request $request)
     {
-        // dd($request->all());
         $input=$request->all();
 
         $txtStatusType = isset($request->status) ? $request->status : '';
-        $txtApproveStatus = isset($request->approved) ? $request->approved : '';
-        $storyStartDate = isset($request->startDate) ? $request->startDate : '';
+        $txtApproveStatus = isset($request->approved) ? Carbon::parse($request->approved)->toDateTimeString() : '';
+        $storyStartDate = isset($request->startDate) ? Carbon::parse($request->startDate)->toDateTimeString() : '';
         $storyEndDate = isset($request->endDate) ? $request->endDate : '';
         // dd($storyStartDate,$storyEndDate);
 
@@ -124,7 +123,9 @@ class ForumController extends Controller
         }
         if(isset($txtApproveStatus) && !empty($txtApproveStatus))
         {
+
             $result_obj= $preQuery->where('forum.is_approve',$txtApproveStatus);
+
         }
         if(isset($storyStartDate) && !empty($storyStartDate)  && isset($storyEndDate) && !empty($storyEndDate))
         {

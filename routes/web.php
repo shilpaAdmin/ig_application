@@ -32,19 +32,17 @@ Route::group(['prefix' => 'admin'], function () {
 
 
     // Login Protected Routes
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth','admin'])->group(function () {
         // Admin User Logout
         Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
         Route::get('/dashboard', 'DashboardController@index')->name('home');
         Route::get('dashboard/forumList', 'DashboardController@forumList')->name('datatable.dashboardForumlist');
         Route::get('dashboard/forum/approve/{id}', 'DashboardController@forumapproveStatus')->name('forumDashboard.approve');
-
-
         Route::get('dashboard/testimonialList', 'DashboardController@testimonialList')->name('datatable.dashboardTestimoniallist');
         Route::get('dashboard/advertismentList', 'DashboardController@advertismentList')->name('datatable.dashboardadvertismentListlist');
         Route::get('dashboard/advertisement/approve/{id}', 'DashboardController@advertismentApproveStatus')->name('advertisementDashboard.approve');
-
-
+        Route::get('dashboard/matrimonialList', 'DashboardController@matrimonialList')->name('datatable.dashboardmatrimoniallist');
+        Route::get('dashboard/matrimonial/approve/{id}', 'DashboardController@matrimonialApproveStatus')->name('matrimonialListDashboard.approve');
 
 
 
@@ -62,10 +60,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('subCategoryData/{id}', 'CategoryController@subCategoryData')->middleware('activity')->name('subCategoryList');
         Route::get('subCategoryList', 'CategoryController@subCategoryDataList')->name('subCategoryDataList');
 
+
+
         // Route::get('/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
 
         Route::get('category/subCategoryList/{id}', 'CategoryController@subCategoryList')->name('category.subcategoryList');
-
         Route::get('business/datatableList_applicant', 'CategoryController@businessListapplicant')->name('businessListapplicant');
 
 
@@ -83,6 +82,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('business/detailview/{id}', 'BusinessController@detailview')->name('business.detailview');
         Route::get('business/detail/{id}', 'BusinessController@businessdetail')->name('businessdetail');
         Route::get('business/approve/{id}', 'BusinessController@approveStatus')->name('business.approve');
+        // business job applicant
+        Route::get('business/job/detail/{id}', 'BusinessController@jobDetail')->name('businessJob.detail');
+        Route::get('business/job/datatableList/applicant', 'BusinessController@jobapplyListapplicant')->name('businessjobapplyListapplicant');
+        Route::get('business/applicantdelete/{id}', 'BusinessController@deleteData')->name('businessJobapplydelete');
+
+
 
 
         //tags routes
@@ -162,12 +167,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('carrier/carrierList', 'CarrierController@carrierList')->name('datatableCarrierlisting');
         Route::get('carrier/edit/{id}', 'CarrierController@edit')->name('carrieEdit');
         Route::get('carrier/delete/{id}', 'CarrierController@delete')->name('carrierdelete');
-
         Route::get('carrier/applicantdelete/{id}', 'CarrierController@deleteData')->name('jobapplydelete');
-
-
         Route::get('carrier/detail/{id}', 'CarrierController@jobDetail')->name('job.detail');
-
         Route::get('job/datatableList_applicant', 'CarrierController@jobapplyListapplicant')->name('jobapplyListapplicant');
 
 
@@ -194,13 +195,10 @@ Route::group(['prefix' => 'admin'], function () {
 
 
         //Legel pages routes
-        Route::get('legalpages', 'TestmonialController@index')->name('legalpages');
-        Route::get('legalpages/create', 'TestmonialController@create')->name('legalpages.create');
-        Route::post('legalpages/store', 'TestmonialController@store')->name('legalpages.store');
-        Route::get('legalpages/tagsforumList', 'TestmonialController@tagsList')->name('datatable.legalpagesList');
-        Route::get('legalpages/edit/{id}', 'TestmonialController@edit')->name('legalpages.edit');
-        Route::get('legalpages/delete/{id}', 'TestmonialController@delete')->name('legalpages.delete');
-        Route::post('legalpages/update/{id}', 'TestmonialController@update')->name('legalpages.update');
+        Route::get('legalpages', 'LegalPagesController@index')->name('legalpages');
+        Route::get('legalpages/legalPagesList', 'LegalPagesController@getLegalPagesList')->name('datatable.legalPagesList');
+        Route::get('legalpages/edit/{id}', 'LegalPagesController@edit')->name('legalpages.edit');
+        Route::post('legalpages/update/{id}', 'LegalPagesController@update')->name('legalpages.update');
 
 
         //notifications routes
@@ -273,11 +271,31 @@ Route::get('/cookie', 'HomeController@cookie')->name('cookie');
 // new developement
 Route::namespace('Frontend')->group(function () {
 
+    // forget password
+    Route::get('forget-password', 'ForgetPasswordController@showForgetPasswordForm')->name('user.forget.password.get');
+    Route::post('forget-password', 'ForgetPasswordController@submitForgetPasswordForm')->name('user.forget.password.post'); 
+    Route::get('reset-password/{token}','ForgetPasswordController@showResetPasswordForm')->name('user.reset.password.get');
+    Route::post('reset-password', 'ForgetPasswordController@submitResetPasswordForm')->name('user.reset.password.post');
+
     // home page
     Route::get('/', 'HomeController@index')->name('/');
-
     // login
-    Route::get('/login', 'LoginController@viewLogin')->name('login');
+    Route::middleware(['guest'])->group(function () {
+        // login 
+        Route::get('/login', 'LoginController@viewLogin')->name('login');
+        Route::post('/authenticate', 'LoginController@loginAuthentication')->name('user.authenticate');
+
+        // register/signup
+        Route::get('/register','RegisterController@viewSignUp')->name('user.register');
+        Route::post('/register','RegisterController@userRegister')->name('user.register');
+    });
+    // Login Protected Routes
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/logout', 'LoginController@logout')->name('user.logout');
+    });
+    // location set and get all location 
+    Route::get('getAllLocation','LocationController@getAllLocationData')->name('users.getalllocation');
+    Route::post('updatelocation','LocationController@updateLocation')->name('users.updatelocation');
 
     // forum & comments - likes
     Route::get('/forum', 'ForumController@index')->name('ForumList');
@@ -315,6 +333,26 @@ Route::namespace('Frontend')->group(function () {
     });
     Route::post('save-blog-comments', 'BlogController@saveBlogComments')->name('save.blog.comments');
     Route::post('user-businessfevourite','HousingController@addUserFavouriteBusiness')->name('user.businessfevourite');
+
+    //Advertisment
+    Route::group(['prefix' => 'advertisment'], function () {
+        Route::get('/', 'AdvertismentController@index')->name('advertisementsing');
+        Route::post('save', 'AdvertismentController@store')->name('advertisements.save');
+        Route::post('add/advertisment', 'AdvertismentController@verifyemail')->name('advertisement.verifyemail');
+
+        Route::any('request_otp', 'AdvertismentController@requestOtp')->name('requestOtp');
+        Route::post('verify_otp', 'AdvertismentController@verifyOtp')->name('otpverify');
+    });
+    Route::group(['prefix' => 'business'], function () {
+
+        Route::get('/', 'BusinessController@index')->name('Business');
+        Route::get('/sub/category/{id}', 'BusinessController@SubCategoryBusiness')->name('SubCategoryBusiness');
+        Route::post('save', 'BusinessController@store')->name('business.save');
+
+
+
+    });
+
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
 
@@ -368,3 +406,7 @@ Route::get('event/listing/grid', 'HomeController@eventlistinggrid')->name('Event
 Route::get('entertainment/details', 'HomeController@entertainmentdetails')->name('Entertainmentdetails');
 Route::get('entertainment/listing/list', 'HomeController@entertainmentlistinglist')->name('EntertainmentListingList');
 Route::get('entertainment/listing/grid', 'HomeController@entertainmentlistinggrid')->name('EntertainmentListingGrid');
+
+
+
+

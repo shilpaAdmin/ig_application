@@ -112,9 +112,6 @@
     $(function()
     {
 
-        // var careerDataId = {{$careerData[0]['id']}}
-
-
         var table_html = '';
         var table_html_td = '';
         var i = 1;
@@ -134,6 +131,7 @@
     function dataTableAjaxCall()
     {
         var careerDataId = {{$careerData[0]['id']}}
+        // alert(careerDataId);
         var dt = $('#jobApplicantDetailList').DataTable({
         destroy: true,
         processing: true,

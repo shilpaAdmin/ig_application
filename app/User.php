@@ -41,6 +41,8 @@ class User extends Authenticatable
         'location_type',
         'created_by',
         'last_updated_by',
+        'otp',
+        'is_admin'
     ];
 
     /**

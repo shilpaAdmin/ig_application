@@ -125,5 +125,5 @@ Route::post('BusinessProfile', 'Api\BusinessController@getBusinessProfile');
 
 Route::post('SendNotification', 'Api\NotificationsController@sendNotification')->middleware('CheckHashToken');
 
-// froend login api
-Route::post('login', 'Frontend\LoginController@loginAuthentication')->name('api.login');
+// // froend login api
+Route::post('login', 'Frontend\LoginController@loginAuthentication1')->name('api.login');
