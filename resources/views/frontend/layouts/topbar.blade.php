@@ -107,13 +107,13 @@
                             <li><a href="#" data-toggle="modal" data-target="#exampleModallisting">Add <i class="fas fa-plus"></i></a></li>
 
                             <li id="setLocationName">
-                              
+
                                 @if (isset($user))
                                     <a href="#"  id='loadLocation'> <span id="locationname">{{$userData['user']['SelectedLocationName']}} </span><i class="fas fa-caret-down"></i> </a>
                                 @else
                                     <a href="#" data-toggle="modal" data-target="#exampleModallocation">Select Location <i class="fas fa-caret-down"></i> </a>
                                 @endif
-                                
+
                             </li>
 
 
@@ -197,7 +197,7 @@
            <div class="row">
                <div class="col-md-12">
                    <div>
-                      <a href="{{ route('Addservice') }}">  Add Service</a>
+                      <a href="{{ route('service') }}">  Add Service</a>
                    </div>
                    <div>
                        <a href="{{ route('Business') }}">  Add Business</a>

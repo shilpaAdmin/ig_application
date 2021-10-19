@@ -1,6 +1,7 @@
 @extends('frontend.layouts.master')
-@section('title') add business @endsection
+@section('title') Add Service @endsection
 @section('content')
+
 
     <div class="preloader">
         <img src="{{ URL::asset('assets/frontend/images/loader.png') }}" class="preloader__image" alt="" >
@@ -10,10 +11,10 @@
     <section class="page-header backgroundimgaddadv" id="BusinessFormHideTitle">
         <div class="overlayforcontactbg"></div>
         <div class="container">
-            <h2 class="h2_oth_pgs">Add Business</h2>
+            <h2 class="h2_oth_pgs">Add Service</h2>
             <ul class="thm-breadcrumb list-unstyled">
-                <li><a href="{{ route('/')}}">Home</a></li>
-                <li><span>Add Business</span></li>
+                <li><a href="{{route('/')}}">Home</a></li>
+                <li><span>Add Service</span></li>
             </ul>
         </div>
     </section>
@@ -23,18 +24,19 @@
         <div class="container">
 
 
-            <h3 class="text-center pb-5">You are one step far from Posting a Business</h3>
+            <h3 class="text-center pb-5">You are one step far from Posting a Service</h3>
 
-            <h4 class="add_service_h4"> Business Details </h4>
+            <h4 class="add_service_h4"> Service Details </h4>
+
             <form class="needs-validation" method="post" enctype="multipart/form-data" id='Business-store'
                 action="{{ route('business.save') }}" novalidate>
                 @csrf
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="label_theme" for="exampleInputEmail1">Business Name</label>
+                            <label class="label_theme" for="exampleInputEmail1">Service Name</label>
                             <input type="text" class="form-control" name="name" id="name" aria-describedby="emailHelp"
-                                placeholder="Business Name">
+                                placeholder="Service Name">
                         </div>
                     </div>
 
@@ -127,7 +129,7 @@
                     </div>
                 </div>
 
-
+                <div data-repeater-list="hours_detail">
                     <div class="row">
                         <div class="col-md-1 align-self-center">
                             <h5 class="add_service_h5 text-md-right"> Monday</h5>
@@ -297,7 +299,7 @@
                             </div>
                         </div>
                     </div>
-
+                </div>
 
                 <div class="row">
                     <div class="col-md-12"> <label class="label_theme">Payment mode accepted by you</label>

@@ -25,6 +25,7 @@ class BusinessController extends Controller
         return view('business.index');
     }
 
+   
     public function create()
     {
         $days = array(
@@ -174,7 +175,7 @@ class BusinessController extends Controller
 
                 $new_array[]=['BeanTopics'=>[['topics'=>$topic,'syallabusList'=>$syllabusArray]]];
             }
-            
+
             $syllabus=json_encode(array('Result'=>$new_array));
         }
         else
@@ -430,14 +431,14 @@ class BusinessController extends Controller
         $syllabus_json_obj='{}';
 
         $syllabus_obj=json_decode($row['syllabus'],true);
-        
+
         $total_syllabus=0;
 
         $arr=array();
 
         if(!empty($syllabus_obj['Result']))
         $total_syllabus=count($syllabus_obj['Result']);
-    
+
         if($total_syllabus > 0)
         {
             for($i=0;$i<$total_syllabus;$i++)
@@ -451,7 +452,7 @@ class BusinessController extends Controller
                 $syllabus_array=array();
 
                 if(!empty($syllabus_obj['Result'][$i]['BeanTopics'][0]['syallabusList'][0]))
-                {    
+                {
                     for($j=0;$j < $countSyllabus;$j++)
                     {
                         $syllabus_array[$j]['syllabus']=$syllabus_obj['Result'][$i]['BeanTopics'][0]['syallabusList'][$j];
@@ -492,7 +493,7 @@ class BusinessController extends Controller
 
                 $new_array[]=['BeanTopics'=>[['topics'=>$topic,'syallabusList'=>$syllabusArray]]];
             }
-            
+
             $syllabus=json_encode(array('Result'=>$new_array));
         }
         else

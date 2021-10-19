@@ -273,7 +273,7 @@ Route::namespace('Frontend')->group(function () {
 
     // forget password
     Route::get('forget-password', 'ForgetPasswordController@showForgetPasswordForm')->name('user.forget.password.get');
-    Route::post('forget-password', 'ForgetPasswordController@submitForgetPasswordForm')->name('user.forget.password.post'); 
+    Route::post('forget-password', 'ForgetPasswordController@submitForgetPasswordForm')->name('user.forget.password.post');
     Route::get('reset-password/{token}','ForgetPasswordController@showResetPasswordForm')->name('user.reset.password.get');
     Route::post('reset-password', 'ForgetPasswordController@submitResetPasswordForm')->name('user.reset.password.post');
 
@@ -281,7 +281,7 @@ Route::namespace('Frontend')->group(function () {
     Route::get('/', 'HomeController@index')->name('/');
     // login
     Route::middleware(['guest'])->group(function () {
-        // login 
+        // login
         Route::get('/login', 'LoginController@viewLogin')->name('login');
         Route::post('/authenticate', 'LoginController@loginAuthentication')->name('user.authenticate');
 
@@ -293,7 +293,7 @@ Route::namespace('Frontend')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/logout', 'LoginController@logout')->name('user.logout');
     });
-    // location set and get all location 
+    // location set and get all location
     Route::get('getAllLocation','LocationController@getAllLocationData')->name('users.getalllocation');
     Route::post('updatelocation','LocationController@updateLocation')->name('users.updatelocation');
 
@@ -344,14 +344,14 @@ Route::namespace('Frontend')->group(function () {
         Route::post('verify_otp', 'AdvertismentController@verifyOtp')->name('otpverify');
     });
     Route::group(['prefix' => 'business'], function () {
-
         Route::get('/', 'BusinessController@index')->name('Business');
         Route::get('/sub/category/{id}', 'BusinessController@SubCategoryBusiness')->name('SubCategoryBusiness');
         Route::post('save', 'BusinessController@store')->name('business.save');
-
-
-
+        Route::any('request/otp', 'BusinessController@requestOtp')->name('Business.requestOtp');
+        Route::post('verify/otp', 'BusinessController@verifyOtp')->name('Business.otpverify');
     });
+    Route::get('/service', 'BusinessController@Serviceindex')->name('service');
+
 
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
