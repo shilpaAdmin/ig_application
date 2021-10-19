@@ -43,4 +43,14 @@ ALTER TABLE `matrimonial` ADD `slug` TEXT NULL DEFAULT NULL AFTER `type_city_or_
 
 ALTER TABLE `user` ADD `device_type` ENUM('android','ios') NOT NULL DEFAULT 'android' AFTER `device_token`;
 
+ALTER TABLE `notifications` ADD `category_id` INT NULL DEFAULT NULL AFTER `user_id`;
+
 ALTER TABLE `notifications` ADD `type` VARCHAR(100) NULL DEFAULT NULL AFTER `business_id`;
+
+ALTER TABLE `notifications` CHANGE `business_id` `ids` INT(11) NOT NULL COMMENT 'business_id,forum_id,blog_id,faq_id & other';
+
+ALTER TABLE `user` ADD `otp` INT(11) NULL AFTER `password`;
+
+ALTER TABLE `user` ADD `is_admin` INT NOT NULL DEFAULT '0' AFTER `status`;
+
+ALTER TABLE `business` CHANGE `sub_description_1` `sub_description_1` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
