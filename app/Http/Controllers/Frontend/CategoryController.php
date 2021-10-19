@@ -94,7 +94,7 @@ class CategoryController extends Controller
 
                 $orderBy = isset($request->orderBy) ? $request->orderBy : 'name';
                 // $businessDatas = BusinessModel::where('category_id','=',$category->id)->paginate(6);
-                $preQuery = BusinessModel::where('status','active');
+                $preQuery = BusinessModel::with(['favourite'])->where('status','active');
                 if( empty($CatagoryId) ){
                     $preQuery->where('category_id','=',$category->id);
                 }

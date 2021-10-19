@@ -59,6 +59,11 @@ class BusinessModel extends Model
     {
         return $this->belongsTo('App\Http\Model\UserModel','user_id' ,'id');
     }
+    public function favourite()
+    {
+        return $this->hasOne(BusinessFavouriteModel::class,'business_id','id');
+        // return $this->belongsTo('App\Http\Model\UserModel','user_id' ,'id');
+    }
 
     // public function user()
     // {

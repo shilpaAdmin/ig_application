@@ -2,7 +2,6 @@
 @foreach ($businessDatas as  $key => $business)
 
     @php
-
         $name= $business->name ? ucwords( $business->name) :'-';
         $about= $business->about ? ucwords($business->about) :'-';
         $address= $business->address ? ucwords($business->address) :'-';
@@ -25,9 +24,9 @@
             style="visibility: visible; animation-duration: 1200ms; animation-delay: 0ms; animation-name: fadeInUp;">
             <div class="listings_three-page_image height_200px">
                 <img src="{{ $imageUrl }}" alt="">
-
-                <div class="heart_icon">
-                    <i class="icon-heart"></i>
+              
+                <div class="heart_icon {{ $business->favourite ? '' :'empty_heart_icon' }}  add-to-favourite" data-businessid="{{$business->id}}">
+                    <i class="icon-heart fev-icon"></i>
                 </div>
 
                 <div class="shopping_circle">
@@ -44,8 +43,6 @@
                     @if (isset($user) && $user)
                         <li><a href="#"><i class="fab fa-xing-square"></i>{{ $user->name}}</a></li>
                     @endif
-                    {{-- <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft. onwards</a>
-                    </li> --}}
                 </ul>
                 <div class="listings_three-page_content_bottom">
                     <div class="left">

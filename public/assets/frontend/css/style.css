@@ -6930,6 +6930,20 @@ h2.h2_oth_pgs {
 .listings_three-page_image .heart_icon i:hover {
   color: var(--thm-primary); background: var(--thm-base);
 }
+
+.listings_three-page_image .empty_heart_icon i {
+  color: #298541;
+  font-size: 20px;
+  transition: all 500ms ease;
+  cursor: pointer;
+  /* border: 1px solid #298541; */
+  background: transparent; padding: 5px; border-radius: 3px;
+}
+
+
+
+
+
 .listings_three-page_image .author_img {
   position: absolute;
   left: 30px;
@@ -10901,7 +10915,7 @@ a.forum__profilee {  color: var(--thm-black) !important; font-size:20px;  }
 
 .faq__bg {  background:url(../images/shapes/bg-section-053.png) no-repeat #f0f3f6; background-size:cover; }
 
-/* .bg_pattern_honeybee {
+.bg_pattern_honeybee {
   position: absolute;
   background: url(../images/shapes/img-2.png) no-repeat;
   left: 58%;
@@ -10921,7 +10935,7 @@ a.forum__profilee {  color: var(--thm-black) !important; font-size:20px;  }
       right:0;
     bottom: 0px;
     height: 250px;
-    width: 100%;} */
+    width: 100%;}
 
 
 /*--------------------------------------------------------------
@@ -11385,3 +11399,4 @@ label.lable-thro1 {
   background-color: transparent;
 }
  /* Nehal Css End 19/10/2021 */
+ 

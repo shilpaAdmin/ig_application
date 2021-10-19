@@ -1,5 +1,8 @@
 @extends('frontend.layouts.master')
 @section('title') Housing Grid @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+@endsection
 @section('content')
 
     <div class="preloader">
@@ -210,13 +213,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
-
-
-
-
 
         <section class="filter">
             <div class="container">
@@ -225,8 +223,6 @@
                         <div class="filter_inner_content">
                             <div class="left">
                                 <div class="left_icon">
-                                    {{-- <a href="listings1.html" class="icon-grid active"></a>
-                                    <a href="{{ route('HousingListingList') }}" class="list-icon icon-list"></a> --}}
                                     <a href="#" class="icon-grid active data-view" data-view="1"></a>
                                     <a href="#" class="list-icon icon-list data-view" data-view="0"></a>
                                 </div>
@@ -243,11 +239,6 @@
                                             <option value="actual_price" >Sort By Price</option>
                                             <option value="actual_price_unit" >Sort By Price Unit</option>
                                             <option value="payment_mode" >Sort By Payment Mode</option>
-                                            {{-- <option selected="selected">Default Sorting</option>
-                                            <option>Default Sorting 1</option>
-                                            <option>Default Sorting 2</option>
-                                            <option>Default Sorting 3</option>
-                                            <option>Default Sorting 4</option> --}}
                                         </select>
                                         <div class="dropdown-menu " role="combobox">
                                             <div class="inner show" role="listbox" aria-expanded="false"
@@ -277,7 +268,8 @@
 
 
     @section('script')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    @include('frontend.category.add_to_favourite')
     <script>
         $(document).ready(function(){
             

@@ -110,48 +110,33 @@
                     <div class="header_topmenu_1">
                         <ul class="list-unstyled">
 
-                             <!-- @if( isset($user))
-                                <li><a href="javascript:void(0);" class=""><i class="fas fa-user"></i>{{ isset($user->name) ? $user->name : ''}} </a></li>
-                            @else
-                                <li><a href="{{ route('login') }}"><i class="fas fa-user dropbtn"></i>Log in </a></li>
-                            @endif -->
-
+                            {{-- login /logout --}}
                             <li>
                                 <div class="dropdown top-dropdown">
-                                        <button class="dropbtn">Login</button>
+                                    <a href="{{ route('login') }}" class="dropbtn"><i class="fas fa-user"></i>{{ isset($user->name) ? $user->name : 'Login'}} </a>
+                                    @if (isset($user))
                                         <div class="dropdown-content">
-                                            <a href="#">Logout</a>
+                                            <a href="{{route('user.logout')}}">Logout</a>
                                         </div>
+                                    @endif
                                 </div>       
                             </li>
-                            
-                            <li id="userName">
 
-                            </li>
+                            {{-- add listing --}}
+                            <li><a href="javascript:void(0);" data-toggle="modal" data-target="#exampleModallisting">Add <i class="fas fa-plus"></i></a></li>
 
-                            @if( isset($user))
-                                <li><a href="javascript:void(0);" class=""><i class="fas fa-user"></i>{{ isset($user->name) ? $user->name : ''}} </a></li>
-                            @else
-                                <li><a href="{{ route('login') }}"><i class="fas fa-user"></i>Log in </a></li>
-                            @endif
-                           
-                            <li><a href="#" data-toggle="modal" data-target="#exampleModallisting">Add <i class="fas fa-plus"></i></a></li>
-
+                            {{-- locations --}}
                             <li id="setLocationName">
-                              
                                 @if (isset($user))
                                     <a href="#"  id='loadLocation'> <span id="locationname">{{$userData['user']['SelectedLocationName']}} </span><i class="fas fa-caret-down"></i> </a>
                                 @else
-                                    <a href="#" data-toggle="modal" data-target="#exampleModallocation">Select Location <i class="fas fa-caret-down"></i> </a>
+                                    <a href="javascript:void(0);" >Select Location <i class="fas fa-caret-down"></i> </a>
                                 @endif
-                                
                             </li>
 
+                            {{-- call --}}
+                            <li><a href="javascript:void(0);">Call Embassy 000 000 000 </i> </a></li>
 
-                            <li><a href="#">Call Embassy 000 000 000 </i> </a></li>
-                            @if (isset($user))
-                                <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fas fa-user"></i>Log out </a></li>
-                            @endif
                         </ul>
                     </div>
                 </div>

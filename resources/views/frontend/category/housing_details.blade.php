@@ -41,21 +41,12 @@
                             </div>
                         </div>
                     </div>
-                    <!--  <div class="col-xl-4 col-lg-4 seconboxlisd">
-                        <div class="main_bottom_left_titlet">
-                            <h4>Unit options</h4>
-                        </div>
-                        <button type="button" class="btn btnunit">2 BHK Appartment</button>
-                        <button type="button" class="btn btnunit">3 BHK Appartment</button>
-                        <button type="button" class="btn btnunit">4 BHK Appartment</button>
-                        <button type="button" class="btn btnunit">5 BHK Appartment</button>
-                    </div> -->
+                   
                     <div class="col-xl-6 col-lg-6">
                         <div class="main_bottom_right">
 
                             <div class="main_bottom_right_Buttons">
                                 <a href="#">Enquire Now</a>
-
                             </div>
 
                             <ul class="list-unstyled">

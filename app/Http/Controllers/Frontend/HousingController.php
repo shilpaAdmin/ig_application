@@ -79,7 +79,7 @@ class HousingController extends Controller
                                             ->where('business_id',$input['ListId'])
                                             ->delete();
             if($result) {
-                return response()->json(['Status'=>true,'StatusMessage'=>'User unfavourite business successfully !','Result'=>array()]);
+                return response()->json(['Status'=>true,'unfavourite'=>true,'StatusMessage'=>'User unfavourite business successfully !','Result'=>array()]);
             } else {
                 return response()->json(['Status'=>false,'StatusMessage'=>'UnFavourite business changes not saved !','Result'=>array()]);
             }
@@ -95,7 +95,7 @@ class HousingController extends Controller
             ]);
 
             if($create) {
-                return response()->json(['Status'=>true,'StatusMessage'=>'User added favourite business successfully !','Result'=>array()]);
+                return response()->json(['Status'=>true,'unfavourite'=>false,'StatusMessage'=>'User added favourite business successfully !','Result'=>array()]);
             } else {
                 return response()->json(['Status'=>false,'StatusMessage'=>'Favourite business not added by user !','Result'=>array()]);
             }

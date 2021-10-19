@@ -25,7 +25,8 @@
                 <div class="listings_two_page_img ">
                     <img src="{{ $imageUrl }}" alt="">
 
-                    <div class="heart_icon pos_rght_15">
+                    {{-- <div class="heart_icon pos_rght_15"> --}}
+                    <div class="heart_icon  pos_rght_15 {{ $business->favourite ? '' :'empty_heart_icon' }}  add-to-favourite" data-businessid="{{$business->id}}">
                         <i class="icon-heart"></i>
                     </div>
                 </div>
@@ -40,8 +41,6 @@
                         @if (isset($user) && $user)
                             <li><a href="#"><i class="fab fa-xing-square"></i>{{ $user->name}}</a></li>
                         @endif
-                        {{-- <li><a href="#"><i class="fab fa-xing-square"></i>785.1 - 812.05 sq.ft.
-                                onwards</a></li> --}}
                     </ul>
                     <div class="listings_three-page_content_bottom">
                         <div class="left">
