@@ -11,7 +11,7 @@ trait UserLocationDetailTrait {
 
         $locationData=User::where('user.id',$id)
         ->leftjoin('city as city','user.location_id','=','city.id')
-        ->select('user.location_ids','user.location_type')->first();
+        ->select('user.location_id','user.location_type')->first();
         
         return $locationData;
     }

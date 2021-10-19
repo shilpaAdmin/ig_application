@@ -33,7 +33,6 @@ class AdvertismentController extends Controller
     {
 
         $input=$request->all();
-
         $categoryId = $request->category_id;
         $userID = 1;
 
