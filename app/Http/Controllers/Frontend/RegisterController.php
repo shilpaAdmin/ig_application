@@ -27,6 +27,7 @@ class RegisterController extends Controller
         $check = $this->create($data);
          
         return redirect("login")->withSuccess('Great! You have Signup Successfully.');
+        
     }
     public function create(array $data)
     {
