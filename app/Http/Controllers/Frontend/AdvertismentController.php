@@ -25,7 +25,7 @@ class AdvertismentController extends Controller
         $categories =  CategoryModel::where('parent_category_id', '=', 0)
                                     ->select('name','id')
                                     ->get();
-        return view('frontend.add_advertisement',compact('categories','user'));
+        return view('frontend.advertisement.add_advertisement',compact('categories','user'));
 
     }
 

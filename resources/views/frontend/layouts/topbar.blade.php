@@ -18,6 +18,22 @@
     </div>
 </div>
 
+<div id="login-model" class="modal bs-login-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4>Login <i class="fa fa-lock"></i></h4>
+        </div>
+        <div class="modal-body">
+            <i class="fa fa-question-circle"></i> Are you sure you want to log-off?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary background_green" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
 
  <!-- Modal location-->
   <div class="modal fade" id="exampleModallocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -99,11 +115,7 @@
                             @else
                                 <li><a href="{{ route('login') }}"><i class="fas fa-user"></i>Log in </a></li>
                             @endif
-
-                            {{-- <li id="userName">
-
-                            </li> --}}
-
+                           
                             <li><a href="#" data-toggle="modal" data-target="#exampleModallisting">Add <i class="fas fa-plus"></i></a></li>
 
                             <li id="setLocationName">
