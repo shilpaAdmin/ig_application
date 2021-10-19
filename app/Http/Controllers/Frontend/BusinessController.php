@@ -14,9 +14,10 @@ use App\Mail\sendEmail;
 use Illuminate\Support\Facades\Auth;
 use Mail;
 use App\Http\Traits\UserLocationDetailTrait;
+use App\Http\Model\BusinessModel;
 
 
-class AdvertismentController extends Controller
+class BusinessController extends Controller
 {
     use UserLocationDetailTrait;
     public function index(Request $request)
@@ -25,22 +26,27 @@ class AdvertismentController extends Controller
         $categories =  CategoryModel::where('parent_category_id', '=', 0)
                                     ->select('name','id')
                                     ->get();
-        return view('frontend.add_advertisement',compact('categories','user'));
+        return view('frontend.business.add_business',compact('categories','user'));
 
+    }
+
+    public function SubCategoryBusiness($id)
+    {
+        $businesscategory = CategoryModel::where('parent_category_id',$id)->get();
+        return response()->json($businesscategory);
     }
 
     public function store(Request $request)
     {
 
         $input=$request->all();
+
         $categoryId = $request->category_id;
         $userID = 1;
 
 
-        $start_date = Carbon::parse($request->start_date)->format('Y-m-d');
-        $end_date = Carbon::parse($request->end_date)->format('Y-m-d');
 
-        $obj=new AdvertisementModel();
+        $obj=new BusinessModel();
 
         $LocationType=$cityCountryId='';
 
@@ -65,22 +71,32 @@ class AdvertismentController extends Controller
         $obj->cityid_or_countryid=$cityCountryId;
         $obj->type_city_or_country=$LocationType;
 
-        if($file = $request->hasFile('media'))
-        {
-            $file = $request->file('media') ;
+        // if($file = $request->hasFile('media'))
+        // {
+        //     $file = $request->file('media') ;
 
-            $fileName =  \Illuminate\Support\Str::random(12) . '.' . $request->file('media')->getClientOriginalExtension();
-            $destinationPath = public_path().'/images/advertisement/' ;
-            $file->move($destinationPath,$fileName);
-            $obj->media= $fileName;
-            $obj->start_date=$start_date;
-            $obj->end_date=$end_date;
-        }
+        //     $fileName =  \Illuminate\Support\Str::random(12) . '.' . $request->file('media')->getClientOriginalExtension();
+        //     $destinationPath = public_path().'/images/advertisement/' ;
+        //     $file->move($destinationPath,$fileName);
+        //     $obj->media= $fileName;
+
+        // }
 
         $obj->name=$input['name'];
-        $obj->description=$input['description'];
-        $obj->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.Str::random(5);
+        $obj->about=$input['about'];
         $obj->category_id=$categoryId;
+        $obj->name=$input['name'];
+        $obj->description=$input['description'];
+        $obj->address=$input['address'];
+        $obj->actual_price=$input['actual_price'];
+        $obj->selling_price=$input['selling_price'];
+        $obj->display_hours=$input['display_hours'];
+        $obj->payment_mode=$input['payment_mode'];
+        $obj->contact_person_name=$input['contact_person_name'];
+        $obj->mobile_number=$input['mobile_number'];
+        $obj->email_id=$input['email_id'];
+        $obj->website=$input['website'];
+        $obj->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.Str::random(5);
         $obj->save();
 
         // if($obj)
