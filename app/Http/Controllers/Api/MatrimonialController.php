@@ -780,14 +780,44 @@ class MatrimonialController extends Controller
             return response()->json(['Status'=>false,'StatusMessage'=>implode(',',$error),'Result'=>array()]);
 		}
 
-        $result=ConnectNowModel::create(['user_id'=>$input['RegisterId'],'matrimonial_id'=>$input['MatrimonialId'],
-        'connection_register_id'=>$input['ConnectionRegisterId'],
-        'connection_matrimonial_id'=>$input['ConnectionMatrimonialId'],
-        'status'=>$input['Status']]);
+        $user_arr=User::whereIn('id',[$input['RegisterId'],$input['ConnectionRegisterId']])->get()->toArray();
 
-        if($result->id)
+        $matrimonial_arr=MatrimonialModel::whereIn('id',[$input['MatrimonialId'],$input['ConnectionMatrimonialId']])->get()->toArray();
+
+        $usercounts=count($user_arr);
+        $matrimonialcounts=count($matrimonial_arr);
+
+        if($usercounts > 2 || $usercounts < 2)
         {
-            return response()->json(['Status'=>true,'StatusMessage'=>'Connect now detail stored!','Result'=>array()]);
+            return response()->json(['Status'=>false,'StatusMessage'=>'User Ids not found !','Result'=>array()]);
+        }
+
+        if($matrimonialcounts > 2 || $matrimonialcounts < 2)
+        {
+            return response()->json(['Status'=>false,'StatusMessage'=>'Matrimonial Ids not found !','Result'=>array()]);
+        }
+
+        $connect_obj=ConnectNowModel::where('user_id',$input['RegisterId'])
+        ->where('matrimonial_id',$input['MatrimonialId'])
+        ->where('connection_register_id',$input['ConnectionRegisterId'])
+        ->where('connection_matrimonial_id',$input['ConnectionMatrimonialId'])->first();
+
+        $message='';
+
+        if($connect_obj===null)
+        {
+            $message='Connect now detail stored!';
+            $result=ConnectNowModel::create(['user_id'=>$input['RegisterId'],'matrimonial_id'=>$input['MatrimonialId'],'connection_register_id'=>$input['ConnectionRegisterId'],'connection_matrimonial_id'=>$input['ConnectionMatrimonialId'],'status'=>$input['Status']]);
+        }
+        else
+        {
+            $message='Connect now detail status updated!';
+            $result=ConnectNowModel::where('user_id',$input['RegisterId'])->where('matrimonial_id',$input['MatrimonialId'])->where('connection_register_id',$input['ConnectionRegisterId'])->where('connection_matrimonial_id',$input['ConnectionMatrimonialId'])->update(['status'=>$input['Status']]);
+        }
+
+        if($result)
+        {
+            return response()->json(['Status'=>true,'StatusMessage'=>$message,'Result'=>array()]);
         }
         else
         {

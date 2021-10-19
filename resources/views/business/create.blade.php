@@ -331,22 +331,6 @@
                             <div>
 
                                 <div class="form-group">
-                                    <label for="formrow-firstname-input">Business Sub-Description 1</label>
-
-                                    <input type="text" class="form-control" name="sub_description1" value="{{old('sub_description1')}}" id="sub_description1" placeholder="Business Sub Description 1" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Business Sub-Description 1.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-
-                            <div>
-
-                                <div class="form-group">
                                     <label for="formrow-firstname-input">Actual Price</label>
 
                                     <input type="number" class="form-control" name="actual_price" value="{{old('actual_price')}}" min="0" id="actual_price" placeholder="Actual Price" required>
@@ -407,30 +391,26 @@
 
                             </div>
                         </div>
+                        
 
+                        <div class="col-md-12">
+
+                            <div>
+
+                                <div class="form-group">
+                                    <label for="formrow-firstname-input">Business Sub-Description 1</label>
+
+                                    {{--<input type="text" class="form-control" name="sub_description1" value="{{old('sub_description1')}}" id="sub_description1" placeholder="Business Sub Description 1" required>--}}
+                                    <textarea class="form-control" name="sub_description1" value="{!! old('sub_description1') !!}" id="sub_description1" placeholder="Business Sub Description 1" required>
+                                    </textarea>
+                                    <div class="invalid-feedback">
+                                        Please provide a Business Sub-Description 1.
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-
-
-
-
-
-
-
-                    <!-- <div id="category_result" class="form-group"></div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <div class="row">
                         <label for="example-text-input" class="col-md-12 col-form-label">
                             <h4 class="card-title">Hours Detail : </h4>
@@ -528,12 +508,11 @@
                                         </div>--}}
                                         
                                         <input type="file" class="custom-file-input related_person_file form-control" name="related_person_image" id="related_person_image" accept="image/*" required>
-                                        <label class="custom-file-label" for="customFile">Image</label>
-                                        <div class="invalid-feedback invalid-feedback-pic">
-                                            Media File is required !
+                                        
+                                        <div class="invalid-feedback ">
+                                            Related Person Image is required !
                                         </div>
-
-
+                                        <label class="custom-file-label" for="customFile">Image</label>
                                     </div>
 
                                 </div>
@@ -584,12 +563,10 @@
                                     <div class="input-group">
 
                                         <input type="file" class="custom-file-input media_file form-control" name="media_file" id="media_file" accept="image/*" required>
-                                        <label class="custom-file-label" for="customFile">Image</label>
-                                        <div class="invalid-feedback invalid-feedback-pic">
+                                        <div class="invalid-feedback ">
                                             Media File is required !
                                         </div>
-
-
+                                        <label class="custom-file-label" for="customFile">Image</label>
                                     </div>
 
                                 </div>
@@ -695,7 +672,6 @@
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Job Experiance</label>
                                 <input type="number" class="form-control" value="{{old('job_experiance')}}" id="job_experiance" placeholder="Job Experiance" min="0" max="50" name="job_experiance" required>
-                                </textarea>
                                 <div class="invalid-feedback">
                                     Please provide a Job Experiance.
                                 </div>
@@ -906,27 +882,54 @@
 <script src="{{ URL::asset('assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
 <!-- form mask init -->
 <script src="{{ URL::asset('assets/js/pages/form-repeater.int.js')}}"></script>
-
+<script src="{{ URL::asset('assets/js/pages/tinymce.min.js')}}"></script>
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        }
-    });
+    $(function()
+    {
+        tinymce.init(
+            {
+                selector: 'textarea#sub_description1',
+                menubar:false,
+                plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste imagetools wordcount'
+                        ],
+                forced_root_block : false,
+                automatic_uploads: true,
+                file_picker_types: 'image',
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                automatic_uploads: false,
+                file_picker_types: 'image',
+                width: 1000,
+                height: 300,
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
 
-    $('.main_repeater').repeater({
-            // (Required if there is a nested repeater)
-            // Specify the configuration of the nested repeaters.
-            // Nested configuration follows the same format as the base configuration,
-            // supporting options "defaultValues", "show", "hide", etc.
-            // Nested repeaters additionally require a "selector" field.
-            repeaters: [{
-                // (Required)
-                // Specify the jQuery selector for this nested repeater
-                selector: '.inner-repeater'
-            }]
+            });
+            tinymce.activeEditor.execCommand('mceMedia');
+            tinymce.activeEditor.execCommand('mcePrint');
+            tinymce.activeEditor.execCommand('SearchReplace');
+    });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
         });
 
+            $('.main_repeater').repeater({
+                    // (Required if there is a nested repeater)
+                    // Specify the configuration of the nested repeaters.
+                    // Nested configuration follows the same format as the base configuration,
+                    // supporting options "defaultValues", "show", "hide", etc.
+                    // Nested repeaters additionally require a "selector" field.
+                    repeaters: [{
+                        // (Required)
+                        // Specify the jQuery selector for this nested repeater
+                        selector: '.inner-repeater'
+                    }]
+                });
+                
     var str_url = '{{route("tagAutoComplete")}}';
 
     $('#txtSearchTag').select2({
@@ -1092,6 +1095,14 @@
             }
         });
     });
+    
+    $(document).on('change', '.related_person_file', function() {
+        readURL(this);
+    });
+
+    $(document).on('change', '.media_file', function() {
+        readURL2(this);
+    });
 
     $('#txtSearchCategory').on('select2:unselect', function(e) {
         var data = e.params.data;
@@ -1108,10 +1119,6 @@
             // $("#selectedTagsDivId").hide();
             $('#hdnSearchCategoryId').val('');
         }
-    });
-
-    $(document).on('change', '.related_person_file', function() {
-        readURL(this);
     });
 
     function readURL(input) {
@@ -1133,10 +1140,6 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-
-    $(document).on('change', '.media_file', function() {
-        readURL2(this);
-    });
 
     function checkSubCategoriesChecked() {
         if ($('input[name="subcategory[]"]').length > 0) {
@@ -1162,5 +1165,6 @@
             $('#subcategoryError').show();
         }
     }
+    
 </script>
 @endsection

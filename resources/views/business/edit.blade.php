@@ -202,22 +202,6 @@
                         </div>
 
                         <div class="col-md-4">
-
-                            <div>
-
-                                <div class="form-group">
-                                    <label for="formrow-firstname-input">Business Sub-Description 1</label>
-
-                                    <input type="text" class="form-control" name="sub_description1" value="{{$row['sub_description_1']}}" id="sub_description1" placeholder="Business Sub Description 1" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a Business Sub-Description 1.
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
                             <div>
 
                                 <div class="form-group">
@@ -275,6 +259,22 @@
                                     <input type="text" class="form-control" name="selling_price_unit" value="{{$row['selling_price_unit']}}" id="selling_price_unit" placeholder="Selling Price Unit" required>
                                     <div class="invalid-feedback">
                                         Please provide a Selling Price Unit.
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>    
+                        <div class="col-md-12">
+                            <div>
+                                <div class="form-group">
+                                    <label for="formrow-firstname-input">Business Sub-Description 1</label>
+
+                                    {{--<input type="text" class="form-control" name="sub_description1" value="{{$row['sub_description_1']}}" id="sub_description1" placeholder="Business Sub Description 1" required>--}}
+                                    <textarea class="form-control" name="sub_description1" value="" id="sub_description1" placeholder="Business Sub Description 1" required>
+                                    {{$row['sub_description_1']}}
+                                    </textarea>
+                                    <div class="invalid-feedback">
+                                        Please provide a Business Sub-Description 1.
                                     </div>
                                 </div>
 
@@ -468,7 +468,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Related Person Details</label>
-                                <textarea name="related_person_details" class="form-control" value="{{old('related_person_details')}}" id="related_person_details" placeholder="Related Person Details" required>{{$row['related_person_detail_arr'][$i]['RelatedPersonDetail'.($i+1)]}}</textarea>
+                                <textarea name="related_person_details" class="form-control" value="{{old('related_person_details')}}" id="related_person_details" placeholder="Related Person Details" required></textarea>
                                 <div class="invalid-feedback">
                                     Please provide a Related Person Details.
                                 </div>
@@ -728,18 +728,7 @@
 
                 </div>
             </div>
-
-
         </div>
-
-
-
-
-
-
-
-
-
         <div class="form-group">
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="invalidCheck" name="status" value="Active" @if($row['status']=='active' ) checked @endif>
@@ -773,119 +762,117 @@
 <script src="{{ URL::asset('assets/libs/jquery-repeater/jquery-repeater.min.js') }}"></script>
 <!-- form mask init -->
 <script src="{{ URL::asset('assets/js/pages/form-repeater.int.js')}}"></script>
+<script src="{{ URL::asset('assets/js/pages/tinymce.min.js')}}"></script>
 
 <script>
     $(document).ready(function() {
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        });
-
-        var $repeater = $('.main_repeater').repeater({
-            repeaters: [{
-                selector: '.inner-repeater',
-                repeaters: [{ 
-                    selector: '.deep-inner-repeater' 
-                }]
-            }]
-        });
-       /* $repeater.setList([
-        {
-            'topic': 'set-a',
-            'inner-list': [{ 'syllabus': 'set-a' }]
-        },
-            { 'topic': 'set-foo' ,'inner-list': [{ 'syllabus': 'set-b' },{'syllabus':'set-c'}]}
-        ]);*/
-        var json=<?php echo $syllabus_json_obj;?>;
-        $repeater.setList(json);
-
-        @if(isset($row['tag_id']) && !empty($row['tag_id']))
-        var $option = $("<option selected></option>").val({{$tag_data->id}}).text('{{$tag_data->name}}');
-        $('#txtSearchTag').append($option).trigger('change');
-        @endif
-
-        @if(isset($row['category_id']) && !empty($row['category_id']))
-        var $option = $("<option selected></option>").val({{$category_data-> id}}).text('{{$category_data->name}}');
-        $('#txtSearchCategory').append($option).trigger('change');
-        showSubCategory();
-
-        @if(isset($row['multiple_subcategory_id']) && !empty($row['multiple_subcategory_id']))
-        var sub_category_ids = [{{$row['multiple_subcategory_id']}}];
-        @else
-        var sub_category_ids = [];
-        @endif
-
-        @endif
-
-    var str_url = '{{route("tagAutoComplete")}}';
-    console.log(str_url);
-
-    $('#txtSearchTag').select2({
-    ajax: {
-        //tags:true,
-        url: str_url,
-        dataType: "json",
-        type: "POST",
-        data: function(params) {
-            var queryParameters = {
-                search: params.term
-            }
-            return queryParameters;
-        },
-        processResults: function(data, params) {
-            params.page = params.page || 1;
-            return {
-                results: $.map(data, function(tag) {
-                    return {
-                        text: tag.name,
-                        id: tag.id,
-                        result: tag
-                    }
-                }),
-                pagination: {
-                    more: (params.page * 30) < data.total_count
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
-            };
-        },
-        cache: true,
-    },
-    placeholder: 'Select tags',
-    minimumInputLength: 1
+            });
+           var $repeater = $('.main_repeater').repeater({
+                /*repeaters: [{
+                    selector: '.inner-repeater',
+                    repeaters: [{ 
+                        selector: '.deep-inner-repeater' 
+                    }]
+                }]*/
+                repeaters: [{
+                    selector: '.inner-repeater'
+                }]
+            });
 
-}).on("select2:select", function(e) {
-    var selected = e.params.data.result;
-    var countryId = selected.id;
-    var countryName = selected.name;
-    var editHiddenVal = $("#hdnSearchTagId").val();
+            var json=<?php echo $syllabus_json_obj;?>;
 
-    if (editHiddenVal != '') //use in edit
-    {
-        $('#hdnSearchTagId').val(countryId);
-    } else //first time adding
-    {
-        /*Add selected area id into array*/
-        $('#hdnSearchTagId').val(countryId); //store array
-    }
-});
+            $repeater.setList(json);
 
-$('#txtSearchTag').on('select2:unselect', function(e) {
-    var data = e.params.data;
-    var countryId = data.id;
+            @if(isset($row['tag_id']) && !empty($row['tag_id']))
+            var $option = $("<option selected></option>").val({{$tag_data->id}}).text('{{$tag_data->name}}');
+            $('#txtSearchTag').append($option).trigger('change');
+            @endif
 
-    var editHiddenVal = $('#hdnSearchTagId').val();
-    var checkComma = editHiddenVal.includes(',');
-    if (checkComma) {
-        var editArray = editHiddenVal.split(',');
-        /*Remove data from specific array*/
-        editArray.splice(editArray.indexOf(countryId.toString()), 1);
-        $('#hdnSearchTagId').val(data.id);
-    } else {
-        // $("#selectedTagsDivId").hide();
-        $('#hdnSearchTagId').val('');
-    }
-});
+            @if(isset($row['category_id']) && !empty($row['category_id']))
+            var $option = $("<option selected></option>").val({{$category_data-> id}}).text('{{$category_data->name}}');
+            $('#txtSearchCategory').append($option).trigger('change');
+            showSubCategory();
+
+            @if(isset($row['multiple_subcategory_id']) && !empty($row['multiple_subcategory_id']))
+            var sub_category_ids = [{{$row['multiple_subcategory_id']}}];
+            @else
+            var sub_category_ids = [];
+            @endif
+
+            @endif
+
+            var str_url = '{{route("tagAutoComplete")}}';
+           // console.log(str_url);
+
+            $('#txtSearchTag').select2({
+            ajax: {
+                //tags:true,
+                url: str_url,
+                dataType: "json",
+                type: "POST",
+                data: function(params) {
+                    var queryParameters = {
+                        search: params.term
+                    }
+                    return queryParameters;
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: $.map(data, function(tag) {
+                            return {
+                                text: tag.name,
+                                id: tag.id,
+                                result: tag
+                            }
+                        }),
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true,
+            },
+            placeholder: 'Select tags',
+            minimumInputLength: 1
+
+        }).on("select2:select", function(e) {
+            var selected = e.params.data.result;
+            var countryId = selected.id;
+            var countryName = selected.name;
+            var editHiddenVal = $("#hdnSearchTagId").val();
+
+            if (editHiddenVal != '') //use in edit
+            {
+                $('#hdnSearchTagId').val(countryId);
+            } else //first time adding
+            {
+                /*Add selected area id into array*/
+                $('#hdnSearchTagId').val(countryId); //store array
+            }
+        });
+
+        $('#txtSearchTag').on('select2:unselect', function(e) {
+            var data = e.params.data;
+            var countryId = data.id;
+
+            var editHiddenVal = $('#hdnSearchTagId').val();
+            var checkComma = editHiddenVal.includes(',');
+            if (checkComma) {
+                var editArray = editHiddenVal.split(',');
+                /*Remove data from specific array*/
+                editArray.splice(editArray.indexOf(countryId.toString()), 1);
+                $('#hdnSearchTagId').val(data.id);
+            } else {
+                // $("#selectedTagsDivId").hide();
+                $('#hdnSearchTagId').val('');
+            }
+        });
 
         $('#txtSearchTag').select2({
             ajax: {
@@ -1117,6 +1104,32 @@ $('#txtSearchTag').on('select2:unselect', function(e) {
                 }
             });
         }
+        
+            tinymce.init(
+            {
+                selector: 'textarea#sub_description1',
+                menubar:false,
+                plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste imagetools wordcount'
+                        ],
+                forced_root_block : false,
+                automatic_uploads: true,
+                file_picker_types: 'image',
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ',
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px ',
+                automatic_uploads: false,
+                file_picker_types: 'image',
+                width: 1000,
+                height: 300,
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+
+            });
+            tinymce.activeEditor.execCommand('mceMedia');
+            tinymce.activeEditor.execCommand('mcePrint');
+            tinymce.activeEditor.execCommand('SearchReplace');
+        
     });
 
     function checkSubCategoriesChecked() {

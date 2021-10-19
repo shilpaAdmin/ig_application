@@ -31,7 +31,7 @@
                     </ul>
                 </div>
                 @endif
-                <form class="needs-validation" novalidate method="post" id="dataForm" action="{{route('matrimonial.update',$row['id'])}}" enctype="multipart/form-data">
+                <form class="needs-validation" novalidate method="post" id="dataForm" action="{{route('legalpages.update',$row['id'])}}" enctype="multipart/form-data">
                     @csrf
                     
                     <div class="row">
@@ -52,7 +52,7 @@
                         <div class="col-lg-12 tiny_box">
                             <div class="form-group">
                                 <label for="formrow-firstname-input">Body</label>
-                                <textarea class="form-control col-md-7 col-xs-12" id="body" placeholder="Add Content">{{$row['html']}}</textarea>
+                                <textarea class="form-control col-md-7 col-xs-12" id="body" name="body" placeholder="Add Content">{{$row['html']}}</textarea>
                                 <div class="invalid-feedback">
                                     Please provide a Body.
                                 </div>

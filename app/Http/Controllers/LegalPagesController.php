@@ -62,8 +62,23 @@ class LegalPagesController extends Controller
         return view('legalpages.edit',compact('row','types'));
     }
 
-    public function update()
+    public function update(Request $request,$id)
     {
-        
+        $input=$request->all();
+        $legal=LegalPagesModel::find($id);
+
+         $legal->type=$input['type'];
+         $legal->html=$input['body'];
+
+        if($legal->save())
+        {
+            session()->flash('alert-success', 'Page has been updated successfully!');
+            return redirect()->route('legalpages');
+        }
+        else
+        {
+            session()->flash('alert-danger', 'Page has not updated !');
+            return redirect()->route('legalpages');
+        }
     }
 }

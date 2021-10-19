@@ -470,6 +470,9 @@ class BusinessController extends Controller
     {
         $input = $request->all();
         // dd($input);
+        echo '<pre>';
+        print_r($input);
+        exit;
         $total_count=count($input['outer-list']);
 
         $new_array=array();
