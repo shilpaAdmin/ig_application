@@ -30,17 +30,6 @@ class BusinessController extends Controller
 
     }
 
-
-    public function Serviceindex(Request $request)
-    {
-        $user = UserModel::all('*');
-        $categories =  CategoryModel::where('parent_category_id', '=', 0)
-                                    ->select('name','id')
-                                    ->get();
-        return view('frontend.service.add_service',compact('categories','user'));
-    }
-
-
     public function SubCategoryBusiness($id)
     {
         $businesscategory = CategoryModel::where('parent_category_id',$id)->get();

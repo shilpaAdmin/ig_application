@@ -213,7 +213,7 @@
            <div class="row">
                <div class="col-md-12">
                    <div>
-                      <a href="{{ route('Addservice') }}">  Add Service</a>
+                      <a href="{{ route('service') }}">  Add Service</a>
                    </div>
                    <div>
                        <a href="{{ route('Business') }}">  Add Business</a>
