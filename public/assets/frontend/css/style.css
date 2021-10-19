@@ -4600,7 +4600,7 @@ li {
   font-weight: 600;
   text-transform: uppercase;
   background: var(--thm-primary);
-  padding: 18px 46.5px;
+  padding: 10px 30.5px;
   display: flex;
   align-items: center;
   border-radius: 4px;
@@ -9301,7 +9301,18 @@ a.pop__tags:hover {  background-color:#fff; color: #000; }
   position: relative;
   display: block;
   z-index: 1;
+  
 }
+
+.video_one_imagee img {
+  opacity: 1 !important;
+}
+
+
+
+
+
+
 .video_one_imagee:before {
   position: absolute;
   bottom: -1px;
@@ -10888,16 +10899,19 @@ a.forum__profilee {  color: var(--thm-black) !important; font-size:20px;  }
 
 .color_white h4, .color__white p {  color: var(--thm-base) !important;  }
 
-.faq__bg {  background:url(../images/shapes/bg-section-05.png) no-repeat #f0f3f6; background-size:cover; }
+.faq__bg {  background:url(../images/shapes/bg-section-053.png) no-repeat #f0f3f6; background-size:cover; }
 
-.bg_pattern_honeybee {  position:absolute; background: url(../images/backgrounds/bg_pattern.png) no-repeat;
-      left: 50%;
-    top: -50px;
-    height: 250px;
-    width: 100%; }
+/* .bg_pattern_honeybee {
+  position: absolute;
+  background: url(../images/shapes/img-2.png) no-repeat;
+  left: 58%;
+  top: -293px;
+  height: 250px;
+  width: 100%;
+}
 
 
-.bg_pattern_honeybee2 {  position:absolute; background: url(../images/backgrounds/bg_pattern12.png) no-repeat;
+.bg_pattern_honeybee2 {  position:absolute; background: url(../images/shapes/img-3.png) no-repeat;
       right:0;
     bottom: 0px;
     height: 250px;
@@ -10907,7 +10921,7 @@ a.forum__profilee {  color: var(--thm-black) !important; font-size:20px;  }
       right:0;
     bottom: 0px;
     height: 250px;
-    width: 100%;}
+    width: 100%;} */
 
 
 /*--------------------------------------------------------------
@@ -11302,3 +11316,72 @@ label.lable-thro1 {
   height: 220px !important;
   transform: none;
  }
+
+
+ .faq_categories_home { 
+   font-weight: 600;
+   font-size: 18px;
+  }
+
+
+ /* Nehal Css start 19/10/2021 */
+ .dropbtn {
+  /* background-color: #04AA6D; */
+  color: #959ca7;
+  /* padding: 16px; */
+  font-size: 13px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  /* background-color: #f1f1f1; */
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* .dropdown-content a:hover {background-color: #ddd;} */
+
+.dropdown:hover .dropdown-content {display: block;}
+
+/* .dropdown:hover .dropbtn {background-color: #3e8e41;} */
+
+.faq-tab .nav-link {
+  background-color: transparent !important;
+  color:#298541 !important;
+}
+.faq-tab .nav-link.active{
+  color: #161c26 !important;
+  border-bottom: 1px solid;
+  border-radius: 0;
+}
+.top-dropdown .dropdown-content {
+  display: none;
+  position: fixed;
+  background-color: #f1f1f1;
+  min-width: 64px;
+  box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+  z-index: 1;
+}
+.top-dropdown .dropdown-content a{
+  padding: 2px 13px;
+  font-weight: 500;
+}
+.top-dropdown .dropbtn {
+  background-color: transparent;
+}
+ /* Nehal Css End 19/10/2021 */

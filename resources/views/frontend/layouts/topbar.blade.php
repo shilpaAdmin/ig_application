@@ -77,12 +77,21 @@
                     <div class="header_topmenu_1">
                         <ul class="list-unstyled">
 
-                            {{-- @if( isset($user))
+                             <!-- @if( isset($user))
                                 <li><a href="javascript:void(0);" class=""><i class="fas fa-user"></i>{{ isset($user->name) ? $user->name : ''}} </a></li>
                             @else
-                                <li><a href="{{ route('login') }}"><i class="fas fa-user"></i>Log in </a></li>
-                            @endif --}}
+                                <li><a href="{{ route('login') }}"><i class="fas fa-user dropbtn"></i>Log in </a></li>
+                            @endif -->
 
+                            <li>
+                                <div class="dropdown top-dropdown">
+                                        <button class="dropbtn">Login</button>
+                                        <div class="dropdown-content">
+                                            <a href="#">Logout</a>
+                                        </div>
+                                </div>       
+                            </li>
+                            
                             <li id="userName">
 
                             </li>

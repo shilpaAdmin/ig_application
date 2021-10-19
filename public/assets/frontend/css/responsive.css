@@ -1523,3 +1523,20 @@
   .stricked-menu.stricky-fixed .dw_btnss {  padding: 27px 5px; }
 
 }
+
+
+
+@media only screen and (min-width: 1651px) and (max-width: 2450px) {
+    
+  .main-nav__right_one {
+        width: 35%;
+    }
+  
+    .main-nav__main-navigation.one { width: 50%; }
+
+    .main-nav__main-navigation .main-nav__navigation-box > li + li {
+      margin-left: 40px;
+  }
+
+
+}

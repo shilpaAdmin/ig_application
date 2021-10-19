@@ -858,7 +858,221 @@
                         </div>
                     </div>
                     <div class="col-xl-6 wow slideInLeft animated animated align-self-center">
+                        <ul class="nav nav-pills faq-tab mb-1" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Education</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Housing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Insurance</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-germany-tab" data-toggle="pill" href="#pills-germany" role="tab" aria-controls="pills-germany" aria-selected="false">Life in Germany</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-jobs-tab" data-toggle="pill" href="#pills-jobs" role="tab" aria-controls="pills-jobs" aria-selected="false">Jobs</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                         <div class="faq_one_right">
+                            <div class="accrodion-grp faq-one-accrodion" data-grp-name="faq-one-accrodion">
+                                                                    <div class="accrodion active">
+                                        <div class="accrodion-title">
+                                            <h4>Cs Question</h4>
+                                        </div>
+                                        <div class="accrodion-content" style="display: block;">
+                                            <div class="inner">
+                                                <p>Cs Answer</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                    <div class="accrodion ">
+                                        <div class="accrodion-title">
+                                            <h4>Test Question ?</h4>
+                                        </div>
+                                        <div class="accrodion-content" style="display: none;">
+                                            <div class="inner">
+                                                <p>Test Answer</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                    <div class="accrodion ">
+                                        <div class="accrodion-title">
+                                            <h4>Test Question1</h4>
+                                        </div>
+                                        <div class="accrodion-content" style="display: none;">
+                                            <div class="inner">
+                                                <p>Test Answer1</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                               
+                                
+                            </div>
+                            
+                        </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="faq_one_right">
+                            <div class="accrodion-grp faq-one-accrodion" data-grp-name="faq-one-accrodion">
+                                                                    <div class="accrodion active">
+                                        <div class="accrodion-title">
+                                            <h4>Cs Question</h4>
+                                        </div>
+                                        <div class="accrodion-content" style="display: block;">
+                                            <div class="inner">
+                                                <p>Cs Answer</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                    <div class="accrodion ">
+                                        <div class="accrodion-title">
+                                            <h4>Test Question ?</h4>
+                                        </div>
+                                        <div class="accrodion-content" style="display: none;">
+                                            <div class="inner">
+                                                <p>Test Answer</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                    <div class="accrodion ">
+                                        <div class="accrodion-title">
+                                            <h4>Test Question1</h4>
+                                        </div>
+                                        <div class="accrodion-content" style="display: none;">
+                                            <div class="inner">
+                                                <p>Test Answer1</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                               
+                                
+                            </div>
+                            
+                        </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                        <div class="faq_one_right">
+                            <div class="accrodion-grp faq-one-accrodion" data-grp-name="faq-one-accrodion">
+                                                                    <div class="accrodion active">
+                                        <div class="accrodion-title">
+                                            <h4>Cs Question</h4>
+                                        </div>
+                                        <div class="accrodion-content" style="display: block;">
+                                            <div class="inner">
+                                                <p>Cs Answer</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                    <div class="accrodion ">
+                                        <div class="accrodion-title">
+                                            <h4>Test Question ?</h4>
+                                        </div>
+                                        <div class="accrodion-content" style="display: none;">
+                                            <div class="inner">
+                                                <p>Test Answer</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                    <div class="accrodion ">
+                                        <div class="accrodion-title">
+                                            <h4>Test Question1</h4>
+                                        </div>
+                                        <div class="accrodion-content" style="display: none;">
+                                            <div class="inner">
+                                                <p>Test Answer1</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                               
+                                
+                            </div>
+                            
+                        </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-germany" role="tabpanel" aria-labelledby="pills-germany-tab">
+                            <div class="faq_one_right">
+                                <div class="accrodion-grp faq-one-accrodion" data-grp-name="faq-one-accrodion">
+                                                                        <div class="accrodion active">
+                                            <div class="accrodion-title">
+                                                <h4>Cs Question</h4>
+                                            </div>
+                                            <div class="accrodion-content" style="display: block;">
+                                                <div class="inner">
+                                                    <p>Cs Answer</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                        <div class="accrodion ">
+                                            <div class="accrodion-title">
+                                                <h4>Test Question ?</h4>
+                                            </div>
+                                            <div class="accrodion-content" style="display: none;">
+                                                <div class="inner">
+                                                    <p>Test Answer</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                        <div class="accrodion ">
+                                            <div class="accrodion-title">
+                                                <h4>Test Question1</h4>
+                                            </div>
+                                            <div class="accrodion-content" style="display: none;">
+                                                <div class="inner">
+                                                    <p>Test Answer1</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-jobs" role="tabpanel" aria-labelledby="pills-jobs-tab">
+                            <div class="faq_one_right">
+                                <div class="accrodion-grp faq-one-accrodion" data-grp-name="faq-one-accrodion">
+                                                                        <div class="accrodion active">
+                                            <div class="accrodion-title">
+                                                <h4>Cs Question</h4>
+                                            </div>
+                                            <div class="accrodion-content" style="display: block;">
+                                                <div class="inner">
+                                                    <p>Cs Answer</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                        <div class="accrodion ">
+                                            <div class="accrodion-title">
+                                                <h4>Test Question ?</h4>
+                                            </div>
+                                            <div class="accrodion-content" style="display: none;">
+                                                <div class="inner">
+                                                    <p>Test Answer</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                        <div class="accrodion ">
+                                            <div class="accrodion-title">
+                                                <h4>Test Question1</h4>
+                                            </div>
+                                            <div class="accrodion-content" style="display: none;">
+                                                <div class="inner">
+                                                    <p>Test Answer1</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        </div>
+                        <!-- <div class="faq_one_right">
                             <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
                                 @foreach ($faqs as $key=>$faq)
                                     <div class="accrodion {{$key==0 ? 'active' :''}}">
@@ -896,7 +1110,9 @@
                                     </div>
                                 </div> --}}
                             </div>
-                        </div>
+                            
+                        </div> -->
+                        <div class="text-right"> <a class="faq_categories_home" href="#"> View All </a> </div>
                     </div>
                 </div>
             </div>
@@ -1074,7 +1290,7 @@
                 url({{ URL::asset('assets/frontend/images/shapes/testimonial-one-map.png') }})">
             </div>
             <div class="container-box">
-                <div class="bg_pattern_network"></div>
+                
                 <div class="food_lovers2">
                     <div class="food_lover_inner_shape-2"
                         style="background-image: url({{ URL::asset('assets/frontend/images/shapes/food-lovers-shape-small2.png') }})">
@@ -1161,6 +1377,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="bg_pattern_network"></div>
         </section>
 
 
