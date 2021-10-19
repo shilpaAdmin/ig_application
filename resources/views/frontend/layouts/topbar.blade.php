@@ -145,6 +145,7 @@
                           <li> <a href="{{ route('faq.details') }}">FAQs</a></li>
                           <li> <a href="{{ route('ForumList') }}">Forum</a></li>
                           <li> <a href="{{ route('Contact') }}">Contact</a></li>
+                          <li> <a href="{{ route('category.career-list')}}">Careers</a></li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
 

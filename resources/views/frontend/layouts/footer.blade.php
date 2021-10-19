@@ -20,7 +20,7 @@
                     </div>
 
                 </div>
-                <div class="row mb-3">
+                {{-- <div class="row mb-3">
                     <div class="col-lg-12">
                         <div class="POPULARll"> POPULAR LINKS </div>
                         <a href="#" class="sunlilist">Lorem ipsum dolor</a>
@@ -39,7 +39,7 @@
                         <a href="#" class="sunlilist">Lorem ipsum dolor</a>
                         <a href="#" class="sunlilist">Lorem ipsum dolor</a>
                     </div>
-                </div>
+                </div> --}}
 
 
                  <div class="row mb-3">
