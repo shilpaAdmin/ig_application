@@ -36,7 +36,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive custom_tabal_saction_part">
-                        
+
 
                         <div class="tableAction">
                             <input type="button" id="approveStatusButton" value="Approve">

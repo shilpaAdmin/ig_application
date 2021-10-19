@@ -28,9 +28,9 @@
                 @if (isset($user))
                     <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>
                 @else
-                    <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>      
+                    <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>
                 @endif
-              
+
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
@@ -39,7 +39,7 @@
               <div class="row">
                   <div class="col-md-12">
                       <div class="select_location">
-                            {{-- <div>Berlin 
+                            {{-- <div>Berlin
                                 <a href="#" class="float-right d-inline-block location_a"> Select Location</a>
                             </div>
                           <div> Hamburg <a href="#" class="float-right d-inline-block location_a"> Select
@@ -203,7 +203,7 @@
                        <a href="{{ route('Addbusiness') }}">  Add Business</a>
                    </div>
                    <div>
-                      <a href="{{ route('Addadvertisement') }}"> Add Advertisement</a>
+                      <a href="{{ route('advertisementsing') }}"> Add Advertisement</a>
                    </div>
                </div>
            </div>

@@ -6314,6 +6314,8 @@ a.logo.logo-light {
     margin-top: 50px !important;
 } */
 
-
+tr:nth-child(even) {
+    background-color: #eeeeee;
+  }
 
 /* Hiren suthar 13/10/2021 */

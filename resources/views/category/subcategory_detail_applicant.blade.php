@@ -39,6 +39,7 @@
                                     <th>Type</th>
                                     <th>About</th>
                                     <th>Approve Status</th>
+                                    <th>Detail</th>
                                     <th>Status</th>
                                     <th>Action</th>
 
@@ -138,6 +139,10 @@
                     {
                         data: 'is_approve',
                         name: 'is_approve',
+                    },
+                    {
+                        data: 'jobapplicant',
+                        name: 'jobapplicant'
                     },
                     {
                         data: 'status_td',
@@ -325,6 +330,9 @@ function deleteBusiness(id)
     });
 }
 
+        function openJobapplicantPopup(id) {
+            window.location.href = "/admin/business/job/detail/" + id;
+        }
 
     </script>
 

@@ -191,9 +191,7 @@
 
         function dataTableAjaxCall() {
 
-            console.log("txtStatusType");
-            console.log(txtStatusType);
-            console.log(txtApproveStatus);
+
             dt = $('#matrimonialList').DataTable({
                 destroy: true,
                 processing: true,

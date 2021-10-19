@@ -138,8 +138,6 @@
 
 
     <!------ Forum table ------>
-
-
     <div class="row">
         <div class="col-lg-12">
 
@@ -162,6 +160,7 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
+                                    {{-- <th>id</th> --}}
                                     <th>Question</th>
                                     <th>Description</th>
                                     <th>URL</th>
@@ -179,6 +178,7 @@
 
         </div>
 
+        <!----- Testimonial table ----->
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -219,64 +219,95 @@
 
     </div>
 
-
-    <!----- Testimonial table ----->
-    <div class="col-lg-6 col-md-12 col-12">
-
-        <div class="card-deck">
-
-        </div>
-    </div>
-    </div>
     <!--------------- Testimonial End ----------------->
 
 
     <!-------- Advertisment Table-------->
 
-    <div>
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
 
-                        <div class="col-md-6 col-sm-6 col-12">
-                            <div class="card-body newheadcontanty">
-                                <h5 class="m-0 textforhedermaster">Advertisment</h5>
-                            </div>
-
+                    <div class="col-md-6 col-sm-6 col-12">
+                        <div class="card-body newheadcontanty">
+                            <h5 class="m-0 textforhedermaster">Advertisment</h5>
                         </div>
+
                     </div>
+                </div>
 
-                    <div class="table-responsive custom_tabal_saction_part">
-                        <div class="tableAction">
-                            <input type="button" id="Advertismentapprove" value="Approve" />
-                        </div>
-                        <table id="AdvertismentList" class="table table-striped tableneww">
-                            <thead class="thead-light">
-                                <tr>
-                                    {{-- <th></th> --}}
-                                    <th>#</th>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>User</th>
-                                    <th>Category</th>
-                                    <th>Description</th>
-                                    <th>URL</th>
-                                    <th>Approve Status</th>
-                                    <th>Media</th>
-
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                            </tbody>
-                        </table>
+                <div class="table-responsive custom_tabal_saction_part">
+                    <div class="tableAction">
+                        <input type="button" id="Advertismentapprove" value="Approve" />
                     </div>
+                    <table id="AdvertismentList" class="table table-striped tableneww">
+                        <thead class="thead-light">
+                            <tr>
+                                {{-- <th></th> --}}
+                                <th>#</th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>User</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>URL</th>
+                                <th>Approve Status</th>
+                                <th>Media</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 
+    </div>
+    <!--------Matrimonial --------->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-6 col-sm-6 col-12">
+                        <div class="card-body newheadcontanty">
+                            <h5 class="m-0 textforhedermaster">Matrimonial</h5>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="table-responsive custom_tabal_saction_part">
+                    <div class="tableAction">
+                        <input type="button" id="Matrimonialapprove" value="Approve" />
+                    </div>
+                    <table id="matrimonialList" class="table table-striped tableneww">
+                        <thead class="thead-light">
+                            <tr>
+                                <th></th>
+                                    <th>#</th>
+                                    {{-- <th>Id</th> --}}
+                                    <th>Full Name</th>
+                                    <th>City</th>
+                                    <th>Married</th>
+                                    <th>Caste</th>
+                                    <th>Approve Status</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection
@@ -286,7 +317,8 @@
     <script>
         //forum datatable start here
 
-        var dt = "";
+        // var dt = "";
+        var dt1 = "";
         var table_html = "";
         var table_html_td = "";
         var i = 1;
@@ -306,7 +338,7 @@
         });
 
         function dataTableAjaxCall() {
-            dt = $("#ForumList").DataTable({
+            dt1 = $("#ForumList").DataTable({
                 destroy: true,
                 processing: true,
                 //serverSide: true,
@@ -459,13 +491,13 @@
             });
 
             $(".dataTables_filter input").attr("type", "text");
-            dt.on("row-reordered", function(e, diff,
+            dt1.on("row-reordered", function(e, diff,
                 edit) {
-                dt.order([0, "asc"]);
+                dt1.order([0, "asc"]);
             });
 
-            dt.on("order.dt search.dt", function() {
-                dt.column(1, {
+            dt1.on("order.dt search.dt", function() {
+                dt1.column(1, {
                         search: "applied",
                         order: "applied",
                     })
@@ -475,8 +507,8 @@
                     });
             });
 
-            dt.on("row-reorder", function(e, details, edit) {
-                dt.column(1)
+            dt1.on("row-reorder", function(e, details, edit) {
+                dt1.column(1)
                     .nodes()
                     .each(function(cell, i) {
                         cell.innerHTML = i + 1;
@@ -487,7 +519,7 @@
         $("#approveStatusButton").click(function() {
             var multipleForumId = getListForumIdList();
             var forumId = multipleForumId;
-            alert(forumId);
+            // alert(forumId);
             swal({
                     title: "Are you sure?",
                     text: "Approve Record",
@@ -508,11 +540,11 @@
         });
 
         function getListForumIdList() {
-            var tableDataLength = dt.rows(".selected").data().length;
+            var tableDataLength = dt1.rows(".selected").data().length;
             // alert("tableDataLength >> "+tableDataLength);
             var listId = "";
             for (var i = 0; i < tableDataLength; i++) {
-                var id = dt.rows(".selected").data()[i]["id"];
+                var id = dt1.rows(".selected").data()[i]["id"];
                 if (listId == "") listId += id;
                 else listId += "," + id;
             } // for loop ends here
@@ -872,6 +904,241 @@
                 var id = dt.rows(".selected").data()[i]["id"];
                 if (listId == "") listId += id;
                 else listId += "," + id;
+            } // for loop ends here
+            // alert("listId >> "+listId);
+            return listId;
+        }
+
+        //Matrimonial list start here
+
+        var dt2 = '';
+        // $(function() {
+        var table_html = '';
+        var table_html_td = '';
+        var i = 1;
+        $(function() {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                "dom-date-pre": function(a) {
+                    return moment(a, "DD MMMM YYYY")
+                },
+                "dom-date-asc": function(a, b) {
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+                "dom-date-desc": function(a, b) {
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                }
+            });
+            dataTableMatrimonialAjaxCall();
+        });
+
+        function dataTableMatrimonialAjaxCall() {
+
+
+            dt2 = $('#matrimonialList').DataTable({
+                destroy: true,
+                processing: true,
+                //serverSide: true,
+                responsive: true,
+                autoWidth: false,
+                "order": [], //Initial no order.
+                "aaSorting": [],
+                rowReorder: true,
+                ajax: {
+                    url: "{{ route('datatable.dashboardmatrimoniallist') }}",
+
+                },
+
+                columns: [{
+                        "data": null,
+                        defaultContent: ''
+                    },
+                    {
+                        data: 'id',
+                        name: 'sequence',
+                        orderable: false,
+                        searchable: false,
+                        targets: 0,
+                        // visible: false
+                    },
+                    // {
+                    //     data: 'id',
+                    //     name: 'id',
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     targets: 1
+                    // },
+                    {
+                        data: 'full_name',
+                        name: 'full_name',
+                    },
+                    {
+                        data: 'city',
+                        name: 'city',
+                        orderable: false,
+                    },
+                    {
+                        data: 'married',
+                        name: 'married',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        data: 'caste',
+                        name: 'caste',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        data: 'is_approve',
+                        name: 'is_approve',
+                        orderable: false,
+                        searchable: false,
+                    },
+                ],
+                "columnDefs": [{
+                    "targets": 0,
+                    "data": "id",
+                    "title": "<input type='checkbox' name='select_all' value='1' id='selectAllMatrimonialCheckboxes'>",
+                    "visible": true,
+                    "width": "5%", //https://datatables.net/reference/option/columns.width
+                    "searchable": false,
+                    "orderable": false,
+                    "orderData": "",
+                    "className": "",
+                    "render": function(data, type, full, meta) {
+                        return '<input type="checkbox" id="id_' + data.id +
+                            '" name="id[]" value="' + data.id + '">';
+                    }
+                }, ],
+                retrieve: true
+            });
+            $('table [type="checkbox"]').each(function(i, chk) {
+                //alert(1);
+                if (chk.checked) {
+                    alert("Checked!", i, chk);
+                } else {
+                    $("#Matrimonialapprove").attr("disabled", "disabled");
+                }
+            });
+            var data = '';
+            $('#matrimonialList tbody').on('click', 'tr', function() {
+                var allCheckboxLength = $('input[name="id[]"]').length;
+                var checkedCheckboxLen = $('input[name="id[]"]:checked').length;
+
+                if (allCheckboxLength == checkedCheckboxLen) {
+                    $('#selectAllMatrimonialCheckboxes').prop('checked', true);
+                } else {
+                    $('#selectAllMatrimonialCheckboxes').prop('checked', false);
+                }
+                $('#matrimonialList tbody tr').removeClass('selected');
+                /*get checked checkbox value and check full row from table*/
+                $('input[name="id[]"]:checked').map(function() {
+                    var checkedCheckBoxVal = $(this).val();
+                    // alert("aa >> "+checkedCheckBoxVal);
+                    $('#matrimonialList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                    //console.log();
+                    data = checkedCheckBoxVal;
+                });
+
+                /* Code for edit button(action) enable/disable */
+                var checkedRecordCount = $('#matrimonialList .selected').length;
+                // alert(" individual checkedRecordCount >> "+checkedRecordCount);
+
+                if (checkedRecordCount > 0) {
+                    $("#Matrimonialapprove").removeAttr("disabled");
+                }
+                if (checkedRecordCount == 0) {
+                    $("#Matrimonialapprove").attr("disabled", "disabled");
+                } //end here
+            });
+            // Handle click on "Select all" control
+            $('#selectAllMatrimonialCheckboxes').on('click', function() {
+                if ($('#selectAllMatrimonialCheckboxes').prop('checked')) {
+                    // alert("In side if");
+                    $('#matrimonialList input[type="checkbox"]').prop('checked', true);
+                } else {
+
+                    $('#matrimonialList input[type="checkbox"]').prop('checked', false);
+                }
+                $('#matrimonialList tbody tr').removeClass('selected');
+                $('input[name="id[]"]:checked').map(function() {
+                    var checkedCheckBoxVal = $(this).val();
+                    // alert("checkedCheckBoxVal :: "+checkedCheckBoxVal);
+                    $('#matrimonialList tbody #row_' + checkedCheckBoxVal).addClass('selected');
+                });
+
+                /* Code for edit button(action) enable/disable */
+                var checkedRecordCount = $('#matrimonialList .selected').length;
+                // alert(" individual checkedRecordCount >> "+checkedRecordCount);
+
+                if (checkedRecordCount > 0) {
+                    $("#Matrimonialapprove").removeAttr("disabled");
+                }
+                if (checkedRecordCount == 0) {
+                    $("#Matrimonialapprove").attr("disabled", "disabled");
+                } //end here
+            });
+            $('.dataTables_filter input[type="search"]').css({
+                'width': '350px',
+                'display': 'inline-block'
+            });
+            $('.dataTables_filter input').attr('type', 'text');
+            dt2.on('row-reordered', function(e, diff, edit) {
+                dt.order([0, 'asc']);
+            });
+
+            dt2.on('order.dt search.dt', function() {
+                dt2.column(1, {
+                    search: 'applied',
+                    order: 'applied'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+
+            dt2.on('row-reorder', function(e, details, edit) {
+                dt2.column(1).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            });
+            // dt.ajax.reload();
+        }
+
+        $('#Matrimonialapprove').click(function() {
+
+
+            var multipleId = getListmatrimonialIdList();
+            var reomveId = multipleId;
+            // alert('inisde');
+            swal({
+                    title: "Are you sure?",
+                    text: "Approve Record",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, Approve it!",
+                    cancelButtonText: "No, cancel please!",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        window.location.href = "/admin/dashboard/matrimonial/approve/" + reomveId;
+                    }
+                });
+        });
+
+
+        function getListmatrimonialIdList() {
+            var tableDataLength = dt2.rows('.selected').data().length;
+            //alert("tableDataLength >> "+tableDataLength);
+            var listId = "";
+            for (var i = 0; i < tableDataLength; i++) {
+                var id = dt2.rows('.selected').data()[i]['id'];
+                if (listId == "")
+                    listId += id;
+                else
+                    listId += "," + id;
             } // for loop ends here
             // alert("listId >> "+listId);
             return listId;

@@ -137,7 +137,7 @@
         $('#storyDate span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
     }
 
-    $(document).ready(function() {
+
         $('#storyDate').daterangepicker({
             startDate: start,
             endDate: end,
@@ -154,9 +154,9 @@
                     'month').endOf(
                     'month')]
             }
+
         }, cb);
 
-    });
     cb(start, end);
 
     var dt = "";
@@ -403,9 +403,9 @@
 
         txtStatusType = $("#txtStatusType").val();
         txtApproveStatus = $("#txtApproveStatus").val();
-         startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY-MM-DD');
-         endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY-MM-DD');
-         str = '?txtStatusType='+txtStatusType+'&txtApproveStatus='+txtApproveStatus+'&startDate='+startDate+'&endDate='+endDate;
+        startDate = $('#storyDate').data('daterangepicker').startDate.format('YYYY-MM-DD');
+        endDate =  $('#storyDate').data('daterangepicker').endDate.format('YYYY-MM-DD');
+        str = '?txtStatusType='+txtStatusType+'&txtApproveStatus='+txtApproveStatus+'&startDate='+startDate+'&endDate='+endDate;
         dataTableAjaxCall();
         dt.ajax.reload();
     }
@@ -415,6 +415,7 @@
         $("#txtStatusType").val('');
         $("#txtApproveStatus").val('');
         dataTableAjaxCall();
+
     }
 
 

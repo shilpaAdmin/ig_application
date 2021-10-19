@@ -31,7 +31,7 @@
    <div class="col-md-12">
       <div class="card  bg-gray-bg text-white-50 m-0" style="background: #a71513;">
          <div class="card-body card-body-py-3">
-            <h5 class=" m-0">Job Apply</h5>
+            <h5 class=" m-0">Business Job Apply</h5>
          </div>
       </div>
    </div>
@@ -46,9 +46,9 @@
    <div class="row label-box">
      <div class="col-5">
 
-        <label><span>Name:</span>{{ ucwords($careerData[0]['name']) }}</label><br>
-		<label><span>Type: </span>{{ ucwords(strip_tags($careerData[0]['type'])) }}</label><br>
-		<label><span>Description: </span>{{ ucwords(strip_tags($careerData[0]['description'])) }}</label>
+        {{-- <label><span>Name:</span>{{ ucwords($BusinessData[0]['name']) }}</label><br>
+		<label><span>Type: </span>{{ ucwords(strip_tags($BusinessData[0]['type'])) }}</label><br>
+		<label><span>Description: </span>{{ ucwords(strip_tags($BusinessData[0]['description'])) }}</label> --}}
 
 
     </div>
@@ -130,8 +130,8 @@
     });
     function dataTableAjaxCall()
     {
-        var careerDataId = {{$careerData[0]['id']}}
-        // alert(careerDataId);
+        var BusinessData = {{$BusinessData[0]['id']}}
+        // alert(BusinessData);
         var dt = $('#jobApplicantDetailList').DataTable({
         destroy: true,
         processing: true,
@@ -142,9 +142,8 @@
         "aaSorting": [],
         rowReorder: true,
         ajax: {
-            url: "{{ route('jobapplyListapplicant') }}",
-            data:{id:careerDataId},
-
+            url: "{{ route('businessjobapplyListapplicant') }}",
+            data:{id:BusinessData},
         },
             columns: [
                 {
@@ -243,7 +242,7 @@
         {
             if (isConfirm)
             {
-                window.location.href = "/admin/carrier/applicantdelete/" + id;
+                window.location.href = "/admin/business/applicantdelete/" + id;
             }
         });
     }
