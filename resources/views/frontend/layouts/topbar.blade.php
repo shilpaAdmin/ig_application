@@ -180,7 +180,7 @@
                       <a href="{{ route('Addservice') }}">  Add Service</a>
                    </div>
                    <div>
-                       <a href="{{ route('Addbusiness') }}">  Add Business</a>
+                       <a href="{{ route('Business') }}">  Add Business</a>
                    </div>
                    <div>
                       <a href="{{ route('advertisementsing') }}"> Add Advertisement</a>

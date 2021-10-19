@@ -324,9 +324,17 @@ Route::namespace('Frontend')->group(function () {
 
         Route::any('request_otp', 'AdvertismentController@requestOtp')->name('requestOtp');
         Route::post('verify_otp', 'AdvertismentController@verifyOtp')->name('otpverify');
+    });
+    Route::group(['prefix' => 'business'], function () {
+
+        Route::get('/', 'BusinessController@index')->name('Business');
+        Route::get('/sub/category/{id}', 'BusinessController@SubCategoryBusiness')->name('SubCategoryBusiness');
+        Route::post('save', 'BusinessController@store')->name('business.save');
+
 
 
     });
+
 });
 Route::post('getAllSubcategoryData', 'Api\CategoryController@getAllSubcategoryData')->name('getAllSubcategoryData');
 
