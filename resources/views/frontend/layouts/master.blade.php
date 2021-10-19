@@ -74,8 +74,9 @@
 
     <script>
         var user = JSON.parse('{!! json_encode(session()->get('user')) !!}');
+       
         console.log("user details");
-        console.log(user,user['location_id']);
+        console.log(user);
            
             $(document).ready(function () {
                
@@ -85,6 +86,7 @@
                     var userId= $(this).data('userid');
                     var locationId= $(this).data('locationid');
                     var type= $(this).data('type');
+
                     console.log("update....")
                     console.log(userId);
                     console.log(locationId);

@@ -23,7 +23,11 @@
                 <div class="row">
                     <div class="col-md-6 offset-md-3">
                         <h2 class="text-center pb-2">Welcome Back</h2>
-                       
+                        @if (session()->has('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session()->get('success') }}
+                            </div>
+                        @endif
                         <div class="login_box">
                             <form action="{{route('user.authenticate')}}" method="post">
                                 @csrf
@@ -53,7 +57,7 @@
                             </div>
 
                             <div class="form-check w-50 float-left text-right forgot-pwd-link mb-3">
-                                <a href="{{ route('Signup')}}"> Don't have an account? Sign Up</a>
+                                <a href="{{ route('user.register')}}"> Don't have an account? Sign Up</a>
                             </div>
 
 

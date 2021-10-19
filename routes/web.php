@@ -280,8 +280,13 @@ Route::namespace('Frontend')->group(function () {
     Route::get('/', 'HomeController@index')->name('/');
     // login
     Route::middleware(['guest'])->group(function () {
+        // login 
         Route::get('/login', 'LoginController@viewLogin')->name('login');
         Route::post('/authenticate', 'LoginController@loginAuthentication')->name('user.authenticate');
+
+        // register/signup
+        Route::get('/register','RegisterController@viewSignUp')->name('user.register');
+        Route::post('/register','RegisterController@userRegister')->name('user.register');
     });
     // Login Protected Routes
     Route::middleware(['auth'])->group(function () {
