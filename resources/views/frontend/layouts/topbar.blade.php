@@ -42,7 +42,7 @@
       <div class="modal-content">
           <div class="modal-header">
                 @if (isset($user))
-                    <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ isset($userData['user']) ? $userData['user']['SelectedLocationName']:''}}</h5>
                 @else
                     <h5 class="modal-title" id="exampleModalLabel">Select Location</h5>
                 @endif
@@ -55,27 +55,7 @@
               <div class="row">
                   <div class="col-md-12">
                       <div class="select_location">
-                            {{-- <div>Berlin
-                                <a href="#" class="float-right d-inline-block location_a"> Select Location</a>
-                            </div>
-                          <div> Hamburg <a href="#" class="float-right d-inline-block location_a"> Select
-                                  Location</a></div>
-                          <div> Munich <a href="#" class="float-right d-inline-block location_a"> Select
-                                  Location</a></div>
-                          <div> Cologne <a href="#" class="float-right d-inline-block location_a"> Select
-                                  Location</a></div>
-                          <div>Stuttgart <a href="#" class="float-right d-inline-block location_a"> Select
-                                  Location</a></div>
-                          <div> Dortmund <a href="#" class="float-right d-inline-block location_a"> Select
-                                  Location</a></div>
-                          <div> Essen <a href="#" class="float-right d-inline-block location_a"> Select
-                                  Location</a></div>
-                          <div>Leipzig <a href="#" class="float-right d-inline-block location_a"> Select
-                                  Location</a></div>
-                          <div> Bremen <a href="#" class="float-right d-inline-block location_a"> Select
-                                  Location</a></div>
-                          <div> Dresden <a href="#" class="float-right d-inline-block location_a"> Select
-                                  Location</a></div> --}}
+                           {{-- all location list here --}}
                       </div>
 
                   </div>
@@ -128,9 +108,9 @@
                             {{-- locations --}}
                             <li id="setLocationName">
                                 @if (isset($user))
-                                    <a href="#"  id='loadLocation'> <span id="locationname">{{$userData['user']['SelectedLocationName']}} </span><i class="fas fa-caret-down"></i> </a>
+                                    <a href="#"  id='loadLocation'> <span id="locationname">{{$userData['user']['SelectedLocationName']}} </span> <i class="fas fa-caret-down"></i> </a>
                                 @else
-                                    <a href="javascript:void(0);" >Select Location <i class="fas fa-caret-down"></i> </a>
+                                    <a href="javascript:void(0);" > Select Location <i class="fas fa-caret-down"></i> </a>
                                 @endif
                             </li>
 

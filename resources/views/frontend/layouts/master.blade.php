@@ -122,6 +122,7 @@
                                 $('#exampleModallocation').modal('hide');
                             }, 1500);
                             $('#locationname').text(data.userLocation['user']['SelectedLocationName']);
+                            $('#exampleModalLabel').text(data.userLocation['user']['SelectedLocationName']);
                         },
                         error: function(XMLHttpRequest, errorStatus, errorThrown) {
                             console.log("XHR :: " + JSON.stringify(XMLHttpRequest));
